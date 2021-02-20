@@ -56,7 +56,10 @@ namespace Medical.Work.Data.Models
         /// 停止给药时间（TIME，hh:mm）
         /// </summary>
         public DateTime stopdrugtime { set; get; }
-        //采血前一天给药日期（DATE，day）
+       
+        /// <summary>
+        /// 采血前一天给药日期（DATE，day） 
+        /// </summary>
         public DateTime beforedrugdate { set; get; }
         /// <summary>
         /// 采血前一天上午给药时间（TIME，hh:mm）
