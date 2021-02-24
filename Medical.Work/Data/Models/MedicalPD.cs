@@ -8,7 +8,7 @@ namespace Medical.Work.Data.Models
     public class MedicalPD
     {
 
-
+        public int ID { set; get; }
         public string MedicalPDGuid { set; get; }
 
         /// <summary>

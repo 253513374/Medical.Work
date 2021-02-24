@@ -7,7 +7,7 @@ namespace Medical.Work.Data.Models
 {
     public class MedicalPG
     {
-
+        public int ID { set; get; }
         public string MedicalPGGuid { set; get; }
 
         public DateTime DateTime { set; get; }

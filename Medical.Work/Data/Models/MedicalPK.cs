@@ -8,7 +8,7 @@ namespace Medical.Work.Data.Models
     public class MedicalPK
     {
 
-
+        public int ID { set; get; }
         public string MedicalPKGuid { set; get; }
         public DateTime DateTime { set; get; }
 

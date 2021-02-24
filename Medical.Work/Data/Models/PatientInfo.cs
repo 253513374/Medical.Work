@@ -7,6 +7,8 @@ namespace Medical.Work.Data.Models
 {
     public class PatientInfo
     {
+
+        public int ID { set; get; }
         public string PatientInfoGuid { set; get; }
         public DateTime DateTime { set; get; }
 
@@ -39,5 +41,6 @@ namespace Medical.Work.Data.Models
         public string BSA { set; get; }
         //病史概要：   此处文字录入
         public string Medicalhistorysummary { set; get; }
+
     }
 }
