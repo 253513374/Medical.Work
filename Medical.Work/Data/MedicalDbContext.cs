@@ -11,7 +11,7 @@ namespace Medical.Work.Data
     {
 
 
-
+        public DbSet<MedicalDGK> medicalDGKs { set; get; }
         public DbSet<MedicalPD> medicalPDs { set; get; }
 
         public DbSet<MedicalPG> medicalPGs { set; get; }
@@ -30,6 +30,7 @@ namespace Medical.Work.Data
             modelBuilder.Entity<MedicalPG>().ToTable("MedicalPG");
             modelBuilder.Entity<MedicalPK>().ToTable("MedicalPK");
             modelBuilder.Entity<PatientInfo>().ToTable("PatientInfo");
+            modelBuilder.Entity<MedicalDGK>().ToTable("MedicalDGK");
         }
 
 
