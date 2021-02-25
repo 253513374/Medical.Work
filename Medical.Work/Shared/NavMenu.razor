@@ -1,27 +1,50 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">Medical.Work</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+﻿
+
+
+<div class="text-center d-flex justify-content-center">
+
+    <div class="pt-5 pt-lg-5 pt-xl-5">
+        <div>
+            <img src="/img/000.png" class="rounded-circle" style="width:85px;height:85px;background-color:white" alt="...">
+        </div>
+
+
+        <div class="auth pt-3">
+            <LoginDisplay />
+           @* <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>*@
+        </div>
+       
+    </div>
+    @*<button class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>*@
 </div>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+<Divider></Divider>
+
+<div >
     <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+        <li class="nav-item px-3 align-middle" >
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All" style="border-bottom: 1px solid #484848">
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
         </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
+
+       
+        <li class="nav-item px-3 align-middle" >
+            <NavLink class="nav-link" href="counter" style="border-bottom: 1px solid #484848">
                 <span class="oi oi-plus" aria-hidden="true"></span> Counter
             </NavLink>
         </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
+
+     
+        <li class="nav-item px-3 align-middle">
+            <NavLink class="nav-link" href="fetchdata" style="border-bottom: 1px solid #484848">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
             </NavLink>
         </li>
+
+     
     </ul>
 </div>
 
