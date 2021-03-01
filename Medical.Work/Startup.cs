@@ -39,7 +39,25 @@ namespace Medical.Work
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(
+                options => {
+
+                    options.Password.RequireDigit = true;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequiredUniqueChars = 0;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+
+                    options.SignIn.RequireConfirmedEmail = true;
+                    options.SignIn.RequireConfirmedPhoneNumber = false;
+                    options.SignIn.RequireConfirmedAccount = true;
+
+                    options.User.RequireUniqueEmail = true;
+                    }
+                )
+                
+                   
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
             services.AddServerSideBlazor();
