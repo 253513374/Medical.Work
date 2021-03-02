@@ -1,0 +1,31 @@
+﻿@page "/PD"
+
+<h1>PG</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+
+<EditorForm Model="@medicalPD" AutoGenerateAllItem="false" ItemsPerRow=3>
+    <FieldItems>
+        <EditorItem @bind-Field="@medicalPD.Inspectiontime" Editable="true" />
+        <EditorItem @bind-Field="@medicalPD.Typeofspecimen" Editable="true" />
+        <EditorItem @bind-Field="@medicalPD.Reporttime" Editable="true" />
+        <EditorItem @bind-Field="@medicalPD.MIC" Editable="true" />
+        <EditorItem @bind-Field="@medicalPD.NGSinformation" Editable="true" />
+       
+
+
+
+    </FieldItems>
+    @*<Buttons>
+            <Button Icon="fa fa-save" Text="提交" />
+        </Buttons>*@
+</EditorForm>
+
+@code{
+
+    public MedicalPD medicalPD { set; get; } = new MedicalPD();
+
+}

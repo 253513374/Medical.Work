@@ -1,0 +1,62 @@
+﻿@page "/PK"
+
+<h1>PG</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+
+<EditorForm Model="@medicalPK" AutoGenerateAllItem="false" ItemsPerRow=3>
+    <FieldItems>
+        <EditorItem @bind-Field="@medicalPK.Firstdate" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.AMTsingledose" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.AMTNum" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.Maintenancedose" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.Nameofsolvent" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.Solventdose" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.Channelofdrug" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.stopdrugdate" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.stopdrugtime" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.beforedrugdate" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.beforedrugtimePM" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.bloodcollectiondate" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.Startingtimeofdrug" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.Infusiontime" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.Infusiontimecomplete" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.C1bloodcollectiontime" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.C2bloodcollectiontime" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.C3bloodcollectiontime" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.C4bloodcollectiontime" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.C5bloodcollectiontime" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.C1dvi" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.C2dvi" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.C3dvi" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.C4dvi" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.C5dvi" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.Singledialysisdate" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.Dialysistype" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.Starttimeofsingledialysis" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.Stoptimeofsingledialysis" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.DurationofsingledialysisH" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.dialysissamplesamplingdate" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.dialysissamplesamplingtime" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.Typesofdialysissamples" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.Dialysissampleconcentrationresults" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.Transplantation" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.Postoperativetime" Editable="true" />
+
+
+
+
+    </FieldItems>
+    @*<Buttons>
+            <Button Icon="fa fa-save" Text="提交" />
+        </Buttons>*@
+</EditorForm>
+
+@code{
+
+    public MedicalPK medicalPK { set; get; } = new MedicalPK();
+
+}
