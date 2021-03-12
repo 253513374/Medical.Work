@@ -1,0 +1,39 @@
+﻿
+
+body {
+    text-align:center
+}
+
+div.listview {
+    margin: 0 auto;
+    max-width:1360px;
+    min-width: 1116px;
+    border:0px;
+}
+
+div.divtop {
+   height: 144px;
+   background-color: #7fa1a4;
+}
+div.margintop{
+    padding-left:160px;
+    padding-right:200px;
+}
+/* div.listview-item {
+    margin: 0 1rem 1rem 0;
+    width: 588px;
+   
+}
+
+listitme {
+    margin: 0 1rem 1rem 0;
+    height:148px;
+    width:618px; 
+   
+}*/
+
+/*listitme {
+    margin: 0 1rem 1rem 0;
+    height: 148px;
+    width: 618px;
+}*/

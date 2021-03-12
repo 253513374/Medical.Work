@@ -1,0 +1,32 @@
+﻿
+
+
+
+<EditorForm Model="@patientInfo" AutoGenerateAllItem="false" ItemsPerRow=3>
+    <FieldItems>
+        <EditorItem @bind-Field="@patientInfo.Name" Editable="true" />
+        <EditorItem @bind-Field="@patientInfo.Gender" Editable="true" />
+        <EditorItem @bind-Field="@patientInfo.AGE" Editable="true" />
+        <EditorItem @bind-Field="@patientInfo.BW" Editable="true" />
+        <EditorItem @bind-Field="@patientInfo.HEI" Editable="true" />
+        <EditorItem @bind-Field="@patientInfo.BSA" Editable="true" />
+        <EditorItem @bind-Field="@patientInfo.Ancestralhome" Editable="true" />
+        <EditorItem @bind-Field="@patientInfo.Nationality" Editable="true" />
+        <EditorItem @bind-Field="@patientInfo.Medicalrecordnumber" Editable="true" />
+        <EditorItem @bind-Field="@patientInfo.Department" Editable="true" />
+        <EditorItem @bind-Field="@patientInfo.Diagnosis" Editable="true" />
+        <EditorItem @bind-Field="@patientInfo.APACHEⅡ" Editable="true" />
+        <EditorItem @bind-Field="@patientInfo.SOFA" Editable="true" />
+        <EditorItem @bind-Field="@patientInfo.GCS" Editable="true" />
+        <EditorItem @bind-Field="@patientInfo.Medicalhistorysummary" Editable="true" />
+
+    </FieldItems>
+    @*<Buttons>
+            <Button Icon="fa fa-save" Text="提交" />
+        </Buttons>*@
+</EditorForm>
+@code {
+
+    [Parameter]
+    public PatientInfo patientInfo { set; get; } = new PatientInfo();
+}

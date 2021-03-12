@@ -1,38 +1,93 @@
 ﻿@page "/"
 
-<h1>患者详情信息</h1>
 
-Welcome to your new app.
+<div class="divtop w-100 divtop">
+    <div class=" content px-4 ">
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+        <div class="d-flex align-items-center pl-5">
+            <h1>患者详情信息</h1>
+        </div>
+        <div class="row d-flex justify-content-between align-items-center margintop">
 
+            <Search IgnoreCase="true" IsLikeMatch="true" PlaceHolder="请输入医患关键字" ShowClearButton="true" Items="@Items" OnSearch="@OnSearch2" OnClear="@OnClear"></Search>
+            <div class="pr-5">
+                <Button IsOutline="true" ButtonStyle="ButtonStyle.Circle" style="width:65px; height:65px;">添加</Button>
+            </div>
 
-<EditorForm Model="@patientInfo" AutoGenerateAllItem="false"  ItemsPerRow=3 >
-    <FieldItems>
-        <EditorItem @bind-Field="@patientInfo.Name" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.Gender" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.AGE" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.BW" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.HEI" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.BSA" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.Ancestralhome" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.Nationality" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.Medicalrecordnumber" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.Department" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.Diagnosis" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.APACHEⅡ" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.SOFA" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.GCS" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.Medicalhistorysummary" Editable="true" />
+        </div>
+    </div>
+   
+</div>
 
-    </FieldItems>
-    @*<Buttons>
-        <Button Icon="fa fa-save" Text="提交" />
-    </Buttons>*@
-</EditorForm>
+<div class="body w-100">
+    
+    <div class="listview">
 
+       
+        <Scroll class="scroll-demo" Height="800px">
+
+            <ListView TItem="PatientInfo" Items="@Patients" style="border: 0px;">
+              
+                <BodyTemplate>
+                    <Card style="width:630px;height:160px;">
+                        <CardBody>
+                           
+                            <Tlist PatientInfo="@context"></Tlist>
+                        </CardBody>
+                    </Card>
+                </BodyTemplate>
+                @*<FooterTemplate>
+                <div class="text-right">
+                    Coptyright Bootstrap Blazor
+                </div>
+            </FooterTemplate>*@
+            </ListView>
+        </Scroll>
+          
+    </div>
+</div>
 @code{
 
-    public PatientInfo patientInfo { set; get; } = new PatientInfo();
+    protected override async Task OnInitializedAsync()
+    {
+        Patients = await GetForecastAsync(DateTime.Now);
+    }
+    //public BodyTemplate bodyTemplate { set; get; }
+    private static readonly string[] Summaries = new[]
+   {
+            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+        };
 
+    public List<PatientInfo> Patients { set; get; }
+
+    public Task<List<PatientInfo>> GetForecastAsync(DateTime startDate)
+    {
+        var rng = new Random();
+        return Task.FromResult(Enumerable.Range(1, 15).Select(index => new PatientInfo
+        {
+            Ancestralhome = "海南",
+            AGE = rng.Next(10, 100).ToString(),
+            BW = rng.Next(40, 100).ToString(),
+            Medicalrecordnumber = rng.Next(100000, 800000).ToString(),
+            DateTime = startDate.AddDays(index),
+            Name = Summaries[rng.Next(Summaries.Length)]
+        }).ToList());
+    }
+
+   
+    public List<string> Items { set; get; }
+
+
+    private Task OnClear(string searchText)
+    {
+        // Trace2.Log($"OnClear: {searchText}");
+        return Task.CompletedTask;
+    }
+
+
+    private Task OnSearch2(string searchText)
+    {
+        //Trace2.Log($"SearchText: {searchText}");
+        return Task.CompletedTask;
+    }
 }

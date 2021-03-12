@@ -12,10 +12,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Medical.Work</title>
     <base href="~/" />
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    @*<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />*@
     <link href="css/site.css" rel="stylesheet" />
     <link href="Medical.Work.styles.css" rel="stylesheet" />
     <link href="_content/BootstrapBlazor/css/bootstrap.blazor.bundle.min.css" rel="stylesheet">
+    <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
 </head>
 <body>
     <component type="typeof(App)" render-mode="ServerPrerendered" />
@@ -32,6 +33,7 @@
     </div>
 
     <script src="_framework/blazor.server.js"></script>
+    <script src="_content/MatBlazor/dist/matBlazor.js"></script>
     <script src="_content/BootstrapBlazor/js/bootstrap.blazor.bundle.min.js"></script>
 </body>
 </html>
