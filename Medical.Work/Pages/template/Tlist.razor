@@ -2,22 +2,22 @@
 
 
 
-<div class="row text-center d-flex  align-items-center " >
-    <div class="col-2 col-sm-2 col-lg-2 d-flex align-items-center " >
+<div class="row text-center d-flex  align-items-center ">
+    <div class="col-2 col-sm-2 col-lg-2 d-flex align-items-center ">
         <img src="/img/aa.jpg" style="height:120px;" />
     </div>
     <div class="col-7 col-sm-7 col-lg-7 text-left">
-        <h5>病历号：@PatientInfo.Medicalrecordnumber</h5>
+        <h5>病历号：@patientInfo.Medicalrecordnumber</h5>
 
         <div class="row">
             <div class="col-5">
-                <p>姓名：@PatientInfo.Name</p>
-                <p>祖籍：@PatientInfo.Ancestralhome</p>
-                <p>年龄：@PatientInfo.AGE</p>
+                <p>姓名：@patientInfo.Name</p>
+                <p>祖籍：@patientInfo.Ancestralhome</p>
+                <p>年龄：@patientInfo.AGE</p>
             </div>
             <div class="col-5">
-                <p>体重：@PatientInfo.BW</p>
-                <p>身高：@PatientInfo.Gender</p>
+                <p>体重：@patientInfo.BW</p>
+                <p>身高：@patientInfo.Gender</p>
 
             </div>
         </div>
@@ -25,11 +25,13 @@
     <div class="  col-3 col-sm-3 col-lg-3 d-flex align-items-stretch">
 
         @*<div class="col-5">
-            <Button ButtonStyle="ButtonStyle.Circle" IsOutline="true" Color="Color.Danger" style="width:25px;height:25px">x</Button>
-        </div>*@
-        <Button @onclick="@ButtonClick" Color="Color.Link">操作</Button>
+                <Button ButtonStyle="ButtonStyle.Circle" IsOutline="true" Color="Color.Danger" style="width:25px;height:25px">x</Button>
+            </div>*@
+        <Button @onclick="@(s=>ShowEditDlg(patientInfo))" Color="Color.Link">编辑</Button>
 
     </div>
+    <SweetAlert />
+    <Message @ref="MessageElement" />
 </div>
 
 
@@ -37,12 +39,53 @@
 
 
     [Parameter]
-    public PatientInfo PatientInfo { set; get; }
+    public PatientInfo patientInfo { set; get; }
 
+    [Inject]
+    public MessageService? MessageService { get; set; }
 
-    public Task ButtonClick()
+    [Inject]
+    public DialogService? Dialog { set; get; }
+
+    [Inject]
+    public PatientInfoService InfoService { set; get; }
+
+    public Message MessageElement { get; set; }
+
+    public async Task ShowEditDlg(PatientInfo info )
+    {
+        var result = await Dialog.ShowModal<PatientInfoDlg>(new ResultDialogOption()
         {
-        return Task.CompletedTask;
+            Title = "编辑医患基本信息",
+            BodyContext = info,
+            KeepChildrenState = false,
+            ComponentParamters = new KeyValuePair<string, object>[]
+                   {
+                //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
+                new(nameof(PatientInfoDlg.OnEventCallback), EventCallback.Factory.Create<PatientInfo>(this, v => patientInfo = v))
+                   }
+        });
+
+        if (result == DialogResult.Yes)
+        {
+            InfoService.UpdatePatientInfo(patientInfo);
+            //UpdateDate();
+
+            ShowColorMessage(Color.Danger, "医患基本信息修改成功");
         }
 
+        return;//Task.CompletedTask;
+
+    }
+    private void ShowColorMessage(Color color, string content)
+    {
+        MessageElement.SetPlacement(Placement.Top);
+        MessageService?.Show(new MessageOption()
+        {
+            Host = MessageElement,
+            Content = content,
+            Icon = "fa fa-info-circle",
+            Color = color
+        });
+    }
 }

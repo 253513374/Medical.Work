@@ -70,6 +70,7 @@ namespace Medical.Work
 
             services.AddBootstrapBlazor();
 
+            services.AddScoped<PatientInfoService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

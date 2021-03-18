@@ -50,29 +50,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Patients = await GetForecastAsync(DateTime.Now);
+       await GetForecastAsync(DateTime.Now);
     }
     //public BodyTemplate bodyTemplate { set; get; }
-    private static readonly string[] Summaries = new[]
-   {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
 
-    public List<PatientInfo> Patients { set; get; }
-
-    public Task<List<PatientInfo>> GetForecastAsync(DateTime startDate)
-    {
-        var rng = new Random();
-        return Task.FromResult(Enumerable.Range(1, 15).Select(index => new PatientInfo
-        {
-            Ancestralhome = "海南",
-            AGE = rng.Next(10, 100).ToString(),
-            BW = rng.Next(40, 100).ToString(),
-            Medicalrecordnumber = rng.Next(100000, 800000).ToString(),
-            DateTime = startDate.AddDays(index),
-            Name = Summaries[rng.Next(Summaries.Length)]
-        }).ToList());
-    }
+   
 
    
     public List<string> Items { set; get; }
