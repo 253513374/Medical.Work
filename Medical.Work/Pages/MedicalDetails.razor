@@ -1,0 +1,19 @@
+﻿@page "/MedicalDetails/{guid?}"
+
+
+<h3>MedicalDetails</h3>
+
+<h3>@guid</h3>
+
+@code {
+
+
+    [Parameter]
+    public string guid { set; get; }
+
+    protected override void OnParametersSet()
+    {
+        guid = guid ?? "fantastic";
+        base.OnParametersSet();
+    }
+}
