@@ -42,7 +42,7 @@
     public PatientInfo patientInfo { set; get; }
 
     [Inject]
-    public MessageService? MessageService { get; set; }
+    public MessageTag? MessageService { get; set; }
 
     [Inject]
     public DialogService? Dialog { set; get; }
@@ -71,21 +71,10 @@
             InfoService.UpdatePatientInfo(patientInfo);
             //UpdateDate();
 
-            ShowColorMessage(Color.Danger, "医患基本信息修改成功");
+            MessageService.ShowColorMessage(Color.Danger, "医患基本信息修改成功", MessageElement);
         }
 
         return;//Task.CompletedTask;
 
-    }
-    private void ShowColorMessage(Color color, string content)
-    {
-        MessageElement.SetPlacement(Placement.Top);
-        MessageService?.Show(new MessageOption()
-        {
-            Host = MessageElement,
-            Content = content,
-            Icon = "fa fa-info-circle",
-            Color = color
-        });
     }
 }

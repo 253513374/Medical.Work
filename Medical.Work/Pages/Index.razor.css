@@ -25,15 +25,25 @@ div.margintop{
    
 }
 
-listitme {
-    margin: 0 1rem 1rem 0;
-    height:148px;
-    width:618px; 
-   
-}*/
+*/
 
 /*listitme {
     margin: 0 1rem 1rem 0;
     height: 148px;
     width: 618px;
 }*/
+
+button.addbut {
+    border: 1px solid #8bdff4;
+    height: 65px;
+    width: 65px;
+    border-radius: 50%;
+    background-color: #8bdff4;
+}
+    button.addbut:hover {
+        /*        border: 1px solid #56CDF8;
+        height: 65px;
+        width: 65px;*/
+        border: 1px solid #56CDF8;
+        background-color: #56CDF8;
+    }

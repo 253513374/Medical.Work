@@ -11,65 +11,60 @@
 
             <Search IgnoreCase="true" IsLikeMatch="true" PlaceHolder="请输入医患关键字" ShowClearButton="true" Items="@Items" OnSearch="@OnSearch2" OnClear="@OnClear"></Search>
             <div class="pr-5">
-                <Button IsOutline="true" ButtonStyle="ButtonStyle.Circle" style="width:65px; height:65px;">添加</Button>
+                @*<Button ButtonStyle="ButtonStyle.Circle" class="addbut" IsOutline="true" >添加</Button>*@
+                <button type="button" class="addbut oi oi-plus" @onclick="@CreateAddDlg"></button>
             </div>
-
         </div>
     </div>
    
 </div>
 
 <div class="body w-100">
-    
+
     <div class="listview">
 
-       
+
         <Scroll class="scroll-demo" Height="800px">
 
             <ListView TItem="PatientInfo" Items="@Patients" style="border: 0px;">
-              
+
                 <BodyTemplate>
                     <Card style="width:630px;height:160px;">
                         <CardBody>
-                           
+
                             <Tlist PatientInfo="@context"></Tlist>
                         </CardBody>
                     </Card>
                 </BodyTemplate>
                 @*<FooterTemplate>
-                <div class="text-right">
-                    Coptyright Bootstrap Blazor
-                </div>
-            </FooterTemplate>*@
+                        <div class="text-right">
+                            Coptyright Bootstrap Blazor
+                        </div>
+                    </FooterTemplate>*@
             </ListView>
         </Scroll>
-          
+
     </div>
+    <Message @ref="MessageElement" />
 </div>
 @code{
 
+
+
     protected override async Task OnInitializedAsync()
     {
-       await GetForecastAsync(DateTime.Now);
+        await GetForecastAsync(DateTime.Now);
     }
     //public BodyTemplate bodyTemplate { set; get; }
 
-   
-
-   
-    public List<string> Items { set; get; }
 
 
-    private Task OnClear(string searchText)
-    {
-        // Trace2.Log($"OnClear: {searchText}");
-        return Task.CompletedTask;
-    }
+
+  
 
 
-    private Task OnSearch2(string searchText)
-    {
-        //Trace2.Log($"SearchText: {searchText}");
-        return Task.CompletedTask;
-    }
+
+
+
+
 }

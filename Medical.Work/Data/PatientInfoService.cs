@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Medical.Work.Data
 {
@@ -46,6 +47,13 @@ namespace Medical.Work.Data
             DbContext.patientInfos.Add(info);
             DbContext.SaveChanges();
             return true;
+        }
+
+        public async Task<List<PatientInfo>> QueryPatientInfos(string key )
+        {
+
+            return await DbContext.patientInfos.Where(w => w.Medicalrecordnumber.Contains(key) || w.Name.Contains(key)).ToListAsync();
+           //  null;
         }
     }
 }
