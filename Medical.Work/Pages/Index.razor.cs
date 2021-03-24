@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using BootstrapBlazor.Components;
 using Medical.Work.Pages.template;
 using System.Runtime.InteropServices.ComTypes;
+using Microsoft.Extensions.Options;
 
 namespace Medical.Work.Pages
 {
@@ -25,7 +26,7 @@ namespace Medical.Work.Pages
         [Inject]
         private MedicalDbContext dbContext { set; get; }
 
-        public List<PatientInfo> Patients { set; get; }
+        public List<PatientInfo> Patients { set; get; } = new List<PatientInfo>(1000);
 
         [Inject]
         public DialogService? Dialog { set; get; }
@@ -33,6 +34,9 @@ namespace Medical.Work.Pages
         private PatientInfo patientInfo { set; get; }
 
         public List<string> Items { set; get; } = new List<string>(1000);
+
+
+
 
         private static readonly string[] Summaries = new[]
 {
@@ -43,7 +47,8 @@ namespace Medical.Work.Pages
         public async Task GetForecastAsync(DateTime startDate)
         {
 
-            //setdata(DateTime.Now);
+           // Patients = setdata(DateTime.Now);
+
             Patients = await dbContext.patientInfos.Where(w=>w.DateTime>= startDate.AddDays(-10)).AsNoTracking().ToListAsync();
 
 
@@ -70,7 +75,7 @@ namespace Medical.Work.Pages
                 Name = Summaries[rng.Next(Summaries.Length)]
             }).ToList());
 
-            InfoService.AddPatientInfo(list.Result);
+            //InfoService.AddPatientInfo(list.Result);
 
             return list.Result;
         }
@@ -107,6 +112,7 @@ namespace Medical.Work.Pages
             //Trace2.Log($"SearchText: {searchText}");
 
             Patients = await InfoService.QueryPatientInfos(searchText);
+            await OnQueryPageAsync(new QueryPageOptions() { PageIndex=2, SearchText= searchText });
             StateHasChanged();
             return;
         }
@@ -116,6 +122,17 @@ namespace Medical.Work.Pages
             await GetForecastAsync(DateTime.Now);
             StateHasChanged();
             return ;
+        }
+
+        private  Task<QueryData<PatientInfo>> OnQueryPageAsync(QueryPageOptions options)
+        {
+            var items = Patients.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems);
+            return Task.FromResult(new QueryData<PatientInfo>()
+            {
+             Items = items,
+             TotalCount = Patients.Count()
+            });
+          
         }
     }
 }

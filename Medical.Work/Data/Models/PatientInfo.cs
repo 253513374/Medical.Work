@@ -14,9 +14,9 @@ namespace Medical.Work.Data.Models
         public PatientInfo() { }
         public int ID { set; get; }
         public string PatientInfoGuid { set; get; }
-public DateTime DateTime { set; get; }
+        public DateTime DateTime { set; get; }
 
-
+        public string username {set;get; }
 
         /// <summary>
         /// 姓名

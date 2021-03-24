@@ -5,7 +5,7 @@
     <div class=" content px-4 ">
 
         <div class="d-flex align-items-center pl-5">
-            <h1>患者详情信息</h1>
+            <h1>患者信息列表</h1>
         </div>
         <div class="row d-flex justify-content-between align-items-center margintop">
 
@@ -21,35 +21,50 @@
 
 <div class="body w-100">
 
-    <div class="listview">
+    <div class="form-group col-10 pt-3">
+        <Pagination PageItems="@pagesize" TotalCount="@Patients.Count"></Pagination>
+    </div>
+    <div class="row myscroll">
+        <Virtualize Items="@Patients" Context="flight" ItemSize="@pagesize">
+            <ItemContent>
+                <Tlist PatientInfo="@flight"></Tlist>
+            </ItemContent>
+            <Placeholder>
+                <p>
+                    Loading&hellip;
+                </p>
+            </Placeholder>
+
+        </Virtualize>
+    </div>
+
+    @*<div class="listview">
 
 
-        <Scroll class="scroll-demo" Height="800px">
+            <Scroll class="scroll-demo" Height="800px">
 
-            <ListView TItem="PatientInfo" Items="@Patients" style="border: 0px;">
 
+                </Scroll>
+            <ListView TItem="PatientInfo" style="border: 0px;" Pageable="true" OnQueryAsync="@OnQueryPageAsync">
                 <BodyTemplate>
                     <Card style="width:565px;height:160px;">
                         <CardBody>
-
                             <Tlist PatientInfo="@context"></Tlist>
                         </CardBody>
                     </Card>
                 </BodyTemplate>
-                @*<FooterTemplate>
+                <FooterTemplate>
                         <div class="text-right">
                             Coptyright Bootstrap Blazor
                         </div>
-                    </FooterTemplate>*@
+                    </FooterTemplate>
             </ListView>
-        </Scroll>
-
-    </div>
+        </div>*@
     <Message @ref="MessageElement" />
 </div>
 @code{
 
-
+    private int pagesize { set; get; } = 30;
 
     protected override async Task OnInitializedAsync()
     {
@@ -60,7 +75,7 @@
 
 
 
-  
+
 
 
 
