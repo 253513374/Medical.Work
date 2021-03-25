@@ -38,7 +38,7 @@
         @*<Button @onclick="@(s=>ShowEditDlg(patientInfo))" ButtonStyle="ButtonStyle.Circle" Color="Color.Link">修改</Button>*@
         @*<Button @onclick="@(s=>ShowEditDlg(patientInfo))" ButtonStyle="ButtonStyle.Circle" Color="Color.Link">详细</Button>*@
         <button type="button" class="addbut oi oi-document" @onclick="@(s=>ShowEditDlg(patientInfo))"></button>
-        <button type="button" class="addbut oi oi-menu" @onclick="@(s=>NavDlg(patientInfo.Medicalrecordnumber))"></button>
+        <button type="button" class="addbut oi oi-menu" @onclick="@(s=>NavDlg(patientInfo.PatientInfoGuid))"></button>
     </div>
     <SweetAlert />
     <Message @ref="MessageElement" />
@@ -98,4 +98,6 @@
         navigationManager.NavigateTo(nav);
         return Task.CompletedTask;
     }
+
+
 }

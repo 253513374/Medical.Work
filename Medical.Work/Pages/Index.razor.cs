@@ -47,7 +47,9 @@ namespace Medical.Work.Pages
         public async Task GetForecastAsync(DateTime startDate)
         {
 
-           // Patients = setdata(DateTime.Now);
+           // dbContext.patientInfos.
+
+            //Patients = setdata(DateTime.Now);
 
             Patients = await dbContext.patientInfos.Where(w=>w.DateTime>= startDate.AddDays(-10)).AsNoTracking().ToListAsync();
 
@@ -65,17 +67,18 @@ namespace Medical.Work.Pages
         public List<PatientInfo> setdata(DateTime startDate)
         {
             var rng = new Random();
-            var list =  Task.FromResult(Enumerable.Range(1, 150).Select(index => new PatientInfo
+            var list =  Task.FromResult(Enumerable.Range(1, 1050).Select(index => new PatientInfo
             {
+                PatientInfoGuid = Guid.NewGuid().ToString(),
                 Ancestralhome = "海南",
                 AGE = rng.Next(10, 100).ToString(),
                 BW = rng.Next(40, 100).ToString(),
                 Medicalrecordnumber = rng.Next(100000, 800000).ToString(),
-                DateTime = startDate.AddDays(index),
+                DateTime = startDate.AddDays(-index),
                 Name = Summaries[rng.Next(Summaries.Length)]
             }).ToList());
 
-            //InfoService.AddPatientInfo(list.Result);
+            InfoService.AddPatientInfo(list.Result);
 
             return list.Result;
         }
