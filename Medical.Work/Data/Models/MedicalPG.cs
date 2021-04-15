@@ -265,5 +265,7 @@ namespace Medical.Work.Data.Models
         [Display(Name = "备注")]
         public string Remarks { set; get; }
 
+        public string Username { set; get; }
+
     }
 }

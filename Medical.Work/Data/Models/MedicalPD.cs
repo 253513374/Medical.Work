@@ -44,6 +44,9 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [Display(Name = "NGS信息")]
         public string NGSinformation { set; get; }
+
+
+        public string Username { set; get; }
        
 
     }

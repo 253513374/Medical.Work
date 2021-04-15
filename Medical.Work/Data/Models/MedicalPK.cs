@@ -230,5 +230,8 @@ namespace Medical.Work.Data.Models
         [Display(Name = "术后时间")]
         public string Postoperativetime { set; get; }
 
+
+        public string Username { set; get; }
+
     }
 }
