@@ -8,9 +8,23 @@ namespace Medical.Work.Data.Models
 {
     public class MedicalPK
     {
-
+        /// <summary>
+        /// 自增
+        /// </summary>
+        [Display(Name = "自增")]
         public int ID { set; get; }
+
+        /// <summary>
+        /// 唯一编码
+        /// </summary>
+        [Display(Name = "唯一编码")]
         public string MedicalPKGuid { set; get; }
+
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        [Display(Name = "创建时间")]
         public DateTime DateTime { set; get; }
 
         /// <summary>
@@ -231,6 +245,10 @@ namespace Medical.Work.Data.Models
         public string Postoperativetime { set; get; }
 
 
+        /// <summary>
+        /// 登陆用户名称
+        /// </summary>
+        [Display(Name = "账号")]
         public string Username { set; get; }
 
     }

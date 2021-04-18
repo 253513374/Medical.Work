@@ -1,0 +1,55 @@
+﻿<h3>PGDlg</h3>
+
+
+<EditorForm Model="@medicalPG" AutoGenerateAllItem="false" ItemsPerRow=3>
+    <FieldItems>
+
+        <EditorItem @bind-Field="@medicalPG.Genes" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.Rs" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.GenesResults" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.Metabolictype" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.PathogenicGeneName" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.PathogenicGeneDetectionResults" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.BiochemicalTest" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.CLcr" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.EGFR" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.Scr" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.INR" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.CPscore" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.ALT" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.ALP" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.BUN" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.AST" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.TBLL" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.DirectTBLL" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.IndirectTBLL" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.ALB" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.PLT" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.WBC" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.CRP" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.PCT" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.IL6" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.ESR" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.Combineduseofdrugs" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.Symptomsofadversereactions" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.Typesofadversereactions" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.Analysisadversereactions" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.Manufacturer" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.Treatmentoutcome" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.Treatmentsummary" Editable="true" />
+        <EditorItem @bind-Field="@medicalPG.Remarks" Editable="true" />
+    </FieldItems>
+
+</EditorForm>
+
+@code {
+
+
+    public MedicalPG medicalPG { set; get; } = new MedicalPG();
+
+    protected override  void OnInitialized()
+    {
+        base.OnInitialized();
+
+    }
+}

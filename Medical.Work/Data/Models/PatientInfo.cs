@@ -116,7 +116,7 @@ namespace Medical.Work.Data.Models
         [DisplayName( "病史概要")]
         public string Medicalhistorysummary { set; get; }
 
-        public string Username { set; get; }
+
 
     }
 }

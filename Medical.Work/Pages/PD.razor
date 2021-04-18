@@ -1,5 +1,7 @@
 ﻿@page "/PD"
 
+@inject WeatherForecastService ForecastService
+
 <h1>PG</h1>
 
 Welcome to your new app.
@@ -7,25 +9,56 @@ Welcome to your new app.
 <SurveyPrompt Title="How is Blazor working for you?" />
 
 
-<EditorForm Model="@medicalPD" AutoGenerateAllItem="false" ItemsPerRow=3>
-    <FieldItems>
-        <EditorItem @bind-Field="@medicalPD.Inspectiontime" Editable="true" />
-        <EditorItem @bind-Field="@medicalPD.Typeofspecimen" Editable="true" />
-        <EditorItem @bind-Field="@medicalPD.Reporttime" Editable="true" />
-        <EditorItem @bind-Field="@medicalPD.MIC" Editable="true" />
-        <EditorItem @bind-Field="@medicalPD.NGSinformation" Editable="true" />
-       
 
+<div style="width: 1066px; overflow-x: auto; overflow-y: auto">
 
+    @if (forecasts == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    @foreach (var item in keyValuePairs)
+                    {
+                        <th>@item</th>
 
-    </FieldItems>
-    @*<Buttons>
-            <Button Icon="fa fa-save" Text="提交" />
-        </Buttons>*@
-</EditorForm>
+                    }
+                    @*<th>Date</th>
+                        <th>Temp. (C)</th>
+                        <th>Temp. (F)</th>
+                        <th>Summary</th>*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var forecast in forecasts)
+                {
+                    <tr>
+                        <td>@forecast.Date.ToShortDateString()</td>
+                        <td>@forecast.TemperatureC</td>
+                        <td>@forecast.TemperatureF</td>
+                        <td>@forecast.Summary</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
 
 @code{
 
-    public MedicalPD medicalPD { set; get; } = new MedicalPD();
+
+    private WeatherForecast[] forecasts;
+
+    public List<string> keyValuePairs { set; get; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        keyValuePairs = DisplayAttributeExtend.GetAttributeExtend<MedicalPG>(new MedicalPG());
+    }
 
 }

@@ -89,7 +89,7 @@ namespace Medical.Work.Pages
             {
                 Title = "新建医患信息",
                 BodyContext = new PatientInfo(),
-                KeepChildrenState = false,
+              
                 ComponentParamters = new KeyValuePair<string, object>[]
                   {
                 //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),

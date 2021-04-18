@@ -102,30 +102,8 @@
 
         patientInfo = MedicalDb.patientInfos.Where(w => w.PatientInfoGuid == guid).FirstOrDefault();
 
-        keyValuePairs = GetAttributes<PatientInfo>(patientInfo);
+        keyValuePairs =DisplayAttributeExtend.GetAttributeExtends<PatientInfo>(patientInfo);
         base.OnParametersSet();
-    }
-
-
-    private Dictionary<string, object?> GetAttributes<T>(T t)
-    {
-        Type type = typeof(T);
-        PropertyInfo[] properties = type.GetProperties();
-        Dictionary<string, object?> dic = new Dictionary<string, object?>();
-        foreach (var p in properties)
-        {
-            //display名字
-            var name = p.GetCustomAttribute<DisplayNameAttribute>().DisplayName;
-            //对应的值
-
-            var property = t.GetType().GetProperty(p.Name).GetValue(t, null);
-
-
-            var value = property ?? null;
-
-            dic.Add(name, value);
-        }
-        return dic;
     }
 
 }
