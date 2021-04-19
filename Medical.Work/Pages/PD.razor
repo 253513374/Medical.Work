@@ -10,7 +10,7 @@ Welcome to your new app.
 
 
 
-<div style="width: 1066px; overflow-x: auto; overflow-y: auto">
+<div class="w-auto" style=" overflow-x: auto; overflow-y: auto">
 
     @if (forecasts == null)
     {
@@ -58,7 +58,7 @@ Welcome to your new app.
     {
 
         forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
-        keyValuePairs = DisplayAttributeExtend.GetAttributeExtend<MedicalPG>(new MedicalPG());
+        keyValuePairs = DisplayAttributeExtend.GetAttributeExtend<MedicalPD>(new MedicalPD());
     }
 
 }
