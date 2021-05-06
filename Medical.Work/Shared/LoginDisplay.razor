@@ -1,5 +1,5 @@
 ﻿<AuthorizeView>
-    <Authorized>
+   
         <div class=" d-flex align-content-center">
             <a href="Identity/Account/Manage">你好, @context.User.Identity.Name!</a>
 
@@ -9,9 +9,9 @@
         </div>
        
        
-    </Authorized>
-    <NotAuthorized>
+
+    @*<NotAuthorized>
         <a href="Identity/Account/Register">注册</a>
         <a href="Identity/Account/Login" >登录</a>
-    </NotAuthorized>
+    </NotAuthorized>*@
 </AuthorizeView>

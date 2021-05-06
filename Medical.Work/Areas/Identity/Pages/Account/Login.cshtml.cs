@@ -50,7 +50,7 @@ namespace Medical.Work.Areas.Identity.Pages.Account
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "记住账号?")]
             public bool RememberMe { get; set; }
         }
 
@@ -98,7 +98,7 @@ namespace Medical.Work.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "无效的登录");
                     return Page();
                 }
             }
