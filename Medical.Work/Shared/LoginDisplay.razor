@@ -1,10 +1,15 @@
 ﻿<AuthorizeView>
    
         <div class=" d-flex align-content-center">
-            <a href="Identity/Account/Manage">你好, @context.User.Identity.Name!</a>
+            <form action="Identity/Account/Manage">
+                @*<a href="Identity/Account/Manage">你好, @context.User.Identity.Name!</a>*@
+
+                <button type="submit" class="nav-link btn btn-link">你好, @context.User.Identity.Name!</button>
+            </form>
+           
 
             <form method="post" action="Identity/Account/LogOut">
-                <button type="submit" class="nav-link btn btn-link">登出</button>
+                <button type="submit" class="nav-link btn btn-link"> 退 出 </button>
             </form>
         </div>
        

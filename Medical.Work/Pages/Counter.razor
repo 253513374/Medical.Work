@@ -6,6 +6,17 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
+
+<div style="height:800px;">
+    <Steps IsVertical="true">
+        <Step Title="步骤一" Space="33.33%" Status="StepStatus.Finish" Description="这是一段很长很长很长的描述性文字"></Step>
+        <Step Title="步骤二" Space="33.33%" Status="StepStatus.Process" StepIndex="2" Description="这是一段很长很长很长的描述性文字"></Step>
+        <Step Title="步骤三" Space="33.33%" StepIndex="3" Description="这是一段很长很长很长的描述性文字"></Step>
+        <Step Title="步骤四" Space="33.33%" StepIndex="4" IsLast="true" Description="结束语"></Step>
+    </Steps>
+</div>
+
+
 @code {
     private int currentCount = 0;
 
