@@ -64,24 +64,24 @@ namespace Medical.Work.Pages
             return;
         }
 
-        public List<PatientInfo> setdata(DateTime startDate)
-        {
-            var rng = new Random();
-            var list =  Task.FromResult(Enumerable.Range(1, 1050).Select(index => new PatientInfo
-            {
-                PatientInfoGuid = Guid.NewGuid().ToString(),
-                Ancestralhome = "海南",
-                AGE = rng.Next(10, 100).ToString(),
-                BW = rng.Next(40, 100).ToString(),
-                Medicalrecordnumber = rng.Next(100000, 800000).ToString(),
-                DateTime = startDate.AddDays(-index),
-                Name = Summaries[rng.Next(Summaries.Length)]
-            }).ToList());
+        //public List<PatientInfo> setdata(DateTime startDate)
+        //{
+        //    var rng = new Random();
+        //    var list =  Task.FromResult(Enumerable.Range(1, 1050).Select(index => new PatientInfo
+        //    {
+        //        PatientInfoGuid = Guid.NewGuid().ToString(),
+        //        Ancestralhome = "海南",
+        //        AGE = rng.Next(10, 100).ToString(),
+        //        BW = rng.Next(40, 100).ToString(),
+        //        Medicalrecordnumber = rng.Next(100000, 800000).ToString(),
+        //        DateTime = startDate.AddDays(-index),
+        //        Name = Summaries[rng.Next(Summaries.Length)]
+        //    }).ToList());
 
-            InfoService.AddPatientInfo(list.Result);
+        //    InfoService.AddPatientInfo(list.Result);
 
-            return list.Result;
-        }
+        //    return list.Result;
+        //}
 
         private async Task CreateAddDlg()
         {

@@ -11,7 +11,7 @@ namespace Medical.Work.Data.Enum
         念珠菌或经验性考虑念珠菌,
         隐球菌,
         其他真菌,
-        类鼻疽,
-        其他
+        类鼻疽
+        
     }
 }

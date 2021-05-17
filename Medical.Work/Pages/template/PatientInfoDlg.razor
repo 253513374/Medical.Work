@@ -1,46 +1,41 @@
 ﻿
 
 
+<ValidateForm Model="@patientInfo">
+    <Row ItemsPerRow="ItemsPerRow.Four" RowType="RowType.FormRow">
 
-<EditorForm Model="@patientInfo" AutoGenerateAllItem="false" ItemsPerRow=3>
-    <FieldItems>
-        <EditorItem @bind-Field="@patientInfo.Name" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.Gender" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.AGE" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.BW" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.HEI" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.BSA" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.Ancestralhome" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.Nationality" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.Medicalrecordnumber" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.Department" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.Diagnosis" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.APACHEⅡ" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.SOFA" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.GCS" Editable="true" />
-        <EditorItem @bind-Field="@patientInfo.Medicalhistorysummary" Editable="true" />
+        <BootstrapInput @bind-Value="@patientInfo.Medicalrecordnumber" />
+        <BootstrapInput @bind-Value="@patientInfo.Name" />
+        <Select @bind-Value="@patientInfo.Gender" />
+        <BootstrapInput @bind-Value="@patientInfo.AGE" />
+        <BootstrapInput @bind-Value="@patientInfo.Department" />
+        <BootstrapInput @bind-Value="@patientInfo.AGE" />
+        <BootstrapInput @bind-Value="@patientInfo.BW" />
+        <BootstrapInput @bind-Value="@patientInfo.BSA" />
+        <BootstrapInput @bind-Value="@patientInfo.HEI" />
+        <BootstrapInput @bind-Value="@patientInfo.SOFA" />
+        <BootstrapInput @bind-Value="@patientInfo.Medicalhistorysummary" />
+        <BootstrapInput @bind-Value="@patientInfo.APACHEⅡ" />
+        <BootstrapInput @bind-Value="@patientInfo.Ancestralhome" />
+        <BootstrapInput @bind-Value="@patientInfo.GCS" />
+        <BootstrapInput @bind-Value="@patientInfo.Nationality" />
 
-    </FieldItems>
-    @*<Buttons>
-            <Button Icon="fa fa-save" Text="提交" />
-        </Buttons>*@
-</EditorForm>
+    </Row>
+</ValidateForm>
 
-<Row ItemsPerRow="ItemsPerRow.Four">
-    
-</Row>
+
 @code {
 
 
     [CascadingParameter(Name = "BodyContext")]
-    public object? objects{ set;get;}
+    public object? objects { set; get; }
 
     [Parameter]
     public PatientInfo patientInfo { set; get; }
 
 
     [Parameter]
-    public  EventCallback<PatientInfo> OnEventCallback { set; get; }
+    public EventCallback<PatientInfo> OnEventCallback { set; get; }
 
 
     protected override Task OnInitializedAsync()
