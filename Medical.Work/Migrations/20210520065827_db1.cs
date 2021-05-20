@@ -3,10 +3,28 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Medical.Work.Migrations
 {
-    public partial class medical : Migration
+    public partial class db1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "MedicalDGK",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MedicalDGKGuid = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    patientInfoGuid = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    medicalPgguid = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    medicalPdguid = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    medicalPkguid = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MedicalDGK", x => x.ID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "MedicalPD",
                 columns: table => new
@@ -19,7 +37,8 @@ namespace Medical.Work.Migrations
                     Typeofspecimen = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Reporttime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MIC = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NGSinformation = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    NGSinformation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -34,8 +53,6 @@ namespace Medical.Work.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MedicalPGGuid = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Ancestralhome = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Nationality = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Genes = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rs = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GenesResults = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -69,7 +86,8 @@ namespace Medical.Work.Migrations
                     Manufacturer = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Treatmentoutcome = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Treatmentsummary = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -119,7 +137,8 @@ namespace Medical.Work.Migrations
                     Typesofdialysissamples = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Dialysissampleconcentrationresults = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Transplantation = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Postoperativetime = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Postoperativetime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -134,28 +153,67 @@ namespace Medical.Work.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PatientInfoGuid = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Adminuser = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Medicalrecordnumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Department = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Department = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Gender = table.Column<byte>(type: "tinyint", nullable: false),
+                    AGE = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BW = table.Column<int>(type: "int", nullable: false),
+                    HEI = table.Column<int>(type: "int", nullable: false),
+                    BMI = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BSA = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Transplantationtype = table.Column<int>(type: "int", nullable: false),
+                    Transplantationtime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Ancestralhome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Nationality = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GCS = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SOFA = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Diagnosis = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     APACHEⅡ = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AGE = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BW = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HEI = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BSA = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Medicalhistorysummary = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Admissiontime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Dischargetime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Medicalhistorysummary = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Medication = table.Column<int>(type: "int", nullable: false),
+                    Pathogenicbacteria = table.Column<int>(type: "int", nullable: false),
+                    Healingeffect = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PatientInfo", x => x.ID);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "PatientInfoExDiagnosisTable",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AffectedDiagnosis = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Affectedarea = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PatientInfoID = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PatientInfoExDiagnosisTable", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_PatientInfoExDiagnosisTable_PatientInfo_PatientInfoID",
+                        column: x => x.PatientInfoID,
+                        principalTable: "PatientInfo",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PatientInfoExDiagnosisTable_PatientInfoID",
+                table: "PatientInfoExDiagnosisTable",
+                column: "PatientInfoID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "MedicalDGK");
+
             migrationBuilder.DropTable(
                 name: "MedicalPD");
 
@@ -164,6 +222,9 @@ namespace Medical.Work.Migrations
 
             migrationBuilder.DropTable(
                 name: "MedicalPK");
+
+            migrationBuilder.DropTable(
+                name: "PatientInfoExDiagnosisTable");
 
             migrationBuilder.DropTable(
                 name: "PatientInfo");

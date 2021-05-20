@@ -25,7 +25,7 @@ namespace Medical.Work.Data.Models
 
 
         [DisplayName("建立账号")]
-        public string username {set;get; }
+        public string Adminuser {set;get; }
 
 
         /// <summary>

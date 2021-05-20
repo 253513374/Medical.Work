@@ -344,20 +344,29 @@ namespace Medical.Work.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AGE")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("AGE")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("APACHEⅡ")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Adminuser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Admissiontime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Ancestralhome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BMI")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("BSA")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("BW")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("BW")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
@@ -365,17 +374,20 @@ namespace Medical.Work.Migrations
                     b.Property<string>("Department")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Diagnosis")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Dischargetime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("GCS")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte>("Gender")
+                        .HasColumnType("tinyint");
 
-                    b.Property<string>("HEI")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("HEI")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Healingeffect")
+                        .HasColumnType("int");
 
                     b.Property<string>("Medicalhistorysummary")
                         .HasColumnType("nvarchar(max)");
@@ -383,11 +395,17 @@ namespace Medical.Work.Migrations
                     b.Property<string>("Medicalrecordnumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Medication")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nationality")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Pathogenicbacteria")
+                        .HasColumnType("int");
 
                     b.Property<string>("PatientInfoGuid")
                         .HasColumnType("nvarchar(max)");
@@ -395,15 +413,50 @@ namespace Medical.Work.Migrations
                     b.Property<string>("SOFA")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Transplantationtime")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("username")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Transplantationtype")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
                     b.ToTable("PatientInfo");
+                });
+
+            modelBuilder.Entity("Medical.Work.Data.Models.PatientInfoExDiagnosisTable", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AffectedDiagnosis")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Affectedarea")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PatientInfoID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("PatientInfoID");
+
+                    b.ToTable("PatientInfoExDiagnosisTable");
+                });
+
+            modelBuilder.Entity("Medical.Work.Data.Models.PatientInfoExDiagnosisTable", b =>
+                {
+                    b.HasOne("Medical.Work.Data.Models.PatientInfo", null)
+                        .WithMany("PatientInfoExDiagnosisTable")
+                        .HasForeignKey("PatientInfoID");
+                });
+
+            modelBuilder.Entity("Medical.Work.Data.Models.PatientInfo", b =>
+                {
+                    b.Navigation("PatientInfoExDiagnosisTable");
                 });
 #pragma warning restore 612, 618
         }
