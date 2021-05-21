@@ -64,6 +64,13 @@ namespace Medical.Work.Data.Models
         [DisplayName( "体重kg")]
         public int BW { set; get; }
 
+
+        /// <summary>
+        /// 体重测量方法（BW，kg）
+        /// </summary>
+        [DisplayName("体重测量方式")]
+        public bool IsBWType { set; get; }
+
         /// <summary>
         /// 身高（HEI，cm）
         /// </summary>

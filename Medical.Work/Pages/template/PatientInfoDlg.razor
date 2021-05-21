@@ -8,22 +8,29 @@
         <BootstrapInput @bind-Value="@patientInfo.Department" />
         <BootstrapInput @bind-Value="@patientInfo.Name" />
         <Select @bind-Value="@patientInfo.Gender" />
+    </Row>
+
+    <Row>
+        <Row ItemsPerRow="ItemsPerRow.Six">
+
+        </Row>
+        <DateTimePicker TValue="DateTime?" Value="@patientInfo.AGE" DisplayText="出生日期" ShowLabel="true" Placement="Placement.Auto" />
+        <p>333</p>
 
 
+        <Row RowType="RowType.FormRow"  ItemsPerRow="ItemsPerRow.Three">
 
-        <Row RowType="RowType.FormRow" ColSpan="3" ItemsPerRow="ItemsPerRow.Six">
-            <BootstrapInput @bind-Value="@patientInfo.AGE" />
-            <p  >sdfsdfsdf</p>
 
             <BootstrapInput @bind-Value="@patientInfo.BW" />
-            <Radio> asdasd</Radio>
-            <Radio> asdasd</Radio>
+            <div class="row">
+                <div class="form-group">
+                    <Radio  ShowLabel="true" DisplayText="称重"> </Radio>
+                    <Radio  ShowLabel="true" DisplayText="估算"> </Radio>
+                </div>
+            </div>
+
+
         </Row>
-        
-
-
-        
-        
         <BootstrapInput @bind-Value="@patientInfo.BSA" />
         <BootstrapInput @bind-Value="@patientInfo.HEI" />
         <BootstrapInput @bind-Value="@patientInfo.SOFA" />
@@ -34,10 +41,18 @@
         <BootstrapInput @bind-Value="@patientInfo.Nationality" />
 
         <Row RowType="RowType.FormRow" ColSpan="4">
-            <BootstrapInput @bind-Value="@patientInfo.Medicalhistorysummary" />
+            <Textarea rows="4" @bind-Value="@patientInfo.Medicalhistorysummary" />
         </Row>
-
     </Row>
+    <div>
+
+    </div>
+    <div>
+
+    </div>
+    <div>
+
+    </div>
 </ValidateForm>
 
 
@@ -59,5 +74,12 @@
     {
         patientInfo = objects as PatientInfo;
         return base.OnInitializedAsync();
+    }
+
+    private Task DateTimeValueChanged(DateTime? d)
+    {
+       // BindValue = d;
+      
+        return Task.CompletedTask;
     }
 }
