@@ -1,6 +1,12 @@
 ﻿
 
 
+<style>
+    .is-right {
+        text-align: right;
+    }
+</style>
+
 <ValidateForm Model="@patientInfo">
     <Row ItemsPerRow="ItemsPerRow.Four" RowType="RowType.FormRow">
 
@@ -10,64 +16,83 @@
         <Select @bind-Value="@patientInfo.Gender" />
     </Row>
 
-    <Row>
-        <Row ItemsPerRow="ItemsPerRow.Six">
 
-        </Row>
-        <DateTimePicker TValue="DateTime?" Value="@patientInfo.AGE" DisplayText="出生日期" ShowLabel="true" Placement="Placement.Auto" />
-        <p>333</p>
+    <Row ItemsPerRow="ItemsPerRow.Six" RowType="RowType.FormRow">
+        <DateTimePicker TValue="DateTime?" Value="@patientInfo.AGE" ValueChanged="DateTimeValueChanged" DisplayText="出生日期" ShowLabel="true" Placement="Placement.Auto" />
+        @{
 
+        }
 
-        <Row RowType="RowType.FormRow"  ItemsPerRow="ItemsPerRow.Three">
+        <BootstrapInput @bind-Value="@AGEDiffer" IsDisabled="true" DisplayText="年龄" ShowLabel="true"></BootstrapInput>
 
-
-            <BootstrapInput @bind-Value="@patientInfo.BW" />
-            <div class="row">
-                <div class="form-group">
-                    <Radio  ShowLabel="true" DisplayText="称重"> </Radio>
-                    <Radio  ShowLabel="true" DisplayText="估算"> </Radio>
-                </div>
-            </div>
-
-
-        </Row>
-        <BootstrapInput @bind-Value="@patientInfo.BSA" />
-        <BootstrapInput @bind-Value="@patientInfo.HEI" />
-        <BootstrapInput @bind-Value="@patientInfo.SOFA" />
-
-        <BootstrapInput @bind-Value="@patientInfo.APACHEⅡ" />
-        <BootstrapInput @bind-Value="@patientInfo.Ancestralhome" />
-        <BootstrapInput @bind-Value="@patientInfo.GCS" />
-        <BootstrapInput @bind-Value="@patientInfo.Nationality" />
-
-        <Row RowType="RowType.FormRow" ColSpan="4">
-            <Textarea rows="4" @bind-Value="@patientInfo.Medicalhistorysummary" />
-        </Row>
+        <BootstrapInput @bind-Value="@patientInfo.BW" />
+        <Select @bind-Value="@patientInfo.BWWeight" />
+        <Radio ShowLabel="true" DisplayText="称重"> </Radio>
+        <Radio ShowLabel="true" DisplayText="估算"> </Radio>
     </Row>
-    <div>
 
-    </div>
-    <div>
 
-    </div>
-    <div>
+    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
+        <BootstrapInput @bind-Value="@patientInfo.HEI" />
+        <BootstrapInput @bind-Value="@patientInfo.BMI" IsDisabled="true" />
+        <BootstrapInput @bind-Value="@patientInfo.BSA" IsDisabled="true" />
 
-    </div>
+
+    </Row>
+
+    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
+        <DateTimePicker @bind-Value="@patientInfo.Transplantationtime" ShowLabel="true" Placement="Placement.Auto" />
+        <Select @bind-Value="@patientInfo.Transplantationtype" />
+    </Row>
+
+    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
+        <DateTimePicker @bind-Value="@patientInfo.Admissiontime" ShowLabel="true" Placement="Placement.Auto" />
+        <DateTimePicker @bind-Value="@patientInfo.Dischargetime" ShowLabel="true" Placement="Placement.Auto" />
+    </Row>
+    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
+
+        <BootstrapInput @bind-Value="@patientInfo.GCS" />
+        <BootstrapInput @bind-Value="@patientInfo.SOFA" />
+        <BootstrapInput @bind-Value="@patientInfo.APACHEⅡ" />
+    </Row>
+    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
+        <BootstrapInput @bind-Value="@PatientInfoExDiagnosis.Affectedarea" />
+        <BootstrapInput @bind-Value="@PatientInfoExDiagnosis.AffectedDiagnosis" />
+    </Row>
+
+    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
+        <Select @bind-Value="@patientInfo.Medication" />
+        <Select @bind-Value="@patientInfo.Pathogenicbacteria" />
+        <Select @bind-Value="@patientInfo.Healingeffect" />
+
+    </Row>
+
+    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.One">
+        <Textarea rows="4" @bind-Value="@patientInfo.Medicalhistorysummary" />
+    </Row>
+
 </ValidateForm>
 
 
 @code {
 
 
+
+
     [CascadingParameter(Name = "BodyContext")]
     public object? objects { set; get; }
 
     [Parameter]
-    public PatientInfo patientInfo { set; get; }
+    public PatientInfo patientInfo { set; get; } = new();
 
 
     [Parameter]
     public EventCallback<PatientInfo> OnEventCallback { set; get; }
+
+
+    private int AGEDiffer { set; get; }
+
+    private PatientInfoExDiagnosisTable PatientInfoExDiagnosis { set; get; } = new();
 
 
     protected override Task OnInitializedAsync()
@@ -78,8 +103,10 @@
 
     private Task DateTimeValueChanged(DateTime? d)
     {
-       // BindValue = d;
-      
+        patientInfo.AGE = d.Value;
+        AGEDiffer = DateTime.Now.Year - d.Value.Year;
         return Task.CompletedTask;
     }
+
+
 }

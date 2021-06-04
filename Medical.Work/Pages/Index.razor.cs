@@ -53,8 +53,6 @@ namespace Medical.Work.Pages
 
             Patients = await dbContext.patientInfos.Where(w=>w.DateTime>= startDate.AddDays(-10)).AsNoTracking().ToListAsync();
 
-
-           
             var array=Patients.Select(s => s.Medicalrecordnumber).ToList();
             var arrayname=Patients.Select(s => s.Name).ToArray();
             Items.AddRange(array);

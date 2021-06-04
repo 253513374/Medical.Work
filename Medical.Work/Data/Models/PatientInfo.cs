@@ -63,7 +63,12 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [DisplayName( "体重kg")]
         public int BW { set; get; }
-
+        /// <summary>
+        /// 体重单位（BW，kg）
+        /// </summary>
+        [DisplayName("体重单位")]
+        public WeightEnum BWWeight { set; get; }
+        
 
         /// <summary>
         /// 体重测量方法（BW，kg）
