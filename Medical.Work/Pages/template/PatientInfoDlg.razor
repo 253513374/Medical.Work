@@ -6,74 +6,73 @@
         text-align: right;
     }
 </style>
+<div>
+    <ValidateForm Model="@patientInfo">
+        <Row ItemsPerRow="ItemsPerRow.Four" RowType="RowType.FormRow">
 
-<ValidateForm Model="@patientInfo">
-    <Row ItemsPerRow="ItemsPerRow.Four" RowType="RowType.FormRow">
-
-        <BootstrapInput @bind-Value="@patientInfo.Medicalrecordnumber" />
-        <BootstrapInput @bind-Value="@patientInfo.Department" />
-        <BootstrapInput @bind-Value="@patientInfo.Name" />
-        <Select @bind-Value="@patientInfo.Gender" />
-    </Row>
-
-
-    <Row ItemsPerRow="ItemsPerRow.Six" RowType="RowType.FormRow">
-        <DateTimePicker TValue="DateTime?" Value="@patientInfo.AGE" ValueChanged="DateTimeValueChanged" DisplayText="出生日期" ShowLabel="true" Placement="Placement.Auto" />
-        @{
-
-        }
-
-        <BootstrapInput @bind-Value="@AGEDiffer" IsDisabled="true" DisplayText="年龄" ShowLabel="true"></BootstrapInput>
-
-        <BootstrapInput @bind-Value="@patientInfo.BW" />
-        <Select @bind-Value="@patientInfo.BWWeight" />
-        <Radio ShowLabel="true" DisplayText="称重"> </Radio>
-        <Radio ShowLabel="true" DisplayText="估算"> </Radio>
-    </Row>
+            <BootstrapInput @bind-Value="@patientInfo.Medicalrecordnumber" />
+            <BootstrapInput @bind-Value="@patientInfo.Department" />
+            <BootstrapInput @bind-Value="@patientInfo.Name" />
+            <Select @bind-Value="@patientInfo.Gender" />
+        </Row>
 
 
-    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
-        <BootstrapInput @bind-Value="@patientInfo.HEI" />
-        <BootstrapInput @bind-Value="@patientInfo.BMI" IsDisabled="true" />
-        <BootstrapInput @bind-Value="@patientInfo.BSA" IsDisabled="true" />
+        <Row ItemsPerRow="ItemsPerRow.Six" RowType="RowType.FormRow">
+            <DateTimePicker TValue="DateTime?" Value="@patientInfo.AGE" ValueChanged="DateTimeValueChanged" DisplayText="出生日期" ShowLabel="true" Placement="Placement.Auto" />
+            @{
+
+            }
+
+            <BootstrapInput @bind-Value="@AGEDiffer" IsDisabled="true" DisplayText="年龄" ShowLabel="true"></BootstrapInput>
+
+            <BootstrapInput @bind-Value="@patientInfo.BW" />
+            <Select @bind-Value="@patientInfo.BWWeight" />
+            <Radio Items="@Items" OnStateChanged="@OnItemChanged"></Radio>
+        </Row>
 
 
-    </Row>
-
-    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
-        <DateTimePicker @bind-Value="@patientInfo.Transplantationtime" ShowLabel="true" Placement="Placement.Auto" />
-        <Select @bind-Value="@patientInfo.Transplantationtype" />
-    </Row>
-
-    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
-        <DateTimePicker @bind-Value="@patientInfo.Admissiontime" ShowLabel="true" Placement="Placement.Auto" />
-        <DateTimePicker @bind-Value="@patientInfo.Dischargetime" ShowLabel="true" Placement="Placement.Auto" />
-    </Row>
-    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
-
-        <BootstrapInput @bind-Value="@patientInfo.GCS" />
-        <BootstrapInput @bind-Value="@patientInfo.SOFA" />
-        <BootstrapInput @bind-Value="@patientInfo.APACHEⅡ" />
-    </Row>
-    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
-        <BootstrapInput @bind-Value="@PatientInfoExDiagnosis.Affectedarea" />
-        <BootstrapInput @bind-Value="@PatientInfoExDiagnosis.AffectedDiagnosis" />
-    </Row>
-
-    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
-        <Select @bind-Value="@patientInfo.Medication" />
-        <Select @bind-Value="@patientInfo.Pathogenicbacteria" />
-        <Select @bind-Value="@patientInfo.Healingeffect" />
-
-    </Row>
-
-    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.One">
-        <Textarea rows="4" @bind-Value="@patientInfo.Medicalhistorysummary" />
-    </Row>
-
-</ValidateForm>
+        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
+            <BootstrapInput @bind-Value="@patientInfo.HEI" />
+            <BootstrapInput @bind-Value="@patientInfo.BMI" IsDisabled="true" />
+            <BootstrapInput @bind-Value="@patientInfo.BSA" IsDisabled="true" />
 
 
+        </Row>
+
+        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
+            <DateTimePicker @bind-Value="@patientInfo.Transplantationtime" ShowLabel="true" Placement="Placement.Auto" />
+            <Select @bind-Value="@patientInfo.Transplantationtype" />
+        </Row>
+
+        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
+            <DateTimePicker @bind-Value="@patientInfo.Admissiontime" ShowLabel="true" Placement="Placement.Auto" />
+            <DateTimePicker @bind-Value="@patientInfo.Dischargetime" ShowLabel="true" Placement="Placement.Auto" />
+        </Row>
+        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
+
+            <BootstrapInput @bind-Value="@patientInfo.GCS" />
+            <BootstrapInput @bind-Value="@patientInfo.SOFA" />
+            <BootstrapInput @bind-Value="@patientInfo.APACHEⅡ" />
+        </Row>
+        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
+            <BootstrapInput @bind-Value="@PatientInfoExDiagnosis.Affectedarea" />
+            <BootstrapInput @bind-Value="@PatientInfoExDiagnosis.AffectedDiagnosis" />
+        </Row>
+
+        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
+            <Select @bind-Value="@patientInfo.Medication" />
+            <Select @bind-Value="@patientInfo.Pathogenicbacteria" />
+            <Select @bind-Value="@patientInfo.Healingeffect" />
+
+        </Row>
+
+        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.One">
+            <Textarea rows="4" @bind-Value="@patientInfo.Medicalhistorysummary" />
+        </Row>
+
+    </ValidateForm>
+
+</div>
 @code {
 
 
@@ -95,12 +94,26 @@
     private PatientInfoExDiagnosisTable PatientInfoExDiagnosis { set; get; } = new();
 
 
+    private IEnumerable<SelectedItem> Items { get; set; } = new SelectedItem[]
+       {
+            new SelectedItem("1", "估算") ,
+            new SelectedItem("2", "称重"){ Active = true }
+       };
+
+
+
     protected override Task OnInitializedAsync()
     {
         patientInfo = objects as PatientInfo;
         return base.OnInitializedAsync();
     }
 
+    private Task OnItemChanged(CheckboxState state, SelectedItem value)
+    {
+        patientInfo.IsBWType = value.Text;
+        //BinderLog?.Log($"Selected Value: {value.Text}");
+        return Task.CompletedTask;
+    }
     private Task DateTimeValueChanged(DateTime? d)
     {
         patientInfo.AGE = d.Value;

@@ -68,27 +68,27 @@
 
     public async Task ShowEditDlg(PatientInfo info )
     {
-        var result = await Dialog.ShowModal<PatientInfoDlg>(new ResultDialogOption()
-        {
-            Title = "编辑医患基本信息",
-            BodyContext = info,
-           
-            ComponentParamters = new KeyValuePair<string, object>[]
-                   {
-                //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
-                new(nameof(PatientInfoDlg.OnEventCallback), EventCallback.Factory.Create<PatientInfo>(this, v => patientInfo = v))
-                   }
-        });
+        //var result = await Dialog.ShowModal<PatientInfoDlg>(new ResultDialogOption()
+        //{
+        //    Title = "编辑医患基本信息",
+        //    BodyContext = info,
 
-        if (result == DialogResult.Yes)
-        {
-            InfoService.UpdatePatientInfo(patientInfo);
-            //UpdateDate();
+        //    ComponentParamters = new KeyValuePair<string, object>[]
+        //           {
+        //        //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
+        //        new(nameof(PatientInfoDlg.OnEventCallback), EventCallback.Factory.Create<PatientInfo>(this, v => patientInfo = v))
+        //           }
+        //});
 
-            MessageService.ShowColorMessage(Color.Danger, "医患基本信息修改成功", MessageElement);
-        }
+        //if (result == DialogResult.Yes)
+        //{
+        //    InfoService.UpdatePatientInfo(patientInfo);
+        //    //UpdateDate();
 
-        return;//Task.CompletedTask;
+        //    MessageService.ShowColorMessage(Color.Danger, "医患基本信息修改成功", MessageElement);
+        //}
+
+        //return;
 
     }
 

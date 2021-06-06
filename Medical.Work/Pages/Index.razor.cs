@@ -62,24 +62,6 @@ namespace Medical.Work.Pages
             return;
         }
 
-        //public List<PatientInfo> setdata(DateTime startDate)
-        //{
-        //    var rng = new Random();
-        //    var list =  Task.FromResult(Enumerable.Range(1, 1050).Select(index => new PatientInfo
-        //    {
-        //        PatientInfoGuid = Guid.NewGuid().ToString(),
-        //        Ancestralhome = "海南",
-        //        AGE = rng.Next(10, 100).ToString(),
-        //        BW = rng.Next(40, 100).ToString(),
-        //        Medicalrecordnumber = rng.Next(100000, 800000).ToString(),
-        //        DateTime = startDate.AddDays(-index),
-        //        Name = Summaries[rng.Next(Summaries.Length)]
-        //    }).ToList());
-
-        //    InfoService.AddPatientInfo(list.Result);
-
-        //    return list.Result;
-        //}
 
         private async Task CreateAddDlg()
         {
@@ -87,7 +69,7 @@ namespace Medical.Work.Pages
             {
                 Title = "新建医患信息",
                 BodyContext = new PatientInfo(),
-              
+
                 ComponentParamters = new KeyValuePair<string, object>[]
                   {
                 //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
@@ -103,8 +85,8 @@ namespace Medical.Work.Pages
                 MessageTagservice.ShowColorMessage(Color.Danger, "医患信息添加成功", MessageElement);
             }
 
-            return;//Task.CompletedTask;
-           // return Task.CompletedTask;
+            return;
+
         }
 
 
