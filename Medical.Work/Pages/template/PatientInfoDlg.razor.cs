@@ -9,11 +9,18 @@ namespace Medical.Work.Pages.template
 {
     public partial class PatientInfoDlg : ComponentBase, IResultDialog
     {
-        Task IResultDialog.OnClose(DialogResult result)
+        async Task IResultDialog.OnClose(DialogResult result)
         {
             // throw new NotImplementedException();
-
-            return Task.CompletedTask;
+            if (result == DialogResult.Yes)
+            {
+                if (OnEventCallback.HasDelegate)
+                {
+                    //IEnumerableValues.ForEach(s => s.Remarks = Remarks);
+                    await OnEventCallback.InvokeAsync(patientInfo);
+                }
+            }
+            return ;
         }
 
 

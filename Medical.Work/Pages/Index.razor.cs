@@ -46,11 +46,6 @@ namespace Medical.Work.Pages
 
         public async Task GetForecastAsync(DateTime startDate)
         {
-
-            // dbContext.patientInfos.
-
-            //Patients = setdata(DateTime.Now);
-
             using ( var context  = ContextFactory.CreateDbContext()) {
                 Patients = await context.patientInfos.Where(w => w.DateTime >= startDate.AddDays(-10)).AsNoTracking().ToListAsync();
 
@@ -59,9 +54,6 @@ namespace Medical.Work.Pages
                 Items.AddRange(array);
                 Items.AddRange(arrayname);
             }
-                
-
-
             return;
         }
 
@@ -76,7 +68,7 @@ namespace Medical.Work.Pages
                 ComponentParamters = new KeyValuePair<string, object>[]
                   {
                 //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
-                new(nameof(PatientInfoDlg.OnEventCallback), EventCallback.Factory.Create<PatientInfo>(this, v => patientInfo = v))
+                      new(nameof(PatientInfoDlg.OnEventCallback), EventCallback.Factory.Create<PatientInfo>(this, v => patientInfo = v))
                   }
             });
 

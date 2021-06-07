@@ -1,5 +1,6 @@
 ﻿using BootstrapBlazor.Components;
 using Medical.Work.Data;
+using Medical.Work.Data.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,9 +14,17 @@ namespace Medical.Work.Pages.template
     {
        
        // IDbContextFactory<MedicalDbContext> ContextFactory;
-        public Task OnClose(DialogResult result)
+        public async Task OnClose(DialogResult result)
         {
-            return Task.CompletedTask;
+            if (result == DialogResult.Yes)
+            {
+                if (OnEventCallback.HasDelegate)
+                {
+//IEnumerableValues.ForEach(s => s.Remarks = Remarks);
+                    await OnEventCallback.InvokeAsync(Contacts);
+                }
+            }
+            return ;
           //  throw new NotImplementedException();
         }
     }
