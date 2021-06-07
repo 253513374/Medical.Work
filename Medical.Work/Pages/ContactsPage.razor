@@ -90,10 +90,10 @@
 
     protected override void OnInitialized()
     {
-        using (var context = ContextFactory.CreateDbContext())
-        {
-            Telephones = context.Contacts.AsNoTracking().Where(w=>w.Emainame==Use).ToList();
-        }
+       // using (var context = ContextFactory.CreateDbContext())
+       // {
+       //     Telephones = context.Contacts.AsNoTracking().Where(w=>w.Emainame==Use).ToList();
+       // }
         base.OnInitialized();
     }
 

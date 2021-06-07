@@ -15,5 +15,7 @@ namespace Medical.Work.Pages.template
 
             return Task.CompletedTask;
         }
+
+
     }
 }
