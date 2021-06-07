@@ -18,6 +18,8 @@ namespace Medical.Work.Data
         public DbSet<MedicalPK> medicalPKs { set; get; }
         public DbSet<PatientInfo> patientInfos { set; get; }
 
+        public DbSet<Contacts> Contacts { set; get; }
+
         public MedicalDbContext(DbContextOptions<MedicalDbContext> options)
            : base(options)
         {
@@ -31,6 +33,7 @@ namespace Medical.Work.Data
             modelBuilder.Entity<MedicalPK>().ToTable("MedicalPK");
             modelBuilder.Entity<PatientInfo>().ToTable("PatientInfo");
             modelBuilder.Entity<MedicalDGK>().ToTable("MedicalDGK");
+            modelBuilder.Entity<Contacts>().ToTable("Contacts");
         }
 
 

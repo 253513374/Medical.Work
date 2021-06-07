@@ -36,7 +36,7 @@ namespace Medical.Work
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDbContext<MedicalDbContext>(options =>
+            services.AddDbContextFactory<MedicalDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 

@@ -1,0 +1,157 @@
+﻿
+
+
+@page "/ContactsPage"
+
+@*@inject UserManager<MedicalDbContext> _UserManager*@
+
+@inject IDbContextFactory<MedicalDbContext>  ContextFactory
+
+
+<div class="container">
+    <div class="mt-5">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputEmail4">名称</label>
+                <input type="email" class="form-control" id="inputEmail4" />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputnumber4">联系方式</label>
+                <input type="number" class="form-control" id="inputnumber4" />
+            </div>
+        </div>
+        <div class="d-flex  justify-content-end">
+            <button type="button" class="btn " @onclick="@(s=>AddTelephones())">添加联系人</button>
+        </div>
+        <div class="container mt-5">
+            <table class="table table-sm text-center">
+                <thead class="mytable">
+                    <tr>
+                        <th>NO.</th>
+                        <th>病历号</th>
+                        <th>患者姓名</th>
+                        <th>患者电话</th>
+                        <th>邮箱</th>
+                        <th>单位及地址</th>
+                        <th>记录时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (contacts != null)
+                    {
+                        int i = 0;
+                        foreach (var item in contacts)
+                        {
+                            <tr>
+                                <td>@i++</td>
+                                <td>@item.Medicalrecordnumber</td>
+                                <td>@item.Name</td>
+                                <td>@item.Contactnumber</td>
+                                <td>@item.Emai</td>
+                                <td>@item.Address</td>
+                                <td>@item.dateTime</td>
+                                <td><button class="btn" @onclick="@(s=>DelTelephones(item.ID))">删除</button></td>
+                            </tr>
+                        }
+                        @*@for (int i = 0; i < contacts.Count; i++)
+                            {
+                                var sid = Telephones[i].Id;
+                                <tr>
+                                    <td>@i</td>
+                                    <td>@Telephones[i].department</td>
+                                    <td>@Telephones[i].extnum</td>
+                                    <td>@Telephones[i].CreateTime</td>
+                                    <td><button class="btn" @onclick="@(s=>DelTelephones(sid))">删除</button></td>
+                                </tr>
+                            }*@
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <Message @ref="MessageElement" />
+</div>
+
+@code{
+    private List<Contacts> contacts { set; get; }
+
+    private Contacts _Contacts { set; get; }
+
+
+    private Message MessageElement { set; get; }
+
+    [Inject]
+    private MessageTag MessageTagservice { set; get; }
+
+    [Inject]
+    public DialogService? Dialogservice { set; get; }
+
+    protected override void OnInitialized()
+    {
+        using (var context = ContextFactory.CreateDbContext())
+        {
+            Telephones = context.Contacts.AsNoTracking().Where(w=>w.Emainame==Use).ToList();
+        }
+        base.OnInitialized();
+    }
+
+    private async Task GetContacts(string name)
+    {
+        using (var context = ContextFactory.CreateDbContext())
+        {
+            contacts = await context.Contacts.AsNoTracking().Where(w => w.Emainame == "name").ToListAsync();
+        }
+    }
+
+    private async Task AddTelephones()
+    {
+        var result = await Dialogservice.ShowModal<ContactsDlg>(new ResultDialogOption()
+        {
+            Title = "新建联系人信息",
+            BodyContext = new Contacts(),
+            // ShowCloseButton = true,
+            ButtonYesText = "选择",
+            ButtonYesIcon = "fa fa-search",
+            ComponentParamters = new KeyValuePair<string, object>[]
+            {
+            //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
+            new(nameof(ContactsDlg.OnEventCallback), EventCallback.Factory.Create<Contacts>(this, v => _Contacts = v))
+            }
+        });
+
+        if (result == DialogResult.Yes)
+        {
+            //InfoService.UpdatePatientInfo(patientInfo);
+            //UpdateDate();
+            using (var context  = ContextFactory.CreateDbContext() )
+            {
+
+                context.Contacts.Add(_Contacts);
+                context.SaveChanges();
+            }
+
+            MessageTagservice.ShowColorMessage(Color.Danger, "医患信息添加成功", MessageElement);
+        }
+
+        return;
+    }
+
+    private async Task DelTelephones(int id)
+    {
+        using (var context = ContextFactory.CreateDbContext())
+        {
+            var reContacts = await context.Contacts.Where(w => w.ID == id).AsNoTracking().FirstAsync();
+            if (reContacts != null)
+            {
+                context.Contacts.Remove(reContacts);
+                context.SaveChanges();
+                contacts.Remove(reContacts);
+
+            }
+
+        }
+        StateHasChanged();
+    }
+}

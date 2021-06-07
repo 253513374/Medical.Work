@@ -11,49 +11,67 @@ namespace Medical.Work.Data
     public class PatientInfoService
     {
 
-     
-        private MedicalDbContext DbContext { set; get; }
-        public PatientInfoService(MedicalDbContext dbContext)
+
+        IDbContextFactory<MedicalDbContext> ContextFactory { set; get; }
+        public PatientInfoService(IDbContextFactory<MedicalDbContext> contextFactory)
         {
-            DbContext = dbContext;
+            ContextFactory = contextFactory;
         }
         public bool UpdatePatientInfo(PatientInfo info)
         {
-            DbContext.patientInfos.Update(info);
 
-            DbContext.SaveChanges();
+            using (var context = ContextFactory.CreateDbContext())
+            {
+                context.patientInfos.Update(info);
+
+                context.SaveChanges();
+            }
+               
             return true;
         }
 
         public bool DeletePatientInfo(PatientInfo info)
         {
-            DbContext.patientInfos.Remove(info);
-            DbContext.SaveChanges();
+            using (var context = ContextFactory.CreateDbContext())
+            {
+                context.patientInfos.Remove(info);
+                context.SaveChanges();
+            }
+               
             return true;
         }
 
 
         public bool AddPatientInfo(List<PatientInfo> info)
         {
-
-            DbContext.patientInfos.AddRange (info);
-            DbContext.SaveChanges();
+            using (var context = ContextFactory.CreateDbContext())
+            {
+                context.patientInfos.AddRange(info);
+                context.SaveChanges();
+            }
+                
             return true;
         }
 
         public bool AddPatientInfo(PatientInfo info)
         {
 
-            DbContext.patientInfos.Add(info);
-            DbContext.SaveChanges();
+            using (var context = ContextFactory.CreateDbContext())
+            {
+                context.patientInfos.Add(info);
+                context.SaveChanges();
+            }
+               
             return true;
         }
 
         public async Task<List<PatientInfo>> QueryPatientInfos(string key )
         {
-
-            return await DbContext.patientInfos.Where(w => w.Medicalrecordnumber.Contains(key) || w.Name.Contains(key)).ToListAsync();
-           //  null;
+            using (var context = ContextFactory.CreateDbContext())
+            {
+                return await context.patientInfos.Where(w => w.Medicalrecordnumber.Contains(key) || w.Name.Contains(key)).ToListAsync();
+            }
+            //  null;
         }
     }
 }

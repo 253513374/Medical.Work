@@ -21,7 +21,7 @@ namespace Medical.Work.Data.Models
         public string PatientInfoGuid { set; get; }
 
         [DisplayName("建立时间")]
-        public DateTime DateTime { set; get; }
+        public DateTime? DateTime { set; get; }
 
 
         [DisplayName("建立账号")]
@@ -56,7 +56,7 @@ namespace Medical.Work.Data.Models
         /// 年龄（AGE，year）
         /// </summary>
         [DisplayName( "年龄")]
-        public DateTime AGE { set; get; }
+        public DateTime? AGE { set; get; }
 
         /// <summary>
         /// 体重（BW，kg）
@@ -98,14 +98,14 @@ namespace Medical.Work.Data.Models
         /// 移植类型
         /// </summary>
         [DisplayName("移植类型")]
-        public TransplantationEnum Transplantationtype { set; get; }
+        public TransplantationEnum? Transplantationtype { set; get; }
 
 
         /// <summary>
         /// 移植手术时间
         /// </summary>
         [DisplayName("移植手术时间")]
-        public DateTime Transplantationtime { set; get; }
+        public DateTime? Transplantationtime { set; get; }
 
         /// <summary>
         /// 祖籍：***省份
@@ -154,13 +154,13 @@ namespace Medical.Work.Data.Models
         /// 入院时间
         /// </summary>
         [DisplayName("入院时间")]
-        public DateTime Admissiontime { set; get; }
+        public DateTime? Admissiontime { set; get; }
 
         /// <summary>
         /// 出院时间
         /// </summary>
         [DisplayName("出院时间")]
-        public DateTime Dischargetime { set; get; }
+        public DateTime? Dischargetime { set; get; }
 
 
       
@@ -176,17 +176,17 @@ namespace Medical.Work.Data.Models
         /// 用药目的
         /// </summary>
         [DisplayName("用药目的")]
-        public MedicationEnum Medication { set; get; }
+        public MedicationEnum? Medication { set; get; }
         /// <summary>
         /// 病原菌
         /// </summary>
         [DisplayName("病原菌")]
-        public GermsEnum Pathogenicbacteria { set; get; }
+        public GermsEnum? Pathogenicbacteria { set; get; }
         /// <summary>
         /// 治疗效果
         /// </summary>
         [DisplayName("治疗效果")]
-        public HealingeffectEnum Healingeffect { set; get; }
+        public HealingeffectEnum? Healingeffect { set; get; }
 
 
 

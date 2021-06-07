@@ -1,0 +1,55 @@
+﻿
+
+
+@inject IDbContextFactory<MedicalDbContext> ContextFactory
+
+
+
+<ValidateForm Model="@Contacts">
+
+    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.One">
+        <BootstrapInput @bind-Value="@Contacts.Medicalrecordnumber"></BootstrapInput>
+    </Row>
+    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
+        <BootstrapInput @bind-Value="@Contacts.Name"></BootstrapInput>
+        <BootstrapInput @bind-Value="@Contacts.Contactnumber"></BootstrapInput>
+    </Row>
+    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
+        <BootstrapInput @bind-Value="@Contacts.Emai"></BootstrapInput>
+    </Row>
+    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.One">
+        <Textarea rows="3" @bind-Value="@Contacts.Address" />
+      
+    </Row>
+</ValidateForm>
+
+    @code {
+
+
+
+        [CascadingParameter(Name = "BodyContext")]
+        public object? objectContacts { set; get; }
+
+        [Parameter]
+        public Contacts  Contacts { set; get; }
+
+
+        [Parameter]
+        public EventCallback<Contacts> OnEventCallback { set; get; }
+
+
+
+
+
+        protected override Task OnInitializedAsync()
+        {
+            Contacts = objectContacts as Contacts;
+            return base.OnInitializedAsync();
+
+        }
+
+
+
+
+}
+       

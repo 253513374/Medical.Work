@@ -24,7 +24,7 @@ namespace Medical.Work.Pages
         private PatientInfoService InfoService { set; get; }  
 
         [Inject]
-        private MedicalDbContext dbContext { set; get; }
+        private IDbContextFactory<MedicalDbContext> ContextFactory { set; get; }
 
         public List<PatientInfo> Patients { set; get; } = new List<PatientInfo>(1000);
 
@@ -47,16 +47,19 @@ namespace Medical.Work.Pages
         public async Task GetForecastAsync(DateTime startDate)
         {
 
-           // dbContext.patientInfos.
+            // dbContext.patientInfos.
 
             //Patients = setdata(DateTime.Now);
 
-            Patients = await dbContext.patientInfos.Where(w=>w.DateTime>= startDate.AddDays(-10)).AsNoTracking().ToListAsync();
+            using ( var context  = ContextFactory.CreateDbContext()) {
+                Patients = await context.patientInfos.Where(w => w.DateTime >= startDate.AddDays(-10)).AsNoTracking().ToListAsync();
 
-            var array=Patients.Select(s => s.Medicalrecordnumber).ToList();
-            var arrayname=Patients.Select(s => s.Name).ToArray();
-            Items.AddRange(array);
-            Items.AddRange(arrayname);
+                var array = Patients.Select(s => s.Medicalrecordnumber).ToList();
+                var arrayname = Patients.Select(s => s.Name).ToArray();
+                Items.AddRange(array);
+                Items.AddRange(arrayname);
+            }
+                
 
 
             return;
