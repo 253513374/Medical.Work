@@ -11,11 +11,15 @@ using BootstrapBlazor.Components;
 using Medical.Work.Pages.template;
 using System.Runtime.InteropServices.ComTypes;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Medical.Work.Pages
 {
     public partial class Index
     {
+
+        [CascadingParameter]
+        private Task<AuthenticationState> authenticationStateTask { get; set; }
         [Inject]
         private MessageTag MessageTagservice { set; get; }
         private Message MessageElement { set; get; }
@@ -26,28 +30,32 @@ namespace Medical.Work.Pages
         [Inject]
         private IDbContextFactory<MedicalDbContext> ContextFactory { set; get; }
 
-        public List<PatientInfo> Patients { set; get; } = new List<PatientInfo>(1000);
+      
 
         [Inject]
         public DialogService? Dialog { set; get; }
 
+        public List<PatientInfo> Patients { set; get; } = new List<PatientInfo>(1000);
         private PatientInfo patientInfo { set; get; }
 
         public List<string> Items { set; get; } = new List<string>(1000);
 
 
 
+    
 
-        private static readonly string[] Summaries = new[]
-{
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+//        private static readonly string[] Summaries = new[]
+//        {
+//            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+//        };
 
 
         public async Task GetForecastAsync(DateTime startDate)
         {
-            using ( var context  = ContextFactory.CreateDbContext()) {
-                Patients = await context.patientInfos.Where(w => w.DateTime >= startDate.AddDays(-10)).AsNoTracking().ToListAsync();
+            using ( var context  = ContextFactory.CreateDbContext())
+            {
+                // var uer = Usermanager.GetUserAsync();
+                Patients = await context.patientInfos.Where(w=>w.Adminuser== authenticationStateTask.Result.User.Identity.Name).Where(w => w.DateTime >= startDate.AddDays(-10)).AsNoTracking().ToListAsync();
 
                 var array = Patients.Select(s => s.Medicalrecordnumber).ToList();
                 var arrayname = Patients.Select(s => s.Name).ToArray();

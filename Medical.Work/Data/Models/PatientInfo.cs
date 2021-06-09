@@ -20,10 +20,15 @@ namespace Medical.Work.Data.Models
         [DisplayName("唯一编码")]
         public string PatientInfoGuid { set; get; }
 
+        /// <summary>
+        /// 建立时间
+        /// </summary>
         [DisplayName("建立时间")]
         public DateTime? DateTime { set; get; }
 
-
+        /// <summary>
+        /// 建立账号
+        /// </summary>
         [DisplayName("建立账号")]
         public string Adminuser {set;get; }
 

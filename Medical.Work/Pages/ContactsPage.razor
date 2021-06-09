@@ -3,7 +3,7 @@
 
 @page "/ContactsPage"
 
-@*@inject UserManager<MedicalDbContext> _UserManager*@
+@inject UserManager<IdentityUser> _UserManager
 
 @inject IDbContextFactory<MedicalDbContext>  ContextFactory
 
@@ -15,12 +15,9 @@
     </style>
 
 <div class="container">
-    <div class="mt-5">
-        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
-            <BootstrapInput @bind-Value="@QueryNmae" DisplayText="名字" ShowLabel="true"></BootstrapInput>
-            <BootstrapInput @bind-Value="@QueryNumber" DisplayText="病例号" ShowLabel="true"></BootstrapInput>
-        </Row>
-        <Row ItemsPerRow="ItemsPerRow.One" calss="is-right">
+    <div class="mt-5" >
+        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Two"  >
+            <BootstrapInput @bind-Value="@Querywhere" placeholder="请输入名称或者病历号" ShowLabel="false"></BootstrapInput>
             <div class="form-group col-auto">
                 <div class="btn-group" role="group">
                     <Button Color="Color.Primary" Icon="oi oi-magnifying-glass" Size="Size.Medium" @onclick="@(s=>OnQueryContacts())"> 查 询 </Button>
@@ -28,22 +25,6 @@
                 </div>
             </div>
         </Row>
-        @*<div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="inputEmail4">名称</label>
-                <input type="email" class="form-control" id="inputEmail4" />
-            </div>
-            <div class="form-group col-md-6">
-                <label for="inputnumber">联系方式</label>
-                <input type="number" class="form-control" id="inputnumber" />
-            </div>
-        </div>
-        <div class="d-flex  justify-content-end">
-            <div class="row">
-               
-            </div>
-
-        </div>*@
         <div class="container mt-5">
             <table class="table table-sm text-center">
                 <thead class="mytable">
@@ -109,14 +90,17 @@
     [Inject]
     public DialogService? Dialogservice { set; get; }
 
-    private string QueryNmae { set; get; } = "";
-    private string QueryNumber { set; get; } = "";
+    private string Querywhere { set; get; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     protected override void OnInitialized()
     {
         using (var context = ContextFactory.CreateDbContext())
         {
-            contacts =  context.Contacts.AsNoTracking().ToList();
+            var uer = authenticationStateTask.Result.User.Identity.Name;
+            contacts =  context.Contacts.AsNoTracking().Where(w => w.Emainame == uer).ToList();
         }
         base.OnInitialized();
     }
@@ -125,6 +109,7 @@
     {
         using (var context = ContextFactory.CreateDbContext())
         {
+
             contacts = await context.Contacts.AsNoTracking().Where(w => w.Emainame == name).ToListAsync();
         }
     }
@@ -151,7 +136,12 @@
             //UpdateDate();
             using (var context  = ContextFactory.CreateDbContext() )
             {
+               // var uer = authenticationStateTask.Result.User.Identity.Name;
 
+               // var user =  await _UserManager.GetUserAsync(authenticationStateTask.Result.User);
+
+                _Contacts.Emainame = authenticationStateTask.Result.User.Identity.Name;
+                _Contacts.dateTime = DateTime.Now;
                 context.Contacts.Add(_Contacts);
                 context.SaveChanges();
                 contacts.Add(_Contacts);
@@ -167,6 +157,7 @@
     {
         using (var context = ContextFactory.CreateDbContext())
         {
+
             var reContacts = await context.Contacts.Where(w => w.ID == id).AsNoTracking().FirstAsync();
             if (reContacts != null)
             {
@@ -182,14 +173,17 @@
     {
         using (var context = ContextFactory.CreateDbContext())
         {
+            var uer = authenticationStateTask.Result.User.Identity.Name;
             contacts.Clear();
-            if (QueryNmae!=""||QueryNumber!="")
+            if (Querywhere!=null)
             {
-                contacts = await context.Contacts.AsNoTracking().Where(w => w.Name.Trim().Contains(QueryNmae.Trim()) || w.Medicalrecordnumber.Trim().Contains(QueryNumber.Trim())).ToListAsync();
+                contacts =  await context.Contacts.AsNoTracking().Where(w=>w.Emainame== uer).Where(w => w.Name.Contains(Querywhere) || w.Medicalrecordnumber.Contains(Querywhere)).ToListAsync();
+
+
             }
-            if(QueryNmae == "" && QueryNumber == "")
+            if(Querywhere == null)
             {
-                contacts = await context.Contacts.AsNoTracking().ToListAsync();
+                contacts = await context.Contacts.AsNoTracking().Where(w => w.Emainame == uer).ToListAsync();
 
             }
 

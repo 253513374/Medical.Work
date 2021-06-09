@@ -1,15 +1,6 @@
 ﻿
 
 
-
-@*<div class="row m-3">
-    <div class="col-6">
-
-    </div>
-    <div class="col-6">
-    </div>
-</div>*@
-
 <div class="row text-center d-flex  align-items-center tlist mat-elevation-z1 " >
     <div class="col-2 col-sm-2 col-lg-2 d-flex align-items-center ">
         <img src="/img/aa.jpg" style="height:120px;" />
@@ -32,11 +23,6 @@
     </div>
     <div class=" row  col-3 col-sm-3 col-lg-3 d-flex align-items-center justify-content-between">
 
-        @*<div class="col-5">
-            <Button ButtonStyle="ButtonStyle.Circle" IsOutline="true" Color="Color.Danger" style="width:25px;height:25px">x</Button>
-        </div>*@
-        @*<Button @onclick="@(s=>ShowEditDlg(patientInfo))" ButtonStyle="ButtonStyle.Circle" Color="Color.Link">修改</Button>*@
-        @*<Button @onclick="@(s=>ShowEditDlg(patientInfo))" ButtonStyle="ButtonStyle.Circle" Color="Color.Link">详细</Button>*@
         <button type="button" class="addbut oi oi-document" @onclick="@(s=>ShowEditDlg(patientInfo))"></button>
         <button type="button" class="addbut oi oi-menu" @onclick="@(s=>NavDlg(patientInfo.PatientInfoGuid))"></button>
     </div>
