@@ -71,7 +71,7 @@ namespace Medical.Work
             services.AddBootstrapBlazor();
 
             services.AddScoped<PatientInfoService>();
-            services.AddScoped<MessageTag>();
+            services.AddTransient<MessageTag>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace Medical.Work.Data
 {
-    public class MessageTag
+    public  class MessageTag
     {
 
         [Inject]
-        public MessageService? MessageService { get; set; }
+        public MessageService Messageservice { get; set; }
 
         public  void ShowColorMessage(Color color, string content,  Message message)
         {
             message.SetPlacement(Placement.Top);
-            MessageService?.Show(new MessageOption()
+            Messageservice?.Show(new MessageOption()
             {
                 Host = message,
                 Content = content,

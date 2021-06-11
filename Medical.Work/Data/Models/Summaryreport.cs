@@ -27,6 +27,13 @@ namespace Medical.Work.Data.Models
 
 
         /// <summary>
+        /// 监护流程名称
+        /// </summary>
+        [DisplayName("监护流程名称")]
+        public string Summaryreportclass { set; get; }
+
+
+        /// <summary>
         /// 患者名称
         /// </summary>
         public string Username { set; get; }
