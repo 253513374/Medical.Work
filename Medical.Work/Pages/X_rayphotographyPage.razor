@@ -4,16 +4,75 @@
 @page "/X_rayphotographyPage"
 
 
+@inject DialogService? Dialogservice 
+
+<div class="container">
+    <div class="mt-5 d-flex justify-content-center">
+        <div class="row col-12 ">
+            <Button class="col-3" style="margin-inline:25px;" OnClick="@(s=>OnShowDlg(1))" Size="Size.ExtraLarge" IsOutline="true" Color="Color.Info">影像学检查</Button>
+            <Button class="col-3" style="margin-inline:25px;" OnClick="@(s=>OnShowDlg(2))" Size="Size.ExtraLarge" IsOutline="true" Color="Color.Info">纤维支气管镜检查</Button>
+            <Button class="col-3" style="margin-inline:25px;" OnClick="@(s=>OnShowDlg(3))" Size="Size.ExtraLarge" IsOutline="true" Color="Color.Info">病理检查</Button>
+        </div>
+
+    </div>
+</div>
 
 
 
-
-<h3>X_rayphotographyPage</h3>
 
 
 
 
 
 @code {
+
+
+
+
+    private Task OnShowDlg(int objectdlg)
+    {
+
+        switch (objectdlg)
+        {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            default:
+                return Task.CompletedTask;
+        }
+
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnShowX_rayDialog(int objectdlg)
+    {
+
+        var obj;
+        switch (objectdlg)
+        {
+            case 1:
+                obj = new X_rayImagingDlg();
+                break;
+            case 2:
+                obj = new X_raypathologicalDlg();
+                break;
+            case 3:
+                obj = new X_raybronchoscopyDlg();
+                break;
+            default:
+                obj = new X_rayImagingDlg();
+                return Task.CompletedTask;
+        }
+        Dialogservice.ShowModal()
+        {
+
+        }
+
+        return Task.CompletedTask;
+    }
 
 }
