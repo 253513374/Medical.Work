@@ -10,26 +10,20 @@
         <BootstrapInput @bind-Value="@x_RayImaging.Username" ShowLabel="true"></BootstrapInput>
         <Select @bind-Value="@x_RayImaging.Xrayimagingenum" ShowLabel="true"></Select>
         <Select @bind-Value="@x_RayImaging.XrayImaginglocationenum" ShowLabel="true"></Select>
-        <Textarea  rows="3" @bind-Value="@x_RayImaging.Describe" ShowLabel="true"></Textarea>
+        <Textarea rows="3" @bind-Value="@x_RayImaging.Describe" ShowLabel="true"></Textarea>
+        <p>上传图片</p>
     </Row>
+    <div class="row">
+        <div class="col-12">
+            @*<p>本例中设置 <code>ShowProgress=true</code> 显示上传进度条</p>*@
+            <CardUpload Accept="image/ipg,image/png,image/jpeg" TValue="string" ShowProgress="true" OnChange="@OnCardUpload" OnDelete="@(fileName => Task.FromResult(true))"></CardUpload>
+        </div>
+    </div>
 </div>
 
 
 
 @code {
 
-    [CascadingParameter(Name = "BodyContext")]
-    public object? objectX_rayImaging { set; get; }
-
-
-    [Parameter]
-    public EventCallback<X_rayImaging> OnEventCallback { set; get; }
-
-    private X_rayImaging  x_RayImaging { set; get; }
-
-    protected override Task OnInitializedAsync()
-    {
-        x_RayImaging = objectX_rayImaging as X_rayImaging;
-        return base.OnInitializedAsync();
-    }
+   
 }
