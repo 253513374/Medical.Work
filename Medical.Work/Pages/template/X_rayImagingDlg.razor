@@ -1,5 +1,35 @@
-﻿<h3>X_rayImagingDlg</h3>
+﻿
+<div class="container">
+
+    <ValidateForm Model="@x_RayImaging">
+
+    </ValidateForm>
+    <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
+
+        <BootstrapInput @bind-Value="@x_RayImaging.Medicalrecordnumber" ShowLabel="true"></BootstrapInput>
+        <BootstrapInput @bind-Value="@x_RayImaging.Username" ShowLabel="true"></BootstrapInput>
+        <Select @bind-Value="@x_RayImaging.Xrayimagingenum" ShowLabel="true"></Select>
+        <Select @bind-Value="@x_RayImaging.XrayImaginglocationenum" ShowLabel="true"></Select>
+        <Textarea  rows="3" @bind-Value="@x_RayImaging.Describe" ShowLabel="true"></Textarea>
+    </Row>
+</div>
+
+
 
 @code {
 
+    [CascadingParameter(Name = "BodyContext")]
+    public object? objectX_rayImaging { set; get; }
+
+
+    [Parameter]
+    public EventCallback<X_rayImaging> OnEventCallback { set; get; }
+
+    private X_rayImaging  x_RayImaging { set; get; }
+
+    protected override Task OnInitializedAsync()
+    {
+        x_RayImaging = objectX_rayImaging as X_rayImaging;
+        return base.OnInitializedAsync();
+    }
 }

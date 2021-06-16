@@ -1,5 +1,36 @@
-﻿<h3>X_raybronchoscopyDlg</h3>
+﻿
+
+
+
+<div class="container">
+
+    <ValidateForm Model="@x_Raybronchoscopy">
+
+    </ValidateForm>
+    <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
+
+        <BootstrapInput @bind-Value="@x_Raybronchoscopy.Medicalrecordnumber" ShowLabel="true"></BootstrapInput>
+        <BootstrapInput @bind-Value="@x_Raybronchoscopy.Username" ShowLabel="true"></BootstrapInput>
+        <BootstrapInput @bind-Value="@x_Raybronchoscopy.Xraylocation" ShowLabel="true"></BootstrapInput>
+        <BootstrapInput @bind-Value="@x_Raybronchoscopy.Xrayinspection" ShowLabel="true"></BootstrapInput>
+    </Row>
+</div>
+
 
 @code {
 
+    [CascadingParameter(Name = "BodyContext")]
+    public object? objectX_raybronchoscopy { set; get; }
+
+
+    [Parameter]
+    public EventCallback<X_raybronchoscopy> OnEventCallback { set; get; }
+
+    private X_raybronchoscopy x_Raybronchoscopy { set; get; }
+
+    protected override Task OnInitializedAsync()
+    {
+        x_Raybronchoscopy = objectX_raybronchoscopy as X_raybronchoscopy;
+        return base.OnInitializedAsync();
+    }
 }

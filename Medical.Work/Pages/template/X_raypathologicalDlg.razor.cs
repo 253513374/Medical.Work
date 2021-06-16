@@ -11,7 +11,9 @@ namespace Medical.Work.Pages.template
     {
         Task IResultDialog.OnClose(DialogResult result)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+
+            return Task.CompletedTask;
         }
     }
 }
