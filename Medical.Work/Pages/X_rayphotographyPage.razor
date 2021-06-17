@@ -2,17 +2,72 @@
 
 
 @page "/X_rayphotographyPage"
-
+@using System.Reflection
 
 @inject DialogService? Dialogservice 
 
-<div class="container">
-    <div class="mt-5 d-flex justify-content-center">
-        <div class="row col-12 ">
-            <Button class="col-3" style="margin-inline:25px;" OnClick="@(s=>OnShowX_rayDialog1())" Size="Size.ExtraLarge" IsOutline="true" Color="Color.Info">影像学检查</Button>
-            <Button class="col-3" style="margin-inline:25px;" OnClick="@(s=>OnShowX_rayDialog2())" Size="Size.ExtraLarge" IsOutline="true" Color="Color.Info">纤维支气管镜检查</Button>
-            <Button class="col-3" style="margin-inline:25px;" OnClick="@(s=>OnShowX_rayDialog3())" Size="Size.ExtraLarge" IsOutline="true" Color="Color.Info">病理检查</Button>
-        </div>
+<div class="ml-5 mr-5 container" >
+    <div class=" mt-5 d-flex justify-content-between">
+        <Button style="width:220px;" OnClick="@(s=>OnShowX_rayDialog1())" Size="Size.ExtraLarge" IsOutline="true" Color="Color.Info">影像学检查</Button>
+        <Button style="width:220px;" OnClick="@(s=>OnShowX_rayDialog2())" Size="Size.ExtraLarge" IsOutline="true" Color="Color.Info">纤维支气管镜检查</Button>
+        <Button style="width:220px;" OnClick="@(s=>OnShowX_rayDialog3())" Size="Size.ExtraLarge" IsOutline="true" Color="Color.Info">病理检查</Button>
+
+    </div>
+    <div class="mt-5">
+        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
+
+            <BootstrapInput @bind-Value="@Querywhere" placeholder="请输入名称或者病历号..."></BootstrapInput>
+            <Button Color="Color.Primary"  ButtonStyle="ButtonStyle.Round" IsOutline="true" > 查 询 </Button>
+        </Row>
+    </div>
+
+    <div class="mt-5">
+
+        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
+            <Select @bind-Value="@SelectTable">
+                <Options>
+                    <SelectOption Text="影像学检查" Value="1"></SelectOption>
+                    <SelectOption Text="纤维支气管镜检查" Value="2"></SelectOption>
+                    <SelectOption Text="病理检查" Value="3"></SelectOption>
+                </Options>
+
+            </Select>
+        </Row>
+        @switch (SelectTable)
+        {
+            case 1:
+                <Table TItem="X_rayImaging" Items="@X_RayImagings.Take(3)" IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"
+                       ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
+                       ShowExtendButtons="false" ShowColumnList="true" AutoGenerateColumns="true">
+                    <RowButtonTemplate>
+                        <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" />@*OnClickCallback="@(() => OnRowButtonClick(context))"*@
+                        <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" />
+                    </RowButtonTemplate>
+                </Table>
+                break;
+            case 2:
+                <Table TItem="X_raybronchoscopy" Items="@X_Raybronchoscopies.Take(3)" IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"
+                       ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
+                       ShowExtendButtons="false" ShowColumnList="true" AutoGenerateColumns="true">
+                    <RowButtonTemplate>
+                        <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" />@*OnClickCallback="@(() => OnRowButtonClick(context))"*@
+                        <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" />
+                    </RowButtonTemplate>
+                </Table>
+                break;
+            case 3:
+                <Table TItem="X_raypathological" Items="@X_Raypathologicals.Take(3)" IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"
+                       ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
+                       ShowExtendButtons="false" ShowColumnList="true" AutoGenerateColumns="true">
+                    <RowButtonTemplate>
+                        <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" />@*OnClickCallback="@(() => OnRowButtonClick(context))"*@
+                        <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" />
+                    </RowButtonTemplate>
+                </Table>
+                break;
+            default:
+                break;
+        }
 
     </div>
 </div>
@@ -26,79 +81,7 @@
 
 @code {
 
-
-
-
-    private X_raybronchoscopy raybronchoscopy { set; get; }
-    private X_raypathological raypathological { set; get; }
-    private X_rayImaging rayImaging { set; get; }
-
-    private async Task OnShowX_rayDialog1()
-    {
-        var result = await Dialogservice.ShowModal<X_rayImagingDlg>(new ResultDialogOption()
-        {
-            Title = "新建影像学检查",
-            BodyContext = new X_rayImaging(),
-
-            ComponentParamters = new KeyValuePair<string, object>[]
-            {
-                //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
-                      new(nameof(X_rayImagingDlg.OnEventCallback), EventCallback.Factory.Create<X_rayImaging>(this, v => rayImaging = v))
-            }
-        });
-
-        if (result == DialogResult.Yes)
-        {
-            // MessageTagservice.ShowColorMessage(Color.Danger, "医患信息添加成功", MessageElement);
-        }
-        return;
-
-        return;
-    }
-    private async Task OnShowX_rayDialog2()
-    {
-        var result = await Dialogservice.ShowModal<X_raypathologicalDlg>(new ResultDialogOption()
-        {
-            Title = "新建纤维支气管镜检查",
-            BodyContext = new X_raypathological(),
-
-            ComponentParamters = new KeyValuePair<string, object>[]
-              {
-                //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
-                      new(nameof(X_raypathologicalDlg.OnEventCallback), EventCallback.Factory.Create<X_raypathological>(this, v => raypathological = v))
-              }
-        });
-
-        if (result == DialogResult.Yes)
-        {
-            // MessageTagservice.ShowColorMessage(Color.Danger, "医患信息添加成功", MessageElement);
-        }
-        return;
-        //return Task.CompletedTask;
-    }
-    private async Task OnShowX_rayDialog3()
-    {
-
-        var result = await Dialogservice.ShowModal<X_raybronchoscopyDlg>(new ResultDialogOption()
-        {
-            Title = "新建病理检查",
-            BodyContext = new X_raybronchoscopy(),
-
-            ComponentParamters = new KeyValuePair<string, object>[]
-                  {
-                //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
-                      new(nameof(X_raybronchoscopyDlg.OnEventCallback), EventCallback.Factory.Create<X_raybronchoscopy>(this, v => raybronchoscopy = v))
-                  }
-        });
-
-        if (result == DialogResult.Yes)
-        {
-            // MessageTagservice.ShowColorMessage(Color.Danger, "医患信息添加成功", MessageElement);
-        }
-        return;
-
-    }
-
+ 
 
 
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BootstrapBlazor.Components;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,13 +12,19 @@ namespace Medical.Work.Data.Models
     /// </summary>
     public class X_raybronchoscopy
     {
+
+        [AutoGenerateColumn(Ignore=true)]
         public int ID { set; get; }
 
+
+        
+        [AutoGenerateColumn(Ignore = true, DefaultSort=true)]
         public DateTime Cretetime { set; get; }
 
         /// <summary>
         /// 管理员账号
         /// </summary>
+        [AutoGenerateColumn(Ignore = true)]
         public string Amdinname { set; get; }
 
 
@@ -36,7 +43,7 @@ namespace Medical.Work.Data.Models
         public string Medicalrecordnumber { set; get; }
 
         /// <summary>
-        /// 
+        /// 检查日期
         /// </summary>
         [DisplayName("检查日期")]
         public DateTime Photodate { set; get; }
@@ -62,26 +69,31 @@ namespace Medical.Work.Data.Models
         /// <summary>
         /// 摄影图像
         /// </summary>
+        [AutoGenerateColumn(Ignore = true)]
         [DisplayName("摄影图像")]
         public byte[] Imge1 { set; get; }
         /// <summary>
         /// 摄影图像
         /// </summary>
+        [AutoGenerateColumn(Ignore = true)]
         [DisplayName("摄影图像")]
         public byte[] Imge2 { set; get; }
         /// <summary>
         /// 摄影图像
         /// </summary>
+        [AutoGenerateColumn(Ignore = true)]
         [DisplayName("摄影图像")]
         public byte[] Imge3 { set; get; }
         /// <summary>
         /// 摄影图像
         /// </summary>
+        [AutoGenerateColumn(Ignore = true)]
         [DisplayName("摄影图像")]
         public byte[] Imge4 { set; get; }
         /// <summary>
         /// 摄影图像
         /// </summary>
+        [AutoGenerateColumn(Ignore = true)]
         [DisplayName("摄影图像")]
         public byte[] Imge5 { set; get; }
     }

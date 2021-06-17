@@ -13,17 +13,17 @@
         <Textarea rows="3" @bind-Value="@x_RayImaging.Describe" ShowLabel="true"></Textarea>
         <p>上传图片</p>
     </Row>
-    <div class="row">
-        <div class="col-12">
-            @*<p>本例中设置 <code>ShowProgress=true</code> 显示上传进度条</p>*@
-            <CardUpload Accept="image/ipg,image/png,image/jpeg" TValue="string" ShowProgress="true" OnChange="@OnCardUpload" OnDelete="@(fileName => Task.FromResult(true))"></CardUpload>
-        </div>
+
+</div>
+<div class="row">
+    <div class="col-12">
+        @*<p>本例中设置 <code>ShowProgress=true</code> 显示上传进度条</p>*@
+        <CardUpload Accept="image/ipg,image/png,image/jpeg" TValue="string" ShowProgress="true" OnChange="@OnCardUpload" OnDelete="@(fileName => Task.FromResult(true))"></CardUpload>
     </div>
 </div>
 
 
-
 @code {
 
-   
+
 }

@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace Medical.Work.Data.Models
 {
+
+    /// <summary>
+    /// 给药方案
+    /// </summary>
     public class MedicalPK
     {
         /// <summary>
