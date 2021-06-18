@@ -1,4 +1,5 @@
 ﻿using Medical.Work.Data.Enum;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,65 +14,57 @@ namespace Medical.Work.Data.Models
     /// </summary>
     public class MedicalPKSampling
     {
+
+
+        public int MedicalPKSamplingID{set;get;}
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        [DisplayName("创建时间")]
+        public DateTime CreateTime { set; get; }
+
         /// <summary>
         /// 标本类型
         /// </summary>
-       public SpecimenTypeEnum SpecimenType { set; get; }
+        [DisplayName("标本类型")]
+        public SpecimenTypeEnum SpecimenType { set; get; }
 
         /// <summary>
         /// 采集时间
         /// </summary>
+        [DisplayName("采集时间")]
         public DateTime CollectDateTime { set; get; }
         /// <summary>
         ///采血当日开始给药时间
         /// </summary>
+        [DisplayName("采血当日开始给药时间")]
         public DateTime StartDateTime { set; get; }
         /// <summary>
         /// 采血当日输注完时间
         /// </summary>
+        [DisplayName("采血当日输注完时间")]
         public DateTime EndDateTime { set; get; }
 
         /// <summary>
         /// 采血前最后一次给药时间
         /// </summary>
+        [DisplayName("采血前最后一次给药时间")]
         public DateTime LastDateTime { set; get; }
 
         /// <summary>
         /// 采血管
         /// </summary>
+        [DisplayName("采血管")]
         public CollectingVesselEnum Collectingvessel { set; get; }
 
 
-        /// <summary>
-        /// C1采血时间（TIME，hh:mm）
-        /// </summary>
-        [DisplayName("C1采血时间")]
-        public DateTime C1bloodcollectiontime { set; get; }
 
         /// <summary>
-        /// C1浓度
+        /// 采血样品详细信息
         /// </summary>
-        public string C1Concentration { set; get; }
+        public  List<MedicalPKSampling_sample>  medicalPKSamplings { get; set; }
 
-        /// <summary>
-        /// C1浓度单位
-        /// </summary>
-        public string C1ConcentrationUnit { set; get; }
-
-        /// <summary>
-        /// C1标准化血药浓度
-        /// </summary>
-        public string C1ConcentrationStandard { set; get; }
-
-        /// <summary>
-        /// C1浓度方法
-        /// </summary>
-        public ConcentrationEnum C1ConcentrationMethod { set; get; }
-
-        /// <summary>
-        /// C1备注
-        /// </summary>
-        public string C1Remarks { set; get; }
 
     }
 }

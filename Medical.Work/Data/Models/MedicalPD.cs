@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Medical.Work.Data.Enum;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -26,20 +27,33 @@ namespace Medical.Work.Data.Models
         /// <summary>
         /// 创建时间
         /// </summary>
-        [DisplayName(  "创建时间")]
+        [DisplayName("创建时间")]
         public DateTime DateTime { set; get; }
+
+        /// <summary>
+        /// 结果
+        /// </summary>
+        [DisplayName("是否测试")]
+        public TestorNotEnum TestorNot { set; get; }
+
+        /// <summary>
+        /// 测试日期
+        /// </summary>
+        [DisplayName("测试日期")]
+        public DateTime TestTime { set; get; }
+
         /// <summary>
         ///  送检时间
         /// </summary>
-        [DisplayName(  "送检时间")]
+        [DisplayName(  "送检日期")]
         public DateTime Inspectiontime { set; get; }
 
 
         /// <summary>
         /// 标本类型（血液，痰，肺泡灌洗液，尿液，导管血，脑脊液……）
         /// </summary>
-        [DisplayName(  "标本类型")]
-        public string Typeofspecimen { set; get; }
+        [DisplayName( "标本类型")]
+        public SpecimenTypeEnum SpecimenType { set; get; }
 
         /// <summary>
         /// 报告时间

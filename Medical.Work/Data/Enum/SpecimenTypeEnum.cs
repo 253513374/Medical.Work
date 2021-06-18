@@ -7,6 +7,11 @@ namespace Medical.Work.Data.Enum
 {
     public enum SpecimenTypeEnum
     {
+        血液,
+        痰,
+        肺泡灌洗液,
+        导管血,
+        脑脊液,
         血标本,
         脑脊,
         尿液,

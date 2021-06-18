@@ -5,12 +5,8 @@ using System.Threading.Tasks;
 
 namespace Medical.Work.Data.Enum
 {
-    public enum WeightEnum
+    public enum ManufacturertypeEnum
     {
-        mg, 
-        g,
-        Kg,
-        平车,
-        卧床
+        进口,国产
     }
 }

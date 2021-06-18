@@ -25,12 +25,13 @@ namespace Medical.Work.Data
         public DbSet<Summaryreport> Summaryreports { set; get; }
 
 
+        public DbSet<MedicalPKSampling> medicalPKSamplings   { set; get; }
+
+        public DbSet<MedicalPKSampling_sample>  pKSampling_Samples { set; get; }
 
 
 
 
-
-     
 
         public MedicalDbContext(DbContextOptions<MedicalDbContext> options)
            : base(options)
@@ -46,6 +47,9 @@ namespace Medical.Work.Data
             modelBuilder.Entity<PatientInfo>().ToTable("PatientInfo");
             modelBuilder.Entity<MedicalDGK>().ToTable("MedicalDGK");
             modelBuilder.Entity<Contacts>().ToTable("Contacts");
+            // modelBuilder.Entity<City>().HasOne(city => city.Province).WithMany(x => x.Cities).HasForeignKey(city => .ProviceId);
+            modelBuilder.Entity<MedicalPKSampling_sample>().HasOne(s => s.medicalPKSampling).WithMany(w => w.medicalPKSamplings).HasForeignKey(h=>h.MedicalPKSamplingID);
+
             base.OnModelCreating(modelBuilder);
         }
 
