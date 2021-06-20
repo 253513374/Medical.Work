@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Medical.Work.Pages
 {
@@ -14,13 +15,13 @@ namespace Medical.Work.Pages
         private int SelectTable { set; get; }
         private string Querywhere { set; get; }
 
-        private X_raybronchoscopy raybronchoscopy { set; get; } = new();
-        private X_raypathological raypathological { set; get; } = new();
-        private X_rayImaging rayImaging { set; get; } = new();
+        private X_raybronchoscopy raybronchoscopy { set; get; }
+        private X_raypathological raypathological { set; get; } 
+        private X_rayImaging rayImaging { set; get; }
 
 
 
-        private List<X_raybronchoscopy> X_Raybronchoscopies { set; get; } = new();
+        private List<X_raybronchoscopy>  x_Raybronchoscopies { set; get; } = new();
         private List<X_raypathological> X_Raypathologicals { set; get; } = new();
         private List<X_rayImaging> X_RayImagings { set; get; } = new();
 
@@ -40,6 +41,17 @@ namespace Medical.Work.Pages
 
             if (result == DialogResult.Yes)
             {
+                using (var context = ContextFactor.CreateDbContext())
+                {
+                    if(rayImaging!=null)
+                    {
+                        rayImaging.Cretetime = DateTime.Now;
+                        rayImaging.Adminname = authenticationStateTask.Result.User.Identity.Name;
+                        context.X_rayImagings.Add(rayImaging);
+                        context.SaveChanges();
+                        X_RayImagings.Add(rayImaging);
+                    }
+                }
                 // MessageTagservice.ShowColorMessage(Color.Danger, "医患信息添加成功", MessageElement);
             }
             return;
@@ -61,6 +73,17 @@ namespace Medical.Work.Pages
             if (result == DialogResult.Yes)
             {
                 // MessageTagservice.ShowColorMessage(Color.Danger, "医患信息添加成功", MessageElement);
+                using (var context = ContextFactor.CreateDbContext())
+                {
+                    if (raypathological != null)
+                    {
+                        raypathological.Cretetime = DateTime.Now;
+                        raypathological.Adminname = authenticationStateTask.Result.User.Identity.Name;
+                        context.X_raypathologicals.Add(raypathological);
+                        context.SaveChanges();
+                        X_Raypathologicals.Add(raypathological);
+                    }
+                }
             }
             return;
             //return Task.CompletedTask;
@@ -83,11 +106,47 @@ namespace Medical.Work.Pages
             if (result == DialogResult.Yes)
             {
                 // MessageTagservice.ShowColorMessage(Color.Danger, "医患信息添加成功", MessageElement);
+                using (var context = ContextFactor.CreateDbContext())
+                {
+                    if (raybronchoscopy != null)
+                    {
+                        raybronchoscopy.Cretetime = DateTime.Now;
+                        raybronchoscopy.Adminname = authenticationStateTask.Result.User.Identity.Name;
+                        context.X_raybronchoscopys.Add(raybronchoscopy);
+                        context.SaveChanges();
+                        x_Raybronchoscopies.Add(raybronchoscopy);
+                    }
+                }
             }
             return;
 
         }
 
+
+        public  async Task OnSelectTableChanged(SelectedItem selected)
+        {
+
+            using (var context = ContextFactor.CreateDbContext())
+            {
+                var username = authenticationStateTask.Result.User.Identity.Name;
+                DateTime dateTime = DateTime.Now.AddDays(-10);
+                switch (selected.Value)
+                {
+                    case "1":
+                        X_RayImagings = await context.X_rayImagings.AsNoTracking().Where(w => w.Adminname == username).Where(w => w.Cretetime >= dateTime).ToListAsync();
+                        break;
+                    case "2":
+                        x_Raybronchoscopies = await context.X_raybronchoscopys.AsNoTracking().Where(w => w.Adminname == username).Where(w => w.Cretetime >= dateTime).ToListAsync();
+                        break;
+                    case "3":
+                        X_Raypathologicals = await context.X_raypathologicals.AsNoTracking().Where(w => w.Adminname == username).Where(w => w.Cretetime >= dateTime).ToListAsync();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return;
+        }
 
     }
 }

@@ -12,11 +12,22 @@ namespace Medical.Work.Pages.template
 {
     public partial class X_rayImagingDlg : ComponentBase, IResultDialog
     {
-        Task IResultDialog.OnClose(DialogResult result)
+        async Task IResultDialog.OnClose(DialogResult result)
         {
             //throw new NotImplementedException();
-            return Task.CompletedTask;
+            if (result == DialogResult.Yes)
+            {
+                if (OnEventCallback.HasDelegate)
+                {
+                    //IEnumerableValues.ForEach(s => s.Remarks = Remarks);
+                    await OnEventCallback.InvokeAsync(x_RayImaging);
+                }
+            }
+            return;
         }
+
+
+
         [CascadingParameter(Name = "BodyContext")]
         public object? objectX_rayImaging { set; get; }
 

@@ -3,35 +3,27 @@
 
 @inject UserManager<IdentityUser> Usermanager
 
-<div class="divtop w-100 divtop">
-    <div class=" content px-4 ">
 
-        <div class="d-flex align-items-center pl-5">
-            <h1>患者信息列表</h1>
-        </div>
-        <div class="row d-flex justify-content-between align-items-center margintop">
-
-            <Search IgnoreCase="true" IsLikeMatch="true" PlaceHolder="请输入医患关键字" ShowClearButton="true" Items="@Items" OnSearch="@OnSearch2" OnClear="@OnClear"></Search>
-            <div class="pr-5">
-                @*<Button ButtonStyle="ButtonStyle.Circle" class="addbut" IsOutline="true" >添加</Button>*@
+    <div class=" divtop  w-100" >
+        <div class="container pt-5 ">
+            <Row ItemsPerRow="ItemsPerRow.One">
+                <p class="h3"> 患者信息列表</p>
+            </Row>
+            <div class="pt-4"></div>
+            <Row ItemsPerRow="ItemsPerRow.Two">
+                <Search IgnoreCase="true" IsLikeMatch="true" PlaceHolder="请输入医患关键字..." ShowClearButton="true" Items="@Items" OnSearch="@OnSearch2" OnClear="@OnClear"></Search>
                 <Button type="button" class="addbut oi oi-plus" @onclick="@CreateAddDlg"></Button>
-            </div>
+            </Row>
         </div>
     </div>
-   
-</div>
-
-
 @*<div  class="body w-100">
-
-
     <PatientInfoDlg></PatientInfoDlg>
 </div>*@
 <div class="body w-100">
     <div class="listview">
-        <Scroll class="scroll-demo" Height="800px">
+        <Scroll class="scroll-demo">
         </Scroll>
-        <ListView TItem="PatientInfo" style="border: 0px;" Pageable="true" OnQueryAsync="@OnQueryPageAsync">
+        <ListView TItem="PatientInfo" style="border: 1px;" Pageable="true" OnQueryAsync="@OnQueryPageAsync">
             <BodyTemplate>
                 <Card style="width:565px;height:160px;">
                     <CardBody>
@@ -39,11 +31,6 @@
                     </CardBody>
                 </Card>
             </BodyTemplate>
-            <FooterTemplate>
-                <div class="text-right">
-                    Coptyright Bootstrap Blazor
-                </div>
-            </FooterTemplate>
         </ListView>
     </div>
     <Message @ref="MessageElement" />

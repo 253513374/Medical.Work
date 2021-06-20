@@ -17,11 +17,17 @@ namespace Medical.Work.Pages.template
     {
 
         private IWebHostEnvironment webHostEnvironment { set; get; }
-        Task IResultDialog.OnClose(DialogResult result)
+        async Task IResultDialog.OnClose(DialogResult result)
         {
-            //throw new NotImplementedException();
-
-            return Task.CompletedTask;
+            if (result == DialogResult.Yes)
+            {
+                if (OnEventCallback.HasDelegate)
+                {
+                    //IEnumerableValues.ForEach(s => s.Remarks = Remarks);
+                    await OnEventCallback.InvokeAsync(x_Raypathological);
+                }
+            }
+            return;
         }
 
         //public X_raypathologicalDlg(IWebHostEnvironment webHost)

@@ -5,8 +5,10 @@
 @using System.Reflection
 
 @inject DialogService? Dialogservice 
+@inject IDbContextFactory<MedicalDbContext> ContextFactor
+@inject UserManager<IdentityUser> Usermanager
 
-<div class="ml-5 mr-5 container" >
+<div class="ml-5 mr-5" >
     <div class=" mt-5 d-flex justify-content-between">
         <Button style="width:220px;" OnClick="@(s=>OnShowX_rayDialog1())" Size="Size.ExtraLarge" IsOutline="true" Color="Color.Info">影像学检查</Button>
         <Button style="width:220px;" OnClick="@(s=>OnShowX_rayDialog2())" Size="Size.ExtraLarge" IsOutline="true" Color="Color.Info">纤维支气管镜检查</Button>
@@ -24,7 +26,7 @@
     <div class="mt-5">
 
         <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
-            <Select @bind-Value="@SelectTable">
+            <Select @bind-Value="@SelectTable" OnSelectedItemChanged="OnSelectTableChanged">
                 <Options>
                     <SelectOption Text="影像学检查" Value="1"></SelectOption>
                     <SelectOption Text="纤维支气管镜检查" Value="2"></SelectOption>
@@ -36,7 +38,7 @@
         @switch (SelectTable)
         {
             case 1:
-                <Table TItem="X_rayImaging" Items="@X_RayImagings.Take(3)" IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"
+                <Table TItem="X_rayImaging" Items="@X_RayImagings" IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"
                        ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
                        ShowExtendButtons="false" ShowColumnList="true" AutoGenerateColumns="true">
                     <RowButtonTemplate>
@@ -46,7 +48,7 @@
                 </Table>
                 break;
             case 2:
-                <Table TItem="X_raybronchoscopy" Items="@X_Raybronchoscopies.Take(3)" IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"
+                <Table TItem="X_raybronchoscopy" Items="@x_Raybronchoscopies" IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"
                        ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
                        ShowExtendButtons="false" ShowColumnList="true" AutoGenerateColumns="true">
                     <RowButtonTemplate>
@@ -56,7 +58,7 @@
                 </Table>
                 break;
             case 3:
-                <Table TItem="X_raypathological" Items="@X_Raypathologicals.Take(3)" IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"
+                <Table TItem="X_raypathological" Items="@X_Raypathologicals" IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"
                        ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
                        ShowExtendButtons="false" ShowColumnList="true" AutoGenerateColumns="true">
                     <RowButtonTemplate>
@@ -81,7 +83,8 @@
 
 @code {
 
- 
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
 
 
 }

@@ -1,10 +1,7 @@
-﻿<h3>PKDlg</h3>
-
-
-
+﻿
 <EditorForm Model="@medicalPK" AutoGenerateAllItem="false" ItemsPerRow=3>
     <FieldItems>
-        <EditorItem @bind-Field="@medicalPK.Firstdate" Editable="true" />
+        @*<EditorItem @bind-Field="@medicalPK.Firstdate" Editable="true" />
         <EditorItem @bind-Field="@medicalPK.AMTsingledose" Editable="true" />
         <EditorItem @bind-Field="@medicalPK.AMTNum" Editable="true" />
         <EditorItem @bind-Field="@medicalPK.Maintenancedose" Editable="true" />
@@ -39,7 +36,7 @@
         <EditorItem @bind-Field="@medicalPK.Typesofdialysissamples" Editable="true" />
         <EditorItem @bind-Field="@medicalPK.Dialysissampleconcentrationresults" Editable="true" />
         <EditorItem @bind-Field="@medicalPK.Transplantation" Editable="true" />
-        <EditorItem @bind-Field="@medicalPK.Postoperativetime" Editable="true" />
+        <EditorItem @bind-Field="@medicalPK.Postoperativetime" Editable="true" />*@
 
     </FieldItems>
     @*<Buttons>
@@ -49,7 +46,7 @@
 
 @code {
 
-    public MedicalPK medicalPK { set; get; } = new MedicalPK();
+    public MedicalPK medicalPK { set; get; } = new();
 
     protected override void OnInitialized()
     {

@@ -24,7 +24,7 @@ namespace Medical.Work.Data.Models
         /// 管理员账号
         /// </summary>
         [AutoGenerateColumn(Ignore = true)]
-        public string Amdinname { set; get; }
+        public string Adminname { set; get; }
 
 
         /// <summary>
