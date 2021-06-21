@@ -3,6 +3,7 @@ using Medical.Work.Data.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,6 +31,7 @@ namespace Medical.Work.Data.Models
         /// 患者名称
         /// </summary>
         [DisplayName("患者姓名")]
+        [NotNull]
         public string Username { set; get; }
 
 
@@ -38,18 +40,21 @@ namespace Medical.Work.Data.Models
         /// 病历号
         /// </summary>
         [DisplayName("病历号")]
+        [NotNull]
         public string Medicalrecordnumber { set; get; }
 
         /// <summary>
         /// 
         /// </summary>
         [DisplayName("检查日期")]
+        [NotNull]
         public DateTime Photodate { set; get; }
 
         /// <summary>
         /// 报告日期
         /// </summary>
         [DisplayName("报告日期")]
+        [NotNull]
         public DateTime Reportdate { set; get; }
 
         /// <summary>

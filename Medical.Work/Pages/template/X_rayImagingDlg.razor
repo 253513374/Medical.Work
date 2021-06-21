@@ -2,18 +2,23 @@
 <div class="container">
 
     <ValidateForm Model="@x_RayImaging">
+        <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.FormRow">
+            <BootstrapInput @bind-Value="@x_RayImaging.Medicalrecordnumber" ShowLabel="true"></BootstrapInput>
+            <BootstrapInput @bind-Value="@x_RayImaging.Username" ShowLabel="true"></BootstrapInput>
+            <DateTimePicker @bind-Value="@x_RayImaging.Photodate" ShowLabel="true"></DateTimePicker>
+            <DateTimePicker @bind-Value="@x_RayImaging.Reportdate" ShowLabel="true"></DateTimePicker>
+
+        </Row>
+
+        <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
+            <Select @bind-Value="@x_RayImaging.Xrayimagingenum" ShowLabel="true"></Select>
+            <Select @bind-Value="@x_RayImaging.XrayImaginglocationenum" ShowLabel="true"></Select>
+            <Textarea rows="3" @bind-Value="@x_RayImaging.Describe" ShowLabel="true"></Textarea>
+            <p>上传图片</p>
+        </Row>
 
     </ValidateForm>
-    <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
-
-        <BootstrapInput @bind-Value="@x_RayImaging.Medicalrecordnumber" ShowLabel="true"></BootstrapInput>
-        <BootstrapInput @bind-Value="@x_RayImaging.Username" ShowLabel="true"></BootstrapInput>
-        <Select @bind-Value="@x_RayImaging.Xrayimagingenum" ShowLabel="true"></Select>
-        <Select @bind-Value="@x_RayImaging.XrayImaginglocationenum" ShowLabel="true"></Select>
-        <Textarea rows="3" @bind-Value="@x_RayImaging.Describe" ShowLabel="true"></Textarea>
-        <p>上传图片</p>
-    </Row>
-
+    
 </div>
 <div class="row">
     <div class="col-12">

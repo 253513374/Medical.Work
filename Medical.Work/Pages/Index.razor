@@ -21,8 +21,6 @@
 </div>*@
 <div class="body w-100">
     <div class="listview">
-        <Scroll class="scroll-demo">
-        </Scroll>
         <ListView TItem="PatientInfo" style="border: 1px;" Pageable="true" OnQueryAsync="@OnQueryPageAsync">
             <BodyTemplate>
                 <Card Color="Color.Info" style="width:300px;">
@@ -32,8 +30,7 @@
                             <h6>姓名:@context.Name</h6>
                             <h6 class="card-title">科室:@context.Department </h6>
                         </Row>
-                       
-                        <Row  RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
+                        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
                             <p>年龄:@(DateTime.Now.Year - context.AGE.Value.Year) 岁</p>
                             <p>身高:@context.HEI cm</p>
                             <p>体重:@context.BW kg</p>
@@ -41,7 +38,7 @@
                         <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
                             <p>BMI:@context.BMI</p>
                             <p>Bsa:@context.BSA.Substring(0, 3)</p>
-                            <p>Bsa:@context.Gender</p>
+                            <p>性别:@context.Gender</p>
                         </Row>
 
                     </CardBody>

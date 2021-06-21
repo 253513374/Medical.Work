@@ -5,16 +5,19 @@
 <div class="container">
 
     <ValidateForm Model="@x_Raybronchoscopy">
-
+        <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.FormRow">
+            <BootstrapInput @bind-Value="@x_Raybronchoscopy.Medicalrecordnumber" ShowLabel="true"></BootstrapInput>
+            <BootstrapInput @bind-Value="@x_Raybronchoscopy.Username" ShowLabel="true"></BootstrapInput>
+            <DateTimePicker @bind-Value="@x_Raybronchoscopy.Photodate" ShowLabel="true"></DateTimePicker>
+            <DateTimePicker @bind-Value="@x_Raybronchoscopy.Reportdate" ShowLabel="true"></DateTimePicker>
+        </Row>
+        <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
+            <Textarea rows="3" @bind-Value="@x_Raybronchoscopy.Xraylocation" ShowLabel="true"></Textarea>
+            <Textarea rows="3" @bind-Value="@x_Raybronchoscopy.Xrayinspection" ShowLabel="true"></Textarea>
+            <p>上传图片</p>
+        </Row>
     </ValidateForm>
-    <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
 
-        <BootstrapInput @bind-Value="@x_Raybronchoscopy.Medicalrecordnumber" ShowLabel="true"></BootstrapInput>
-        <BootstrapInput @bind-Value="@x_Raybronchoscopy.Username" ShowLabel="true"></BootstrapInput>
-        <Textarea rows="3" @bind-Value="@x_Raybronchoscopy.Xraylocation" ShowLabel="true"></Textarea>
-        <Textarea rows="3" @bind-Value="@x_Raybronchoscopy.Xrayinspection" ShowLabel="true"></Textarea>
-        <p>上传图片</p>
-    </Row>
     <div class="row">
         <div class="col-12">
             @*<p>本例中设置 <code>ShowProgress=true</code> 显示上传进度条</p>*@

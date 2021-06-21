@@ -99,8 +99,8 @@ namespace Medical.Work.Pages
         private async Task OnSearch2(string searchText)
         {
             //Trace2.Log($"SearchText: {searchText}");
-
-            Patients = await InfoService.QueryPatientInfos(searchText);
+            var username = authenticationStateTask.Result.User.Identity.Name;
+            Patients = await InfoService.QueryPatientInfos(searchText, username);
             await OnQueryPageAsync(new QueryPageOptions() { PageIndex=2, SearchText= searchText });
             StateHasChanged();
             return;
