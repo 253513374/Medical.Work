@@ -29,7 +29,7 @@ namespace Medical.Work.Data.Models
         /// 创建时间 
         /// </summary>
         [DisplayName( "创建时间")]
-        public DateTime DateTime { set; get; }
+        public DateTime CreateTime { set; get; }
 
  
 

@@ -21,7 +21,7 @@ namespace Medical.Work.Pages.template
                 if (OnEventCallback.HasDelegate)
                 {
 //IEnumerableValues.ForEach(s => s.Remarks = Remarks);
-                    await OnEventCallback.InvokeAsync(Contacts);
+                    await OnEventCallback.InvokeAsync(contacts);
                 }
             }
             return ;

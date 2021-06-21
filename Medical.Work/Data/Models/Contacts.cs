@@ -55,7 +55,7 @@ namespace Medical.Work.Data.Models
         /// 记录时间
         /// </summary>
         [DisplayName("记录时间")]
-        public DateTime? dateTime { set; get; }
+        public DateTime? CreateTime { set; get; }
 
         
     }

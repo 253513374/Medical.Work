@@ -17,6 +17,8 @@ namespace Medical.Work.Data
         public DbSet<MedicalPG> medicalPGs { set; get; }
         public DbSet<MedicalPK> medicalPKs { set; get; }
         public DbSet<PatientInfo> patientInfos { set; get; }
+
+        public DbSet<PatientInfoExDiagnosisTable> patientInfoExDiagnosisTables { set; get; }
         public DbSet<Contacts> Contacts { set; get; }
 
         public DbSet<X_raybronchoscopy> X_raybronchoscopys { set; get; }
@@ -49,6 +51,7 @@ namespace Medical.Work.Data
             modelBuilder.Entity<Contacts>().ToTable("Contacts");
             // modelBuilder.Entity<City>().HasOne(city => city.Province).WithMany(x => x.Cities).HasForeignKey(city => .ProviceId);
             modelBuilder.Entity<MedicalPKSampling_sample>().HasOne(s => s.medicalPKSampling).WithMany(w => w.medicalPKSamplings).HasForeignKey(h=>h.MedicalPKSamplingID);
+            modelBuilder.Entity<PatientInfoExDiagnosisTable>().HasOne(s => s.Patient).WithMany(w => w.PatientInfoExDiagnosisTable).HasForeignKey(h => h.PatientInfoID);
 
             base.OnModelCreating(modelBuilder);
         }

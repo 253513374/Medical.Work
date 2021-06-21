@@ -11,10 +11,14 @@ namespace Medical.Work.Data.Models
 
 
         /// <summary>
-        /// 感染诊断
+        /// id
         /// </summary>
-        [DisplayName("感染诊断")]
-        public int ID { set; get; }
+        [DisplayName("id")]
+        public int PatientInfoExDiagnosisTableID { set; get; }
+
+        public int PatientInfoID { set; get; }
+
+        public PatientInfo Patient { set; get; }
         /// <summary>
         /// 感染诊断
         /// </summary>
@@ -26,5 +30,7 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [DisplayName("感染部位")]
         public string Affectedarea { set; get; }
+
+      
     }
 }

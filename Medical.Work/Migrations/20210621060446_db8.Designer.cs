@@ -4,14 +4,16 @@ using Medical.Work.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Medical.Work.Migrations
 {
     [DbContext(typeof(MedicalDbContext))]
-    partial class MedicalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210621060446_db8")]
+    partial class db8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -377,7 +379,7 @@ namespace Medical.Work.Migrations
 
             modelBuilder.Entity("Medical.Work.Data.Models.PatientInfo", b =>
                 {
-                    b.Property<int>("PatientInfoID")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -463,14 +465,14 @@ namespace Medical.Work.Migrations
                     b.Property<int?>("Transplantationtype")
                         .HasColumnType("int");
 
-                    b.HasKey("PatientInfoID");
+                    b.HasKey("ID");
 
                     b.ToTable("PatientInfo");
                 });
 
             modelBuilder.Entity("Medical.Work.Data.Models.PatientInfoExDiagnosisTable", b =>
                 {
-                    b.Property<int>("PatientInfoExDiagnosisTableID")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -481,14 +483,14 @@ namespace Medical.Work.Migrations
                     b.Property<string>("Affectedarea")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PatientInfoID")
+                    b.Property<int?>("PatientInfoID")
                         .HasColumnType("int");
 
-                    b.HasKey("PatientInfoExDiagnosisTableID");
+                    b.HasKey("ID");
 
                     b.HasIndex("PatientInfoID");
 
-                    b.ToTable("patientInfoExDiagnosisTables");
+                    b.ToTable("PatientInfoExDiagnosisTable");
                 });
 
             modelBuilder.Entity("Medical.Work.Data.Models.Summaryreport", b =>
@@ -696,13 +698,9 @@ namespace Medical.Work.Migrations
 
             modelBuilder.Entity("Medical.Work.Data.Models.PatientInfoExDiagnosisTable", b =>
                 {
-                    b.HasOne("Medical.Work.Data.Models.PatientInfo", "Patient")
+                    b.HasOne("Medical.Work.Data.Models.PatientInfo", null)
                         .WithMany("PatientInfoExDiagnosisTable")
-                        .HasForeignKey("PatientInfoID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Patient");
+                        .HasForeignKey("PatientInfoID");
                 });
 
             modelBuilder.Entity("Medical.Work.Data.Models.MedicalPKSampling", b =>

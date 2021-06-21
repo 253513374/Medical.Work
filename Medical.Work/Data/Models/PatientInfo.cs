@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Threading.Tasks;
@@ -13,9 +14,9 @@ namespace Medical.Work.Data.Models
 {
     public class PatientInfo
     {
-        public PatientInfo() { }
+      
         [DisplayName("ID")]
-        public int ID { set; get; }
+        public int PatientInfoID { set; get; }
 
         [DisplayName("唯一编码")]
         public string PatientInfoGuid { set; get; }
@@ -24,7 +25,7 @@ namespace Medical.Work.Data.Models
         /// 建立时间
         /// </summary>
         [DisplayName("建立时间")]
-        public DateTime? DateTime { set; get; }
+        public DateTime? CreateTime { set; get; }
 
         /// <summary>
         /// 建立账号
@@ -36,12 +37,14 @@ namespace Medical.Work.Data.Models
         /// <summary>
         /// 病历号
         /// </summary>
+        [NotNull]
         [DisplayName("病历号")]
         public string Medicalrecordnumber { set; get; }
 
         /// <summary>
         /// 姓名
         /// </summary>
+        [NotNull]
         [DisplayName( "患者姓名")]
         public string Name { set; get; }
 
@@ -192,6 +195,9 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [DisplayName("治疗效果")]
         public HealingeffectEnum? Healingeffect { set; get; }
+
+
+
 
 
 

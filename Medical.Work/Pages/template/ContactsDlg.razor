@@ -5,20 +5,20 @@
 
 
 
-<ValidateForm Model="@Contacts">
+<ValidateForm Model="@contacts">
 
     <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.One">
-        <BootstrapInput @bind-Value="@Contacts.Medicalrecordnumber"></BootstrapInput>
+        <BootstrapInput @bind-Value="@contacts.Medicalrecordnumber"></BootstrapInput>
     </Row>
     <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
-        <BootstrapInput @bind-Value="@Contacts.Name"></BootstrapInput>
-        <BootstrapInput @bind-Value="@Contacts.Contactnumber"></BootstrapInput>
+        <BootstrapInput @bind-Value="@contacts.Name"></BootstrapInput>
+        <BootstrapInput @bind-Value="@contacts.Contactnumber"></BootstrapInput>
     </Row>
     <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
-        <BootstrapInput @bind-Value="@Contacts.Emai"></BootstrapInput>
+        <BootstrapInput @bind-Value="@contacts.Emai"></BootstrapInput>
     </Row>
     <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.One">
-        <Textarea rows="3" @bind-Value="@Contacts.Address" />
+        <Textarea rows="3" @bind-Value="@contacts.Address" />
       
     </Row>
 </ValidateForm>
@@ -31,7 +31,7 @@
         public object? objectContacts { set; get; }
 
         [Parameter]
-        public Contacts  Contacts { set; get; }
+        public Contacts  contacts { set; get; }
 
 
         [Parameter]
@@ -43,7 +43,7 @@
 
         protected override Task OnInitializedAsync()
         {
-            Contacts = objectContacts as Contacts;
+            contacts = objectContacts as Contacts;
             return base.OnInitializedAsync();
 
         }

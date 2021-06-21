@@ -13,7 +13,7 @@ namespace Medical.Work.Data.Command
 
             if(patientInfo!=null)
             {
-                return (patientInfo.BW / patientInfo.HEI).ToString();
+                return (patientInfo.BW / (patientInfo.HEI * patientInfo.HEI)).ToString();
             }
             return "";
         }

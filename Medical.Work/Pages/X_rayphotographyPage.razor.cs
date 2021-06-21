@@ -58,49 +58,16 @@ namespace Medical.Work.Pages
         }
         private async Task OnShowX_rayDialog2()
         {
-            var result = await Dialogservice.ShowModal<X_raypathologicalDlg>(new ResultDialogOption()
+            var result = await Dialogservice.ShowModal<X_raybronchoscopyDlg>(new ResultDialogOption()
             {
                 Title = "新建纤维支气管镜检查",
-                BodyContext = new X_raypathological(),
+                BodyContext = new X_raybronchoscopy(),
 
                 ComponentParamters = new KeyValuePair<string, object>[]
                   {
                 //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
-                      new(nameof(X_raypathologicalDlg.OnEventCallback), EventCallback.Factory.Create<X_raypathological>(this, v => raypathological = v))
-                  }
-            });
-
-            if (result == DialogResult.Yes)
-            {
-                // MessageTagservice.ShowColorMessage(Color.Danger, "医患信息添加成功", MessageElement);
-                using (var context = ContextFactor.CreateDbContext())
-                {
-                    if (raypathological != null)
-                    {
-                        raypathological.Cretetime = DateTime.Now;
-                        raypathological.Adminname = authenticationStateTask.Result.User.Identity.Name;
-                        context.X_raypathologicals.Add(raypathological);
-                        context.SaveChanges();
-                        X_Raypathologicals.Add(raypathological);
-                    }
-                }
-            }
-            return;
-            //return Task.CompletedTask;
-        }
-        private async Task OnShowX_rayDialog3()
-        {
-
-            var result = await Dialogservice.ShowModal<X_raybronchoscopyDlg>(new ResultDialogOption()
-            {
-                Title = "新建病理检查",
-                BodyContext = new X_raybronchoscopy(),
-
-                ComponentParamters = new KeyValuePair<string, object>[]
-                      {
-                //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
                       new(nameof(X_raybronchoscopyDlg.OnEventCallback), EventCallback.Factory.Create<X_raybronchoscopy>(this, v => raybronchoscopy = v))
-                      }
+                  }
             });
 
             if (result == DialogResult.Yes)
@@ -115,6 +82,39 @@ namespace Medical.Work.Pages
                         context.X_raybronchoscopys.Add(raybronchoscopy);
                         context.SaveChanges();
                         x_Raybronchoscopies.Add(raybronchoscopy);
+                    }
+                }
+            }
+            return;
+            //return Task.CompletedTask;
+        }
+        private async Task OnShowX_rayDialog3()
+        {
+
+            var result = await Dialogservice.ShowModal<X_raypathologicalDlg>(new ResultDialogOption()
+            {
+                Title = "新建病理检查",
+                BodyContext = new X_raypathological(),
+
+                ComponentParamters = new KeyValuePair<string, object>[]
+                {
+                    //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
+                    new(nameof(X_raypathologicalDlg.OnEventCallback), EventCallback.Factory.Create<X_raypathological>(this, v => raypathological = v))
+                }
+            });
+
+            if (result == DialogResult.Yes)
+            {
+                // MessageTagservice.ShowColorMessage(Color.Danger, "医患信息添加成功", MessageElement);
+                using (var context = ContextFactor.CreateDbContext())
+                {
+                    if (raypathological != null)
+                    {
+                        raypathological.Cretetime = DateTime.Now;
+                        raypathological.Adminname = authenticationStateTask.Result.User.Identity.Name;
+                        context.X_raypathologicals.Add(raypathological);
+                        context.SaveChanges();
+                        X_Raypathologicals.Add(raypathological);
                     }
                 }
             }
@@ -145,6 +145,7 @@ namespace Medical.Work.Pages
                         break;
                 }
             }
+            StateHasChanged();
             return;
         }
 

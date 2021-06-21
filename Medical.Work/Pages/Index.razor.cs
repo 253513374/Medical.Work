@@ -54,8 +54,8 @@ namespace Medical.Work.Pages
         {
             using ( var context  = ContextFactory.CreateDbContext())
             {
-                // var uer = Usermanager.GetUserAsync();
-                Patients = await context.patientInfos.Where(w=>w.Adminuser== authenticationStateTask.Result.User.Identity.Name).Where(w => w.DateTime >= startDate.AddDays(-10)).AsNoTracking().ToListAsync();
+                var username = authenticationStateTask.Result.User.Identity.Name;
+                Patients = await context.patientInfos.Where(w=>w.Adminuser== username).Where(w => w.CreateTime >= startDate.AddDays(-10)).AsNoTracking().ToListAsync();
 
                 var array = Patients.Select(s => s.Medicalrecordnumber).ToList();
                 var arrayname = Patients.Select(s => s.Name).ToArray();
@@ -82,6 +82,8 @@ namespace Medical.Work.Pages
 
             if (result == DialogResult.Yes)
             {
+                patientInfo.CreateTime = DateTime.Now;
+                patientInfo.Adminuser = authenticationStateTask.Result.User.Identity.Name;
                 InfoService.UpdatePatientInfo(patientInfo);
                 //UpdateDate();
 

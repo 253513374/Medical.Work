@@ -18,17 +18,23 @@ namespace Medical.Work.Data.Models
         public int ID { set; get; }
 
 
+        ///// <summary>
+        ///// 唯一编码
+        ///// </summary>
+        //[DisplayName("唯一编码")]
+        //public string MedicalPDGuid { set; get; }
+
         /// <summary>
-        /// 唯一编码
+        /// 登陆用户名称
         /// </summary>
-        [DisplayName("唯一编码")]
-        public string MedicalPDGuid { set; get; }
+        [DisplayName("账号")]
+        public string Adminname { set; get; }
 
         /// <summary>
         /// 创建时间
         /// </summary>
         [DisplayName("创建时间")]
-        public DateTime DateTime { set; get; }
+        public DateTime CreateTime { set; get; }
 
         /// <summary>
         /// 结果
@@ -55,28 +61,45 @@ namespace Medical.Work.Data.Models
         [DisplayName( "标本类型")]
         public SpecimenTypeEnum SpecimenType { set; get; }
 
+
+
         /// <summary>
         /// 报告时间
         /// </summary>
         [DisplayName(  "报告时间")]
         public DateTime Reporttime { set; get; }
+
+
+        /// <summary>
+        /// 药敏检测方法
+        /// </summary>
+        [DisplayName("药敏检测方法")]
+        public DrugsensitivityEnum DrugsensitivityTest { set; get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DisplayName("药品名称")]
+        public string Drugsname { set; get; }
         /// <summary>
         /// MIC: 伏立康唑，氟康唑，卡泊芬净，两性霉素B，美罗培南，亚胺培南，头孢他啶，复方磺胺甲噁唑，头孢哌酮舒巴坦钠，头孢哌酮他唑巴坦，哌拉西林他唑巴坦，替加环素，达托霉素……..
         /// </summary>
         [DisplayName("MIC")]
         public string MIC { set; get; }
-        /// <summary>
-        /// NGS信息：
-        /// </summary>
-        [DisplayName("NGS信息")]
-        public string NGSinformation { set; get; }
-
 
         /// <summary>
-        /// 登陆用户名称
+        /// 敏感性
         /// </summary>
-        [DisplayName("账号")]
-        public string Username { set; get; }
+        [DisplayName("敏感性")]
+        public SusceptibilityEnum Susceptibility { set; get; }
+        ///// <summary>
+        ///// NGS信息：
+        ///// </summary>
+        //[DisplayName("NGS信息")]
+        //public string NGSinformation { set; get; }
+
+
+      
        
 
     }

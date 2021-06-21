@@ -52,7 +52,7 @@
                                 <td>@item.Contactnumber</td>
                                 <td>@item.Emai</td>
                                 <td>@item.Address</td>
-                                <td>@item.dateTime</td>
+                                <td>@item.CreateTime</td>
                                 <td><button class="btn" @onclick="@(s=>OnDelContacts(item.ID))">删除</button></td>
                             </tr>
                         }
@@ -141,7 +141,7 @@
                // var user =  await _UserManager.GetUserAsync(authenticationStateTask.Result.User);
 
                 _Contacts.Emainame = authenticationStateTask.Result.User.Identity.Name;
-                _Contacts.dateTime = DateTime.Now;
+                _Contacts.CreateTime = DateTime.Now;
                 context.Contacts.Add(_Contacts);
                 context.SaveChanges();
                 contacts.Add(_Contacts);

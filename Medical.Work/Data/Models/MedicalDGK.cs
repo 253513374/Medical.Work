@@ -11,7 +11,7 @@ namespace Medical.Work.Data.Models
         public int ID { set; get; }
         public string MedicalDGKGuid { set; get; }
 
-        public DateTime DateTime { set; get; }
+        public DateTime CreateTime { set; get; }
 
         public string patientInfoGuid { set; get; }
         
