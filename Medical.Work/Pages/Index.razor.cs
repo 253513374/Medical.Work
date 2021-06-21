@@ -85,11 +85,12 @@ namespace Medical.Work.Pages
                 patientInfo.CreateTime = DateTime.Now;
                 patientInfo.Adminuser = authenticationStateTask.Result.User.Identity.Name;
                 InfoService.UpdatePatientInfo(patientInfo);
+                Patients.Add(patientInfo);
                 //UpdateDate();
 
                 MessageTagservice.ShowColorMessage(Color.Danger, "医患信息添加成功", MessageElement);
             }
-
+            StateHasChanged();
             return;
 
         }

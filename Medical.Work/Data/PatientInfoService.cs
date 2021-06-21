@@ -25,6 +25,7 @@ namespace Medical.Work.Data
                 context.patientInfos.Update(info);
 
                 context.SaveChanges();
+                
             }
                
             return true;
