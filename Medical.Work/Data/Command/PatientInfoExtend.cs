@@ -13,7 +13,9 @@ namespace Medical.Work.Data.Command
 
             if(patientInfo!=null)
             {
-                return (patientInfo.BW / (patientInfo.HEI * patientInfo.HEI)).ToString();
+                var hei = Convert.ToDouble(patientInfo.HEI);
+                var heith = hei / 100;
+                return (patientInfo.BW / (heith * heith)).ToString("0.00");
             }
             return "";
         }

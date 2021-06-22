@@ -28,7 +28,7 @@
             <BodyTemplate>
                 <Card Color="Color.Info" style="width:300px;">
                     <CardBody>
-                        <h5 class="card-title">病例号:@context.Medicalrecordnumber </h5>
+                        <h5 class="card-title font-weight-bold">病例号:@context.Medicalrecordnumber </h5>
                         <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
                             <h6>姓名:@context.Name</h6>
                             <h6 class="card-title">科室:@context.Department </h6>
@@ -36,7 +36,7 @@
                         <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
                             <p>年龄:@(DateTime.Now.Year - context.AGE.Value.Year) 岁</p>
                             <p>身高:@context.HEI cm</p>
-                            <p>体重:@context.BW kg</p>
+                            <p >体重:@context.BW kg</p>
                         </Row>
                         <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
                             <p>BMI:@context.BMI</p>
@@ -45,6 +45,9 @@
                         </Row>
 
                     </CardBody>
+                    <CardFooter>
+                        <p class="font-weight-light">记录时间:@context.CreateTime.Value.Date</p>
+                    </CardFooter>
                 </Card>
             </BodyTemplate>
         </ListView>
