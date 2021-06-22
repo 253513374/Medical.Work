@@ -5,17 +5,20 @@
 
 
     <div class=" divtop  w-100" >
-        <div class="container pt-5 ">
+        <div class="container pt-4 ">
             <Row ItemsPerRow="ItemsPerRow.One">
                 <p class="h3"> 患者信息列表</p>
+                <DateTimeRange Value="@RangeValue" ShowToday="true" DisplayText="时间范围" />
             </Row>
-            <div class="pt-4"></div>
-            <Row ItemsPerRow="ItemsPerRow.Two">
+       
+            <div class="pt-2"></div>
+            <Row ItemsPerRow="ItemsPerRow.Two" >
+
                 <Search IgnoreCase="true" IsLikeMatch="true" PlaceHolder="请输入医患关键字..." ShowClearButton="true" Items="@Items" OnSearch="@OnSearch2" OnClear="@OnClear"></Search>
                 <Button type="button" class="addbut oi oi-plus" @onclick="@CreateAddDlg"></Button>
             </Row>
+            </div>
         </div>
-    </div>
 @*<div  class="body w-100">
     <PatientInfoDlg></PatientInfoDlg>
 </div>*@
@@ -52,10 +55,10 @@
 
     private int pagesize { set; get; } = 30;
 
-    protected override async Task OnInitializedAsync()
-    {
-        await GetForecastAsync(DateTime.Now);
-    }
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    await GetForecastAsync(DateTime.Now);
+    //}
     //public BodyTemplate bodyTemplate { set; get; }
 
 

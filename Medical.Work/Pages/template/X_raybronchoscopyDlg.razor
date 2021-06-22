@@ -21,7 +21,7 @@
     <div class="row">
         <div class="col-12">
             @*<p>本例中设置 <code>ShowProgress=true</code> 显示上传进度条</p>*@
-            <CardUpload Accept="image/ipg,image/png,image/jpeg" TValue="string" ShowProgress="true" OnChange="@OnCardUpload" OnDelete="@(fileName => Task.FromResult(true))"></CardUpload>
+            <CardUpload Accept="image/jpg,image/png,image/jpeg" TValue="string" ShowProgress="true" OnChange="@OnCardUpload" OnDelete="@(fileName => Task.FromResult(true))"></CardUpload>
         </div>
     </div>
 </div>

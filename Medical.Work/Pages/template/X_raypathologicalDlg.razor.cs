@@ -7,7 +7,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using BootstrapBlazor.Components;
 using Medical.Work.Data.Models;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 
@@ -30,10 +32,10 @@ namespace Medical.Work.Pages.template
             return;
         }
 
-        //public X_raypathologicalDlg(IWebHostEnvironment webHost)
-        //{
-        //    webHostEnvironment = webHost;
-        //}
+        [CascadingParameter]
+        private Task<AuthenticationState> authenticationStateTask { get; set; }
+        [Inject]
+        private IWebHostEnvironment WebHost { get; set; }
 
         [CascadingParameter(Name = "BodyContext")]
         public object? objectx_Raypathological { set; get; }
@@ -60,60 +62,39 @@ namespace Medical.Work.Pages.template
             return base.OnInitializedAsync();
         }
 
-        private async Task OnCardUpload(UploadFile file)
+        private async Task OnCardUpload(UploadFile uploadFile)
         {
-            if (file != null && file.File != null)
+            if (uploadFile != null && uploadFile.File != null)
             {
+
                 // 服务器端验证当文件大于 2MB 时提示文件太大信息
-                if (file.Size > MaxFileLength)
+                if (uploadFile.Size > MaxFileLength)
                 {
                     await ToastService.Information("上传文件", $"文件大小超过 200MB");
-                    file.Code = 1;
-                    file.Error = "文件大小超过 200MB";
+                    uploadFile.Code = 1;
+                    uploadFile.Error = "文件大小超过 200MB";
                 }
                 else
                 {
-                    CancellationTokenSource cancellationToken = new();
-                    file.SaveToFile($"D:\\{file.OriginFileName}",MaxFileLength,cancellationToken.Token);
-                   // file.s
+
+                    var path = $"images{Path.DirectorySeparatorChar}{authenticationStateTask.Result.User.Identity.Name}";
+                    var uploaderFolder = Path.Combine(WebHost.WebRootPath, path);
+                    var FileName1 = $"{Path.GetFileNameWithoutExtension(uploadFile.OriginFileName)}-{DateTimeOffset.Now:yyyyMMddHHmmss}{Path.GetExtension(uploadFile.OriginFileName)}";
+                    var fileName = Path.Combine(uploaderFolder, FileName1);
+
+                    if (!Directory.Exists(uploaderFolder))
+                    {
+                        Directory.CreateDirectory(uploaderFolder);
+                    }
+                    var ret = await uploadFile.SaveToFile(fileName, MaxFileLength);
+                    if (ret)
+                    {
+                        uploadFile.PrevUrl = $"images/{authenticationStateTask.Result.User.Identity.Name}/{FileName1}";
+                    }
+
+
                 }
             }
         }
-        //private async Task<bool> SaveToFile(UploadFile file)
-        //{
-        //    // Server Side 使用
-        //    // Web Assembly 模式下必须使用 webapi 方式去保存文件到服务器或者数据库中
-        //    // 生成写入文件名称
-        //    var ret = false;
-        //    if (!string.IsNullOrEmpty(SiteOptions.Value.WebRootPath))
-        //    {
-        //        var uploaderFolder = Path.Combine(SiteOptions.Value.WebRootPath, $"images{Path.DirectorySeparatorChar}uploader");
-        //        file.FileName = $"{Path.GetFileNameWithoutExtension(file.OriginFileName)}-{DateTimeOffset.Now:yyyyMMddHHmmss}{Path.GetExtension(file.OriginFileName)}";
-        //        var fileName = Path.Combine(uploaderFolder, file.FileName);
-
-        //        ReadToken ??= new CancellationTokenSource();
-        //        ret = await file.SaveToFile(fileName, MaxFileLength, ReadToken.Token);
-
-        //        if (ret)
-        //        {
-        //            // 保存成功
-        //            file.PrevUrl = $"images/uploader/{file.FileName}";
-        //        }
-        //        else
-        //        {
-        //            var errorMessage = $"保存文件失败 {file.OriginFileName}";
-        //            file.Code = 1;
-        //            file.Error = errorMessage;
-        //            await ToastService.Error("上传文件", errorMessage);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        file.Code = 1;
-        //        file.Error = "Wasm 模式未实现保存代码";
-        //        await ToastService.Information("保存文件", "当前模式为 WebAssembly 模式，请调用 Webapi 模式保存文件到服务器端或数据库中");
-        //    }
-        //    return ret;
-        //}
     }
 }

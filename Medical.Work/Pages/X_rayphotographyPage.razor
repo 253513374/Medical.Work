@@ -40,7 +40,7 @@
             case 1:
                 <Table TItem="X_rayImaging" ShowLoading="true" Items="@X_RayImagings" IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"
                        ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
-                       ShowExtendButtons="false" ShowColumnList="true" AutoGenerateColumns="true">
+                       ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
                     <RowButtonTemplate>
                         <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" />@*OnClickCallback="@(() => OnRowButtonClick(context))"*@
                         <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" />
@@ -50,7 +50,7 @@
             case 2:
                 <Table TItem="X_raybronchoscopy" ShowLoading="true" Items="@x_Raybronchoscopies" IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"
                        ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
-                       ShowExtendButtons="false" ShowColumnList="true" AutoGenerateColumns="true">
+                       ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
                     <RowButtonTemplate>
                         <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" />@*OnClickCallback="@(() => OnRowButtonClick(context))"*@
                         <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" />
@@ -60,7 +60,7 @@
             case 3:
                 <Table TItem="X_raypathological" ShowLoading="true" Items="@X_Raypathologicals" IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"
                        ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
-                       ShowExtendButtons="false" ShowColumnList="true" AutoGenerateColumns="true">
+                       ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
                     <RowButtonTemplate>
                         <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" />@*OnClickCallback="@(() => OnRowButtonClick(context))"*@
                         <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" />

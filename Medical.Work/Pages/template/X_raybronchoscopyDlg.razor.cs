@@ -1,12 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using BootstrapBlazor.Components;
 using Medical.Work.Data.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Newtonsoft.Json.Linq;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore;
+using System.IO.Pipelines;
+using Microsoft.AspNetCore.Components.Authorization;
+using static System.Net.WebRequestMethods;
+using System.Runtime.InteropServices.ComTypes;
+using Microsoft.AspNetCore.Hosting.Server;
 
 namespace Medical.Work.Pages.template
 {
@@ -27,6 +38,10 @@ namespace Medical.Work.Pages.template
         [CascadingParameter(Name = "BodyContext")]
         public object? objectX_raybronchoscopy { set; get; }
 
+        [CascadingParameter]
+        private Task<AuthenticationState> authenticationStateTask { get; set; }
+        [Inject]
+        private IWebHostEnvironment WebHost { get; set; }
 
         [Parameter]
         public EventCallback<X_raybronchoscopy> OnEventCallback { set; get; }
@@ -39,28 +54,46 @@ namespace Medical.Work.Pages.template
         [NotNull]
         private ToastService? ToastService { get; set; }
 
+    
+
+
         protected override Task OnInitializedAsync()
         {
             x_Raybronchoscopy = objectX_raybronchoscopy as X_raybronchoscopy;
             return base.OnInitializedAsync();
         }
 
-        private async Task OnCardUpload(UploadFile file)
+        private async Task OnCardUpload(UploadFile uploadFile)
         {
-            if (file != null && file.File != null)
+            if (uploadFile != null && uploadFile.File != null)
             {
+              
                 // 服务器端验证当文件大于 2MB 时提示文件太大信息
-                if (file.Size > MaxFileLength)
+                if (uploadFile.Size > MaxFileLength)
                 {
                     await ToastService.Information("上传文件", $"文件大小超过 200MB");
-                    file.Code = 1;
-                    file.Error = "文件大小超过 200MB";
+                    uploadFile.Code = 1;
+                    uploadFile.Error = "文件大小超过 200MB";
                 }
                 else
                 {
-                    CancellationTokenSource cancellationToken = new();
-                    file.SaveToFile($"D:\\{file.OriginFileName}", MaxFileLength, cancellationToken.Token);
-                    // file.s
+
+                    var path= $"images{Path.DirectorySeparatorChar}{authenticationStateTask.Result.User.Identity.Name}";
+                    var uploaderFolder = Path.Combine(WebHost.WebRootPath, path);
+                    var FileName1 = $"{Path.GetFileNameWithoutExtension(uploadFile.OriginFileName)}-{DateTimeOffset.Now:yyyyMMddHHmmss}{Path.GetExtension(uploadFile.OriginFileName)}";
+                    var fileName = Path.Combine(uploaderFolder, FileName1);
+
+                    if (!Directory.Exists(uploaderFolder) )
+{
+                        Directory.CreateDirectory(uploaderFolder);
+                    }
+                    var ret =  await uploadFile.SaveToFile(fileName, MaxFileLength);
+                    if(ret)
+                    {
+                        uploadFile.PrevUrl = $"images/{authenticationStateTask.Result.User.Identity.Name}/{FileName1}";
+                    }
+
+
                 }
             }
         }

@@ -25,12 +25,12 @@ namespace Medical.Work.Pages
         private Message MessageElement { set; get; }
 
         [Inject]
-        private PatientInfoService InfoService { set; get; }  
+        private PatientInfoService InfoService { set; get; }
 
         [Inject]
         private IDbContextFactory<MedicalDbContext> ContextFactory { set; get; }
 
-      
+
 
         [Inject]
         public DialogService? Dialog { set; get; }
@@ -41,21 +41,33 @@ namespace Medical.Work.Pages
         public List<string> Items { set; get; } = new List<string>(1000);
 
 
-
-    
-
-//        private static readonly string[] Summaries = new[]
-//        {
-//            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-//        };
+        public DateTimeRangeValue RangeValue { set; get; } = new() { Start = DateTime.Now.AddDays(-10), End = DateTime.Now };
 
 
-        public async Task GetForecastAsync(DateTime startDate)
+        //        private static readonly string[] Summaries = new[]
+        //        {
+        //            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+        //        };
+
+        protected override void OnAfterRender(bool firstRender)
+        {
+            if(firstRender)
+            {
+                using (var context = ContextFactory.CreateDbContext())
+                {
+                    var username = authenticationStateTask.Result.User.Identity.Name;
+                    Patients = context.patientInfos.Where(w => w.Adminuser == username).Where(w => w.CreateTime >= RangeValue.Start&&w.CreateTime<=RangeValue.End).AsNoTracking().ToList();
+                }
+            }
+            base.OnAfterRender(firstRender);
+        }
+
+        public async Task GetForecastAsync()
         {
             using ( var context  = ContextFactory.CreateDbContext())
             {
                 var username = authenticationStateTask.Result.User.Identity.Name;
-                Patients = await context.patientInfos.Where(w=>w.Adminuser== username).Where(w => w.CreateTime >= startDate.AddDays(-10)).AsNoTracking().ToListAsync();
+                Patients = await context.patientInfos.Where(w=>w.Adminuser== username).Where(w => w.CreateTime >= RangeValue.Start && w.CreateTime <= RangeValue.End).AsNoTracking().ToListAsync();
 
                 var array = Patients.Select(s => s.Medicalrecordnumber).ToList();
                 var arrayname = Patients.Select(s => s.Name).ToArray();
@@ -108,7 +120,7 @@ namespace Medical.Work.Pages
         private async Task OnClear(string searchText)
         {
             // Trace2.Log($"OnClear: {searchText}");
-            await GetForecastAsync(DateTime.Now);
+            //await GetForecastAsync(DateTime.Now);
             StateHasChanged();
             return ;
         }
