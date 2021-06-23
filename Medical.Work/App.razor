@@ -10,12 +10,12 @@
                 <NotAuthorized>
                     @if (!context.User.Identity.IsAuthenticated)
                     {
-                        var returnUrl =Navigation.ToBaseRelativePath(Navigation.Uri);
-                        <RedirectToLogin ReturnUrl="@returnUrl" />
+                        var returnUrl = Navigation.ToBaseRelativePath(Navigation.Uri);
+                    <RedirectToLogin ReturnUrl="@returnUrl" />
                     }
                     else
                     {
-                        <p class="h1">您无权访问此资源</p>
+                    <p class="h1">您无权访问此资源</p>
                     }
                 </NotAuthorized>
             </AuthorizeRouteView>
@@ -26,6 +26,5 @@
             </LayoutView>
         </NotFound>
     </Router>
-    <MatPortalHost></MatPortalHost>
-    <Dialog></Dialog>
+ 
 </CascadingAuthenticationState>

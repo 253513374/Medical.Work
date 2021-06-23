@@ -16,7 +16,11 @@ namespace Medical.Work.Data.Models
     {
 
 
-        public int MedicalPKSamplingID{set;get;}
+
+        public int MedicalPKSamplingID { set; get; }
+
+        public int MedicalPKID { set; get; }
+        public MedicalPK medicalPK {set;get; } 
 
         /// <summary>
         /// 创建时间

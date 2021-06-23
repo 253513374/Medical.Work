@@ -4,56 +4,64 @@
 @inject UserManager<IdentityUser> Usermanager
 
 
-    <div class=" divtop  w-100" >
-        <div class="container pt-4 ">
+    <div class=" divtop  w-100">
+        <div class=" marginlr pt-4 ">
             <Row ItemsPerRow="ItemsPerRow.One">
                 <p class="h3"> 患者信息列表</p>
                 <DateTimeRange Value="@RangeValue" ShowToday="true" DisplayText="时间范围" />
             </Row>
-       
+
             <div class="pt-2"></div>
-            <Row ItemsPerRow="ItemsPerRow.Two" >
+            <Row ItemsPerRow="ItemsPerRow.Two">
 
                 <Search IgnoreCase="true" IsLikeMatch="true" PlaceHolder="请输入医患关键字..." ShowClearButton="true" Items="@Items" OnSearch="@OnSearch2" OnClear="@OnClear"></Search>
                 <Button type="button" class="addbut oi oi-plus" @onclick="@CreateAddDlg"></Button>
             </Row>
-            </div>
         </div>
-@*<div  class="body w-100">
-    <PatientInfoDlg></PatientInfoDlg>
-</div>*@
-<div class="body w-100">
-    <div class="listview">
-        <ListView TItem="PatientInfo" style="border: 1px;" Pageable="true" OnQueryAsync="@OnQueryPageAsync">
-            <BodyTemplate>
-                <Card Color="Color.Info" style="width:300px;">
-                    <CardBody>
-                        <h5 class="card-title font-weight-bold">病例号:@context.Medicalrecordnumber </h5>
-                        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
-                            <h6>姓名:@context.Name</h6>
-                            <h6 class="card-title">科室:@context.Department </h6>
-                        </Row>
-                        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
-                            <p>年龄:@(DateTime.Now.Year - context.AGE.Value.Year) 岁</p>
-                            <p>身高:@context.HEI cm</p>
-                            <p >体重:@context.BW kg</p>
-                        </Row>
-                        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
-                            <p>BMI:@context.BMI</p>
-                            <p>Bsa:@context.BSA.Substring(0, 3)</p>
-                            <p>性别:@context.Gender</p>
-                        </Row>
-
-                    </CardBody>
-                    <CardFooter>
-                        <p class="font-weight-light">记录时间:@context.CreateTime.Value.Date</p>
-                    </CardFooter>
-                </Card>
-            </BodyTemplate>
-        </ListView>
     </div>
-    <Message @ref="MessageElement" />
-</div>
+
+    <div class="marginlr">
+        <div class="listview">
+            <ListView TItem="PatientInfo" style="border: 1px;" Pageable="true" OnQueryAsync="@OnQueryPageAsync">
+                <BodyTemplate>
+                    <Card Color="Color.Info" style="width:300px;">
+                        <CardBody>
+                            <div class="d-flex justify-content-between align-items-end">
+                                <p class=" h5 card-title font-weight-bold">病例号:@context.Medicalrecordnumber </p>
+                                <Button ButtonStyle="ButtonStyle.Circle" IsOutline="true" Color="Color.Light" OnClick="@(s=>Ondel(@context))"><i class="fa fa-trash istyle"></i></Button>
+                            </div>
+                            <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
+                                <h6>姓名:@context.Name</h6>
+                                <h6 class="card-title">科室:@context.Department </h6>
+                            </Row>
+                            <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
+                                <p>年龄:@(DateTime.Now.Year - context.AGE.Value.Year) 岁</p>
+                                <p>身高:@context.HEI cm</p>
+                                <p>体重:@context.BW kg</p>
+                            </Row>
+                            <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
+                                <p>BMI:@context.BMI</p>
+                                <p>Bsa:@context.BSA.Substring(0, 3)</p>
+                                <p>性别:@context.Gender</p>
+                            </Row>
+                            <Row ItemsPerRow="ItemsPerRow.One">
+                                <p class="font-weight-lighter text-monospace">记录时间:@context.CreateTime.Value.Date</p>
+                            </Row>
+                            <div class="d-flex justify-content-between">
+                                <Button ButtonStyle="ButtonStyle.Round" IsOutline="true" Color="Color.Info" OnClick="@(s=>OnEditpatientdlg(@context))">编辑</Button>
+                                <Button ButtonStyle="ButtonStyle.Round" IsOutline="true" Color="Color.Info">详细信息</Button>
+                            </div>
+                        </CardBody>
+                    </Card>
+                </BodyTemplate>
+            </ListView>
+        </div>
+        <Message @ref="MessageElement" />
+    </div>
+
+
+
+
 @code{
 
     private int pagesize { set; get; } = 30;

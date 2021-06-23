@@ -18,7 +18,7 @@ namespace Medical.Work.Data.Models
         /// 自增
         /// </summary>
         [DisplayName("自增")]
-        public int ID { set; get; }
+        public int MedicalPKID { set; get; }
 
         /// <summary>
         /// 管理员账号
@@ -102,5 +102,7 @@ namespace Medical.Work.Data.Models
         [DisplayName("公斤体质量日剂量")]
         public string AMTsingledose { set; get; }
 
+
+        public List<MedicalPKSampling> MedicalPKSamplings { set; get; }
     }
 }

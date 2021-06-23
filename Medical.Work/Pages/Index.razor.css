@@ -1,41 +1,32 @@
 ﻿
 
-body {
-    text-align:center
-}
+
 
 div.listview {
     margin: 0 auto;
-    max-width:1360px;
-    min-width: 1116px;
+   /* max-width:1360px;*/
+   /* min-width: 1116px;*/
     border:0px;
 }
 
 div.divtop {
    height: 164px;
    background-color: #778DA5;
+   
 }
 div.margintop{
     padding-left:160px;
     padding-right:200px;
 }
-/* div.listview-item {
-    margin: 0 1rem 1rem 0;
-    width: 588px;
-   
+.marginlr {
+    padding-left: 3rem;
+    padding-right: 3rem;
 }
-
-*/
 div.myscroll {
     height: 650px;
     overflow-y: scroll;
     margin: 10px;
 }
-/*listitme {
-    margin: 0 1rem 1rem 0;
-    height: 148px;
-    width: 618px;
-}*/
 
 button.addbut {
     border: 1px solid #8bdff4;
@@ -50,4 +41,23 @@ button.addbut {
         width: 65px;*/
         border: 1px solid #56CDF8;
         background-color: #56CDF8;
+    }
+
+.istyle {
+    color: #ffc77d
+}
+    .istyle:hover {
+        color: #e54304
+    }
+
+    .mybutton{
+        height:35px;
+        width:auto;
+        position:relative;
+    }
+    .mybutton p{
+        position:absolute;
+        text-align:center;
+        bottom:0px;
+        width:100%;
     }

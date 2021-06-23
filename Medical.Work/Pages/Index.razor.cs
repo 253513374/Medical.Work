@@ -21,7 +21,7 @@ namespace Medical.Work.Pages
         [CascadingParameter]
         private Task<AuthenticationState> authenticationStateTask { get; set; }
         [Inject]
-        private MessageTag MessageTagservice { set; get; }
+        private MessageService   messageService { set; get; }
         private Message MessageElement { set; get; }
 
         [Inject]
@@ -43,11 +43,6 @@ namespace Medical.Work.Pages
 
         public DateTimeRangeValue RangeValue { set; get; } = new() { Start = DateTime.Now.AddDays(-10), End = DateTime.Now };
 
-
-        //        private static readonly string[] Summaries = new[]
-        //        {
-        //            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        //        };
 
         protected override void OnAfterRender(bool firstRender)
         {
@@ -87,7 +82,6 @@ namespace Medical.Work.Pages
 
                 ComponentParamters = new KeyValuePair<string, object>[]
                   {
-                //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
                       new(nameof(PatientInfoDlg.OnEventCallback), EventCallback.Factory.Create<PatientInfo>(this, v => patientInfo = v))
                   }
             });
@@ -96,15 +90,40 @@ namespace Medical.Work.Pages
             {
                 patientInfo.CreateTime = DateTime.Now;
                 patientInfo.Adminuser = authenticationStateTask.Result.User.Identity.Name;
-                InfoService.UpdatePatientInfo(patientInfo);
+                InfoService.AddPatientInfo(patientInfo);
                 Patients.Add(patientInfo);
                 //UpdateDate();
 
-                MessageTagservice.ShowColorMessage(Color.Danger, "医患信息添加成功", MessageElement);
+                ShowColorMessage(Color.Danger, "医患信息添加成功", MessageElement);
             }
             StateHasChanged();
             return;
 
+        }
+
+
+        private async Task OnEditpatientdlg(PatientInfo patient)
+        {
+            var result = await Dialog.ShowModal<PatientInfoDlg>(new ResultDialogOption()
+            {
+                Title = "编辑修改医患信息",
+                BodyContext = patient,
+
+                ComponentParamters = new KeyValuePair<string, object>[]
+                 {
+                      new(nameof(PatientInfoDlg.OnEventCallback), EventCallback.Factory.Create<PatientInfo>(this, v => patientInfo = v))
+                 }
+            });
+
+            if (result == DialogResult.Yes)
+            {
+                patientInfo.CreateTime = DateTime.Now;
+                patientInfo.Adminuser = authenticationStateTask.Result.User.Identity.Name;
+                InfoService.UpdatePatientInfo(patientInfo);
+                ShowColorMessage(Color.Danger, "医患信息修改成功", MessageElement);
+            }
+            StateHasChanged();
+            return;
         }
 
 
@@ -134,6 +153,29 @@ namespace Medical.Work.Pages
              TotalCount = Patients.Count()
             });
           
+        }
+
+        private Task Ondel(PatientInfo patient)
+        {
+            var ret=InfoService.DeletePatientInfo(patient);
+            if(ret)
+            {
+                Patients.Remove(patient);
+                StateHasChanged();
+            }
+            return Task.CompletedTask;
+        }
+
+        public void ShowColorMessage(Color color, string content, Message message)
+        {
+            message.SetPlacement(Placement.Top);
+            messageService?.Show(new MessageOption()
+            {
+                Host = message,
+                Content = content,
+                Icon = "fa fa-info-circle",
+                Color = color
+            });
         }
     }
 }
