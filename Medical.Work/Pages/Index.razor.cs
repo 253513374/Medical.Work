@@ -12,6 +12,7 @@ using Medical.Work.Pages.template;
 using System.Runtime.InteropServices.ComTypes;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Components.Authorization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Medical.Work.Pages
 {
@@ -34,6 +35,9 @@ namespace Medical.Work.Pages
 
         [Inject]
         public DialogService? Dialog { set; get; }
+        [Inject]
+        [NotNull]
+        private SwalService? SwalService { get; set; }
 
         public List<PatientInfo> Patients { set; get; } = new List<PatientInfo>(1000);
         private PatientInfo patientInfo { set; get; }
@@ -155,15 +159,26 @@ namespace Medical.Work.Pages
           
         }
 
-        private Task Ondel(PatientInfo patient)
+        private async Task Ondel(PatientInfo patient)
         {
-            var ret=InfoService.DeletePatientInfo(patient);
-            if(ret)
+            var op = new SwalOption()
             {
-                Patients.Remove(patient);
-                StateHasChanged();
+                Title = "警告",
+                Content = "数据删除不可再恢复，是否确定删除？",
+                IsConfirm = true,
+                Category = SwalCategory.Warning
+            };
+            var re = await SwalService.ShowModal(op);
+            if(re)
+            {
+                var ret = InfoService.DeletePatientInfo(patient);
+                if (ret)
+                {
+                    Patients.Remove(patient);
+                    StateHasChanged();
+                }
             }
-            return Task.CompletedTask;
+            return ;
         }
 
         public void ShowColorMessage(Color color, string content, Message message)

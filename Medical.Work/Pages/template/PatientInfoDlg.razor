@@ -26,7 +26,7 @@
             <BootstrapInput @bind-Value="@AGEDiffer" IsDisabled="true" DisplayText="年龄" ShowLabel="true"></BootstrapInput>
 
             <BootstrapInput @bind-Value="@patientInfo.BW" />
-            <Select @bind-Value="@patientInfo.BWWeight" />
+            <Select @bind-Value="@patientInfo.BWWeight"  />
             <Radio Items="@Items" OnStateChanged="@OnItemChanged"></Radio>
         </Row>
 

@@ -28,7 +28,7 @@
                         <CardBody>
                             <div class="d-flex justify-content-between align-items-end">
                                 <p class=" h5 card-title font-weight-bold">病例号:@context.Medicalrecordnumber </p>
-                                <Button  ButtonStyle="ButtonStyle.Circle" IsOutline="true" Color="Color.Light" class="istyle" OnClick="@(s=>Ondel(@context))"><i class="fa fa-trash istyle"></i></Button>
+                                <Button ButtonStyle="ButtonStyle.Circle" IsOutline="true" Color="Color.Light" class="istyle" OnClick="@(s=>Ondel(@context))"><i class="fa fa-trash istyle"></i></Button>
                             </div>
                             <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
                                 <h6>姓名:@context.Name</h6>
@@ -57,6 +57,7 @@
             </ListView>
         </div>
         <Message @ref="MessageElement" />
+        <SweetAlert />
     </div>
 
 
