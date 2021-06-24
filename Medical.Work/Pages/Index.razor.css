@@ -42,22 +42,11 @@ button.addbut {
         border: 1px solid #56CDF8;
         background-color: #56CDF8;
     }
-
 .istyle {
     color: #ffc77d
 }
-    .istyle:hover {
-        color: #e54304
-    }
 
-    .mybutton{
-        height:35px;
-        width:auto;
-        position:relative;
-    }
-    .mybutton p{
-        position:absolute;
-        text-align:center;
-        bottom:0px;
-        width:100%;
-    }
+.istyle:hover {
+    color: #e54304;
+    border-block-color: #e54304
+}

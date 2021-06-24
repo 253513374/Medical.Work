@@ -33,6 +33,12 @@ namespace Medical.Work.Data.Models
         public DateTime CreateTime { set; get; }
 
         /// <summary>
+        /// 方案名称(可选)
+        /// </summary>
+        [DisplayName("给药方案名称(可选)")]
+        public string MedicalPKName { set; get; }
+
+        /// <summary>
         /// 首次给药日期（DATE，day）
         /// </summary>
         [DisplayName( "首次给药日期")]
@@ -49,6 +55,7 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [DisplayName("药品通用名")]
         public string DrugsNmae { set; get; }
+
 
         /// <summary>
         /// 药品商品名
