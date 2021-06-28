@@ -39,15 +39,15 @@ namespace Medical.Work.Data.Models
         public string MedicalPKName { set; get; }
 
         /// <summary>
-        /// 首次给药日期（DATE，day）
+        /// 起始给药日期（DATE，day）
         /// </summary>
-        [DisplayName( "首次给药日期")]
+        [DisplayName( "起始给药日期")]
         public DateTime FirstTime { set; get; }
 
         /// <summary>
-        /// 首次给药日期（DATE，day）
+        /// 结束给药日期（DATE，day）
         /// </summary>
-        [DisplayName("首次给药日期")]
+        [DisplayName("结束给药日期")]
         public DateTime LasttTime { set; get; }
 
         /// <summary>
@@ -77,14 +77,14 @@ namespace Medical.Work.Data.Models
         public ManufacturertypeEnum Manufacturertype { set; get; }
 
 
-       /// <summary>
-       /// 单词剂量
-       /// </summary>
+        /// <summary>
+        /// 药品单次剂量
+        /// </summary>
         [DisplayName("药品剂量")]
         public string Drugdosage { set; get; }
 
         /// <summary>
-        /// 单词剂量
+        /// 药品剂量单位
         /// </summary>
         [DisplayName("药品剂量单位")]
         public WeightEnum DrugdosageUnit { set; get; }
@@ -99,7 +99,24 @@ namespace Medical.Work.Data.Models
         /// 给药频率
         /// </summary>
         [DisplayName("给药频率")]
-        public string DrugNCount { set; get; }
+        public DrugNCountEnum DrugNCount { set; get; }
+        /// <summary>
+        /// 给药频率持续时间
+        /// </summary>
+        [DisplayName("给药频率持续时间")]
+        public DrugNCountDurationEnum DrugNCountDuration { set; get; }
+
+        /// <summary>
+        ///  溶媒
+        /// </summary>
+        [DisplayName("溶媒")]
+        public string DrugSolvent { set; get; }
+
+        /// <summary>
+        ///  溶媒剂量
+        /// </summary>
+        [DisplayName("溶媒剂量")]
+        public string SolventToDosage { set; get; }
 
 
 

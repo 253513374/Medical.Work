@@ -1,8 +1,43 @@
 ﻿
 @page "/MedicalPKPage"
 
-<h3>MedicalPKPage</h3>
+@*<h3>MedicalPKPage</h3>*@
+
+<style>
+    .marginlr {
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+</style>
+<div class="marginlr">
+    <ValidateForm Model="@medicalPK">
+        <Row>
+            <BootstrapInput @bind-Value="medicalPK.DrugsNmae"></BootstrapInput>
+        </Row>    <Row ItemsPerRow=" ItemsPerRow.Two">
+
+            <BootstrapInput @bind-Value="@medicalPK.FirstTime"> </BootstrapInput>
+            <BootstrapInput @bind-Value="@medicalPK.LasttTime"> </BootstrapInput>
+
+        </Row>
+        <Row ItemsPerRow=" ItemsPerRow.Three">
+            <BootstrapInput @bind-Value="@medicalPK.DrugsNmae2"> </BootstrapInput>
+            <BootstrapInput @bind-Value="@medicalPK.DrugSpecifications"> </BootstrapInput>
+            <Select @bind-Value="@medicalPK.Manufacturertype"></Select>
+
+            <BootstrapInput @bind-Value="@medicalPK.DrugdosageUnit"> </BootstrapInput>
+            <BootstrapInput @bind-Value="@medicalPK.DrugdosageRoute"> </BootstrapInput>
+            <Select @bind-Value="@medicalPK.DrugNCount"> </Select>
+            <Select @bind-Value="@medicalPK.DrugNCountDuration"> </Select>
+            <BootstrapInput @bind-Value="@medicalPK.DrugSolvent"> </BootstrapInput>
+            <BootstrapInput @bind-Value="@medicalPK.SolventToDosage"> </BootstrapInput>
+        </Row>
+    </ValidateForm>
+</div>
+
+
 
 @code {
+
+    private MedicalPK medicalPK { set; get; } = new();
 
 }
