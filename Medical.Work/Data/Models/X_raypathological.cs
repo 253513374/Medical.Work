@@ -17,6 +17,9 @@ namespace Medical.Work.Data.Models
         [AutoGenerateColumn(Ignore = true)]
         public int ID { set; get; }
 
+        [AutoGenerateColumn(Ignore = true)]
+        public string X_raypathologicalGuid { set; get; }
+
         [AutoGenerateColumn(Ignore = true, DefaultSort = true)]
         public DateTime Cretetime { set; get; }
 
@@ -61,35 +64,12 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [DisplayName("检查结果")]
         public string Xrayinspection { set; get; }
+
         /// <summary>
         /// 摄影图像
         /// </summary>
-        [DisplayName("摄影图像")]
         [AutoGenerateColumn(Ignore = true)]
-        public byte[] Imge1 { set; get; }
-        /// <summary>
-        /// 摄影图像
-        /// </summary>
         [DisplayName("摄影图像")]
-        [AutoGenerateColumn(Ignore = true)]
-        public byte[] Imge2 { set; get; }
-        /// <summary>
-        /// 摄影图像
-        /// </summary>
-        [DisplayName("摄影图像")]
-        [AutoGenerateColumn(Ignore = true)]
-        public byte[] Imge3 { set; get; }
-        /// <summary>
-        /// 摄影图像
-        /// </summary>
-        [DisplayName("摄影图像")]
-        [AutoGenerateColumn(Ignore = true)]
-        public byte[] Imge4 { set; get; }
-        /// <summary>
-        /// 摄影图像
-        /// </summary>
-        [DisplayName("摄影图像")]
-        [AutoGenerateColumn(Ignore = true)]
-        public byte[] Imge5 { set; get; }
+        public List<X_rayImagePaths> ImgUrl { set; get; }
     }
 }

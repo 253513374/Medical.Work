@@ -16,8 +16,9 @@ namespace Medical.Work.Data.Models
         [AutoGenerateColumn(Ignore=true)]
         public int ID { set; get; }
 
+        [AutoGenerateColumn(Ignore = true)]
+        public string X_raybronchoscopyGuid { set; get; }
 
-        
         [AutoGenerateColumn(Ignore = true, DefaultSort=true)]
         public DateTime Cretetime { set; get; }
 
@@ -33,8 +34,6 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [DisplayName("患者姓名")]
         public string Username { set; get; }
-
-
 
         /// <summary>
         /// 病历号
@@ -71,30 +70,8 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [AutoGenerateColumn(Ignore = true)]
         [DisplayName("摄影图像")]
-        public byte[] Imge1 { set; get; }
-        /// <summary>
-        /// 摄影图像
-        /// </summary>
-        [AutoGenerateColumn(Ignore = true)]
-        [DisplayName("摄影图像")]
-        public byte[] Imge2 { set; get; }
-        /// <summary>
-        /// 摄影图像
-        /// </summary>
-        [AutoGenerateColumn(Ignore = true)]
-        [DisplayName("摄影图像")]
-        public byte[] Imge3 { set; get; }
-        /// <summary>
-        /// 摄影图像
-        /// </summary>
-        [AutoGenerateColumn(Ignore = true)]
-        [DisplayName("摄影图像")]
-        public byte[] Imge4 { set; get; }
-        /// <summary>
-        /// 摄影图像
-        /// </summary>
-        [AutoGenerateColumn(Ignore = true)]
-        [DisplayName("摄影图像")]
-        public byte[] Imge5 { set; get; }
+        public List<X_rayImagePaths>  ImgUrl { set; get; }
+
+
     }
 }
