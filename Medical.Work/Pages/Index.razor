@@ -2,6 +2,7 @@
 
 
 @inject UserManager<IdentityUser> Usermanager
+@inject NavigationManager Navigationmanager
 
 
     <div class=" divtop  w-100">
@@ -49,7 +50,7 @@
                             </Row>
                             <div class="d-flex justify-content-between">
                                 <Button ButtonStyle="ButtonStyle.Round" IsOutline="true" Color="Color.Info" OnClick="@(s=>OnEditpatientdlg(@context))">编辑</Button>
-                                <Button ButtonStyle="ButtonStyle.Round" IsOutline="true" Color="Color.Info">详细信息</Button>
+                                <Button ButtonStyle="ButtonStyle.Round" IsOutline="true" Color="Color.Info" OnClick="@(s=>OnToHomeDetailsPage(context))">详细信息</Button>
                             </div>
                         </CardBody>
                     </Card>
@@ -76,7 +77,10 @@
 
 
 
-
+    private async Task OnToHomeDetailsPage(PatientInfo patient)
+    {
+        Navigationmanager.NavigateTo("/HomeDetailsPage");
+     }
 
 
 

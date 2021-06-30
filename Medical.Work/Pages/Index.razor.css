@@ -18,10 +18,7 @@ div.margintop{
     padding-left:160px;
     padding-right:200px;
 }
-.marginlr {
-    padding-left: 3rem;
-    padding-right: 3rem;
-}
+
 div.myscroll {
     height: 650px;
     overflow-y: scroll;

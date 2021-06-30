@@ -1,0 +1,44 @@
+﻿
+
+@page "/LaboratoryExaminationPage"
+
+<h3>LaboratoryExaminationPage</h3>
+
+
+<div class="container">
+
+    <Row >
+         <Button OnClick="@OnShowDlg">实验室检查</Button>
+    </Row>
+</div>
+
+
+@code {
+
+    [Inject]
+    public DialogService? Dialog { set; get; }
+
+
+    LaboratoryExamination laboratoryExamination { set; get; }
+    private async Task  OnShowDlg()
+    {
+        var retdlg= await Dialog.ShowModal<LaboratoryExaminationDlg>(new ResultDialogOption()
+        {
+            BodyContext = new LaboratoryExamination(),
+            Title = "实验室检查",
+            Size = Size.ExtraLarge,
+            ComponentParamters = new KeyValuePair<string, object>[]
+            {
+                new(nameof(LaboratoryExaminationDlg.OnEventCallback), EventCallback.Factory.Create<LaboratoryExamination>(this, v => laboratoryExamination = v))
+            }
+
+        });
+
+        if(retdlg==DialogResult.Yes)
+        {
+            var ssss = laboratoryExamination;
+
+        }
+        return ;
+    }
+}

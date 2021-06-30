@@ -1,0 +1,106 @@
+﻿
+
+@inject IDbContextFactory<MedicalDbContext> ContextFactory
+
+<style>
+
+
+    .form-inline .form-group .control-label {
+        margin-right: 10px;
+        width: 220px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        display: block;
+        text-align: right;
+    }
+
+
+</style>
+
+<div style="min-width:1000px;">
+    <ValidateForm Model="@Laboratoryexamination">
+
+        <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
+            <Select @bind-Value="@Laboratoryexamination.Assaysituation"></Select>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.Assaytime"></BootstrapInput>
+        </Row>
+
+        <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Inline">
+            <BootstrapInput @bind-Value="@Laboratoryexamination.BodyTemperature"></BootstrapInput>
+            <Row ItemsPerRow="ItemsPerRow.Three" RowType="RowType.FormRow">
+                <BootstrapInput @bind-Value="@Laboratoryexamination.Scr"></BootstrapInput>
+                <Select @bind-Value="@Laboratoryexamination.Screnum"></Select>
+                <BootstrapInput @bind-Value="@Laboratoryexamination.Screnumother"></BootstrapInput>
+            </Row>
+           
+            <BootstrapInput @bind-Value="@Laboratoryexamination.BUN"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.CLcr"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.eGFR"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.ALT"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.AST"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.ALP"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.TBLL"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.TBLL_Z"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.TBLL_J"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.ALB"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.INR"></BootstrapInput>
+            <Select @bind-Value="@Laboratoryexamination.Child_pugh">
+                <Options>
+                    <SelectOption Text="A" Value="A"></SelectOption>
+                    <SelectOption Text="B" Value="B"></SelectOption>
+                    <SelectOption Text="C" Value="C"></SelectOption>
+                </Options>
+              
+            </Select>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.PLT"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.WBC"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.NE"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.GGT"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.Hemoglobin"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.CRP"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.PCT"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.IL6"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.ESR"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.Uricine"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.Nitrite"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.bacterial"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.Yeast"></BootstrapInput>
+            <BootstrapInput @bind-Value="@Laboratoryexamination.CSF"></BootstrapInput>
+           
+        </Row>
+        <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
+            <Textarea rows="3" @bind-Value="@Laboratoryexamination.Remark"></Textarea>
+        </Row>
+
+        @*<EditorForm Model="@Laboratoryexamination" ItemsPerRow="3" AutoGenerateAllItem="true" >
+            <FieldItems>
+                <EditorItem @bind-Field="@Laboratoryexamination.Count" ComponentType="typeof(Select<Int32>)" Data="DummyItems" />
+                <EditorItem @bind-Field="@Laboratoryexamination.Hobby"  />
+            </FieldItems>
+            <Buttons>
+                <Button ButtonType="ButtonType.Submit" Icon="fa fa-save" Text="提交" />
+            </Buttons>
+        </EditorForm>*@
+    </ValidateForm>
+</div>
+
+@code {
+
+    [Parameter]
+    public EventCallback<LaboratoryExamination> OnEventCallback { set; get; }
+
+
+    private LaboratoryExamination Laboratoryexamination { set; get; }
+
+    [CascadingParameter(Name ="BodyContext")]
+    public object? objectLaboratoryExamination { set; get; }
+
+    protected override void OnInitialized()
+    {
+
+        Laboratoryexamination = objectLaboratoryExamination as LaboratoryExamination;
+
+        base.OnInitialized();
+    }
+}

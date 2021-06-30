@@ -14,10 +14,9 @@ namespace Medical.Work.Data.Models
     {
 
         [AutoGenerateColumn(Ignore=true)]
-        public int ID { set; get; }
+        public int X_raybronchoscopyID { set; get; }
 
-        [AutoGenerateColumn(Ignore = true)]
-        public string X_raybronchoscopyGuid { set; get; }
+
 
         [AutoGenerateColumn(Ignore = true, DefaultSort=true)]
         public DateTime Cretetime { set; get; }
@@ -70,7 +69,7 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [AutoGenerateColumn(Ignore = true)]
         [DisplayName("摄影图像")]
-        public List<X_rayImagePaths>  ImgUrl { set; get; }
+        public List<X_raybronchoscopyPaths>  ImgUrl { set; get; }
 
 
     }

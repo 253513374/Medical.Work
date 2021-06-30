@@ -8,7 +8,7 @@
 @inject IDbContextFactory<MedicalDbContext> ContextFactor
 @inject UserManager<IdentityUser> Usermanager
 
-<div class="ml-5 mr-5" >
+<div class="marginlr">
     <div class=" mt-5 d-flex justify-content-between">
         <Button style="width:220px;" OnClick="@(s=>OnShowX_rayDialog1())" Size="Size.ExtraLarge" IsOutline="true" Color="Color.Info">影像学检查</Button>
         <Button style="width:220px;" OnClick="@(s=>OnShowX_rayDialog2())" Size="Size.ExtraLarge" IsOutline="true" Color="Color.Info">纤维支气管镜检查</Button>
@@ -19,7 +19,7 @@
         <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
 
             <BootstrapInput @bind-Value="@Querywhere" placeholder="请输入名称或者病历号..."></BootstrapInput>
-            <Button Color="Color.Primary"  ButtonStyle="ButtonStyle.Round" IsOutline="true" > 查 询 </Button>
+            <Button Color="Color.Primary" ButtonStyle="ButtonStyle.Round" IsOutline="true" @onclick="@OnSearch"> 查 询 </Button>
         </Row>
     </div>
 
@@ -42,8 +42,8 @@
                        ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
                        ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
                     <RowButtonTemplate>
-                        <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" />@*OnClickCallback="@(() => OnRowButtonClick(context))"*@
-                        <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" />
+                        <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context,1))" />
+                        <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" OnClickCallback="@(() => OnRowEditClick(context,1))" />
                     </RowButtonTemplate>
                 </Table>
                 break;
@@ -52,8 +52,8 @@
                        ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
                        ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
                     <RowButtonTemplate>
-                        <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" />@*OnClickCallback="@(() => OnRowButtonClick(context))"*@
-                        <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" />
+                        <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context,2))" />
+                        <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" OnClickCallback="@(() => OnRowEditClick(context,2))" />
                     </RowButtonTemplate>
                 </Table>
                 break;
@@ -62,8 +62,8 @@
                        ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
                        ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
                     <RowButtonTemplate>
-                        <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" />@*OnClickCallback="@(() => OnRowButtonClick(context))"*@
-                        <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" />
+                        <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context,3))" />
+                        <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" OnClickCallback="@(() => OnRowEditClick(context,3))" />
                     </RowButtonTemplate>
                 </Table>
                 break;
@@ -72,6 +72,7 @@
         }
 
     </div>
+    <Message @ref="MessageElement" />
 </div>
 
 
@@ -87,4 +88,31 @@
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
 
+    private async Task OnRowEditClick(object obj,int typeofint)
+    {
+        if (typeofint == 1)  await EditX_Raydata(obj as X_rayImaging);
+
+        if (typeofint == 2) await EditX_Raydata(obj as X_raybronchoscopy);
+
+        if (typeofint == 3) await EditX_Raydata(obj as X_raypathological);
+
+
+    }
+    private async Task OnRowDetailedClick(object obj, int typeofint)
+    {
+
+    }
+
+    private async Task EditX_Raydata(X_raybronchoscopy x_Raybronchoscopy)
+    {
+        return ;
+    }
+    private async Task EditX_Raydata(X_rayImaging  x_RayImaging)
+    {
+        return ;
+    }
+    private async Task EditX_Raydata(X_raypathological  x_Raypathological)
+    {
+        return ;
+    }
 }

@@ -57,7 +57,7 @@ Welcome to your new app.
         base.OnInitializedAsync();
 
         forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
-        keyValuePairs = DisplayAttributeExtend.GetAttributeExtend<MedicalPK>(new MedicalPK());
+       // keyValuePairs = DisplayAttributeExtend.GetAttributeExtend<MedicalPK>(new MedicalPK());
     }
 
 }

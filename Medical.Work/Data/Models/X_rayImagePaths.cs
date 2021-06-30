@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,10 +15,13 @@ namespace Medical.Work.Data.Models
 
         public DateTime Createtime { set; get; }
 
-
-        public string VirtualkeyGuid { set; get; }
-
+    
         public string ImgUrl { set; get; }
+
+
+
+        public int X_rayImagingID { set; get; }
+        public X_rayImaging x_RayImaging { set; get; }
 
         
     }

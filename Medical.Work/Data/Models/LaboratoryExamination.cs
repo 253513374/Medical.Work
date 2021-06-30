@@ -26,8 +26,9 @@ namespace Medical.Work.Data.Models
         public AssaysituationEnum Assaysituation { set; get; }
 
         /// <summary>
-        /// 检测化验时间
+        /// 检测时间
         /// </summary>
+        [DisplayName("检测时间")]
         public DateTime Assaytime { set; get; }
 
 

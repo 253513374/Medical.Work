@@ -15,10 +15,9 @@ namespace Medical.Work.Data.Models
     public class X_rayImaging
     {
         [AutoGenerateColumn(Ignore = true)]
-        public int ID { set; get; }
+        public int X_rayImagingID { set; get; }
 
-        [AutoGenerateColumn(Ignore = true)]
-        public string X_rayImagingGuid { set; get; }
+
 
         [AutoGenerateColumn(Ignore = true, DefaultSort = true)]
         public DateTime Cretetime { set; get; }

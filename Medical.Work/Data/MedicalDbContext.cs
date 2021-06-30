@@ -32,7 +32,9 @@ namespace Medical.Work.Data
         public DbSet<MedicalPKSampling_sample>  pKSampling_Samples { set; get; }
 
 
-
+        public DbSet<X_rayImagePaths> x_RayImagePaths { set; get; }
+        public DbSet<X_raybronchoscopyPaths>  x_RaybronchoscopyPaths { set; get; }
+        public DbSet<X_raypathologicalPaths> x_RaypathologicalPaths { set; get; }
 
 
         public MedicalDbContext(DbContextOptions<MedicalDbContext> options)
@@ -52,6 +54,11 @@ namespace Medical.Work.Data
             // modelBuilder.Entity<City>().HasOne(city => city.Province).WithMany(x => x.Cities).HasForeignKey(city => .ProviceId);
             modelBuilder.Entity<MedicalPKSampling_sample>().HasOne(s => s.medicalPKSampling).WithMany(w => w.medicalPKSamplings).HasForeignKey(h=>h.MedicalPKSamplingID);
             modelBuilder.Entity<PatientInfoExDiagnosisTable>().HasOne(s => s.Patient).WithMany(w => w.PatientInfoExDiagnosisTable).HasForeignKey(h => h.PatientInfoID);
+
+
+            modelBuilder.Entity<X_rayImagePaths>().HasOne(s => s.x_RayImaging).WithMany(w => w.ImgUrl).HasForeignKey(h => h.X_rayImagingID).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<X_raybronchoscopyPaths>().HasOne(s => s.x_Raybronchoscopy).WithMany(w => w.ImgUrl).HasForeignKey(h => h.X_raybronchoscopyID).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<X_raypathologicalPaths>().HasOne(s => s.x_Raypathological).WithMany(w => w.ImgUrl).HasForeignKey(h => h.X_raypathologicalID).OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(modelBuilder);
         }

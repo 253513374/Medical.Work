@@ -90,7 +90,12 @@ namespace Medical.Work.Pages.template
                     var ret =  await uploadFile.SaveToFile(fileName, MaxFileLength);
                     if(ret)
                     {
-                        uploadFile.PrevUrl = $"images/{authenticationStateTask.Result.User.Identity.Name}/{FileName1}";
+                        var imapath = $"images/{authenticationStateTask.Result.User.Identity.Name}/{FileName1}";
+                        if (x_Raybronchoscopy.ImgUrl == null) x_Raybronchoscopy.ImgUrl = new();
+
+                        x_Raybronchoscopy.ImgUrl.Add(new X_raybronchoscopyPaths() { ImgUrl = imapath });
+                        uploadFile.PrevUrl = imapath;
+
                     }
 
 

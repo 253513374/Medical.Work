@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic.CompilerServices;
 
 namespace Medical.Work.Pages
 {
@@ -24,6 +25,10 @@ namespace Medical.Work.Pages
         private List<X_raybronchoscopy>  x_Raybronchoscopies { set; get; } = new();
         private List<X_raypathological> X_Raypathologicals { set; get; } = new();
         private List<X_rayImaging> X_RayImagings { set; get; } = new();
+
+        [Inject]
+        private MessageService messageService { set; get; }
+        private Message MessageElement { set; get; }
 
         private async Task OnShowX_rayDialog1()
         {
@@ -50,6 +55,7 @@ namespace Medical.Work.Pages
                         context.X_rayImagings.Add(rayImaging);
                         context.SaveChanges();
                         X_RayImagings.Add(rayImaging);
+                        ShowColorMessage(Color.Success, "影像学检查添加成功", MessageElement);
                     }
                 }
                 // MessageTagservice.ShowColorMessage(Color.Danger, "医患信息添加成功", MessageElement);
@@ -82,6 +88,7 @@ namespace Medical.Work.Pages
                         context.X_raybronchoscopys.Add(raybronchoscopy);
                         context.SaveChanges();
                         x_Raybronchoscopies.Add(raybronchoscopy);
+                        ShowColorMessage(Color.Success, "纤维支气管镜检查添加成功", MessageElement);
                     }
                 }
             }
@@ -105,7 +112,7 @@ namespace Medical.Work.Pages
 
             if (result == DialogResult.Yes)
             {
-                // MessageTagservice.ShowColorMessage(Color.Danger, "医患信息添加成功", MessageElement);
+             
                 using (var context = ContextFactor.CreateDbContext())
                 {
                     if (raypathological != null)
@@ -115,6 +122,7 @@ namespace Medical.Work.Pages
                         context.X_raypathologicals.Add(raypathological);
                         context.SaveChanges();
                         X_Raypathologicals.Add(raypathological);
+                        ShowColorMessage(Color.Success, "病理检查添加成功", MessageElement);
                     }
                 }
             }
@@ -147,6 +155,57 @@ namespace Medical.Work.Pages
             }
             StateHasChanged();
             return;
+        }
+
+        public async Task OnSearch()
+        {
+            using (var context  = ContextFactor.CreateDbContext())
+            {
+                var username = authenticationStateTask.Result.User.Identity.Name;
+                DateTime dateTime = DateTime.Now.AddDays(-10);
+                //var ssssss = context.X_raybronchoscopys.OrderBy(o => o.Username).Include(i => i.ImgUrl).ToList();
+                switch (SelectTable)
+                {
+
+                    case 1:
+                        if(Querywhere==null)
+                        {
+                            X_RayImagings = await context.X_rayImagings.AsNoTracking().Where(w => w.Adminname == username).Where(w => w.Cretetime >= dateTime).ToListAsync();
+                        }
+                        X_RayImagings = await context.X_rayImagings.AsNoTracking().Where(w => w.Adminname == username).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.Username.Contains(Querywhere)).ToListAsync();
+                        break;
+                    case 2:
+                        if (Querywhere == null)
+                        {
+                            x_Raybronchoscopies = await context.X_raybronchoscopys.AsNoTracking().Where(w => w.Adminname == username).Where(w => w.Cretetime >= dateTime).ToListAsync();
+                        }
+                        x_Raybronchoscopies = await context.X_raybronchoscopys.AsNoTracking().Where(w => w.Adminname == username).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.Username.Contains(Querywhere)).ToListAsync();
+                        break;
+                    case 3:
+                        if (Querywhere == null)
+                        {
+                         
+                           X_Raypathologicals = await context.X_raypathologicals.AsNoTracking().Where(w => w.Adminname == username).Where(w => w.Cretetime >= dateTime).ToListAsync();
+                        }
+                        X_Raypathologicals = await context.X_raypathologicals.AsNoTracking().Where(w => w.Adminname == username).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.Username.Contains( Querywhere)).ToListAsync();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return;
+               
+        }
+        public void ShowColorMessage(Color color, string content, Message message)
+        {
+            message.SetPlacement(Placement.Top);
+            messageService?.Show(new MessageOption()
+            {
+                Host = message,
+                Content = content,
+                Icon = "fa fa-info-circle",
+                Color = color
+            });
         }
 
     }
