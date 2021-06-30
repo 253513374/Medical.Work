@@ -21,7 +21,9 @@ a, .btn-link {
     padding-left: 3rem;
     padding-right: 3rem;
 }
-
+.mypage {
+   
+}
 .valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;
 }
