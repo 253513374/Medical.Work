@@ -27,7 +27,9 @@ namespace Medical.Work.Data.Models
         [AutoGenerateColumn(Ignore = true)]
         public string Adminname { set; get; }
 
-
+        [DisplayName("唯一编码")]
+        [AutoGenerateColumn(Ignore = true)]
+        public string PatientInfoGuid { set; get; }
         /// <summary>
         /// 患者名称
         /// </summary>

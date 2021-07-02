@@ -36,6 +36,8 @@ namespace Medical.Work.Data
         public DbSet<X_raybronchoscopyPaths>  x_RaybronchoscopyPaths { set; get; }
         public DbSet<X_raypathologicalPaths> x_RaypathologicalPaths { set; get; }
 
+        public DbSet<LaboratoryExamination>  laboratoryExaminations { set; get; }
+
 
         public MedicalDbContext(DbContextOptions<MedicalDbContext> options)
            : base(options)
@@ -59,6 +61,10 @@ namespace Medical.Work.Data
             modelBuilder.Entity<X_rayImagePaths>().HasOne(s => s.x_RayImaging).WithMany(w => w.ImgUrl).HasForeignKey(h => h.X_rayImagingID).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<X_raybronchoscopyPaths>().HasOne(s => s.x_Raybronchoscopy).WithMany(w => w.ImgUrl).HasForeignKey(h => h.X_raybronchoscopyID).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<X_raypathologicalPaths>().HasOne(s => s.x_Raypathological).WithMany(w => w.ImgUrl).HasForeignKey(h => h.X_raypathologicalID).OnDelete(DeleteBehavior.Cascade);
+
+
+
+            modelBuilder.Entity<LaboratoryExamination>().ToTable("LaboratoryExamination");
 
             base.OnModelCreating(modelBuilder);
         }

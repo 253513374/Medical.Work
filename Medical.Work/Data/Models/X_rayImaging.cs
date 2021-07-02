@@ -45,6 +45,10 @@ namespace Medical.Work.Data.Models
         [NotNull]
         public string Medicalrecordnumber { set; get; }
 
+        [DisplayName("唯一编码")]
+        [AutoGenerateColumn(Ignore = true)]
+        public string PatientInfoGuid { set; get; }
+
         /// <summary>
         /// 
         /// </summary>

@@ -40,6 +40,10 @@ namespace Medical.Work.Data.Models
         [DisplayName("病历号")]
         public string Medicalrecordnumber { set; get; }
 
+        [DisplayName("唯一编码")]
+        [AutoGenerateColumn(Ignore = true)]
+        public string PatientInfoGuid { set; get; }
+
         /// <summary>
         /// 检查日期
         /// </summary>

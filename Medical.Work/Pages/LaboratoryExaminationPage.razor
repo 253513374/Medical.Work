@@ -2,24 +2,68 @@
 
 @page "/LaboratoryExaminationPage"
 
-<h3>LaboratoryExaminationPage</h3>
+@inject IDbContextFactory<MedicalDbContext> ContextFactory
 
+<div class="marginlr">
+    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
 
-<div class="container">
+        <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s=>OnSearch())"></Search>
 
-    <Row >
-         <Button OnClick="@OnShowDlg">实验室检查</Button>
+        <Button OnClick="@OnShowDlg">实验室检查</Button>
     </Row>
+    <div style="height:800px;"class="row">
+        <div class="col-7 col-sm-7 col-lg-7 ">
+            <Table TItem="LaboratoryExamination" ShowLoading="true" Items="@laboratoryExaminations" IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"
+                   ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
+                   ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
+                <RowButtonTemplate>
+                    <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="查看" />
+                    @*<TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" OnClickCallback="@(() => OnRowEditClick(context,1))" />*@
+                </RowButtonTemplate>
+            </Table>
+        </div>
+        <div class="col-5 col-sm-5 col-lg-5 pt-5 d-flex justify-content-center" style="border: 1px dashed rgb(10 63 9 / 0.70)">
+            <h5 class="text-center">实验室检查详细数据</h5> 
+            <dl class="row p-1">
+                @foreach (var item in keyValuePairs)
+                {
+                    <dt class="w-50 text-right pr-4">@item.Key</dt>
+                    <dd class="w-50">@(item.Value?? "")</dd>
+                }
+            </dl>
+        </div>
+     
+          
+    </div>
+   
 </div>
 
 
 @code {
 
-    [Inject]
-    public DialogService? Dialog { set; get; }
+        [Inject]
+        public DialogService? Dialog { set; get; }
+
+        [CascadingParameter]
+        private Task<AuthenticationState> authenticationStateTask { get; set; }
 
 
-    LaboratoryExamination laboratoryExamination { set; get; }
+        LaboratoryExamination laboratoryExamination { set; get; } = new();
+
+        List<LaboratoryExamination> laboratoryExaminations { set; get; } = new();
+
+    public Dictionary<string, object?> keyValuePairs { set; get; }
+
+
+    public string Querywhere { set; get; }
+
+    protected override Task OnInitializedAsync()
+    {
+
+        keyValuePairs = DisplayAttributeExtend.GetAttributeExtends<LaboratoryExamination>(laboratoryExamination);
+
+        return base.OnInitializedAsync();
+    }
     private async Task  OnShowDlg()
     {
         var retdlg= await Dialog.ShowModal<LaboratoryExaminationDlg>(new ResultDialogOption()
@@ -40,5 +84,20 @@
 
         }
         return ;
+    }
+
+    private async Task OnSearch()
+    {
+        using (var context = ContextFactory.CreateDbContext())
+        {
+            var name = authenticationStateTask.Result.User.Identity.Name;
+            if (Querywhere != null) 
+            {
+
+                laboratoryExaminations = await context.laboratoryExaminations.AsNoTracking().Where(w => w.Adminuser == name).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.Name.Contains(Querywhere)).ToListAsync();
+
+            }
+        }
+
     }
 }

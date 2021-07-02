@@ -25,15 +25,23 @@ namespace Medical.Work.Data.Command
             foreach (var p in properties)
             {
                 //display名字
-                var name = p.GetCustomAttribute<DisplayNameAttribute>().DisplayName;
+                var name = p.GetCustomAttribute<DisplayNameAttribute>();
+              
+                if (name!=null)
+                {
+                    var property = t.GetType().GetProperty(p.Name).GetValue(t, null);
+
+
+                    var value = property ?? null;
+                  //  NameAttribute = name.DisplayName;
+                    dic.Add(name.DisplayName, value);
+
+                }
                 //对应的值
 
-                var property = t.GetType().GetProperty(p.Name).GetValue(t, null);
+               
 
-
-                var value = property ?? null;
-
-                dic.Add(name, value);
+                
             }
             return dic;
         }
