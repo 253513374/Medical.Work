@@ -1,4 +1,5 @@
-﻿using Medical.Work.Data.Enum;
+﻿using BootstrapBlazor.Components;
+using Medical.Work.Data.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,12 +19,14 @@ namespace Medical.Work.Data.Models
         /// 自增
         /// </summary>
         [DisplayName("自增")]
+        [AutoGenerateColumn(Ignore = true)]
         public int MedicalPKID { set; get; }
 
         /// <summary>
         /// 管理员账号
         /// </summary>
         [DisplayName("管理员账号")]
+        [AutoGenerateColumn(Ignore = true)]
         public string AdminName { set; get; }
 
         /// <summary>
@@ -127,6 +130,7 @@ namespace Medical.Work.Data.Models
         public string AMTsingledose { set; get; }
 
 
+        [AutoGenerateColumn(Ignore = true)]
         public List<MedicalPKSampling> MedicalPKSamplings { set; get; }
     }
 }

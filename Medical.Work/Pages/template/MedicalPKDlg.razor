@@ -1,0 +1,52 @@
+﻿
+
+<h3>MedicalPKDlg</h3>
+
+<ValidateForm Model="@medicalPK">
+    <Row ItemsPerRow=" ItemsPerRow.Two">
+        <BootstrapInput @bind-Value="medicalPK.DrugsNmae"></BootstrapInput>
+        <BootstrapInput @bind-Value="medicalPK.MedicalPKName"></BootstrapInput>
+
+    </Row>
+    <Row ItemsPerRow=" ItemsPerRow.Two">
+
+        <DateTimePicker @bind-Value="@medicalPK.FirstTime"> </DateTimePicker>
+        <DateTimePicker @bind-Value="@medicalPK.LasttTime"> </DateTimePicker>
+
+    </Row>
+    <Row ItemsPerRow=" ItemsPerRow.Three">
+        <BootstrapInput @bind-Value="@medicalPK.DrugsNmae2"> </BootstrapInput>
+        <BootstrapInput @bind-Value="@medicalPK.DrugSpecifications"> </BootstrapInput>
+        <Select @bind-Value="@medicalPK.Manufacturertype"></Select>
+
+        <BootstrapInput @bind-Value="@medicalPK.DrugdosageUnit"> </BootstrapInput>
+        <BootstrapInput @bind-Value="@medicalPK.DrugdosageRoute"> </BootstrapInput>
+        <Select @bind-Value="@medicalPK.DrugNCount"> </Select>
+
+        <Select @bind-Value="@medicalPK.DrugNCountDuration"> </Select>
+        <BootstrapInput @bind-Value="@medicalPK.DrugSolvent"> </BootstrapInput>
+        <BootstrapInput @bind-Value="@medicalPK.SolventToDosage"> </BootstrapInput>
+    </Row>
+</ValidateForm>
+
+@code {
+
+
+    private MedicalPK medicalPK { set; get; } = new();
+
+
+    [Parameter]
+    public EventCallback<MedicalPK> OnEventCallback { set; get; } = new();
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    [CascadingParameter(Name = "BodyContext")]
+    public object? MedicalPKobject { set; get; }
+
+    protected override void OnParametersSet()
+    {
+        medicalPK = MedicalPKobject as MedicalPK;
+        base.OnParametersSet();
+    }
+}

@@ -21,8 +21,16 @@ a, .btn-link {
     padding-left: 3rem;
     padding-right: 3rem;
 }
-.mypage {
-   
+
+.divtop {
+    height: 164px;
+    background-color: #778DA5;
+}
+
+.divradius {
+    border: 1px dashed rgb(10 63 9 / 0.20);
+    border-radius: 10px;
+    background-color: #dddddd
 }
 .valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;
