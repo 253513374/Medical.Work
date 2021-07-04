@@ -56,10 +56,8 @@ namespace Medical.Work
 
                     options.User.RequireUniqueEmail = true;
                     }
-                )
-                
-                   
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                ).AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
@@ -72,6 +70,7 @@ namespace Medical.Work
 
             services.AddScoped<PatientInfoService>();
             services.AddScoped<MessageTag>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

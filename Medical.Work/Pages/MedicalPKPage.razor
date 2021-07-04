@@ -2,6 +2,7 @@
 @page "/MedicalPKPage"
 
 @inject IDbContextFactory<MedicalDbContext> contextFactory
+@inject NavigationManager navigationManager
 
 
 <div class=" divtop  w-100 d-flex align-items-center">
@@ -15,10 +16,10 @@
 <div class="marginlr pt-3">
     <Table TItem="MedicalPK" ShowLoading="true"  HeaderStyle="TableHeaderStyle.Light" Items="@medicalPKs" IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"
            ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
-           ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true" onreset="">
+           ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
         <RowButtonTemplate>
-            <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context))" />
-            <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="操作" OnClickCallback="@(() => OnRowEditClick(context))" />
+            @*<TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context))" />*@
+            <TableCellButton Size="Size.Medium" Color="Color.Info" Icon="fa fa-edit" Text="操作" OnClickCallback="@(() => OnRowEditClick(context))" />
         </RowButtonTemplate>
     </Table>
 </div>
@@ -32,6 +33,7 @@
             if(firstRender)
             {
                 medicalPKs =await GetmedicalPK();
+                StateHasChanged();
             }
             base.OnAfterRender(firstRender);
         }

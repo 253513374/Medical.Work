@@ -2,7 +2,7 @@
 
 @page "/LaboratoryExaminationPage"
 
-@inject IDbContextFactory<MedicalDbContext> ContextFactory
+@inject IDbContextFactory<MedicalDbContext> contextFactory
 
 
 <div class="divtop d-flex  align-items-center">
@@ -23,9 +23,9 @@
         <div class="col-7 col-sm-7 col-lg-7  ">
             <Table TItem="LaboratoryExamination" ShowLoading="true" Items="@laboratoryExaminations" IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"
                    ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
-                   ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
+                   ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true" >
                 <RowButtonTemplate>
-                    <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="查看" />
+                    <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="查看" OnClickCallback="@(() => OnRowinfoClick(context))"/>
                     @*<TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" OnClickCallback="@(() => OnRowEditClick(context,1))" />*@
                 </RowButtonTemplate>
             </Table>
@@ -49,28 +49,37 @@
 
 @code {
 
-        [Inject]
-        public DialogService? Dialog { set; get; }
+    [Inject]
+    public DialogService? Dialog { set; get; }
 
-        [CascadingParameter]
-        private Task<AuthenticationState> authenticationStateTask { get; set; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
 
 
-        LaboratoryExamination laboratoryExamination { set; get; } = new();
+    LaboratoryExamination laboratoryExamination { set; get; } = new();
 
-        List<LaboratoryExamination> laboratoryExaminations { set; get; } = new();
+    List<LaboratoryExamination> laboratoryExaminations { set; get; } = new();
 
     public Dictionary<string, object?> keyValuePairs { set; get; }
 
 
     public string Querywhere { set; get; }
 
-    protected override Task OnInitializedAsync()
+    protected override  Task OnInitializedAsync()
     {
 
         keyValuePairs = DisplayAttributeExtend.GetAttributeExtends<LaboratoryExamination>(laboratoryExamination);
 
         return base.OnInitializedAsync();
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            laboratoryExaminations = await GetLaboratoryExaminations();
+            StateHasChanged();
+        }
+        return;
     }
     private async Task  OnShowDlg()
     {
@@ -88,24 +97,63 @@
 
         if(retdlg==DialogResult.Yes)
         {
-            var ssss = laboratoryExamination;
+            using (var context = contextFactory.CreateDbContext())
+            {
+
+                laboratoryExamination.Adminuser = authenticationStateTask.Result.User.Identity.Name;
+                laboratoryExamination.Createtime = DateTime.Now;
+                context.laboratoryExaminations.Add(laboratoryExamination);
+                context.SaveChanges();
+            }
 
         }
+        StateHasChanged();
         return ;
     }
 
     private async Task OnSearch()
     {
-        using (var context = ContextFactory.CreateDbContext())
+        using (var context = contextFactory.CreateDbContext())
         {
             var name = authenticationStateTask.Result.User.Identity.Name;
-            if (Querywhere != null) 
+            if (Querywhere != null)
             {
 
                 laboratoryExaminations = await context.laboratoryExaminations.AsNoTracking().Where(w => w.Adminuser == name).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.Name.Contains(Querywhere)).ToListAsync();
 
+
             }
+            else
+            {
+                laboratoryExaminations = await context.laboratoryExaminations.AsNoTracking().Where(w => w.Adminuser == name).ToListAsync();
+
+            }
+            StateHasChanged();
         }
 
     }
+
+    private async Task<List<LaboratoryExamination>> GetLaboratoryExaminations()
+    {
+        using (var context = contextFactory.CreateDbContext())
+        {
+            return await context.laboratoryExaminations.Where(w => w.Createtime > DateTime.Now.AddDays(-30)).ToListAsync();
+        }
+    }
+
+    private async Task OnRowinfoClick(LaboratoryExamination  examination)
+    {
+        keyValuePairs = DisplayAttributeExtend.GetAttributeExtends<LaboratoryExamination>(examination);
+
+        StateHasChanged();
+    }
+
+    //private Task<QueryData<LaboratoryExamination>> OnRefreshQueryAsync(QueryPageOptions options)
+    //{
+    //    return Task.FromResult(new QueryData<LaboratoryExamination>()
+    //    {
+    //        Items = items,
+    //        TotalCount = total
+    //    });
+    //}
 }

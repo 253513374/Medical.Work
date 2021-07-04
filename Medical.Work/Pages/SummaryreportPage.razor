@@ -9,15 +9,13 @@
     <div class="row mt-5" style="height:500px;">
         <div class="col-7 col-sm-7 col-lg-7 col-xl-7">
             <ValidateForm Model="@Sreport">
-                <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
-                    <BootstrapInput @bind-Value="@Sreport.Summaryreportclass"></BootstrapInput>
-                    <DateTimePicker @bind-Value="@Sreport.Notesdate" placeholder="请输入 ..."></DateTimePicker>
-                </Row>
-
-
                 <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.FormRow">
                     <BootstrapInput @bind-Value="@Sreport.Medicalrecordnumber" placeholder="请输入..."></BootstrapInput>
                     <BootstrapInput @bind-Value="@Sreport.Username" placeholder="请输入 ..."></BootstrapInput>
+                </Row>
+                <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
+                    <BootstrapInput @bind-Value="@Sreport.Summaryreportclass"></BootstrapInput>
+                    <DateTimePicker @bind-Value="@Sreport.Notesdate" placeholder="请输入 ..."></DateTimePicker>
                 </Row>
 
                 <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
@@ -26,7 +24,7 @@
 
                     <Textarea placeholder="请输入 ..." rows="5" @bind-Value="@Sreport.Clinicalsymptoms"></Textarea>
                     @*<BootstrapInput @bind-Value="@Sreport.Treatmentplan" placeholder="请输入病历号"></BootstrapInput>
-                        <BootstrapInput @bind-Value="" placeholder="请输入病历号"></BootstrapInput>*@
+            <BootstrapInput @bind-Value="" placeholder="请输入病历号"></BootstrapInput>*@
                 </Row>
             </ValidateForm>
             <div class="d-flex justify-content-end">

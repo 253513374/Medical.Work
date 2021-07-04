@@ -18,14 +18,21 @@ namespace Medical.Work.Data.Models
         /// <summary>
         /// 自增
         /// </summary>
-        [DisplayName("自增")]
+        //[DisplayName("自增")]
         [AutoGenerateColumn(Ignore = true)]
         public int MedicalPKID { set; get; }
 
         /// <summary>
+        /// guid
+        /// </summary>
+        //[DisplayName("guid")]
+        [AutoGenerateColumn(Ignore = true)]
+        public string MedicalPKGuid { set; get; }
+
+        /// <summary>
         /// 管理员账号
         /// </summary>
-        [DisplayName("管理员账号")]
+        //[DisplayName("管理员账号")]
         [AutoGenerateColumn(Ignore = true)]
         public string AdminName { set; get; }
 

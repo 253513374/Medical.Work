@@ -1,4 +1,5 @@
-﻿using Medical.Work.Data.Enum;
+﻿using BootstrapBlazor.Components;
+using Medical.Work.Data.Enum;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,16 @@ namespace Medical.Work.Data.Models
         public int MedicalPKSamplingID { set; get; }
 
         public int MedicalPKID { set; get; }
-        public MedicalPK medicalPK {set;get; } 
+
+        public MedicalPK medicalPK {set;get; }
+
+
+        /// <summary>
+        /// 管理员账号
+        /// </summary>
+        [DisplayName("管理员账号")]
+        [AutoGenerateColumn(Ignore = true)]
+        public string AdminName { set; get; }
 
         /// <summary>
         /// 创建时间

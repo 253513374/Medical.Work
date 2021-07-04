@@ -27,7 +27,8 @@ namespace Medical.Work.Pages
         {
             using (var context  = contextFactory.CreateDbContext())
             {
-                return await context.medicalPKs.AsNoTracking().Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).ToListAsync(); 
+                var adminname = authenticationStateTask.Result.User.Identity.Name;
+                return await context.medicalPKs.AsNoTracking().Where(w=>w.AdminName== adminname).Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).ToListAsync(); 
             }
         }
 
@@ -49,8 +50,13 @@ namespace Medical.Work.Pages
             {
                 using (var context = contextFactory.CreateDbContext())
                 {
+                    medicalPK.AdminName= authenticationStateTask.Result.User.Identity.Name;
+                    medicalPK.CreateTime = DateTime.Now;
+                    medicalPK.MedicalPKGuid = Guid.NewGuid().ToString();
                     context.medicalPKs.Add(medicalPK);
                     context.SaveChanges();
+
+                    medicalPKs.Add(medicalPK);
                 }
               
             }
@@ -61,8 +67,12 @@ namespace Medical.Work.Pages
 
         private async Task OnRowEditClick(MedicalPK medical)
         {
+            var url = $"MedicalPKDetailsPage/{medical.MedicalPKID}";
+            navigationManager.NavigateTo(url);
             return;
         }
+
+
         private async Task OnRowDetailedClick(MedicalPK medical)
         {
             return;
