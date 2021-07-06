@@ -14,18 +14,26 @@
         <DateTimePicker @bind-Value="@medicalPK.LasttTime"> </DateTimePicker>
 
     </Row>
-    <Row ItemsPerRow=" ItemsPerRow.Three">
+    <Row ItemsPerRow=" ItemsPerRow.Four">
         <BootstrapInput @bind-Value="@medicalPK.DrugsNmae2"> </BootstrapInput>
+        <BootstrapInput @bind-Value="@medicalPK.Drugdosage"> </BootstrapInput>
+        <Select @bind-Value="@medicalPK.DrugdosageUnit"> </Select>
+
         <BootstrapInput @bind-Value="@medicalPK.DrugSpecifications"> </BootstrapInput>
         <Select @bind-Value="@medicalPK.Manufacturertype"></Select>
 
-        <BootstrapInput @bind-Value="@medicalPK.DrugdosageUnit"> </BootstrapInput>
+
+
         <BootstrapInput @bind-Value="@medicalPK.DrugdosageRoute"> </BootstrapInput>
         <Select @bind-Value="@medicalPK.DrugNCount"> </Select>
 
         <Select @bind-Value="@medicalPK.DrugNCountDuration"> </Select>
         <BootstrapInput @bind-Value="@medicalPK.DrugSolvent"> </BootstrapInput>
         <BootstrapInput @bind-Value="@medicalPK.SolventToDosage"> </BootstrapInput>
+        
+
+        <BootstrapInput @bind-Value="@medicalPK.AMTsingledose"> </BootstrapInput>
+
     </Row>
 </ValidateForm>
 

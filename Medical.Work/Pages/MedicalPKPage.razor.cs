@@ -23,15 +23,31 @@ namespace Medical.Work.Pages
 
         private string Querywhere { set; get; }
 
-       private async Task<List<MedicalPK>> GetmedicalPK()
+       //private async Task<List<MedicalPK>> GetmedicalPK()
+       // {
+       //     using (var context  = contextFactory.CreateDbContext())
+       //     {
+       //         var adminname = authenticationStateTask.Result.User.Identity.Name;
+       //         return await context.medicalPKs.AsNoTracking().Where(w=>w.AdminName== adminname).Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).ToListAsync();
+       //     }
+       // }
+
+        private async Task OnQuerywhere()
         {
-            using (var context  = contextFactory.CreateDbContext())
+            if(Querywhere is  null)
             {
-                var adminname = authenticationStateTask.Result.User.Identity.Name;
-                return await context.medicalPKs.AsNoTracking().Where(w=>w.AdminName== adminname).Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).ToListAsync(); 
+                using (var context = contextFactory.CreateDbContext())
+                {
+                    var adminname = authenticationStateTask.Result.User.Identity.Name;
+                   var  medicals = await context.medicalPKs.AsNoTracking().Where(w => w.AdminName == adminname).Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).ToListAsync();
+                    if(medicals.Count>0)
+                    {
+                        medicalPK_s = medicals;
+                    }
+                }
+                StateHasChanged();
             }
         }
-
         private async Task OnShowDlg()
         {
             var retdlg = await Dialog.ShowModal<MedicalPKDlg>(new ResultDialogOption()
@@ -55,8 +71,7 @@ namespace Medical.Work.Pages
                     medicalPK.MedicalPKGuid = Guid.NewGuid().ToString();
                     context.medicalPKs.Add(medicalPK);
                     context.SaveChanges();
-
-                    medicalPKs.Add(medicalPK);
+                    medicalPK_s.Add(medicalPK);
                 }
               
             }

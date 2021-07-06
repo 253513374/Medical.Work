@@ -1,11 +1,50 @@
 ﻿@inherits LayoutComponentBase
 
+
+    <style>
+        .bodydiv {
+            position: relative;
+            box-sizing: inherit;
+            width: auto;
+            height: auto;
+        }
+
+        .contentdiv1 {
+            position: absolute;
+            box-sizing: inherit;
+            width: 100%;
+            height: inherit;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .contentdiv2 {
+            position: absolute;
+            float: left;
+            z-index: 5;
+            top: 18vh;
+            left: 50px;
+            padding: 0px;
+            margin: 0px;
+        }
+    </style>
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
     </div>
     <div class=" main">
         @Body
+
+        @*<div class="outer-container">
+            <div class="inner-container">
+                <div class="contentdiv d-flex justify-content-center">
+
+                </div>
+            </div>
+        </div>*@
+
+
         @*<Footer Text="Bootstrap Blazor" Target="#scroll" style="margin: -1rem;" />*@
 
         <MatPortalHost></MatPortalHost>

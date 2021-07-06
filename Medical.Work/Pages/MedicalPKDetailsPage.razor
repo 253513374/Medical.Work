@@ -5,41 +5,45 @@
 @inject IDbContextFactory<MedicalDbContext> contextFactory
 
 
+<div class="w-100" style="margin-top:144px; padding:5px;"></div>
+
 <div class="  w-100 d-flex align-items-center">
-    <div class=" marginlr w-100 row " style="min-height:600px;">
+    <div class=" w-100 marginlr row d-flex justify-content-between " style="min-height:700px; ">
 
-
-        <div class="col-6">
-            <div class="shadow-lg divradius " style="margin-top:144px; padding:5px;">
-                @if (keyValuePairs is not null)
+        <div class=" col-4 shadow-lg divradius p-4">
+            @if (keyValuePairs is not null)
+            {
+                foreach (var item in keyValuePairs)
                 {
-                    foreach (var item in keyValuePairs)
-                    {
-                        <div class="row">
-                            <div class="w-50 text-right pr-4"> <h5>@item.Key</h5></div>
-                            <div class="w-50 text-left pl-1"> <p>@item.Value</p></div>
-                        </div>
-                    }
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-8 text-right pr-4"> <h5>@item.Key</h5></div>
+                        <div class="col-4 text-left pl-1"> <p>@item.Value</p></div>
+                    </div>
                 }
-                <div>
-
-                </div>
-            </div>
-
+            }
         </div>
 
-        <div class="col-6 shadow-lg divradius" style="margin-top: 144px;">
+        <div class="col-6 shadow-lg divradius p-4">
+            <div class="d-flex justify-content-between">
+                <p class="h3"> 绑定信息采集单 </p>
+                <Button class="oi oi-plus" Size="Size.Large" @onclick="@(s => OnBing())">新增</Button>
+            </div>
             <div class=" d-flex align-items-center">
                 <div class="row ">
-                    @for (int i = 0; i < 10; i++)
+
+                    @if (medicalPKDatetimeSamplings is not null)
                     {
-                        <div class="p-2">
-                            <Button Color="Color.Primary">
-                                <i class="fa fa-tv"></i>
-                                <span>主要按钮</span>
-                                <Badge Color="Color.Danger">1</Badge>
-                            </Button>
-                        </div>
+                        var items = medicalPKDatetimeSamplings.GroupBy(g => g.medicalPK.DrugsNmae).Select(s => new { name = s.Key, mcount = s.ToList() }).ToList();
+                        foreach (var item in items)
+                        {
+                            <div class="p-2">
+                                <Button Color="Color.Primary">
+                                    <i class="fa fa-file-text"></i>
+                                    <span>@item.name</span>
+                                    <Badge Color="Color.Danger">@item.mcount.Count</Badge>
+                                </Button>
+                            </div>
+                        }
                     }
                 </div>
 
@@ -49,9 +53,54 @@
     </div>
 
 </div>
-<div class="marginlr w-100">
+
+<div class="marginlr w-100 mt-2">
+
+    @*@if (medicalPK is not null)
+        {
+            if (medicalPK.MedicalPKSamplings is not null)
+            {
+                var items = medicalPK.MedicalPKSamplings;*@
+    @if (pKSamplings is not null)
+    {
+        <ListView TItem="MedicalPKSampling" GroupName="@(p=>p.SpecimenType)" OnQueryAsync="@OnQueryAsync">
+            <HeaderTemplate> 采样信息列表</HeaderTemplate>
+            <BodyTemplate>
+                <Card Class="w-100">
+
+                    <CardBody>
+                        <Row ItemsPerRow="ItemsPerRow.One">
+                            <div>采集日期： @context.CollectDateTime</div>
+                            <div>采血当日开始给药时间： @context.StartDateTime</div>
+                            <div>采血当日输注完时间： @context.EndDateTime</div>
+                            <div>采血前最后一次给药时间： @context.LastDateTime</div>
+                            <div>采血管： @context.Collectingvessel</div>
+                        </Row>
+                        @if (@context.medicalPKSamplings is not null)
+                        {
+                          
+                            foreach (var item in @context.medicalPKSamplings)
+                            {
+                                var c = $"C{@item.SamplingNumber}采样";
+                  
+                                <GroupBox Title="@c">
+                                    <div class=" row col-12">
+                                        <div class="col-2">浓度:@item.C1Concentration  @item.C1ConcentrationUnit.ToString()/ml</div>
+                                        <div class="col-3">标准化血药浓度:@item.C1ConcentrationStandard</div>
+                                        <div class="col-2">浓度方法:@item.C1ConcentrationMethod??@item.Other</div>
+                                        <div class="col-5">备注:@item.C1Remarks</div>
+                                    </div>
+                                </GroupBox>
+                            }
+                        }
+                    </CardBody>
+                </Card>
+            </BodyTemplate>
+        </ListView>
+    }
 
 </div>
+
 
 @code {
 
@@ -59,24 +108,51 @@
 
     private List<MedicalPKSampling> medicalPKDatetimeSamplings { set; get; }
 
+    private List<MedicalPKSampling>  pKSamplings  { set; get; }
+
+    private List<MedicalPKSampling_sample> pKSampling_Samples { set; get; }
+
+
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     [Parameter]
     public string param { get; set; }
 
+    [Inject]
+    public DialogService? dialogService { set; get; }
+
     public Dictionary<string, object?> keyValuePairs { set; get; }
 
-    protected override async Task OnParametersSetAsync()
+    public MedicalPKSampling medicalPKSampling { set; get; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (!firstRender) return;
         if (param != default)
         {
             var id = Convert.ToInt32(param);
             medicalPK = await GetMedicalPK(id);
+            pKSamplings = medicalPK.MedicalPKSamplings;
             medicalPKDatetimeSamplings = await GetMedicalPKSamplings();
             keyValuePairs = DisplayAttributeExtend.GetAttributeExtends<MedicalPK>(medicalPK);
-
+            StateHasChanged();
         }
+        return;//base.OnAfterRenderAsync(firstRender);
+    }
+
+    private Task<QueryData<MedicalPKSampling>> OnQueryAsync(QueryPageOptions options)
+    {
+        if (pKSamplings is not null)
+        {
+            var items = pKSamplings.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems);
+            return Task.FromResult(new QueryData<MedicalPKSampling>()
+            {
+                Items = items,
+                TotalCount = pKSamplings.Count()
+            });
+        }
+        return null;
     }
 
     private async Task<List<MedicalPKSampling>> GetMedicalPKSamplings(int id)
@@ -105,24 +181,45 @@
     {
         using (var context = contextFactory.CreateDbContext())
         {
-            return await context.medicalPKs.AsNoTracking().FirstAsync(w => w.MedicalPKID == id);
+            return await context.medicalPKs.AsNoTracking().Include(i => i.MedicalPKSamplings).ThenInclude(t => t.medicalPKSamplings).FirstAsync(w => w.MedicalPKID == id);
         }
     }
-    //public override async Task SetParametersAsync(ParameterView parameters)
-    //{
-    //    if (parameters.TryGetValue<string>(nameof(Param), out var value))
-    //    {
-    //        if (value is null)
-    //        {
-    //           // message = "The value of 'Param' is null.";
-    //        }
-    //        else
-    //        {
-    //            Param= value;
-    //        }
-    //    }
 
-    //    await base.SetParametersAsync(parameters);
+    private async Task OnBing()
+    {
+        var retdlg = await dialogService.ShowModal<MedicalPKSampling_sample_Dlg>(new ResultDialogOption()
+        {
+            BodyContext = new MedicalPKSampling(),
+            Title = "新增信息采集单",
+            Size = Size.Large,
+            ComponentParamters = new KeyValuePair<string, object>[]
+            {
+                new(nameof(MedicalPKSampling_sample_Dlg.OnEventCallback), EventCallback.Factory.Create<MedicalPKSampling>(this, v => medicalPKSampling = v))
+            }
+
+        });
+
+        if (retdlg == DialogResult.Yes)
+        {
+            using (var context = contextFactory.CreateDbContext())
+            {
+
+                medicalPKSampling.AdminName = authenticationStateTask.Result.User.Identity.Name;
+                medicalPKSampling.CreateTime = DateTime.Now;
+                //medicalPK.MedicalPKSamplings =
+                //medicalPKSampling.MedicalPKID = medicalPK.MedicalPKID;
+                context.medicalPKSamplings.Update(medicalPKSampling);
+                context.SaveChanges();
+            }
+
+        }
+        StateHasChanged();
+        return;
+    }
+
+    //private async Task OnBingDrugdosage()
+    //{
+
     //}
 
 }

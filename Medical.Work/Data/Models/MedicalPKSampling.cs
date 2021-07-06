@@ -17,11 +17,13 @@ namespace Medical.Work.Data.Models
     {
 
 
-
+        [AutoGenerateColumn(Ignore = true)]
         public int MedicalPKSamplingID { set; get; }
 
+        [AutoGenerateColumn(Ignore = true)]
         public int MedicalPKID { set; get; }
 
+        [AutoGenerateColumn(Ignore = true)]
         public MedicalPK medicalPK {set;get; }
 
 
@@ -36,13 +38,14 @@ namespace Medical.Work.Data.Models
         /// 创建时间
         /// </summary>
         [DisplayName("创建时间")]
+        [AutoGenerateColumn(Ignore = true)]
         public DateTime CreateTime { set; get; }
 
         /// <summary>
         /// 标本类型
         /// </summary>
         [DisplayName("标本类型")]
-        public SpecimenTypeEnum SpecimenType { set; get; }
+        public SpecimenTypeEnum? SpecimenType { set; get; }
 
         /// <summary>
         /// 采集时间
@@ -70,14 +73,15 @@ namespace Medical.Work.Data.Models
         /// 采血管
         /// </summary>
         [DisplayName("采血管")]
-        public CollectingVesselEnum Collectingvessel { set; get; }
+        public CollectingVesselEnum? Collectingvessel { set; get; }
 
 
 
         /// <summary>
         /// 采血样品详细信息
         /// </summary>
-        public  List<MedicalPKSampling_sample>  medicalPKSamplings { get; set; }
+        [AutoGenerateColumn(Ignore = true)]
+        public List<MedicalPKSampling_sample>  medicalPKSamplings { get; set; }
 
 
     }

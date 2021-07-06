@@ -1,0 +1,123 @@
+﻿
+
+<h3>MedicalPKSampling_sample_Dlg</h3>
+
+<div class="marginlr">
+    <ValidateForm Model="@medicalPKSampling">
+
+
+        <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
+            <Select @bind-Value="@medicalPKSampling.SpecimenType"></Select>
+            <DateTimePicker @bind-Value="@medicalPKSampling.CollectDateTime"></DateTimePicker>
+        </Row>
+
+        <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.FormRow">
+
+
+            <DateTimePicker @bind-Value="@medicalPKSampling.StartDateTime"></DateTimePicker>
+            <DateTimePicker @bind-Value="@medicalPKSampling.EndDateTime"></DateTimePicker>
+           
+        </Row>
+        <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
+            <DateTimePicker @bind-Value="@medicalPKSampling.LastDateTime"></DateTimePicker>
+            <Select @bind-Value="@medicalPKSampling.Collectingvessel"></Select>
+        </Row>
+    </ValidateForm>
+
+
+    <GroupBox Title="C1-C6">
+        <ValidateForm Model="medicalPKSampling_Sample">
+            <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
+                <Select @bind-Value="@medicalPKSampling_Sample.SamplingNumber">
+                    <Options>
+                        <SelectOption Text="C1" Value="1"></SelectOption>
+                        <SelectOption Text="C2" Value="2"></SelectOption>
+                        <SelectOption Text="C3" Value="3"></SelectOption>
+                        <SelectOption Text="C4" Value="4"></SelectOption>
+                        <SelectOption Text="C5" Value="5"></SelectOption>
+                        <SelectOption Text="C6" Value="6"></SelectOption>
+                        <SelectOption Text="C7" Value="7"></SelectOption>
+                    </Options>
+                   
+                </Select>
+            </Row>
+            <Row ItemsPerRow="ItemsPerRow.Three" RowType="RowType.FormRow">
+                <DateTimePicker @bind-Value="@medicalPKSampling_Sample.C1bloodcollectiontime"></DateTimePicker>
+                <BootstrapInput @bind-Value="@medicalPKSampling_Sample.C1Concentration"></BootstrapInput>
+                <Select @bind-Value="@medicalPKSampling_Sample.C1ConcentrationUnit"></Select>
+                <BootstrapInput @bind-Value="@medicalPKSampling_Sample.C1ConcentrationStandard"></BootstrapInput>
+                <Select @bind-Value="@medicalPKSampling_Sample.C1ConcentrationMethod"></Select>
+                <BootstrapInput @bind-Value="@medicalPKSampling_Sample.Other"></BootstrapInput>
+            </Row>
+
+            <Row ItemsPerRow="ItemsPerRow.Four" RowType="RowType.FormRow">
+                <Row ColSpan="3">
+                    <Textarea  rows="3" @bind-Value="@medicalPKSampling_Sample.C1Remarks"></Textarea>
+                </Row>
+                <div  class="d-flex align-items-center justify-content-center w-100 h-100">
+                    <Button class="fa fa-plus" Size="Size.Large" @onclick="@OnBingDrugdosage"> 添加 </Button>
+                </div>
+             
+            </Row>
+        </ValidateForm>
+        <div style="min-height:150px;">
+            <Table TItem="MedicalPKSampling_sample" ShowLoading="true" Items="@pKSampling_Samples" IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"
+                   ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
+                   ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
+                <RowButtonTemplate>
+                    <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-trash" Text="删除" 
+                                     @onclick="@(s=>OnDelPKSampling_sample(@context))"/>
+                    @*<TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" OnClickCallback="@(() => OnRowEditClick(context,1))" />*@
+                </RowButtonTemplate>
+            </Table>
+        </div>
+    </GroupBox>
+  
+</div>
+
+@code {
+
+    [CascadingParameter(Name = "BodyContext")]
+    public object? objectPKSamplings { set; get; }
+
+
+
+    public MedicalPKSampling_sample medicalPKSampling_Sample { set; get; } = new();
+
+    public List<MedicalPKSampling_sample> pKSampling_Samples { set; get; } = new();
+
+    [Parameter]
+    public MedicalPKSampling medicalPKSampling { set; get; }
+
+    [Parameter]
+    public EventCallback<MedicalPKSampling> OnEventCallback { set; get; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        medicalPKSampling = objectPKSamplings as MedicalPKSampling;
+        // return base.OnParametersSetAsync();
+    }
+
+    private  Task OnBingDrugdosage()
+    {
+
+        pKSampling_Samples.Add(new MedicalPKSampling_sample() {
+
+            SamplingNumber =medicalPKSampling_Sample.SamplingNumber,
+            C1bloodcollectiontime = medicalPKSampling_Sample.C1bloodcollectiontime,
+            C1Concentration = medicalPKSampling_Sample.C1Concentration,
+            C1ConcentrationUnit = medicalPKSampling_Sample.C1ConcentrationUnit,
+            C1ConcentrationStandard = medicalPKSampling_Sample.C1ConcentrationStandard,
+            C1ConcentrationMethod = medicalPKSampling_Sample.C1ConcentrationMethod,
+            Other = medicalPKSampling_Sample.Other,
+            C1Remarks = medicalPKSampling_Sample.C1Remarks, });
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+    private  Task OnDelPKSampling_sample(MedicalPKSampling_sample _Sample)
+    {
+        pKSampling_Samples.Remove(_Sample);
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+}
