@@ -1,5 +1,5 @@
 ﻿
-@page "/MedicalPKDetailsPage"
+
 @page "/MedicalPKDetailsPage/{param?}"
 
 @inject IDbContextFactory<MedicalDbContext> contextFactory
@@ -7,7 +7,7 @@
 
 <div class="w-100" style="margin-top:144px; padding:5px;"></div>
 
-<div class="  w-100 d-flex align-items-center">
+<div class="  w-100 d-flex align-items-center justify-content-center">
     <div class=" w-100 marginlr row d-flex justify-content-between " style="min-height:700px; ">
 
         <div class=" col-4 shadow-lg divradius p-4">
@@ -78,11 +78,11 @@
                         </Row>
                         @if (@context.medicalPKSamplings is not null)
                         {
-                          
+
                             foreach (var item in @context.medicalPKSamplings)
                             {
                                 var c = $"C{@item.SamplingNumber}采样";
-                  
+
                                 <GroupBox Title="@c">
                                     <div class=" row col-12">
                                         <div class="col-2">浓度:@item.C1Concentration  @item.C1ConcentrationUnit.ToString()/ml</div>
@@ -93,6 +93,7 @@
                                 </GroupBox>
                             }
                         }
+                        <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
                     </CardBody>
                 </Card>
             </BodyTemplate>
@@ -108,7 +109,7 @@
 
     private List<MedicalPKSampling> medicalPKDatetimeSamplings { set; get; }
 
-    private List<MedicalPKSampling>  pKSamplings  { set; get; }
+    private List<MedicalPKSampling> pKSamplings { set; get; }
 
     private List<MedicalPKSampling_sample> pKSampling_Samples { set; get; }
 
@@ -173,7 +174,7 @@
         using (var context = contextFactory.CreateDbContext())
         {
             var adminnamne = authenticationStateTask.Result.User.Identity.Name;
-            return await context.medicalPKSamplings.AsNoTracking().Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).Where(w => w.AdminName == adminnamne).ToListAsync();
+            return await context.medicalPKSamplings.AsNoTracking().Include(i => i.medicalPK).Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).Where(w => w.AdminName == adminnamne).ToListAsync();
         }
     }
 
@@ -181,7 +182,7 @@
     {
         using (var context = contextFactory.CreateDbContext())
         {
-            return await context.medicalPKs.AsNoTracking().Include(i => i.MedicalPKSamplings).ThenInclude(t => t.medicalPKSamplings).FirstAsync(w => w.MedicalPKID == id);
+            return await context.medicalPKs.Include(i => i.MedicalPKSamplings).ThenInclude(t => t.medicalPKSamplings).FirstAsync(w => w.MedicalPKID == id);
         }
     }
 
@@ -195,7 +196,7 @@
             ComponentParamters = new KeyValuePair<string, object>[]
             {
                 new(nameof(MedicalPKSampling_sample_Dlg.OnEventCallback), EventCallback.Factory.Create<MedicalPKSampling>(this, v => medicalPKSampling = v))
-            }
+                        }
 
         });
 
@@ -206,9 +207,11 @@
 
                 medicalPKSampling.AdminName = authenticationStateTask.Result.User.Identity.Name;
                 medicalPKSampling.CreateTime = DateTime.Now;
-                //medicalPK.MedicalPKSamplings =
-                //medicalPKSampling.MedicalPKID = medicalPK.MedicalPKID;
-                context.medicalPKSamplings.Update(medicalPKSampling);
+                if (medicalPK.MedicalPKSamplings is null) medicalPK.MedicalPKSamplings = new();
+
+                medicalPK.MedicalPKSamplings.Add(medicalPKSampling);
+                context.medicalPKs.Update(medicalPK);
+                //context.medicalPKSamplings.Add(medicalPKSampling);
                 context.SaveChanges();
             }
 

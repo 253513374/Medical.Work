@@ -21,6 +21,7 @@ namespace Medical.Work.Pages
 
         [CascadingParameter]
         private Task<AuthenticationState> authenticationStateTask { get; set; }
+
         [Inject]
         private MessageService   messageService { set; get; }
         private Message MessageElement { set; get; }

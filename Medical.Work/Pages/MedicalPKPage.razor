@@ -7,7 +7,7 @@
 
 <div class=" divtop  w-100 d-flex align-items-center">
     <div class="marginlr w-100">
-        <Row ItemsPerRow="ItemsPerRow.Two">
+        <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.FormRow">
             <Search @bind-Value="@Querywhere" @onclick="@(s=>OnQuerywhere())"></Search>
             <Button @onclick="@OnShowDlg">给药方案</Button>
         </Row>
@@ -15,11 +15,11 @@
 </div>
 <div class="marginlr pt-3">
 
-    <Table TItem="MedicalPK" ShowLoading="true" HeaderStyle="TableHeaderStyle.Light" Items="@medicalPK_s"
-           IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="false"
-           ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
-           ShowExtendButtons="true" ShowColumnList="true">
-        @*//*药品通用名，溶媒（如0.9% 氯化钠100ml）,单次剂量，给药频率，给药途径，开始时间，截止时间，公斤体质量日剂量，厂家类型*/*@
+    <Table TItem="MedicalPK" ShowLoading="true" HeaderStyle="TableHeaderStyle.Light"  IsPagination="true"
+           IsStriped="true" IsBordered="true" IsMultipleSelect="false" AllowResizing="true" 
+           ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="true"
+           ShowExtendButtons="true" ShowColumnList="true" OnQueryAsync="@OnQueryAsync" IsAutoRefresh="true">
+      @*/*药品通用名，溶媒（如0.9% 氯化钠100ml）,单次剂量，给药频率，给药途径，开始时间，截止时间，公斤体质量日剂量，厂家类型*/*@
         <TableColumns>
             <TableColumn @bind-Field="@context.DrugsNmae"></TableColumn>
             <TableColumn @bind-Field="@context.DrugSolvent"></TableColumn>
@@ -55,24 +55,16 @@
             return;
             //return base.OnInitializedAsync();
         }
-        protected override  async Task OnAfterRenderAsync(bool firstRender)
+        private Task<QueryData<MedicalPK>> OnQueryAsync(QueryPageOptions options)
         {
-            if (firstRender)
+            // 内存分页
+            var items = medicalPK_s.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems).ToList();
+
+            return Task.FromResult(new QueryData<MedicalPK>()
             {
-                //medicalPKs = await GetmedicalPK();
-                //StateHasChanged();
-                // await OnQuerywhere();
-            }
-            return;// base.OnAfterRenderAsync(firstRender);
+                Items = items,
+                TotalCount = medicalPK_s.Count
+                // IsSearch = true
+            });
         }
-
-        //{
-        //    if(firstRender)
-        //    {
-
-        //        StateHasChanged();
-        //    }
-        //    base.OnAfterRender(firstRender);
-        //}
-
-}
+    }

@@ -23,29 +23,31 @@ namespace Medical.Work.Pages
 
         private string Querywhere { set; get; }
 
-       //private async Task<List<MedicalPK>> GetmedicalPK()
-       // {
-       //     using (var context  = contextFactory.CreateDbContext())
-       //     {
-       //         var adminname = authenticationStateTask.Result.User.Identity.Name;
-       //         return await context.medicalPKs.AsNoTracking().Where(w=>w.AdminName== adminname).Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).ToListAsync();
-       //     }
-       // }
+        //private async Task<List<MedicalPK>> GetmedicalPK()
+        // {
+        //     using (var context  = contextFactory.CreateDbContext())
+        //     {
+        //         var adminname = authenticationStateTask.Result.User.Identity.Name;
+        //         return await context.medicalPKs.AsNoTracking().Where(w=>w.AdminName== adminname).Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).ToListAsync();
+        //     }
+        // }
 
         private async Task OnQuerywhere()
         {
-            if(Querywhere is  null)
+            if (Querywhere is null)
             {
                 using (var context = contextFactory.CreateDbContext())
                 {
                     var adminname = authenticationStateTask.Result.User.Identity.Name;
-                   var  medicals = await context.medicalPKs.AsNoTracking().Where(w => w.AdminName == adminname).Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).ToListAsync();
-                    if(medicals.Count>0)
-                    {
-                        medicalPK_s = medicals;
-                    }
+                    //var  medicals = await context.medicalPKs.AsNoTracking().Where(w => w.AdminName == adminname).Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).ToListAsync();
+
+                    medicalPK_s = context.medicalPKs.Include(i => i.MedicalPKSamplings).ThenInclude(t => t.medicalPKSamplings).Where(w => w.AdminName == adminname).Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).ToList();
+                    //if (medicals.Count>0)
+                    //{
+                    //    medicalPK_s = medicals;
+                    //}
                 }
-                StateHasChanged();
+                // StateHasChanged();
             }
         }
         private async Task OnShowDlg()
@@ -59,21 +61,19 @@ namespace Medical.Work.Pages
                    {
                     new(nameof(MedicalPKDlg.OnEventCallback), EventCallback.Factory.Create<MedicalPK>(this, v => medicalPK = v))
                    }
-
             });
 
             if (retdlg == DialogResult.Yes)
             {
                 using (var context = contextFactory.CreateDbContext())
                 {
-                    medicalPK.AdminName= authenticationStateTask.Result.User.Identity.Name;
+                    medicalPK.AdminName = authenticationStateTask.Result.User.Identity.Name;
                     medicalPK.CreateTime = DateTime.Now;
                     medicalPK.MedicalPKGuid = Guid.NewGuid().ToString();
                     context.medicalPKs.Add(medicalPK);
                     context.SaveChanges();
                     medicalPK_s.Add(medicalPK);
                 }
-              
             }
             StateHasChanged();
             return;

@@ -12,7 +12,8 @@ namespace Medical.Work.Data
 
 
         public DbSet<MedicalDGK> medicalDGKs { set; get; }
-        public DbSet<MedicalPD> medicalPDs { set; get; }
+        public DbSet<MedicalPD_DrugAllergy>  medicalPD_Drugs { set; get; }
+        public DbSet<MedicalPD_Microbiological>  medicalPD_Microbiologicals { set; get; }
 
         public DbSet<MedicalPG> medicalPGs { set; get; }
         public DbSet<MedicalPK> medicalPKs { set; get; }
@@ -47,7 +48,9 @@ namespace Medical.Work.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
            
-            modelBuilder.Entity<MedicalPD>().ToTable("MedicalPD");
+            modelBuilder.Entity<MedicalPD_DrugAllergy>().ToTable("MedicalPD_DrugAllergy");
+            modelBuilder.Entity<MedicalPD_Microbiological>().ToTable("MedicalPD_Microbiological");
+            
             modelBuilder.Entity<MedicalPG>().ToTable("MedicalPG");
             modelBuilder.Entity<MedicalPK>().ToTable("MedicalPK");
             modelBuilder.Entity<PatientInfo>().ToTable("PatientInfo");

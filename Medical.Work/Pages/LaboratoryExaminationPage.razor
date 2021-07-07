@@ -135,7 +135,8 @@
     {
         using (var context = contextFactory.CreateDbContext())
         {
-            return await context.laboratoryExaminations.Where(w => w.Createtime > DateTime.Now.AddDays(-30)).ToListAsync();
+            var name = authenticationStateTask.Result.User.Identity.Name;
+            return await context.laboratoryExaminations.Where(w=>w.Adminuser== name).Where(w => w.Createtime > DateTime.Now.AddDays(-30)).ToListAsync();
         }
     }
 

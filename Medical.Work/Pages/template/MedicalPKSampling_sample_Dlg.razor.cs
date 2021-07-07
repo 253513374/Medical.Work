@@ -16,9 +16,9 @@ namespace Medical.Work.Pages.template
         private Task<AuthenticationState> authenticationStateTask { get; set; }
         public async Task OnClose(DialogResult result)
         {
-            if(result == DialogResult.Yes)
+            if (result == DialogResult.Yes)
             {
-                if(OnEventCallback.HasDelegate)
+                if (OnEventCallback.HasDelegate)
                 {
                     if (medicalPKSampling.medicalPKSamplings is null) medicalPKSampling.medicalPKSamplings = new();
                     var name = authenticationStateTask.Result.User.Identity.Name;
@@ -27,7 +27,6 @@ namespace Medical.Work.Pages.template
                     await OnEventCallback.InvokeAsync(medicalPKSampling);
                 }
             }
-
             return;
             //throw new NotImplementedException();
         }
