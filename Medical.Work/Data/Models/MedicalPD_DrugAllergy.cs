@@ -52,10 +52,22 @@ namespace Medical.Work.Data.Models
         public DateTime TestTime { set; get; }
 
         /// <summary>
+        /// 报告时间
+        /// </summary>
+        [DisplayName("报告时间")]
+        public DateTime ReportTime { set; get; }
+
+        /// <summary>
         /// 药敏检测方法
         /// </summary>
         [DisplayName("药敏检测方法")]
-        public DrugsensitivityEnum DrugsensitivityTest { set; get; }
+        public DrugsensitivityEnum? DrugsensitivityTest { set; get; }
+
+        /// <summary>
+        /// 药敏检测其他方法
+        /// </summary>
+        [DisplayName("药敏检测其他方法")]
+        public string DrugsensitivityTestOther { set; get; }
 
         /// <summary>
         /// 
@@ -72,7 +84,7 @@ namespace Medical.Work.Data.Models
         /// 敏感性
         /// </summary>
         [DisplayName("敏感性")]
-        public SusceptibilityEnum Susceptibility { set; get; }
+        public SusceptibilityEnum? Susceptibility { set; get; }
         /// <summary>
         /// T>MIC%
         /// </summary>

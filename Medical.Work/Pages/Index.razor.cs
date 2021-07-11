@@ -46,21 +46,16 @@ namespace Medical.Work.Pages
         public List<string> Items { set; get; } = new List<string>(1000);
 
 
-        public DateTimeRangeValue RangeValue { set; get; } = new() { Start = DateTime.Now.AddDays(-10), End = DateTime.Now };
+        public DateTimeRangeValue RangeValue { set; get; } = new() { Start = DateTime.Now.AddDays(-30), End = DateTime.Now };
 
 
-        protected override void OnAfterRender(bool firstRender)
+        protected override async Task OnParametersSetAsync()
         {
-            if(firstRender)
-            {
-                using (var context = ContextFactory.CreateDbContext())
-                {
-                    var username = authenticationStateTask.Result.User.Identity.Name;
-                    Patients = context.patientInfos.Where(w => w.Adminuser == username).Where(w => w.CreateTime >= RangeValue.Start&&w.CreateTime<=RangeValue.End).AsNoTracking().ToList();
-                }
-            }
-            base.OnAfterRender(firstRender);
+            await GetForecastAsync();
+            return;// base.OnParametersSetAsync();
         }
+     
+
 
         public async Task GetForecastAsync()
         {
@@ -74,6 +69,7 @@ namespace Medical.Work.Pages
                 Items.AddRange(array);
                 Items.AddRange(arrayname);
             }
+            StateHasChanged();
             return;
         }
 
@@ -137,7 +133,7 @@ namespace Medical.Work.Pages
             //Trace2.Log($"SearchText: {searchText}");
             var username = authenticationStateTask.Result.User.Identity.Name;
             Patients = await InfoService.QueryPatientInfos(searchText, username);
-            await OnQueryPageAsync(new QueryPageOptions() { PageIndex=2, SearchText= searchText });
+          //  await OnQueryPageAsync(new QueryPageOptions() { PageIndex=2, SearchText= searchText });
             StateHasChanged();
             return;
         }

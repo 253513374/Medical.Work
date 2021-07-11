@@ -22,6 +22,11 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [DisplayName( "维一编码")]
         public string MedicalPGGuid { set; get; }
+        /// <summary>
+        /// 维一编码
+        /// </summary>
+        [DisplayName("维一编码")]
+        public string Adminname { set; get; }
 
 
 

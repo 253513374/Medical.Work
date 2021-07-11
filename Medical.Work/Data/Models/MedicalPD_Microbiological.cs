@@ -44,7 +44,7 @@ namespace Medical.Work.Data.Models
         /// 是否做检查
         /// </summary>
         [DisplayName("是否做检查")]
-        public TestorIsNotEnum TestorisNot { set; get; }
+        public TestorIsNotEnum? TestorisNot { set; get; }
 
         /// <summary>
         /// 测试日期
@@ -56,13 +56,13 @@ namespace Medical.Work.Data.Models
         /// 标本类型（血液，痰，肺泡灌洗液，尿液，导管血，脑脊液……）
         /// </summary>
         [DisplayName("标本类型")]
-        public SpecimenTypeEnum SpecimenType { set; get; }
+        public SpecimenTypeEnum? SpecimenType { set; get; }
 
         /// <summary>
         /// 是否检出
         /// </summary>
         [DisplayName("是否检出")]
-        public TestorNotEnum TestorNot { set; get; }
+        public TestorNotEnum? TestorNot { set; get; }
 
 
         /// <summary>

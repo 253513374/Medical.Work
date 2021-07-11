@@ -65,6 +65,13 @@ namespace Medical.Work.Data
             return true;
         }
 
+
+        /// <summary>
+        /// 根据关键字返回一个集合
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="username"></param>
+        /// <returns></returns>
         public async Task<List<PatientInfo>> QueryPatientInfos(string key,string username)
         {
             using (var context = ContextFactory.CreateDbContext())
