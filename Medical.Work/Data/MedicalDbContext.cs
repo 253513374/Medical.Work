@@ -15,7 +15,7 @@ namespace Medical.Work.Data
         public DbSet<MedicalPD_DrugAllergy>  medicalPD_Drugs { set; get; }
         public DbSet<MedicalPD_Microbiological>  medicalPD_Microbiologicals { set; get; }
 
-        public DbSet<MedicalPG> medicalPGs { set; get; }
+        public DbSet<MedicalPG_Pharmacogenomics> medicalPGs { set; get; }
         public DbSet<MedicalPK> medicalPKs { set; get; }
         public DbSet<PatientInfo> patientInfos { set; get; }
 
@@ -51,7 +51,7 @@ namespace Medical.Work.Data
             modelBuilder.Entity<MedicalPD_DrugAllergy>().ToTable("MedicalPD_DrugAllergy");
             modelBuilder.Entity<MedicalPD_Microbiological>().ToTable("MedicalPD_Microbiological");
             
-            modelBuilder.Entity<MedicalPG>().ToTable("MedicalPG");
+            modelBuilder.Entity<MedicalPG_Pharmacogenomics>().ToTable("MedicalPG");
             modelBuilder.Entity<MedicalPK>().ToTable("MedicalPK");
             modelBuilder.Entity<PatientInfo>().ToTable("PatientInfo");
             modelBuilder.Entity<MedicalDGK>().ToTable("MedicalDGK");
