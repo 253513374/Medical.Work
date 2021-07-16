@@ -1,0 +1,61 @@
+﻿
+
+
+
+@page "/MedicalPGPage"
+
+
+@inject IDbContextFactory<MedicalDbContext> contextFactory
+
+<div class=" divtop  w-100 d-flex align-items-center">
+    <div class="marginlr w-100">
+        <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.FormRow">
+            <Search @bind-Value="@Querywhere" @onclick="@(s=>OnQuerywhere())"></Search>
+            @*<Button @onclick="@OnShowDlg">给药方案</Button>*@
+        </Row>
+    </div>
+</div>
+
+<div>
+    <Row ItemsPerRow="ItemsPerRow.One">
+
+    </Row>
+</div>
+@*<h3>MedicalPGPage</h3>*@
+
+@code {
+
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    private string Querywhere { set; get; }
+
+
+
+
+    private MedicalPG_PathogenGene pG_PathogenGene  { set; get; }
+
+    private MedicalPG_Pharmacogenomics pG_Pharmacogenomics { set; get; }
+
+
+
+    private async Task OnQuerywhere()
+    {
+        if (Querywhere is null)
+        {
+            using (var context = contextFactory.CreateDbContext())
+            {
+                var adminname = authenticationStateTask.Result.User.Identity.Name;
+                //var  medicals = await context.medicalPKs.AsNoTracking().Where(w => w.AdminName == adminname).Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).ToListAsync();
+
+               // medicalPK_s = context.medicalPKs.Include(i => i.MedicalPKSamplings).ThenInclude(t => t.medicalPKSamplings).Where(w => w.AdminName == adminname).Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).ToList();
+                //if (medicals.Count>0)
+                //{
+                //    medicalPK_s = medicals;
+                //}
+            }
+            // StateHasChanged();
+        }
+    }
+}
