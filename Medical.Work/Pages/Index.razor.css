@@ -2,37 +2,18 @@
 
 
 
-div.listview {
-    margin: 0 auto;
-   /* max-width:1360px;*/
-   /* min-width: 1116px;*/
-    border:0px;
-}
 
-div.divtop {
-   height: 164px;
-   background-color: #778DA5;
-   
-}
-div.margintop{
-    padding-left:160px;
-    padding-right:200px;
-}
 
-div.myscroll {
-    height: 650px;
-    overflow-y: scroll;
-    margin: 10px;
-}
 
-button.addbut {
+
+.mybut {
     border: 1px solid #8bdff4;
     height: 65px;
     width: 65px;
     border-radius: 50%;
     background-color: #8bdff4;
 }
-    button.addbut:hover {
+    .mybut:hover {
         /*        border: 1px solid #56CDF8;
         height: 65px;
         width: 65px;*/

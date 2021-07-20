@@ -1,4 +1,4 @@
-using MatBlazor;
+
 using Medical.Work.Areas.Identity;
 using Medical.Work.Data;
 using Microsoft.AspNetCore.Builder;
@@ -64,7 +64,7 @@ namespace Medical.Work
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddSingleton<WeatherForecastService>();
 
-            services.AddMatBlazor();
+         //   services.AddMatBlazor();
 
             services.AddBootstrapBlazor();
 

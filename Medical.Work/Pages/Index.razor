@@ -5,9 +5,35 @@
 @inject UserManager<IdentityUser> Usermanager
 @inject NavigationManager Navigationmanager
 
+<style>
+    .mybut {
+        border: 1px solid #8bdff4;
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        background-color: #8bdff4;
+    }
 
-    <div class=" divtop  w-100">
-        <div class=" marginlr pt-4 ">
+        .mybut:hover {
+            /*        border: 1px solid #56CDF8;
+        height: 65px;
+        width: 65px;*/
+            border: 1px solid #56CDF8;
+            background-color: #56CDF8;
+        }
+
+    .istyle {
+        color: #ffc77d
+    }
+
+        .istyle:hover {
+            color: #e54304;
+            border-block-color: #e54304
+        }
+</style>
+
+    <div class="w-100">
+        <div class="  pt-4 ">
             <Row ItemsPerRow="ItemsPerRow.One">
                 <p class="h3"> 患者信息列表</p>
                 <DateTimeRange Value="@RangeValue" ShowToday="true" DisplayText="时间范围" />
@@ -17,12 +43,12 @@
             <Row ItemsPerRow="ItemsPerRow.Two">
 
                 <Search IgnoreCase="true" IsLikeMatch="true" PlaceHolder="请输入医患关键字..." ShowClearButton="true" Items="@Items" OnSearch="@OnSearch2" OnClear="@OnClear"></Search>
-                <Button type="button" class="addbut oi oi-plus" @onclick="@CreateAddDlg"></Button>
+                <Button class="mybut oi oi-pulse"  @onclick="@CreateAddDlg" ></Button>
             </Row>
         </div>
     </div>
 
-    <div class="marginlr">
+    <div class="">
         <div class="listview">
             <ListView TItem="PatientInfo" style="border: 1px;" Pageable="true"  OnQueryAsync="@OnQueryPageAsync">
                 <BodyTemplate>
@@ -68,15 +94,6 @@
 @code{
 
     private int pagesize { set; get; } = 30;
-
-    //protected override async Task OnInitializedAsync()
-    //{
-    //    await GetForecastAsync(DateTime.Now);
-    //}
-    //public BodyTemplate bodyTemplate { set; get; }
-
-
-
 
     private async Task OnToHomeDetailsPage(PatientInfo patient)
     {
