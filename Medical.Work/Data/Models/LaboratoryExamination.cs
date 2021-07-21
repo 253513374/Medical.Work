@@ -46,7 +46,7 @@ namespace Medical.Work.Data.Models
         /// <summary>
         /// 用药前  用药中  用药后
         /// </summary>
-        [DisplayName("实验前状态")]
+        [DisplayName("实验状态")]
         public AssaysituationEnum Assaysituation { set; get; }
 
         /// <summary>

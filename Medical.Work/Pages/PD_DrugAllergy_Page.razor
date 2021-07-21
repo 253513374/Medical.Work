@@ -3,36 +3,32 @@
 @page "/PD_DrugAllergy_Page"
 
 
-<div style="font-size:24px;font-weight:700" class="w-100 d-flex">
-    <GroupBox Title="药敏试验" style="padding-top:50px;">
-        <div style="font-size:16px;font-weight:500">
-            <ValidateForm Model="@medicalPD_DrugAllergy">
-                <Row ItemsPerRow="ItemsPerRow.One">
-                    <Select @bind-Value="@medicalPD_DrugAllergy.TestorisNot"></Select>
-                    <DateTimePicker @bind-Value="@medicalPD_DrugAllergy.TestTime"></DateTimePicker>
-                </Row>
-                <Row ItemsPerRow="ItemsPerRow.Two">
-                    <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.Medicalrecordnumber"></BootstrapInput>
-                    <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.UserName"></BootstrapInput>
-                    <Select @bind-Value="@medicalPD_DrugAllergy.DrugsensitivityTest"></Select>
-                    <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.DrugsensitivityTestOther"></BootstrapInput>
-                </Row>
-                <Divider></Divider>
-                <Row ItemsPerRow="ItemsPerRow.One">
-                    <Select @bind-Value="@medicalPD_DrugAllergy.DrugsName"></Select>
+<div class=" d-flex  align-items-center">
 
-                </Row>
-                <Row ItemsPerRow="ItemsPerRow.Four">
-                    <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.MIC"></BootstrapInput>
-                    <Select @bind-Value="@medicalPD_DrugAllergy.Susceptibility"></Select>
-                    <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.TMic"></BootstrapInput>
-                    <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.AUCMic"></BootstrapInput>
-                </Row>
-            </ValidateForm>
-        </div>
-    </GroupBox>
+    <div class="  w-100 ">
+        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
+
+            <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s=>OnSearch())"></Search>
+
+            <button class="createbut fa fa-plus " @onclick="@OnShowDlg"></button>
+        </Row>
+    </div>
 </div>
 
 @code {
+
+    private string Querywhere { set; get; }
+
     private MedicalPD_DrugAllergy medicalPD_DrugAllergy { set; get; } = new();
+
+
+    private Task OnSearch()
+    {
+        return Task.CompletedTask;
+    }
+
+    private Task OnShowDlg()
+    {
+        return Task.CompletedTask;
+    }
 }

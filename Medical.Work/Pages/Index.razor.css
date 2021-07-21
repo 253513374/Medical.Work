@@ -6,20 +6,7 @@
 
 
 
-.mybut {
-    border: 1px solid #8bdff4;
-    height: 35px;
-    width: 65px;
-    border-radius: 10%;
-    background-color: #8bdff4;
-}
-    .mybut:hover {
-        /*        border: 1px solid #56CDF8;
-        height: 65px;
-        width: 65px;*/
-        border: 1px solid #56CDF8;
-        background-color: #56CDF8;
-    }
+
 .istyle {
     color: #ffc77d
 }
