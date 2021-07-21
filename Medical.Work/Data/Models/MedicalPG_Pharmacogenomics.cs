@@ -29,7 +29,7 @@ namespace Medical.Work.Data.Models
         /// 管理员账户
         /// </summary>
         [DisplayName("管理员账户")]
-        public string Adminname { set; get; }
+        public string AdminName { set; get; }
 
         /// <summary>
         /// 创建时间 
@@ -41,7 +41,7 @@ namespace Medical.Work.Data.Models
         /// 患者名称
         /// </summary>
         [DisplayName("患者名称")]
-        public string Username { set; get; }
+        public string UserName { set; get; }
 
         /// <summary>
         /// 病历号

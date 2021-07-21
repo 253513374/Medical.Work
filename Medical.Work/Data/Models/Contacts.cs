@@ -20,7 +20,7 @@ namespace Medical.Work.Data.Models
         /// 姓名
         /// </summary>
         [DisplayName("患者姓名")]
-        public string Name { set; get; }
+        public string UserName { set; get; }
 
         /// <summary>
         /// 联系电话
@@ -39,17 +39,13 @@ namespace Medical.Work.Data.Models
         [DisplayName("单位及地址")]
         public string Address { set; get; }
 
-        /// <summary>
-        /// 记录人名称
-        /// </summary>
-        [DisplayName("记录人名称")]
-        public string Uername { set; get; }
+
 
         /// <summary>
         /// 记录人账号
         /// </summary>
         [DisplayName("记录人账号")]
-        public string Emainame { set; get; }
+        public string AdminName { set; get; }
 
         /// <summary>
         /// 记录时间

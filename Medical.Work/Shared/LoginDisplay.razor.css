@@ -1,0 +1,13 @@
+﻿
+
+
+body {
+
+}
+
+
+@media screen and (max-width:280px) {
+    div.divnone {
+        display: none;
+    }
+}

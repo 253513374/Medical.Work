@@ -12,21 +12,27 @@ namespace Medical.Work.Shared
     {
         private bool UseTabSet { get; set; } = true;
 
-        private string Theme { get; set; } = "";
+        private string Theme { get; set; } 
 
         private bool IsOpen { get; set; }
 
         private bool IsFixedHeader { get; set; } = true;
 
-        private bool IsFixedFooter { get; set; } = true;
+        private bool IsFixedFooter { get; set; } = false;
 
         private bool IsFullSide { get; set; } = true;
 
         private bool ShowFooter { get; set; } = true;
 
+        private bool showCollapseBar { get; set; } = true;
+
+
+        private string calssstring { get; set; }
         private List<MenuItem> Menus { get; set; }
 
         private Dictionary<string, string> TabItemTextDictionary { get; set; }
+
+
 
         /// <summary>
         /// OnInitialized 方法
@@ -51,22 +57,24 @@ namespace Medical.Work.Shared
             var menus = new List<MenuItem>
             {
                 new MenuItem() { Text = "首页", Icon = "fa fa-fw fa-home", Url = "/",IsActive=true, Match = NavLinkMatch.All},
-                new MenuItem() { Text = "类鼻疽-PD", Icon = "fa fa-fw fa-fa", Url = "/MedicalPDPage" , Items= new  List<MenuItem>{ 
-                
-                 new MenuItem(){Text="临床微生物检查" ,IsActive=true, Match = NavLinkMatch.All},
-                 new MenuItem(){Text="药敏试验"}
+
+                new MenuItem() { Text = "类鼻疽-PD", Icon = "fa fa-fw fa-fa", Items= new  List<MenuItem>{ 
+                 new MenuItem(){Text="临床微生物检查" , Url="PD_MicrobiologicalPage"},
+                 new MenuItem(){Text="药敏试验",Url="PD_DrugAllergy_Page"}
 
                 } },
-                new MenuItem() { Text = "类鼻疽-PG", Icon = "fa fa-fw fa-check-square-o", Url = "MedicalPGPage" ,Items =new List<MenuItem>{
-                    new MenuItem(){Text="药物基因组学",IsActive=true, Match = NavLinkMatch.All},
-                     new MenuItem(){Text="病原菌基因"}
+                new MenuItem() { Text = "类鼻疽-PG", Icon = "fa fa-fw fa-check-square-o", Items =new List<MenuItem>{
+                    new MenuItem(){Text="药物基因组学", Url="PG_PharmacogenomicsPage"},
+                     new MenuItem(){Text="病原菌基因" ,Url="PG_PathogenGenePage"}
                 } },
-                new MenuItem() { Text = "类鼻疽-PK", Icon = "fa fa-fw fa-database", Url = "MedicalPKPage" ,Items  = new List<MenuItem>{ 
-                    new MenuItem(){Text="给药方案",IsActive=true, Match = NavLinkMatch.All},
+
+                new MenuItem() { Text = "类鼻疽-PK", Icon = "fa fa-fw fa-database" ,Items  = new List<MenuItem>{ 
+                    new MenuItem(){Text="给药方案", Url = "MedicalPKPage"},
                      new MenuItem(){Text="采用信息"}
                 } },
+
                 new MenuItem() { Text = "实验室检查", Icon = "fa fa-fw fa-table", Url = "LaboratoryExaminationPage" },
-                new MenuItem() { Text = "影像学检查", Icon = "fa fa-fw fa-home", Url = "X_rayphotographyPage" },
+                new MenuItem() { Text = "影像学检查", Icon = "fa fa-video-camera", Url = "X_rayphotographyPage" },
                 new MenuItem() { Text = "药学监护流程", Icon = "fa fa-fw fa-fa", Url = "SummaryreportPage" },
                 new MenuItem() { Text = "联系人管理", Icon = "fa fa-fw fa-check-square-o", Url = "ContactsPage" }
             
@@ -74,5 +82,22 @@ namespace Medical.Work.Shared
 
             return menus;
         }
+      
+
+        private Task OnCollapsedEvent(bool s)
+        {
+            if (s)
+            {
+                calssstring = "display: none;";
+            }
+            else
+            {
+                calssstring = "display: block;";
+            }
+
+            return Task.CompletedTask;
+        }
+
+
     }
 }

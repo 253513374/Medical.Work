@@ -98,7 +98,7 @@
             using (var context = contextFactory.CreateDbContext())
             {
 
-                laboratoryExamination.Adminuser = authenticationStateTask.Result.User.Identity.Name;
+                laboratoryExamination.AdminName = authenticationStateTask.Result.User.Identity.Name;
                 laboratoryExamination.Createtime = DateTime.Now;
                 context.laboratoryExaminations.Add(laboratoryExamination);
                 context.SaveChanges();
@@ -117,13 +117,13 @@
             if (Querywhere != null)
             {
 
-                laboratoryExaminations = await context.laboratoryExaminations.AsNoTracking().Where(w => w.Adminuser == name).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.Name.Contains(Querywhere)).ToListAsync();
+                laboratoryExaminations = await context.laboratoryExaminations.AsNoTracking().Where(w => w.AdminName == name).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.UserName.Contains(Querywhere)).ToListAsync();
 
 
             }
             else
             {
-                laboratoryExaminations = await context.laboratoryExaminations.AsNoTracking().Where(w => w.Adminuser == name).ToListAsync();
+                laboratoryExaminations = await context.laboratoryExaminations.AsNoTracking().Where(w => w.AdminName == name).ToListAsync();
 
             }
             StateHasChanged();
@@ -136,7 +136,7 @@
         using (var context = contextFactory.CreateDbContext())
         {
             var name = authenticationStateTask.Result.User.Identity.Name;
-            return await context.laboratoryExaminations.Where(w=>w.Adminuser== name).Where(w => w.Createtime > DateTime.Now.AddDays(-30)).ToListAsync();
+            return await context.laboratoryExaminations.Where(w=>w.AdminName== name).Where(w => w.Createtime > DateTime.Now.AddDays(-30)).ToListAsync();
         }
     }
 

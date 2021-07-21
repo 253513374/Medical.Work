@@ -5,3 +5,12 @@
 
 
 
+.form-inline .form-group .control-label {
+    margin-right: 10px;
+    width: 220px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    text-align: right;
+}

@@ -62,10 +62,10 @@ namespace Medical.Work.Pages
             using ( var context  = ContextFactory.CreateDbContext())
             {
                 var username = authenticationStateTask.Result.User.Identity.Name;
-                Patients = await context.patientInfos.Where(w=>w.Adminuser== username).Where(w => w.CreateTime >= RangeValue.Start && w.CreateTime <= RangeValue.End).AsNoTracking().ToListAsync();
+                Patients = await context.patientInfos.Where(w=>w.AdminName== username).Where(w => w.CreateTime >= RangeValue.Start && w.CreateTime <= RangeValue.End).AsNoTracking().ToListAsync();
 
                 var array = Patients.Select(s => s.Medicalrecordnumber).ToList();
-                var arrayname = Patients.Select(s => s.Name).ToArray();
+                var arrayname = Patients.Select(s => s.UserName).ToArray();
                 Items.AddRange(array);
                 Items.AddRange(arrayname);
             }
@@ -90,7 +90,7 @@ namespace Medical.Work.Pages
             if (result == DialogResult.Yes)
             {
                 patientInfo.CreateTime = DateTime.Now;
-                patientInfo.Adminuser = authenticationStateTask.Result.User.Identity.Name;
+                patientInfo.AdminName = authenticationStateTask.Result.User.Identity.Name;
                 InfoService.AddPatientInfo(patientInfo);
                 Patients.Add(patientInfo);
                 //UpdateDate();
@@ -119,7 +119,7 @@ namespace Medical.Work.Pages
             if (result == DialogResult.Yes)
             {
                 patientInfo.CreateTime = DateTime.Now;
-                patientInfo.Adminuser = authenticationStateTask.Result.User.Identity.Name;
+                patientInfo.AdminName = authenticationStateTask.Result.User.Identity.Name;
                 InfoService.UpdatePatientInfo(patientInfo);
                 ShowColorMessage(Color.Danger, "医患信息修改成功", MessageElement);
             }

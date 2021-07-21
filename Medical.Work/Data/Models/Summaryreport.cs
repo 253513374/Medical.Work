@@ -37,7 +37,7 @@ namespace Medical.Work.Data.Models
         /// 患者名称
         /// </summary>
         [DisplayName("患者名称")]
-        public string Username { set; get; }
+        public string UserName { set; get; }
 
         /// <summary>
         /// 病历号

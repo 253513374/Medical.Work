@@ -11,7 +11,7 @@
         <BootstrapInput @bind-Value="@contacts.Medicalrecordnumber"></BootstrapInput>
     </Row>
     <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
-        <BootstrapInput @bind-Value="@contacts.Name"></BootstrapInput>
+        <BootstrapInput @bind-Value="@contacts.UserName"></BootstrapInput>
         <BootstrapInput @bind-Value="@contacts.Contactnumber"></BootstrapInput>
     </Row>
     <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
@@ -19,7 +19,6 @@
     </Row>
     <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.One">
         <Textarea rows="3" @bind-Value="@contacts.Address" />
-      
     </Row>
 </ValidateForm>
 

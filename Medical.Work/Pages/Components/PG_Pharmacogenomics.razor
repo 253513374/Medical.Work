@@ -1,0 +1,23 @@
+﻿
+
+
+<h3>病原菌基因</h3>
+
+<div>
+    <ValidateForm Model="@pG_PathogenGene">
+        <Row ItemsPerRow="ItemsPerRow.One">
+            <BootstrapInput @bind-Value="@pG_PathogenGene.Medicalrecordnumber"/>
+            <BootstrapInput @bind-Value="@pG_PathogenGene.UserName" />
+            <BootstrapInput @bind-Value="@pG_PathogenGene.PathogenicGeneDetectionResults" />
+        </Row>
+    </ValidateForm>
+   
+</div>
+
+
+
+@code {
+
+
+    private MedicalPG_PathogenGene pG_PathogenGene { set; get; }
+}

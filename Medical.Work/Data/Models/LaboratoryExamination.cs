@@ -17,7 +17,7 @@ namespace Medical.Work.Data.Models
         [AutoGenerateColumn(Ignore = true)]
         public int LaboratoryExaminationID { set; get; }
         [AutoGenerateColumn(Ignore = true)]
-        public string Adminuser { set; get; }
+        public string AdminName{ set; get; }
 
         /// <summary>
         /// 病历号
@@ -28,12 +28,12 @@ namespace Medical.Work.Data.Models
         public string Medicalrecordnumber { set; get; }
 
         /// <summary>
-        /// 姓名
+        /// 患者姓名
         /// </summary>
         [NotNull]
         [DisplayName("患者姓名")]
         [AutoGenerateColumn(Ignore = true)]
-        public string Name { set; get; }
+        public string UserName { set; get; }
 
         [DisplayName("唯一编码")]
         [AutoGenerateColumn(Ignore = true)]

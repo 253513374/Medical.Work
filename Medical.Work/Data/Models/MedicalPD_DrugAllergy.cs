@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,10 +29,25 @@ namespace Medical.Work.Data.Models
         public string P_Guid { set; get; }
 
         /// <summary>
-        /// 登陆用户名称
+        /// 管理员
         /// </summary>
-        [DisplayName("账号")]
+        [DisplayName("管理员")]
         public string AdminName { set; get; }
+
+
+        /// <summary>
+        /// 病历号
+        /// </summary>
+        [NotNull]
+        [DisplayName("病历号")]
+        public string Medicalrecordnumber { set; get; }
+
+        /// <summary>
+        /// 患者姓名
+        /// </summary>
+        [NotNull]
+        [DisplayName("患者姓名")]
+        public string UserName { set; get; }
 
         /// <summary>
         /// 创建时间

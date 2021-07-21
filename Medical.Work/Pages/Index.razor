@@ -5,32 +5,7 @@
 @inject UserManager<IdentityUser> Usermanager
 @inject NavigationManager Navigationmanager
 
-<style>
-    .mybut {
-        border: 1px solid #8bdff4;
-        height: 40px;
-        width: 40px;
-        border-radius: 50%;
-        background-color: #8bdff4;
-    }
 
-        .mybut:hover {
-            /*        border: 1px solid #56CDF8;
-        height: 65px;
-        width: 65px;*/
-            border: 1px solid #56CDF8;
-            background-color: #56CDF8;
-        }
-
-    .istyle {
-        color: #ffc77d
-    }
-
-        .istyle:hover {
-            color: #e54304;
-            border-block-color: #e54304
-        }
-</style>
 
     <div class="w-100">
         <div class="  pt-4 ">
@@ -43,12 +18,12 @@
             <Row ItemsPerRow="ItemsPerRow.Two">
 
                 <Search IgnoreCase="true" IsLikeMatch="true" PlaceHolder="请输入医患关键字..." ShowClearButton="true" Items="@Items" OnSearch="@OnSearch2" OnClear="@OnClear"></Search>
-                <Button class="mybut oi oi-pulse"  @onclick="@CreateAddDlg" ></Button>
+                <button class="mybut fa fa-plus "  @onclick="@CreateAddDlg" ></button>
             </Row>
         </div>
     </div>
 
-    <div class="">
+    <div style="margin-top:30px;">
         <div class="listview">
             <ListView TItem="PatientInfo" style="border: 1px;" Pageable="true"  OnQueryAsync="@OnQueryPageAsync">
                 <BodyTemplate>
@@ -59,7 +34,7 @@
                                 <Button ButtonStyle="ButtonStyle.Circle" IsOutline="true" Color="Color.Light" class="istyle" OnClick="@(s=>Ondel(@context))"><i class="fa fa-trash istyle"></i></Button>
                             </div>
                             <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
-                                <h6>姓名:@context.Name</h6>
+                                <h6>姓名:@context.UserName</h6>
                                 <h6 class="card-title">科室:@context.Department </h6>
                             </Row>
                             <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">

@@ -76,7 +76,7 @@ namespace Medical.Work.Data
         {
             using (var context = ContextFactory.CreateDbContext())
             {
-                return await context.patientInfos.Where(w=>w.Adminuser== username).Where(w => w.Medicalrecordnumber.Contains(key) || w.Name.Contains(key)).ToListAsync();
+                return await context.patientInfos.Where(w=>w.AdminName== username).Where(w => w.Medicalrecordnumber.Contains(key) || w.UserName.Contains(key)).ToListAsync();
             }
             //  null;
         }

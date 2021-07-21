@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -42,6 +43,20 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [DisplayName("创建时间")]
         public DateTime CreateTime { set; get; }
+        /// <summary>
+        /// 病历号
+        /// </summary>
+        [NotNull]
+        [DisplayName("病历号")]
+        public string Medicalrecordnumber { set; get; }
+
+        /// <summary>
+        /// 患者姓名
+        /// </summary>
+        [NotNull]
+        [DisplayName("患者姓名")]
+        public string UserName { set; get; }
+
 
         /// <summary>
         /// 方案名称(可选)

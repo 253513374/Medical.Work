@@ -1,8 +1,23 @@
 ﻿@inherits LayoutComponentBase
 
-<Layout SideWidth="300" IsPage="true" ShowGotoTop="true" ShowCollapseBar="true"
+
+<style>
+    .layout.is-page.has-sidebar .layout-side.is-fixed-header.is-fixed-footer .layout-menu, .layout.is-page .layout-side.is-fixed-header .layout-menu {
+        height: calc(100vh - 350px);
+    }
+    #container {
+        width: 100%;
+    }
+    .attr {
+        width: 100%;
+        height: auto;
+        padding-bottom: 0%;
+    }
+</style>
+
+<Layout SideWidth="0" IsPage="true" ShowGotoTop="true" ShowCollapseBar="@showCollapseBar" 
         IsFullSide="@IsFullSide" IsFixedHeader="@IsFixedHeader" IsFixedFooter="@IsFixedFooter" ShowFooter="@ShowFooter"
-        Menus="@Menus" UseTabSet="@UseTabSet" TabItemTextDictionary="@TabItemTextDictionary" AdditionalAssemblies="new[] { GetType().Assembly }" class="@Theme">
+        Menus="@Menus" UseTabSet="@UseTabSet"  AdditionalAssemblies="new[] { GetType().Assembly }" class="@Theme" OnCollapsed ="@OnCollapsedEvent">
     <Header>
             <span class="ml-3 flex-sm-fill d-none d-sm-block">医疗数据记录系统</span>
             @*<Widget></Widget>
@@ -11,14 +26,13 @@
             <div class="layout-drawer" @onclick="@(e => IsOpen = !IsOpen)"><i class="fa fa-gears"></i></div>
         </Header>
     <Side>
-        <div class="layout-banner" style="height:auto;background-color:transparent">
-            <img src="/img/logo.png" class="rounded-circle" style="height: 12rem;background-color: transparent" alt="...">
+        <div id="container" class="layout-banner d-flex justify-content-center" style="height:auto;background-color:transparent">
+            <img src="/img/logo.png" class="rounded-circle attr" style=" background-color: transparent" alt="...">
         </div>
-        <div class="layout-user">
-            <div class="text-center d-flex justify-content-center  ">
-                <LoginDisplay />
-            </div>
+        <div id="container d-flex justify-content-center" class="layout-user">
+            <LoginDisplay Calssstring="@calssstring" />
         </div>
+       
     </Side>
     <Main>
         <CascadingValue Value="this" IsFixed="true">
@@ -138,5 +152,4 @@
 <PopoverConfirm />
 <Message />
 <SweetAlert />
-
 

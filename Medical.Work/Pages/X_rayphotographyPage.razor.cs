@@ -51,7 +51,7 @@ namespace Medical.Work.Pages
                     if(rayImaging!=null)
                     {
                         rayImaging.Cretetime = DateTime.Now;
-                        rayImaging.Adminname = authenticationStateTask.Result.User.Identity.Name;
+                        rayImaging.AdminName = authenticationStateTask.Result.User.Identity.Name;
                         context.X_rayImagings.Add(rayImaging);
                         context.SaveChanges();
                         X_RayImagings.Add(rayImaging);
@@ -84,7 +84,7 @@ namespace Medical.Work.Pages
                     if (raybronchoscopy != null)
                     {
                         raybronchoscopy.Cretetime = DateTime.Now;
-                        raybronchoscopy.Adminname = authenticationStateTask.Result.User.Identity.Name;
+                        raybronchoscopy.AdminName = authenticationStateTask.Result.User.Identity.Name;
                         context.X_raybronchoscopys.Add(raybronchoscopy);
                         context.SaveChanges();
                         x_Raybronchoscopies.Add(raybronchoscopy);
@@ -118,7 +118,7 @@ namespace Medical.Work.Pages
                     if (raypathological != null)
                     {
                         raypathological.Cretetime = DateTime.Now;
-                        raypathological.Adminname = authenticationStateTask.Result.User.Identity.Name;
+                        raypathological.AdminName = authenticationStateTask.Result.User.Identity.Name;
                         context.X_raypathologicals.Add(raypathological);
                         context.SaveChanges();
                         X_Raypathologicals.Add(raypathological);
@@ -136,18 +136,18 @@ namespace Medical.Work.Pages
 
             using (var context = ContextFactor.CreateDbContext())
             {
-                var username = authenticationStateTask.Result.User.Identity.Name;
+                var UserName = authenticationStateTask.Result.User.Identity.Name;
                 DateTime dateTime = DateTime.Now.AddDays(-10);
                 switch (selected.Value)
                 {
                     case "1":
-                        X_RayImagings = await context.X_rayImagings.AsNoTracking().Where(w => w.Adminname == username).Where(w => w.Cretetime >= dateTime).ToListAsync();
+                        X_RayImagings = await context.X_rayImagings.AsNoTracking().Where(w => w.AdminName == UserName).Where(w => w.Cretetime >= dateTime).ToListAsync();
                         break;
                     case "2":
-                        x_Raybronchoscopies = await context.X_raybronchoscopys.AsNoTracking().Where(w => w.Adminname == username).Where(w => w.Cretetime >= dateTime).ToListAsync();
+                        x_Raybronchoscopies = await context.X_raybronchoscopys.AsNoTracking().Where(w => w.AdminName == UserName).Where(w => w.Cretetime >= dateTime).ToListAsync();
                         break;
                     case "3":
-                        X_Raypathologicals = await context.X_raypathologicals.AsNoTracking().Where(w => w.Adminname == username).Where(w => w.Cretetime >= dateTime).ToListAsync();
+                        X_Raypathologicals = await context.X_raypathologicals.AsNoTracking().Where(w => w.AdminName == UserName).Where(w => w.Cretetime >= dateTime).ToListAsync();
                         break;
                     default:
                         break;
@@ -161,33 +161,33 @@ namespace Medical.Work.Pages
         {
             using (var context  = ContextFactor.CreateDbContext())
             {
-                var username = authenticationStateTask.Result.User.Identity.Name;
+                var UserName = authenticationStateTask.Result.User.Identity.Name;
                 DateTime dateTime = DateTime.Now.AddDays(-10);
-                //var ssssss = context.X_raybronchoscopys.OrderBy(o => o.Username).Include(i => i.ImgUrl).ToList();
+                //var ssssss = context.X_raybronchoscopys.OrderBy(o => o.UserName).Include(i => i.ImgUrl).ToList();
                 switch (SelectTable)
                 {
 
                     case 1:
                         if(Querywhere==null)
                         {
-                            X_RayImagings = await context.X_rayImagings.AsNoTracking().Where(w => w.Adminname == username).Where(w => w.Cretetime >= dateTime).ToListAsync();
+                            X_RayImagings = await context.X_rayImagings.AsNoTracking().Where(w => w.AdminName == UserName).Where(w => w.Cretetime >= dateTime).ToListAsync();
                         }
-                        X_RayImagings = await context.X_rayImagings.AsNoTracking().Where(w => w.Adminname == username).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.Username.Contains(Querywhere)).ToListAsync();
+                        X_RayImagings = await context.X_rayImagings.AsNoTracking().Where(w => w.AdminName == UserName).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.UserName.Contains(Querywhere)).ToListAsync();
                         break;
                     case 2:
                         if (Querywhere == null)
                         {
-                            x_Raybronchoscopies = await context.X_raybronchoscopys.AsNoTracking().Where(w => w.Adminname == username).Where(w => w.Cretetime >= dateTime).ToListAsync();
+                            x_Raybronchoscopies = await context.X_raybronchoscopys.AsNoTracking().Where(w => w.AdminName == UserName).Where(w => w.Cretetime >= dateTime).ToListAsync();
                         }
-                        x_Raybronchoscopies = await context.X_raybronchoscopys.AsNoTracking().Where(w => w.Adminname == username).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.Username.Contains(Querywhere)).ToListAsync();
+                        x_Raybronchoscopies = await context.X_raybronchoscopys.AsNoTracking().Where(w => w.AdminName == UserName).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.UserName.Contains(Querywhere)).ToListAsync();
                         break;
                     case 3:
                         if (Querywhere == null)
                         {
                          
-                           X_Raypathologicals = await context.X_raypathologicals.AsNoTracking().Where(w => w.Adminname == username).Where(w => w.Cretetime >= dateTime).ToListAsync();
+                           X_Raypathologicals = await context.X_raypathologicals.AsNoTracking().Where(w => w.AdminName == UserName).Where(w => w.Cretetime >= dateTime).ToListAsync();
                         }
-                        X_Raypathologicals = await context.X_raypathologicals.AsNoTracking().Where(w => w.Adminname == username).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.Username.Contains( Querywhere)).ToListAsync();
+                        X_Raypathologicals = await context.X_raypathologicals.AsNoTracking().Where(w => w.AdminName == UserName).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.UserName.Contains( Querywhere)).ToListAsync();
                         break;
                     default:
                         break;

@@ -25,14 +25,14 @@ namespace Medical.Work.Data.Models
         /// 管理员账号
         /// </summary>
         [AutoGenerateColumn(Ignore = true)]
-        public string Adminname { set; get; }
+        public string AdminName { set; get; }
 
 
         /// <summary>
         /// 患者名称
         /// </summary>
         [DisplayName("患者姓名")]
-        public string Username { set; get; }
+        public string UserName { set; get; }
 
         /// <summary>
         /// 病历号

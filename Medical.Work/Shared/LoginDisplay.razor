@@ -1,22 +1,41 @@
-﻿<AuthorizeView>
-   
-        <div class=" d-flex align-content-center">
-            <form action="Identity/Account/Manage">
-                @*<a href="Identity/Account/Manage">你好, @context.User.Identity.Name!</a>*@
+﻿
 
-                <button type="submit" class="nav-link btn btn-link">你好, @context.User.Identity.Name!</button>
+
+
+
+
+
+
+
+<AuthorizeView>
+        <div class="d-flex align-content-center">
+            <form action="Identity/Account/Manage" style="@Calssstring">
+                <button type="submit" class="nav-link btn btn-link">@context.User.Identity.Name!</button>
             </form>
-           
 
             <form method="post" action="Identity/Account/LogOut">
-                <button type="submit" class="nav-link btn btn-link"> 退 出 </button>
+                <button type="submit" class="nav-link btn btn-link fa fa-sign-out"> </button>
             </form>
         </div>
-       
-       
-
-    @*<NotAuthorized>
-        <a href="Identity/Account/Register">注册</a>
-        <a href="Identity/Account/Login" >登录</a>
-    </NotAuthorized>*@
 </AuthorizeView>
+
+@code{
+
+  
+    public bool IsDisplay { set; get; }
+
+
+    [Parameter]
+    public string Calssstring { set; get; }
+
+    protected override void OnParametersSet()
+    {
+        if(IsDisplay)
+        {
+            Calssstring = "display: none;";
+        }
+        base.OnParametersSet();
+    }
+
+
+}

@@ -48,7 +48,7 @@
                             <tr>
                                 <td>@(i++)</td>
                                 <td>@item.Medicalrecordnumber</td>
-                                <td>@item.Name</td>
+                                <td>@item.UserName</td>
                                 <td>@item.Contactnumber</td>
                                 <td>@item.Emai</td>
                                 <td>@item.Address</td>
@@ -100,7 +100,7 @@
         using (var context = ContextFactory.CreateDbContext())
         {
             var uer = authenticationStateTask.Result.User.Identity.Name;
-            contacts =  context.Contacts.AsNoTracking().Where(w => w.Emainame == uer).ToList();
+            contacts =  context.Contacts.AsNoTracking().Where(w => w.AdminName == uer).ToList();
         }
         base.OnInitialized();
     }
@@ -110,7 +110,7 @@
         using (var context = ContextFactory.CreateDbContext())
         {
 
-            contacts = await context.Contacts.AsNoTracking().Where(w => w.Emainame == name).ToListAsync();
+            contacts = await context.Contacts.AsNoTracking().Where(w => w.AdminName == name).ToListAsync();
         }
     }
 
@@ -140,7 +140,7 @@
 
                // var user =  await _UserManager.GetUserAsync(authenticationStateTask.Result.User);
 
-                _Contacts.Emainame = authenticationStateTask.Result.User.Identity.Name;
+                _Contacts.AdminName = authenticationStateTask.Result.User.Identity.Name;
                 _Contacts.CreateTime = DateTime.Now;
                 context.Contacts.Add(_Contacts);
                 context.SaveChanges();
@@ -177,13 +177,13 @@
             contacts.Clear();
             if (Querywhere!=null)
             {
-                contacts =  await context.Contacts.AsNoTracking().Where(w=>w.Emainame== uer).Where(w => w.Name.Contains(Querywhere) || w.Medicalrecordnumber.Contains(Querywhere)).ToListAsync();
+                contacts =  await context.Contacts.AsNoTracking().Where(w=>w.AdminName== uer).Where(w => w.UserName.Contains(Querywhere) || w.Medicalrecordnumber.Contains(Querywhere)).ToListAsync();
 
 
             }
             if(Querywhere == null)
             {
-                contacts = await context.Contacts.AsNoTracking().Where(w => w.Emainame == uer).ToListAsync();
+                contacts = await context.Contacts.AsNoTracking().Where(w => w.AdminName == uer).ToListAsync();
 
             }
 

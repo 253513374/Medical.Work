@@ -31,7 +31,7 @@ namespace Medical.Work.Data.Models
         /// 建立账号
         /// </summary>
         [DisplayName("建立账号")]
-        public string Adminuser {set;get; }
+        public string AdminName {set;get; }
 
 
         /// <summary>
@@ -42,11 +42,11 @@ namespace Medical.Work.Data.Models
         public string Medicalrecordnumber { set; get; }
 
         /// <summary>
-        /// 姓名
+        /// 患者姓名
         /// </summary>
         [NotNull]
         [DisplayName( "患者姓名")]
-        public string Name { set; get; }
+        public string UserName { set; get; }
 
         /// <summary>
         /// 科室

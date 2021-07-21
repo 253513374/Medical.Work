@@ -8,9 +8,9 @@
 
 .mybut {
     border: 1px solid #8bdff4;
-    height: 65px;
+    height: 35px;
     width: 65px;
-    border-radius: 50%;
+    border-radius: 10%;
     background-color: #8bdff4;
 }
     .mybut:hover {

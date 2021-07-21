@@ -310,3 +310,5 @@
 .widget .dropdown-item:not(:nth-of-type(odd)):active {
     background-color: inherit;
 }
+
+
