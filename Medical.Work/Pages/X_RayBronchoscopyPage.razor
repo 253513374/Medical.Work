@@ -1,0 +1,151 @@
+﻿
+
+@page "/X_RayBronchoscopyPage"
+
+
+@inject DialogService? Dialogservice
+@inject IDbContextFactory<MedicalDbContext> ContextFactor
+@inject UserManager<IdentityUser> Usermanager
+
+
+
+<div class="divtop d-flex  align-items-center">
+
+    <div class="  w-100 ">
+        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
+
+            <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s=>OnSearch())"></Search>
+
+            <button class="createbut fa fa-plus " @onclick="@OnShowDlg"></button>
+        </Row>
+    </div>
+</div>
+
+<div>
+    <Table TItem="X_raybronchoscopy" ShowLoading="true" IsPagination="true" 
+           IsStriped="true" IsBordered="true"  IsAutoRefresh="true"
+           ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" 
+           ShowDeleteButton="false"    OnQueryAsync="@OnQueryPageAsync"
+           ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true" >
+        <RowButtonTemplate>
+            <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context,2))" />
+            <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" OnClickCallback="@(() => OnRowEditClick(context,2))" />
+        </RowButtonTemplate>
+    </Table>
+</div>
+<Message @ref="MessageElement" />
+@code {
+
+    private string Querywhere { set; get; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    private X_raybronchoscopy x_Raybronchoscopy{ set; get; }
+
+    private List<X_raybronchoscopy> x_Raybronchoscopies  { set; get; } = new();
+
+    [Inject]
+    private MessageService messageService { set; get; }
+
+    private Message MessageElement { set; get; }
+
+    private MedicalDbContext context { set; get; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            context = ContextFactor.CreateDbContext();
+            await OnSearch();
+        }
+        return;// await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private async Task OnSearch()
+    {
+        var UserName = authenticationStateTask.Result.User.Identity.Name;
+        DateTime dateTime = DateTime.Now.AddDays(-30);
+        if (Querywhere is null)
+        {
+            x_Raybronchoscopies = await context.X_raybronchoscopys.AsNoTracking().Where(w => w.AdminName == UserName).ToListAsync();
+        }
+        else
+        {
+            x_Raybronchoscopies = await context.X_raybronchoscopys.AsNoTracking().Where(w => w.AdminName == UserName).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.UserName.Contains(Querywhere)).ToListAsync();
+
+        }
+        StateHasChanged();
+        return;// Task.CompletedTask;
+    }
+
+    private Task<QueryData<X_raybronchoscopy>> OnQueryPageAsync(QueryPageOptions options)
+    {
+        var items = x_Raybronchoscopies.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems);
+        return Task.FromResult(new QueryData<X_raybronchoscopy>()
+        {
+            Items = items,
+            TotalCount = x_Raybronchoscopies.Count()
+        });
+
+    }
+
+    private async Task OnShowDlg()
+    {
+        var result = await Dialogservice.ShowModal<X_raybronchoscopyDlg>(new ResultDialogOption()
+        {
+            Title = "新建纤维支气管镜检查",
+            BodyContext = new X_raybronchoscopy(),
+
+            ComponentParamters = new KeyValuePair<string, object>[]
+             {
+                //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
+                      new(nameof(X_raybronchoscopyDlg.OnEventCallback), EventCallback.Factory.Create<X_raybronchoscopy>(this, v => x_Raybronchoscopy = v))
+             }
+        });
+
+        if (result == DialogResult.Yes)
+        {
+            // MessageTagservice.ShowColorMessage(Color.Danger, "医患信息添加成功", MessageElement);
+            using (var context = ContextFactor.CreateDbContext())
+            {
+                if (x_Raybronchoscopy != null)
+                {
+                    x_Raybronchoscopy.Cretetime = DateTime.Now;
+                    x_Raybronchoscopy.AdminName = authenticationStateTask.Result.User.Identity.Name;
+                    context.X_raybronchoscopys.Add(x_Raybronchoscopy);
+                    context.SaveChanges();
+                    x_Raybronchoscopies.Add(x_Raybronchoscopy);
+                    ShowColorMessage(Color.Success, "纤维支气管镜检查添加成功", MessageElement);
+                }
+            }
+        }
+        return;
+    }
+
+
+    private async Task OnRowEditClick(object obj, int typeofint)
+    {
+        //if (typeofint == 1) await EditX_Raydata(obj as X_rayImaging);
+
+        //if (typeofint == 2) await EditX_Raydata(obj as X_raybronchoscopy);
+
+        //if (typeofint == 3) await EditX_Raydata(obj as X_raypathological);
+    }
+    private async Task OnRowDetailedClick(object obj, int typeofint)
+    {
+
+    }
+
+    public void ShowColorMessage(Color color, string content, Message message)
+    {
+        message.SetPlacement(Placement.Top);
+        messageService?.Show(new MessageOption()
+        {
+            Host = message,
+            Content = content,
+            Icon = "fa fa-info-circle",
+            Color = color
+        });
+    }
+}

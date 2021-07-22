@@ -3,38 +3,54 @@
 @page "/PD_MicrobiologicalPage"
 
 
+<div class="divtop d-flex  align-items-center">
 
-<div style="font-size:24px;font-weight:700" class="w-100 d-flex">
-    <GroupBox Title="微生物检查">
-        <div style="font-size:16px;font-weight:500">
-            <ValidateForm Model="@medicalPD_Microbiological">
-                <Row ItemsPerRow="ItemsPerRow.One">
-                    <Select @bind-Value="@medicalPD_Microbiological.TestorisNot"></Select>
-                </Row>
-                <Row ItemsPerRow="ItemsPerRow.Two">
-                    <BootstrapInput @bind-Value="@medicalPD_Microbiological.UserName"></BootstrapInput>
-                    <BootstrapInput @bind-Value="@medicalPD_Microbiological.Medicalrecordnumber"></BootstrapInput>
-                    <DateTimePicker @bind-Value="@medicalPD_Microbiological.TestTime"></DateTimePicker>
-                    <Select @bind-Value="@medicalPD_Microbiological.SpecimenType"></Select>
-                </Row>
-                <Divider></Divider>
-                <Row ItemsPerRow="ItemsPerRow.One">
-                    <Select @bind-Value="@medicalPD_Microbiological.TestorNot"></Select>
-                    <DateTimePicker @bind-Value="@medicalPD_Microbiological.ReportTime"></DateTimePicker>
-                    <BootstrapInput @bind-Value="@medicalPD_Microbiological.Bacterial"></BootstrapInput>
-                </Row>
-            </ValidateForm>
-        </div>
-    </GroupBox>
+    <div class="  w-100 ">
+        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
+
+            <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s=>OnSearch())"></Search>
+
+            <button class="createbut fa fa-plus " @onclick="@OnShowDlg"></button>
+        </Row>
+    </div>
+</div>
+
+<div>
+    <Table TItem="MedicalPD_Microbiological" ShowLoading="true" Items="@pD_Microbiologicals" IsPagination="true" IsStriped="true" IsBordered="true"
+           ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
+           ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
+        <RowButtonTemplate>
+            @* <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context,1))" />*@
+            <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" OnClickCallback="@(() => OnRowEditClick())" />
+        </RowButtonTemplate>
+    </Table>
 </div>
 
 
-            @code {
 
 
-                private MedicalPD_Microbiological medicalPD_Microbiological { set; get; } = new();
-
-           
+@code {
 
 
-            }
+    private string Querywhere { set; get; }
+
+    private List<MedicalPD_Microbiological> pD_Microbiologicals { set; get; } = new();
+
+
+    private Task OnSearch()
+    {
+        return Task.CompletedTask;
+    }
+
+    private Task OnShowDlg()
+    {
+        return Task.CompletedTask;
+    }
+
+    private Task OnRowEditClick()
+    {
+        return Task.CompletedTask;
+    }
+
+
+}

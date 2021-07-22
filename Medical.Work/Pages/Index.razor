@@ -7,17 +7,14 @@
 
 
 
-    <div class="w-100">
-        <div class="  pt-4 ">
-            <Row ItemsPerRow="ItemsPerRow.One">
-                <p class="h3"> 患者信息列表</p>
+    <div class="divtop w-100 d-flex  align-items-center">
+        <div class=" w-75 ">
+            <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
                 <DateTimeRange Value="@RangeValue" ShowToday="true" DisplayText="时间范围" />
             </Row>
-
             <div class="pt-2"></div>
-            <Row ItemsPerRow="ItemsPerRow.Two">
-
-                <Search IgnoreCase="true" IsLikeMatch="true" PlaceHolder="请输入医患关键字..." ShowClearButton="true" Items="@Items" OnSearch="@OnSearch2" OnClear="@OnClear"></Search>
+            <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.FormRow">
+                <Search IgnoreCase="true" IsLikeMatch="true" PlaceHolder="请输入关键信息..." DisplayText="." ShowClearButton="true" Items="@Items" OnSearch="@OnSearch2" OnClear="@OnClear"></Search>
                 <button class="createbut fa fa-plus "  @onclick="@CreateAddDlg" ></button>
             </Row>
         </div>

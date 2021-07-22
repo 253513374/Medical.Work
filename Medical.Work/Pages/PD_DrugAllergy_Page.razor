@@ -3,7 +3,7 @@
 @page "/PD_DrugAllergy_Page"
 
 
-<div class=" d-flex  align-items-center">
+<div class=" divtop d-flex  align-items-center">
 
     <div class="  w-100 ">
         <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
@@ -15,11 +15,23 @@
     </div>
 </div>
 
+<div>
+    <Table TItem="MedicalPD_DrugAllergy" ShowLoading="true" Items="@pD_DrugAllergies" IsPagination="true" IsStriped="true" IsBordered="true" 
+           ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
+           ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
+        <RowButtonTemplate>
+           @* <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context,1))" />*@
+            <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" OnClickCallback="@(() => OnRowEditClick())" />
+        </RowButtonTemplate>
+    </Table>
+</div>
+
+
 @code {
 
     private string Querywhere { set; get; }
 
-    private MedicalPD_DrugAllergy medicalPD_DrugAllergy { set; get; } = new();
+    private List<MedicalPD_DrugAllergy> pD_DrugAllergies  { set; get; } = new();
 
 
     private Task OnSearch()
@@ -28,6 +40,11 @@
     }
 
     private Task OnShowDlg()
+    {
+        return Task.CompletedTask;
+    }
+
+    private Task OnRowEditClick()
     {
         return Task.CompletedTask;
     }

@@ -1,5 +1,37 @@
-﻿<h3>PD_Microbiological_Dlg</h3>
+﻿
+
+
+
+<h3>PD_Microbiological_Dlg</h3>
+
+<div style="font-size:24px;font-weight:700" class="w-100 d-flex">
+    <GroupBox Title="微生物检查">
+        <div style="font-size:16px;font-weight:500">
+            <ValidateForm Model="@medicalPD_Microbiological">
+                <Row ItemsPerRow="ItemsPerRow.One">
+                    <Select @bind-Value="@medicalPD_Microbiological.TestorisNot"></Select>
+                </Row>
+                <Row ItemsPerRow="ItemsPerRow.Two">
+                    <BootstrapInput @bind-Value="@medicalPD_Microbiological.UserName"></BootstrapInput>
+                    <BootstrapInput @bind-Value="@medicalPD_Microbiological.Medicalrecordnumber"></BootstrapInput>
+                    <DateTimePicker @bind-Value="@medicalPD_Microbiological.TestTime"></DateTimePicker>
+                    <Select @bind-Value="@medicalPD_Microbiological.SpecimenType"></Select>
+                </Row>
+                <Divider></Divider>
+                <Row ItemsPerRow="ItemsPerRow.One">
+                    <Select @bind-Value="@medicalPD_Microbiological.TestorNot"></Select>
+                    <DateTimePicker @bind-Value="@medicalPD_Microbiological.ReportTime"></DateTimePicker>
+                    <BootstrapInput @bind-Value="@medicalPD_Microbiological.Bacterial"></BootstrapInput>
+                </Row>
+            </ValidateForm>
+        </div>
+    </GroupBox>
+</div>
 
 @code {
+
+    private MedicalPD_Microbiological medicalPD_Microbiological { set; get; } = new();
+
+
 
 }

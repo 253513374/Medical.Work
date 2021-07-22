@@ -7,55 +7,67 @@
 
 @inject IDbContextFactory<MedicalDbContext> contextFactory
 
-<div class=" divtop  w-100 d-flex align-items-center">
-    <div class="marginlr w-100">
-        <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.FormRow">
-            <Search @bind-Value="@Querywhere" @onclick="@(s=>OnQuerywhere())"></Search>
-            @*<Button @onclick="@OnShowDlg">给药方案</Button>*@
+<div class="divtop d-flex  align-items-center">
+
+    <div class="  w-100 ">
+        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
+
+            <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s=>OnSearch())"></Search>
+
+            <button class="createbut fa fa-plus " @onclick="@OnShowDlg"></button>
         </Row>
     </div>
 </div>
 
 <div>
-    <Row ItemsPerRow="ItemsPerRow.One">
-
-    </Row>
+    <Table TItem="MedicalPG_PathogenGene" ShowLoading="true" Items="@pG_PathogenGenes" IsPagination="true" IsStriped="true" IsBordered="true"
+           ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
+           ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
+        <RowButtonTemplate>
+            @* <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context,1))" />*@
+            <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" OnClickCallback="@(() => OnRowEditClick())" />
+        </RowButtonTemplate>
+    </Table>
 </div>
-@*<h3>MedicalPGPage</h3>*@
+
+
+
 
 @code {
 
-
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationStateTask { get; set; }
+        [CascadingParameter]
+        private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     private string Querywhere { set; get; }
 
+    private List<MedicalPG_PathogenGene>  pG_PathogenGenes   { set; get; } = new();
 
 
-
-    private MedicalPG_PathogenGene pG_PathogenGene  { set; get; }
-
-    private MedicalPG_Pharmacogenomics pG_Pharmacogenomics { set; get; }
-
-
-
-    private async Task OnQuerywhere()
+    private Task OnSearch()
     {
+
+
         if (Querywhere is null)
         {
             using (var context = contextFactory.CreateDbContext())
-            {
-                var adminname = authenticationStateTask.Result.User.Identity.Name;
-                //var  medicals = await context.medicalPKs.AsNoTracking().Where(w => w.AdminName == adminname).Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).ToListAsync();
-
-               // medicalPK_s = context.medicalPKs.Include(i => i.MedicalPKSamplings).ThenInclude(t => t.medicalPKSamplings).Where(w => w.AdminName == adminname).Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).ToList();
-                //if (medicals.Count>0)
-                //{
-                //    medicalPK_s = medicals;
-                //}
-            }
-            // StateHasChanged();
+            { }
         }
+        return Task.CompletedTask;
     }
+
+    private Task OnShowDlg()
+    {
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnRowEditClick()
+    {
+        return Task.CompletedTask;
+    }
+
+
 }
+
+@*<h3>MedicalPGPage</h3>*@
+

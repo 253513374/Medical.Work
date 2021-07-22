@@ -3,8 +3,55 @@
 @page "/PG_PharmacogenomicsPage"
 
 
-<h3>PG_PharmacogenomicsPage</h3>
+
+<div class="divtop d-flex  align-items-center">
+
+    <div class="  w-100 ">
+        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
+
+            <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s=>OnSearch())"></Search>
+
+            <button class="createbut fa fa-plus " @onclick="@OnShowDlg"></button>
+        </Row>
+    </div>
+</div>
+
+<div>
+    <Table TItem="MedicalPG_Pharmacogenomics" ShowLoading="true" Items="@pG_Pharmacogenomics" IsPagination="true" IsStriped="true" IsBordered="true"
+           ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
+           ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
+        <RowButtonTemplate>
+            @* <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context,1))" />*@
+            <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" OnClickCallback="@(() => OnRowEditClick())" />
+        </RowButtonTemplate>
+    </Table>
+</div>
+
+
+
 
 @code {
+
+
+    private string Querywhere { set; get; }
+
+    private List<MedicalPG_Pharmacogenomics> pG_Pharmacogenomics  { set; get; } = new();
+
+
+    private Task OnSearch()
+    {
+        return Task.CompletedTask;
+    }
+
+    private Task OnShowDlg()
+    {
+        return Task.CompletedTask;
+    }
+
+    private Task OnRowEditClick()
+    {
+        return Task.CompletedTask;
+    }
+
 
 }

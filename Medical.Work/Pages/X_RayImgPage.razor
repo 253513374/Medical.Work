@@ -1,0 +1,153 @@
+﻿
+
+
+@page "/X_RayImgPage"
+
+
+
+@inject DialogService? Dialogservice
+@inject IDbContextFactory<MedicalDbContext> ContextFactor
+@inject UserManager<IdentityUser> Usermanager
+
+
+<div class="divtop d-flex  align-items-center">
+
+    <div class="  w-100 ">
+        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
+
+            <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s => OnSearch())"></Search>
+
+            <button class="createbut fa fa-plus " @onclick="@OnShowDlg"></button>
+        </Row>
+    </div>
+</div>
+
+<div>
+    <Table TItem="X_rayImaging" ShowLoading="true"  IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"
+           ShowToolbar="true" ShowAddButton="false" ShowEditButton="false"  IsAutoRefresh="true"
+           ShowDeleteButton="false"  OnQueryAsync="@OnQueryPageAsync"
+           ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
+        <RowButtonTemplate>
+            <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context,1))" />
+            <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" OnClickCallback="@(() => OnRowEditClick(context,1))" />
+        </RowButtonTemplate>
+    </Table>
+</div>
+<Message @ref="MessageElement" />
+
+@code {
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    [Inject]
+    private MessageService messageService { set; get; }
+
+    private Message MessageElement { set; get; }
+
+    private X_rayImaging rayImaging { set; get; }
+
+    private List<X_rayImaging> X_RayImagings { set; get; } = new();
+
+    private string Querywhere { set; get; }
+
+    private MedicalDbContext context { set; get; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(firstRender)
+        {
+            context = ContextFactor.CreateDbContext();
+            await OnSearch();
+        }
+        return;// base.OnAfterRenderAsync(firstRender);
+    }
+
+
+
+    public async Task OnSearch()
+    {
+        var UserName = authenticationStateTask.Result.User.Identity.Name;
+        DateTime dateTime = DateTime.Now.AddDays(-30);
+        if (Querywhere is null)
+        {
+            X_RayImagings = await context.X_rayImagings.AsNoTracking().Where(w => w.AdminName == UserName).ToListAsync();
+        }
+        else
+        {
+            X_RayImagings = await context.X_rayImagings.AsNoTracking().Where(w => w.AdminName == UserName).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.UserName.Contains(Querywhere)).ToListAsync();
+
+        }
+        StateHasChanged();
+        return;// await Task.CompletedTask;
+    }
+
+    private Task<QueryData<X_rayImaging>> OnQueryPageAsync(QueryPageOptions options)
+    {
+        var items = X_RayImagings.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems);
+        return Task.FromResult(new QueryData<X_rayImaging>()
+        {
+            Items = items,
+            TotalCount = X_RayImagings.Count()
+        });
+
+    }
+
+    public async Task OnShowDlg()
+    {
+        var result = await Dialogservice.ShowModal<X_rayImagingDlg>(new ResultDialogOption()
+        {
+            Title = "新建影像学检查",
+            BodyContext = new X_rayImaging(),
+
+            ComponentParamters = new KeyValuePair<string, object>[]
+               {
+                //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
+                      new(nameof(X_rayImagingDlg.OnEventCallback), EventCallback.Factory.Create<X_rayImaging>(this, v => rayImaging = v))
+               }
+        });
+
+        if (result == DialogResult.Yes)
+        {
+            using (var context = ContextFactor.CreateDbContext())
+            {
+                if (rayImaging != null)
+                {
+                    rayImaging.Cretetime = DateTime.Now;
+                    rayImaging.AdminName = authenticationStateTask.Result.User.Identity.Name;
+                    context.X_rayImagings.Add(rayImaging);
+                    context.SaveChanges();
+                    X_RayImagings.Add(rayImaging);
+                    ShowColorMessage(Color.Success, "影像学检查添加成功", MessageElement);
+                }
+            }
+            // MessageTagservice.ShowColorMessage(Color.Danger, "医患信息添加成功", MessageElement);
+        }
+        return;
+        //  return Task.CompletedTask;
+    }
+    public void ShowColorMessage(Color color, string content, Message message)
+    {
+        message.SetPlacement(Placement.Top);
+        messageService?.Show(new MessageOption()
+        {
+            Host = message,
+            Content = content,
+            Icon = "fa fa-info-circle",
+            Color = color
+        });
+    }
+
+    private async Task OnRowEditClick(object obj, int typeofint)
+    {
+        //if (typeofint == 1) await EditX_Raydata(obj as X_rayImaging);
+
+        //if (typeofint == 2) await EditX_Raydata(obj as X_raybronchoscopy);
+
+        //if (typeofint == 3) await EditX_Raydata(obj as X_raypathological);
+    }
+    private async Task OnRowDetailedClick(object obj, int typeofint)
+    {
+
+    }
+}

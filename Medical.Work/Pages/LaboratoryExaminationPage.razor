@@ -5,7 +5,7 @@
 @inject IDbContextFactory<MedicalDbContext> contextFactory
 
 
-<div class=" d-flex  align-items-center">
+<div class=" divtop d-flex  align-items-center">
 
     <div class="  w-100 ">
         <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
@@ -20,7 +20,8 @@
 <div class="marginlr pt-2 ">
     <div style="height:100%;" class="row">
         <div class="col-7 col-sm-7 col-lg-7  ">
-            <Table TItem="LaboratoryExamination" ShowLoading="true" Items="@laboratoryExaminations" IsPagination="true" IsStriped="true" IsBordered="true" 
+            <Table TItem="LaboratoryExamination" ShowLoading="true" Items="@laboratoryExaminations" 
+                   IsPagination="true" IsStriped="true" IsBordered="true" 
                    ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
                    ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
                 <RowButtonTemplate>

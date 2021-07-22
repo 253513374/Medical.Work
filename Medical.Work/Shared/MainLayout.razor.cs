@@ -73,8 +73,14 @@ namespace Medical.Work.Shared
                      new MenuItem(){Text="采用信息"}
                 } },
 
+                new MenuItem() { Text = "影像学检查", Icon = "fa fa-video-camera",Items=new List<MenuItem>(){
+                        new MenuItem(){Text="纤维支气管镜检查", Url = "X_RayBronchoscopyPage"},
+                        new MenuItem(){Text="影像学检查" , Url = "X_RayImgPage"},
+                        new MenuItem(){Text="病理检查" , Url = "X_RaypathologicalPage"}
+                } },
+
                 new MenuItem() { Text = "实验室检查", Icon = "fa fa-fw fa-table", Url = "LaboratoryExaminationPage" },
-                new MenuItem() { Text = "影像学检查", Icon = "fa fa-video-camera", Url = "X_rayphotographyPage" },
+             
                 new MenuItem() { Text = "药学监护流程", Icon = "fa fa-fw fa-fa", Url = "SummaryreportPage" },
                 new MenuItem() { Text = "联系人管理", Icon = "fa fa-fw fa-check-square-o", Url = "ContactsPage" }
             
