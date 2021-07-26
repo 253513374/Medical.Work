@@ -12,27 +12,25 @@ namespace Medical.Work.Data
 
 
         public DbSet<MedicalDGK> medicalDGKs { set; get; }
-        public DbSet<MedicalPD_DrugAllergy>  medicalPD_Drugs { set; get; }
-        public DbSet<MedicalPD_Microbiological>  medicalPD_Microbiologicals { set; get; }
+        public DbSet<MedicalPD_DrugAllergy>  MPD_Drugs { set; get; }
+        public DbSet<MedicalPD_Microbiological>  MPD_Microbiologicals { set; get; }
 
-        public DbSet<MedicalPG_Pharmacogenomics> medicalPGs { set; get; }
-        public DbSet<MedicalPK> medicalPKs { set; get; }
+        public DbSet<MedicalPG_Pharmacogenomics> MPG_Pharmacogenomics { set; get; }
+
+        public DbSet<MedicalPG_PathogenGene> MPG_PathogenGenes { set; get; }
+
+        public DbSet<MedicalPK> MPKs { set; get; }
+        public DbSet<MedicalPKSampling> MPK_Samplings { set; get; }
+        public DbSet<MedicalPKSampling_sample> MPK_Sampling_Samples { set; get; }
         public DbSet<PatientInfo> patientInfos { set; get; }
 
         public DbSet<PatientInfoExDiagnosisTable> patientInfoExDiagnosisTables { set; get; }
         public DbSet<Contacts> Contacts { set; get; }
 
+        public DbSet<Summaryreport> Summaryreports { set; get; }
         public DbSet<X_raybronchoscopy> X_raybronchoscopys { set; get; }
         public DbSet<X_rayImaging> X_rayImagings { set; get; }
         public DbSet<X_raypathological> X_raypathologicals { set; get; }
-        public DbSet<Summaryreport> Summaryreports { set; get; }
-
-
-        public DbSet<MedicalPKSampling> medicalPKSamplings   { set; get; }
-
-        public DbSet<MedicalPKSampling_sample>  pKSampling_Samples { set; get; }
-
-
         public DbSet<X_rayImagePaths> x_RayImagePaths { set; get; }
         public DbSet<X_raybronchoscopyPaths>  x_RaybronchoscopyPaths { set; get; }
         public DbSet<X_raypathologicalPaths> x_RaypathologicalPaths { set; get; }
@@ -48,14 +46,32 @@ namespace Medical.Work.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
            
-            modelBuilder.Entity<MedicalPD_DrugAllergy>().ToTable("MedicalPD_DrugAllergy");
-            modelBuilder.Entity<MedicalPD_Microbiological>().ToTable("MedicalPD_Microbiological");
+            modelBuilder.Entity<MedicalPD_DrugAllergy>().ToTable("PD_DrugAllergy");
+            modelBuilder.Entity<MedicalPD_Microbiological>().ToTable("PD_Microbiological");
             
-            modelBuilder.Entity<MedicalPG_Pharmacogenomics>().ToTable("MedicalPG");
-            modelBuilder.Entity<MedicalPK>().ToTable("MedicalPK");
+            modelBuilder.Entity<MedicalPG_Pharmacogenomics>().ToTable("PG_Pharmacogenomics");
+            modelBuilder.Entity<MedicalPG_PathogenGene>().ToTable("PG_PathogenGene");
+
+
+            modelBuilder.Entity<MedicalPK>().ToTable("PKs");
+            modelBuilder.Entity<MedicalPKSampling>().ToTable("PK_Samplings");
+            modelBuilder.Entity<MedicalPKSampling_sample>().ToTable("PK_Sampling_Samples");
+            /*
+             
+                 public DbSet<MedicalPK> MPKs { set; get; }
+        public DbSet<MedicalPKSampling> MPK_Samplings { set; get; }
+        public DbSet<MedicalPKSampling_sample> MPK_Sampling_Samples { set; get; }
+             */
+
+
+         
             modelBuilder.Entity<PatientInfo>().ToTable("PatientInfo");
             modelBuilder.Entity<MedicalDGK>().ToTable("MedicalDGK");
             modelBuilder.Entity<Contacts>().ToTable("Contacts");
+
+
+
+
             // modelBuilder.Entity<City>().HasOne(city => city.Province).WithMany(x => x.Cities).HasForeignKey(city => .ProviceId);
             modelBuilder.Entity<MedicalPKSampling_sample>().HasOne(s => s.medicalPKSampling).WithMany(w => w.medicalPKSamplings).HasForeignKey(h=>h.MedicalPKSamplingID);
             modelBuilder.Entity<PatientInfoExDiagnosisTable>().HasOne(s => s.Patient).WithMany(w => w.PatientInfoExDiagnosisTable).HasForeignKey(h => h.PatientInfoID);

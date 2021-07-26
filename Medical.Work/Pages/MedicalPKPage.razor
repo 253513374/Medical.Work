@@ -9,7 +9,7 @@
     <div class="marginlr w-100">
         <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.FormRow">
             <Search @bind-Value="@Querywhere" @onclick="@(s=>OnQuerywhere())"></Search>
-            <Button @onclick="@OnShowDlg">给药方案</Button>
+            <button class="createbut fa fa-plus" @onclick="@OnShowDlg"></button>
         </Row>
     </div>
 </div>

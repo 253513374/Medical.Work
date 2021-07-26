@@ -1,0 +1,38 @@
+﻿<h3>PG_Pharmacogenomics_Dlg</h3>
+
+
+<ValidateForm Model="@Genome">
+    <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
+        <BootstrapInput @bind-Value="@Genome.Medicalrecordnumber"></BootstrapInput>
+        <BootstrapInput @bind-Value="@Genome.UserName"></BootstrapInput>
+
+        <BootstrapInput @bind-Value="@Genome.Rs"></BootstrapInput>
+        <BootstrapInput @bind-Value="@Genome.Genes"></BootstrapInput>
+        <BootstrapInput @bind-Value="@Genome.GenesResults"></BootstrapInput>
+        <BootstrapInput @bind-Value="@Genome.Metabolictype"></BootstrapInput>
+        <BootstrapInput @bind-Value="@Genome.Exegesis"></BootstrapInput>
+    </Row>
+
+</ValidateForm>
+
+
+
+@code {
+    [CascadingParameter(Name = "BodyContext")]
+    public object? Pharmacogenomics { set; get; }
+
+
+    private MedicalPG_Pharmacogenomics Genome { set; get; }
+
+
+
+    [Parameter]
+    public EventCallback<MedicalPG_Pharmacogenomics> OnEventCallback { set; get; }
+
+
+    protected override void OnParametersSet()
+    {
+        Genome = Pharmacogenomics as MedicalPG_Pharmacogenomics;
+        base.OnParametersSet();
+    }
+}

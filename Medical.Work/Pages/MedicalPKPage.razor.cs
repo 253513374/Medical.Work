@@ -41,7 +41,7 @@ namespace Medical.Work.Pages
                     var adminname = authenticationStateTask.Result.User.Identity.Name;
                     //var  medicals = await context.medicalPKs.AsNoTracking().Where(w => w.AdminName == adminname).Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).ToListAsync();
 
-                    medicalPK_s = context.medicalPKs.Include(i => i.MedicalPKSamplings).ThenInclude(t => t.medicalPKSamplings).Where(w => w.AdminName == adminname).Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).ToList();
+                    medicalPK_s = context.MPKs.Include(i => i.MedicalPKSamplings).ThenInclude(t => t.medicalPKSamplings).Where(w => w.AdminName == adminname).Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).ToList();
                     //if (medicals.Count>0)
                     //{
                     //    medicalPK_s = medicals;
@@ -70,7 +70,7 @@ namespace Medical.Work.Pages
                     medicalPK.AdminName = authenticationStateTask.Result.User.Identity.Name;
                     medicalPK.CreateTime = DateTime.Now;
                     medicalPK.MedicalPKGuid = Guid.NewGuid().ToString();
-                    context.medicalPKs.Add(medicalPK);
+                    context.MPKs.Add(medicalPK);
                     context.SaveChanges();
                     medicalPK_s.Add(medicalPK);
                 }

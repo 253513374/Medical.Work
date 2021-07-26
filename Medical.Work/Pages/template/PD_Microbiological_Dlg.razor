@@ -2,7 +2,6 @@
 
 
 
-<h3>PD_Microbiological_Dlg</h3>
 
 <div style="font-size:24px;font-weight:700" class="w-100 d-flex">
     <GroupBox Title="微生物检查">
@@ -16,11 +15,11 @@
                     <BootstrapInput @bind-Value="@medicalPD_Microbiological.Medicalrecordnumber"></BootstrapInput>
                     <DateTimePicker @bind-Value="@medicalPD_Microbiological.TestTime"></DateTimePicker>
                     <Select @bind-Value="@medicalPD_Microbiological.SpecimenType"></Select>
+                    <Select @bind-Value="@medicalPD_Microbiological.TestorNot"></Select>
+                    <DateTimePicker @bind-Value="@medicalPD_Microbiological.ReportTime"></DateTimePicker>
                 </Row>
                 <Divider></Divider>
                 <Row ItemsPerRow="ItemsPerRow.One">
-                    <Select @bind-Value="@medicalPD_Microbiological.TestorNot"></Select>
-                    <DateTimePicker @bind-Value="@medicalPD_Microbiological.ReportTime"></DateTimePicker>
                     <BootstrapInput @bind-Value="@medicalPD_Microbiological.Bacterial"></BootstrapInput>
                 </Row>
             </ValidateForm>
@@ -29,9 +28,23 @@
 </div>
 
 @code {
+  
+    [CascadingParameter(Name = "BodyContext")]
+    public object? Microbiological { set; get; }
 
-    private MedicalPD_Microbiological medicalPD_Microbiological { set; get; } = new();
+
+    private MedicalPD_Microbiological medicalPD_Microbiological { set; get; }
 
 
+
+    [Parameter]
+    public EventCallback<MedicalPD_Microbiological> OnEventCallback { set; get; }
+
+
+    protected override void OnParametersSet()
+    {
+        medicalPD_Microbiological = Microbiological as MedicalPD_Microbiological;
+        base.OnParametersSet();
+    }
 
 }

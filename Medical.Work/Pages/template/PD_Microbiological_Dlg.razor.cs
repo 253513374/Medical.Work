@@ -13,11 +13,11 @@ namespace Medical.Work.Pages.template
         {
             if (result == DialogResult.Yes)
             {
-                //if (OnEventCallback.HasDelegate)
-                //{
+                if (OnEventCallback.HasDelegate)
+                {
 
-                //    await OnEventCallback.InvokeAsync(patientInfo);
-                //}
+                    await OnEventCallback.InvokeAsync(medicalPD_Microbiological);
+                }
             }
             return;
         }

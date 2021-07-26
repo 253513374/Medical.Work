@@ -5,7 +5,7 @@
 @page "/PG_PathogenGenePage"
 
 
-@inject IDbContextFactory<MedicalDbContext> contextFactory
+
 
 <div class="divtop d-flex  align-items-center">
 
@@ -29,43 +29,123 @@
         </RowButtonTemplate>
     </Table>
 </div>
-
+<Message @ref="MessageElement" />
 
 
 
 @code {
 
-        [CascadingParameter]
-        private Task<AuthenticationState> authenticationStateTask { get; set; }
+    [Inject]
+    private MessageService messageService { set; get; }
+
+    private Message MessageElement { set; get; }
+
+    [Inject]
+    DialogService? Dialogservice { set; get; }
+
+    [Inject]
+    IDbContextFactory<MedicalDbContext> contextFactory { set; get; }
+
+    [CascadingParameter]
+    Task<AuthenticationState> authenticationStateTask { set; get; }
 
     private string Querywhere { set; get; }
 
+
+
+    private MedicalPG_PathogenGene pG_PathogenGene { set; get; } = new();
     private List<MedicalPG_PathogenGene>  pG_PathogenGenes   { set; get; } = new();
 
-
-    private Task OnSearch()
+    protected override async Task OnParametersSetAsync()
     {
 
-
-        if (Querywhere is null)
-        {
-            using (var context = contextFactory.CreateDbContext())
-            { }
-        }
-        return Task.CompletedTask;
+        await OnSearch();
+        return; // await base.OnParametersSetAsync();
     }
 
-    private Task OnShowDlg()
+    private async Task OnSearch()
     {
 
-        return Task.CompletedTask;
+
+        using (var context = contextFactory.CreateDbContext())
+        {
+            var adminname = authenticationStateTask.Result.User.Identity.Name;
+            if (Querywhere is not null)
+            {
+                pG_PathogenGenes = await context.MPG_PathogenGenes.AsNoTracking().Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.UserName.Contains(Querywhere)).ToListAsync();
+
+            }
+            else
+            {
+                pG_PathogenGenes = await context.MPG_PathogenGenes.AsNoTracking().Where(w => w.AdminName == adminname).ToListAsync();
+            }
+        }
+        StateHasChanged();
+        return; //Task.CompletedTask;
+    }
+
+    private Task<QueryData<MedicalPG_PathogenGene>> OnQueryAsync(QueryPageOptions options)
+    {
+        // 内存分页
+        var items = pG_PathogenGenes.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems).ToList();
+
+        return Task.FromResult(new QueryData<MedicalPG_PathogenGene>()
+        {
+            Items = items,
+            TotalCount = pG_PathogenGenes.Count
+            // IsSearch = true
+        });
+    }
+
+    private async Task OnShowDlg()
+    {
+
+        var result = await Dialogservice.ShowModal<PG_PathogenGene_Dlg>(new ResultDialogOption()
+        {
+            Title = "新建病原菌基因",
+            BodyContext = new MedicalPG_PathogenGene(),
+             Size= Size.ExtraSmall,
+            ComponentParamters = new KeyValuePair<string, object>[]
+            {
+                //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
+                      new(nameof(PG_PathogenGene_Dlg.OnEventCallback), EventCallback.Factory.Create<MedicalPG_PathogenGene>(this, v => pG_PathogenGene = v))
+            }
+        });
+
+        if (result == DialogResult.Yes)
+        {
+            using (var context = contextFactory.CreateDbContext())
+            {
+                if (pG_PathogenGene != null)
+                {
+                    pG_PathogenGene.CreateTime = DateTime.Now;
+                    pG_PathogenGene.AdminName = authenticationStateTask.Result.User.Identity.Name;
+                    context.MPG_PathogenGenes.Add(pG_PathogenGene);
+                    context.SaveChanges();
+                    pG_PathogenGenes.Add(pG_PathogenGene);
+                    ShowColorMessage(Color.Success, "新建临床微生物学检查", MessageElement);
+                }
+            }
+            // MessageTagservice.ShowColorMessage(Color.Danger, "医患信息添加成功", MessageElement);
+        }
+        return;
     }
 
     private Task OnRowEditClick()
     {
         return Task.CompletedTask;
     }
-
+    public void ShowColorMessage(Color color, string content, Message message)
+    {
+        message.SetPlacement(Placement.Top);
+        messageService?.Show(new MessageOption()
+        {
+            Host = message,
+            Content = content,
+            Icon = "fa fa-info-circle",
+            Color = color
+        });
+    }
 
 }
 

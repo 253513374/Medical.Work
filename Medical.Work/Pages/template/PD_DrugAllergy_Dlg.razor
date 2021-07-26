@@ -11,6 +11,7 @@
                 <Row ItemsPerRow="ItemsPerRow.One">
                     <Select @bind-Value="@medicalPD_DrugAllergy.TestorisNot"></Select>
                     <DateTimePicker @bind-Value="@medicalPD_DrugAllergy.TestTime"></DateTimePicker>
+                    <Select @bind-Value="@medicalPD_DrugAllergy.DrugsName"></Select>
                 </Row>
                 <Row ItemsPerRow="ItemsPerRow.Two">
                     <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.Medicalrecordnumber"></BootstrapInput>
@@ -19,15 +20,16 @@
                     <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.DrugsensitivityTestOther"></BootstrapInput>
                 </Row>
                 <Divider></Divider>
-                <Row ItemsPerRow="ItemsPerRow.One">
-                    <Select @bind-Value="@medicalPD_DrugAllergy.DrugsName"></Select>
 
-                </Row>
-                <Row ItemsPerRow="ItemsPerRow.Four">
+                <Row ItemsPerRow="ItemsPerRow.Two">
                     <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.MIC"></BootstrapInput>
                     <Select @bind-Value="@medicalPD_DrugAllergy.Susceptibility"></Select>
                     <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.TMic"></BootstrapInput>
                     <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.AUCMic"></BootstrapInput>
+                </Row>
+                <Row ItemsPerRow="ItemsPerRow.One">
+                   
+
                 </Row>
             </ValidateForm>
         </div>
@@ -35,5 +37,22 @@
 </div>
 
 @code {
-    private MedicalPD_DrugAllergy medicalPD_DrugAllergy { set; get; } = new();
+
+    [CascadingParameter(Name = "BodyContext")]
+    public object? DrugAllergy { set; get; }
+
+
+    private MedicalPD_DrugAllergy medicalPD_DrugAllergy { set; get; }
+
+
+
+    [Parameter]
+    public EventCallback<MedicalPD_DrugAllergy> OnEventCallback { set; get; }
+
+
+    protected override void OnParametersSet()
+    {
+        medicalPD_DrugAllergy = DrugAllergy as MedicalPD_DrugAllergy;
+        base.OnParametersSet();
+    }
 }

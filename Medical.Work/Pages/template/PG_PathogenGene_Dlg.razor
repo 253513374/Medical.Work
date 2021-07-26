@@ -1,0 +1,39 @@
+﻿
+
+
+
+<h3>PG_PathogenGene_Dlg</h3>
+
+<ValidateForm Model="@Genes">
+    <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
+        <BootstrapInput @bind-Value="@Genes.Medicalrecordnumber"></BootstrapInput>
+        <BootstrapInput @bind-Value="@Genes.UserName"></BootstrapInput>
+        <BootstrapInput @bind-Value="@Genes.PathogenName"></BootstrapInput>
+        <BootstrapInput @bind-Value="@Genes.PathogenicGeneName"></BootstrapInput>
+        <BootstrapInput @bind-Value="@Genes.PathogenicGeneDetectionResults"></BootstrapInput>
+        <BootstrapInput @bind-Value="@Genes.Exegesis"></BootstrapInput>
+    </Row>
+
+</ValidateForm>
+
+@code {
+
+
+    [CascadingParameter(Name = "BodyContext")]
+    public object? PathogenGene { set; get; }
+
+
+    private MedicalPG_PathogenGene Genes { set; get; }
+
+
+
+    [Parameter]
+    public EventCallback<MedicalPG_PathogenGene> OnEventCallback { set; get; }
+
+
+    protected override void OnParametersSet()
+    {
+        Genes = PathogenGene as MedicalPG_PathogenGene;
+        base.OnParametersSet();
+    }
+}
