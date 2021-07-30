@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BootstrapBlazor.Components;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Medical.Work.Data.Models
     {
 
 
- 
+        [AutoGenerateColumn(Ignore = true)]
         public int ID { set; get; }
 
         public DateTime Cretetime { set; get; }
@@ -23,6 +24,7 @@ namespace Medical.Work.Data.Models
         /// <summary>
         /// 管理员账号
         /// </summary>
+        [AutoGenerateColumn(Ignore = true)]
         public string Amdinname { set; get; }
 
 

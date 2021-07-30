@@ -46,15 +46,15 @@ namespace Medical.Work.Pages
         public List<string> Items { set; get; } = new List<string>(1000);
 
 
-        public DateTimeRangeValue RangeValue { set; get; } = new() { Start = DateTime.Now.AddDays(-30), End = DateTime.Now };
+        public DateTimeRangeValue RangeValue { set; get; } = new() { Start = DateTime.Now.AddDays(-90), End = DateTime.Now };
 
 
-        protected override async Task OnParametersSetAsync()
+
+        protected override async Task OnInitializedAsync()
         {
             await GetForecastAsync();
-            return;// base.OnParametersSetAsync();
+            return;// base.OnInitializedAsync();
         }
-     
 
 
         public async Task GetForecastAsync()
@@ -133,7 +133,7 @@ namespace Medical.Work.Pages
             //Trace2.Log($"SearchText: {searchText}");
             var username = authenticationStateTask.Result.User.Identity.Name;
             Patients = await InfoService.QueryPatientInfos(searchText, username);
-          //  await OnQueryPageAsync(new QueryPageOptions() { PageIndex=2, SearchText= searchText });
+             OnQueryPageAsync(new QueryPageOptions() );
             StateHasChanged();
             return;
         }

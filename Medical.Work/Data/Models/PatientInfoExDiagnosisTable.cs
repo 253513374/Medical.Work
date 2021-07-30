@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BootstrapBlazor.Components;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -14,8 +15,10 @@ namespace Medical.Work.Data.Models
         /// id
         /// </summary>
         [DisplayName("id")]
+        [AutoGenerateColumn(Ignore = true)]
         public int PatientInfoExDiagnosisTableID { set; get; }
 
+        [AutoGenerateColumn(Ignore = true)]
         public int PatientInfoID { set; get; }
 
         public PatientInfo Patient { set; get; }

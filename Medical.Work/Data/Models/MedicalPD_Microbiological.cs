@@ -1,4 +1,5 @@
-﻿using Medical.Work.Data.Enum;
+﻿using BootstrapBlazor.Components;
+using Medical.Work.Data.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,6 +20,7 @@ namespace Medical.Work.Data.Models
         /// 自增
         /// </summary>
         [DisplayName("自增")]
+        [AutoGenerateColumn(Ignore = true)]
         public int MedicalPD_MicrobiologicalID { set; get; }
 
 
@@ -26,12 +28,14 @@ namespace Medical.Work.Data.Models
         /// 唯一编码
         /// </summary>
         [DisplayName("唯一编码")]
+        [AutoGenerateColumn(Ignore = true)]
         public string P_Guid { set; get; }
 
         /// <summary>
         /// 登陆用户名称
         /// </summary>
         [DisplayName("账号")]
+        [AutoGenerateColumn(Ignore = true)]
         public string AdminName { set; get; }
 
         /// <summary>

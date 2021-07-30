@@ -16,9 +16,11 @@ namespace Medical.Work.Data.Models
     {
       
         [DisplayName("ID")]
+        [AutoGenerateColumn(Ignore = true)]
         public int PatientInfoID { set; get; }
 
         [DisplayName("唯一编码")]
+        [AutoGenerateColumn(Ignore = true)]
         public string PatientInfoGuid { set; get; }
 
         /// <summary>
@@ -31,6 +33,7 @@ namespace Medical.Work.Data.Models
         /// 建立账号
         /// </summary>
         [DisplayName("建立账号")]
+        [AutoGenerateColumn(Ignore = true)]
         public string AdminName {set;get; }
 
 

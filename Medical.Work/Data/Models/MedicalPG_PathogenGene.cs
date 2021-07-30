@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BootstrapBlazor.Components;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace Medical.Work.Data.Models
         /// ID
         /// </summary>
         [DisplayName("自增")]
+        [AutoGenerateColumn(Ignore = true)]
         public int ID { set; get; }
 
 
@@ -23,11 +25,13 @@ namespace Medical.Work.Data.Models
         /// 维一编码
         /// </summary>
         [DisplayName("维一编码")]
+        [AutoGenerateColumn(Ignore = true)]
         public string MedicalPGGuid { set; get; }
         /// <summary>
         /// 管理员账户
         /// </summary>
         [DisplayName("管理员账户")]
+        [AutoGenerateColumn(Ignore = true)]
         public string AdminName { set; get; }
 
         /// <summary>

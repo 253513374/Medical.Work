@@ -20,8 +20,9 @@
 </div>
 
 <div>
-    <Table TItem="MedicalPG_PathogenGene" ShowLoading="true" Items="@pG_PathogenGenes" IsPagination="true" IsStriped="true" IsBordered="true"
-           ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
+    <Table TItem="MedicalPG_PathogenGene" ShowLoading="true"  IsPagination="true" IsStriped="true" IsBordered="true"
+           ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false" 
+              OnQueryAsync="@OnQueryAsync"  IsAutoRefresh="true"
            ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
         <RowButtonTemplate>
             @* <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context,1))" />*@

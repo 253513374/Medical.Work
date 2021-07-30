@@ -18,6 +18,7 @@
 <div>
     <Table TItem="MedicalPD_Microbiological" ShowLoading="true" Items="@pD_Microbiologicals" IsPagination="true" IsStriped="true" IsBordered="true"
            ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
+           OnQueryAsync="@OnQueryAsync"  IsAutoRefresh="true"
            ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
         <RowButtonTemplate>
             @* <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context,1))" />*@
