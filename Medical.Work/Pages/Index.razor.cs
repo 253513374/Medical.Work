@@ -45,7 +45,7 @@ namespace Medical.Work.Pages
 
         public List<string> Items { set; get; } = new List<string>(1000);
 
-
+        private ListView<PatientInfo> mylistview { set; get; }
         public DateTimeRangeValue RangeValue { set; get; } = new() { Start = DateTime.Now.AddDays(-90), End = DateTime.Now };
 
 
@@ -133,7 +133,8 @@ namespace Medical.Work.Pages
             //Trace2.Log($"SearchText: {searchText}");
             var username = authenticationStateTask.Result.User.Identity.Name;
             Patients = await InfoService.QueryPatientInfos(searchText, username);
-             OnQueryPageAsync(new QueryPageOptions() );
+            //OnQueryPageAsync(new QueryPageOptions() );
+            await mylistview.QueryAsync();
             StateHasChanged();
             return;
         }

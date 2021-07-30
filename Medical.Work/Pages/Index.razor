@@ -22,7 +22,7 @@
 
     <div style="margin-top:30px;">
         <div class="listview">
-            <ListView TItem="PatientInfo"  style="border: 1px;" Pageable="true"  OnQueryAsync="@OnQueryPageAsync" PageItemsSource="@pagesize">
+            <ListView @ref="mylistview" TItem="PatientInfo"  style="border: 1px;" Pageable="true"  OnQueryAsync="@OnQueryPageAsync" PageItemsSource="@pagesize">
                 <BodyTemplate>
                     <Card Color="Color.Info" style="width:300px;">
                         <CardBody>
