@@ -69,7 +69,9 @@
 
     private async Task OnToHomeDetailsPage(PatientInfo patient)
     {
-        Navigationmanager.NavigateTo("/HomeDetailsPage");
+
+        var nav = $"/HomeDetailsPage/{patient.PatientInfoGuid}";
+        Navigationmanager.NavigateTo(nav);
     }
 
 

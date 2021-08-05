@@ -91,6 +91,7 @@ namespace Medical.Work.Pages
             {
                 patientInfo.CreateTime = DateTime.Now;
                 patientInfo.AdminName = authenticationStateTask.Result.User.Identity.Name;
+                patientInfo.PatientInfoGuid = Guid.NewGuid().ToString();
                 InfoService.AddPatientInfo(patientInfo);
                 Patients.Add(patientInfo);
                 //UpdateDate();

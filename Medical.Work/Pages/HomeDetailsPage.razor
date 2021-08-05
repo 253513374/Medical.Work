@@ -1,16 +1,28 @@
 ﻿
 
 
-@page "/HomeDetailsPage"
+@page "/HomeDetailsPage/{guid}"
 
+@inject PatientInfoService pservice
 
 <div class="container">
     <div class="jumbotron">
-        <h1 class="display-4">Hello, world!</h1>
-        <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+        <h1 class="display-4">@patientInfo.UserName</h1>
+        <div class="lead">
+            <ul class="list-unstyled">
+                @if(PatientInfokeyValuePairs is not null)
+                {
+                    foreach (var item in PatientInfokeyValuePairs)
+                    {
+                        <li >@item.Key : @item.Value</li>
+                    }
+                }
+
+            </ul>
+        </div>
         <hr class="my-4">
-        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+        <p>系统档案录入时间：@patientInfo.CreateTime</p>
+        <a class="btn btn-primary btn-lg" href="" role="button">其他入院记录信息</a>
     </div>
 
 </div>
@@ -20,12 +32,31 @@
 </ValidateForm>
 
 
+
 @code {
 
+    [Parameter]
+    public string guid { set; get; }
 
-        protected override Task OnInitializedAsync()
+    private PatientInfo patientInfo { set; get; } = new();
+
+    public Dictionary<string, object?> PatientInfokeyValuePairs { set; get; }
+
+    protected override Task OnParametersSetAsync()
+    {
+
+        return base.OnParametersSetAsync();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(guid is not null)
         {
-            return base.OnInitializedAsync();
+            patientInfo = await pservice.GetPatientInfo(guid);
+            PatientInfokeyValuePairs =DisplayAttributeExtend.GetAttributeExtends<PatientInfo>(patientInfo);
         }
+
+        return;// base.OnInitializedAsync();
+    }
 
 }

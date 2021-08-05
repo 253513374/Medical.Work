@@ -65,6 +65,16 @@ namespace Medical.Work.Data
             return true;
         }
 
+        public async Task<PatientInfo> GetPatientInfo(string guid)
+        {
+            using (var context = ContextFactory.CreateDbContext())
+            {
+                //context.SaveChanges();
+                return await context.patientInfos.Where(w => w.PatientInfoGuid == guid).AsNoTracking().FirstOrDefaultAsync();  
+            }
+          
+        }
+
 
         /// <summary>
         /// 根据关键字返回一个集合
