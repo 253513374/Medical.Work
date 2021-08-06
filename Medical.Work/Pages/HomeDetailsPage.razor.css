@@ -1,0 +1,38 @@
+﻿
+
+body {
+  
+}
+
+myposition1{
+    position: relative;
+}
+div.myposition2 {
+    position: absolute;
+    margin-left: 300px;
+    margin-top: 300px;
+}
+
+div.myscroll {
+    height: 800px;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+    overflow-y: scroll;
+    padding: 0 0.1rem;
+    margin-bottom: -.2rem;
+    overflow: -moz-scrollbars-none;
+    overflow: -moz-scrollbars-none;
+}
+
+    div.myscroll::-webkit-scrollbar {
+        display: none; /*隐藏滚动条*/
+    }
+
+
+
+div.laft_top {
+    margin-top: 50%;
+    margin-left: 50%;
+    transform: translate(-50%,-50%);
+}

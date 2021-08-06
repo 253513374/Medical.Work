@@ -5,25 +5,101 @@
 
 @inject PatientInfoService pservice
 
-<div class="container">
-    <div class="jumbotron">
-        <h1 class="display-4">@patientInfo.UserName</h1>
-        <div class="lead">
-            <ul class="list-unstyled">
-                @if(PatientInfokeyValuePairs is not null)
-                {
-                    foreach (var item in PatientInfokeyValuePairs)
-                    {
-                        <li >@item.Key : @item.Value</li>
-                    }
-                }
 
-            </ul>
-        </div>
-        <hr class="my-4">
-        <p>系统档案录入时间：@patientInfo.CreateTime</p>
-        <a class="btn btn-primary btn-lg" href="" role="button">其他入院记录信息</a>
+
+<div class="d-flex justify-content-center row  w-100 h-100">
+
+
+    <div style="width:15%;min-width:200px;">
+        <ul class="demo-ul">
+            <li><Anchor Target="anchor1" Offset="50">Anchor1</Anchor></li>
+            <li><Anchor Target="anchor2" Offset="50">Anchor2</Anchor></li>
+            <li><Anchor Target="anchor3" Offset="50">Anchor3</Anchor></li>
+            <li><Anchor Target="anchor4" Offset="50">Anchor4</Anchor></li>
+        </ul>
     </div>
+
+    <div class="myscroll  d-flex justify-content-center" style="width: 70%;">
+        @*curved_box*@
+        <div class="row">
+
+
+            <div class="jumbotron" id="anchor1">
+                <h1 class="display-4">@patientInfo.UserName</h1>
+                <div class="lead">
+                    <ul class="list-inline">
+                        @if (PatientInfokeyValuePairs is not null)
+                        {
+                            foreach (var item in PatientInfokeyValuePairs)
+                            {
+                                <li>@item.Key : @item.Value</li>
+                            }
+                        }
+
+                    </ul>
+                </div>
+                <hr class="my-4">
+                <p>系统档案录入时间：@patientInfo.CreateTime</p>
+                <a class="btn btn-primary btn-lg" href="" role="button">其他入院记录信息</a>
+            </div>
+            <div class="jumbotron" id="anchor2">
+                <h1 class="display-4">@patientInfo.UserName</h1>
+                <div class="lead">
+                    <ul class="list-inline">
+                        @if (PatientInfokeyValuePairs is not null)
+                        {
+                            foreach (var item in PatientInfokeyValuePairs)
+                            {
+                                <li>@item.Key : @item.Value</li>
+                            }
+                        }
+
+                    </ul>
+                </div>
+                <hr class="my-4">
+                <p>系统档案录入时间：@patientInfo.CreateTime</p>
+                <a class="btn btn-primary btn-lg" href="" role="button">其他入院记录信息</a>
+            </div>
+            <div class="jumbotron" id="anchor3">
+                <h1 class="display-4">@patientInfo.UserName</h1>
+                <div class="lead">
+                    <ul class="list-inline">
+                        @if (PatientInfokeyValuePairs is not null)
+                        {
+                            foreach (var item in PatientInfokeyValuePairs)
+                            {
+                                <li>@item.Key : @item.Value</li>
+                            }
+                        }
+
+                    </ul>
+                </div>
+                <hr class="my-4">
+                <p>系统档案录入时间：@patientInfo.CreateTime</p>
+                <a class="btn btn-primary btn-lg" href="" role="button">其他入院记录信息</a>
+            </div>
+            <div class="jumbotron" id="anchor4">
+                <h1 class="display-4">@patientInfo.UserName</h1>
+                <div class="lead">
+                    <ul class="list-inline">
+                        @if (PatientInfokeyValuePairs is not null)
+                        {
+                            foreach (var item in PatientInfokeyValuePairs)
+                            {
+                                <li>@item.Key : @item.Value</li>
+                            }
+                        }
+
+                    </ul>
+                </div>
+                <hr class="my-4">
+                <p>系统档案录入时间：@patientInfo.CreateTime</p>
+                <a class="btn btn-primary btn-lg" href="" role="button">其他入院记录信息</a>
+            </div>
+        </div>
+
+    </div>
+
 
 </div>
 
@@ -41,6 +117,18 @@
     private PatientInfo patientInfo { set; get; } = new();
 
     public Dictionary<string, object?> PatientInfokeyValuePairs { set; get; }
+    public Dictionary<string, object?> X_raybronchoscopykeyValuePairs { set; get; }
+    // public Dictionary<string, object?> X_raybronchoscopyPathskeyValuePairs { set; get; }
+    public Dictionary<string, object?> X_rayImagePathskeyValuePairs { set; get; }
+    public Dictionary<string, object?> X_rayImagingkeyValuePairs { set; get; }
+    public Dictionary<string, object?> X_raypathologicalkeyValuePairs { set; get; }
+    public Dictionary<string, object?> PD_DrugAllergykeyValuePairs { set; get; }
+    public Dictionary<string, object?> PD_MicrobiologicalkeyValuePairs { set; get; }
+    public Dictionary<string, object?> PG_PathogenGenekeyValuePairs { set; get; }
+    public Dictionary<string, object?> PG_PharmacogenomicskeyValuePairs { set; get; }
+    public Dictionary<string, object?> PKkeyValuePairs { set; get; }
+    public Dictionary<string, object?> MedicalPKSamplingkeyValuePairs { set; get; }
+    public Dictionary<string, object?> LaboratoryExaminationValuePairs { set; get; }
 
     protected override Task OnParametersSetAsync()
     {
@@ -50,13 +138,35 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if(guid is not null)
+        if (guid is not null)
         {
-            patientInfo = await pservice.GetPatientInfo(guid);
-            PatientInfokeyValuePairs =DisplayAttributeExtend.GetAttributeExtends<PatientInfo>(patientInfo);
+            await GetInitializedData();
+            await GetDictionary_KeyValue();
         }
 
         return;// base.OnInitializedAsync();
     }
 
+    /// <summary>
+    /// 获取数据
+    /// </summary>
+    /// <returns></returns>
+    private async Task GetInitializedData()
+    {
+        patientInfo = await pservice.GetPatientInfo(guid);
+    }
+
+    /// <summary>
+    /// 获取表格数据字典
+    /// </summary>
+    /// <returns></returns>
+    private async Task GetDictionary_KeyValue()
+    {
+        await Task.Run(() =>
+        {
+
+            PatientInfokeyValuePairs = DisplayAttributeExtend.GetAttributeExtends<PatientInfo>(patientInfo);
+
+        });
+    }
 }
