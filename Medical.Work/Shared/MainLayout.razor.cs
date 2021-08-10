@@ -56,33 +56,32 @@ namespace Medical.Work.Shared
         {
             var menus = new List<MenuItem>
             {
-                new MenuItem() { Text = "首页", Icon = "fa fa-fw fa-home", Url = "/",IsActive=true, Match = NavLinkMatch.All},
+                new MenuItem() {  Text = "首页", Icon = "fa fa-fw fa-home", Url = "/",IsActive=true, Match = NavLinkMatch.All},
 
-                new MenuItem() { Text = "类鼻疽-PD", Icon = "fa fa-fw fa-fa", Items= new  List<MenuItem>{ 
-                 new MenuItem(){Text="临床微生物检查" , Url="PD_MicrobiologicalPage"},
-                 new MenuItem(){Text="药敏试验",Url="PD_DrugAllergy_Page"}
+                new MenuItem() {  Text = "类鼻疽-PD", Icon = "fa fa-fw fa-fa", Items= new  List<MenuItem>{ 
+                     new MenuItem(){Text="临床微生物检查" , Url="PD_MicrobiologicalPage"},
+                     new MenuItem(){Text="药敏试验",Url="PD_DrugAllergy_Page"}
 
                 } },
-                new MenuItem() { Text = "类鼻疽-PG", Icon = "fa fa-fw fa-check-square-o", Items =new List<MenuItem>{
-                    new MenuItem(){Text="药物基因组学", Url="PG_PharmacogenomicsPage"},
+                new MenuItem() {  Text = "类鼻疽-PG", Icon = "fa fa-fw fa-check-square-o", Items =new List<MenuItem>{
+                     new MenuItem(){Text="药物基因组学", Url="PG_PharmacogenomicsPage"},
                      new MenuItem(){Text="病原菌基因" ,Url="PG_PathogenGenePage"}
                 } },
 
-                new MenuItem() { Text = "类鼻疽-PK", Icon = "fa fa-fw fa-database" ,Items  = new List<MenuItem>{ 
-                    new MenuItem(){Text="给药方案", Url = "MedicalPKPage"},
-                     new MenuItem(){Text="采用信息"}
+                new MenuItem() {  Text = "类鼻疽-PK", Icon = "fa fa-fw fa-database" ,Items  = new List<MenuItem>{ 
+                    new MenuItem(){Text= "给药方案", Url = "MedicalPKPage"},
+                    new MenuItem(){Text= "采用信息"}
                 } },
 
-                new MenuItem() { Text = "影像学检查", Icon = "fa fa-video-camera",Items=new List<MenuItem>(){
-                        new MenuItem(){Text="纤维支气管镜检查", Url = "X_RayBronchoscopyPage"},
-                        new MenuItem(){Text="影像学检查" , Url = "X_RayImgPage"},
-                        new MenuItem(){Text="病理检查" , Url = "X_RaypathologicalPage"}
+                new MenuItem() {  Text = "影像学检查", Icon = "fa fa-video-camera",Items=new List<MenuItem>(){
+                    new MenuItem(){Text= "纤维支气管镜检查", Url = "X_RayBronchoscopyPage"},
+                    new MenuItem(){Text= "影像学检查" , Url = "X_RayImgPage"},
+                    new MenuItem(){Text= "病理检查" , Url = "X_RaypathologicalPage"}
                 } },
 
-                new MenuItem() { Text = "实验室检查", Icon = "fa fa-fw fa-table", Url = "LaboratoryExaminationPage" },
-             
-                new MenuItem() { Text = "药学监护流程", Icon = "fa fa-fw fa-fa", Url = "SummaryreportPage" },
-                new MenuItem() { Text = "联系人管理", Icon = "fa fa-fw fa-check-square-o", Url = "ContactsPage" }
+                new MenuItem() {  Text = "实验室检查", Icon = "fa fa-fw fa-table", Url = "LaboratoryExaminationPage" },
+                new MenuItem() {  Text = "药学监护流程", Icon = "fa fa-fw fa-fa", Url = "SummaryreportPage" },
+                new MenuItem() {  Text = "联系人管理", Icon = "fa fa-fw fa-check-square-o", Url = "ContactsPage" }
             
             };
 

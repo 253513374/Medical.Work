@@ -7,7 +7,7 @@
 
 <div class=" divtop  w-100 d-flex align-items-center">
     <div class="marginlr w-100">
-        <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.FormRow">
+        <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
             <Search @bind-Value="@Querywhere" @onclick="@(s=>OnQuerywhere())"></Search>
             <button class="createbut fa fa-plus" @onclick="@OnShowDlg"></button>
         </Row>

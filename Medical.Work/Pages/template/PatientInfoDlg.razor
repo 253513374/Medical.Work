@@ -8,63 +8,54 @@
 </style>
 <div>
     <ValidateForm Model="@patientInfo">
-        <Row ItemsPerRow="ItemsPerRow.Four" RowType="RowType.FormRow">
+        <Row ItemsPerRow="ItemsPerRow.Four" RowType="RowType.Normal">
 
             <BootstrapInput @bind-Value="@patientInfo.Medicalrecordnumber" />
             <BootstrapInput @bind-Value="@patientInfo.Department" />
             <BootstrapInput @bind-Value="@patientInfo.UserName" />
             <Select @bind-Value="@patientInfo.Gender" />
         </Row>
-
-
-        <Row ItemsPerRow="ItemsPerRow.Six" RowType="RowType.FormRow">
+        <Row ItemsPerRow="ItemsPerRow.Six" RowType="RowType.Normal">
             <DateTimePicker TValue="DateTime?" Value="@patientInfo.AGE" ValueChanged="DateTimeValueChanged" DisplayText="出生日期" ShowLabel="true" Placement="Placement.Auto" />
-            @{
-
-            }
-
             <BootstrapInput @bind-Value="@AGEDiffer" IsDisabled="true" DisplayText="年龄" ShowLabel="true"></BootstrapInput>
 
             <BootstrapInput @bind-Value="@patientInfo.BW" />
             <Select @bind-Value="@patientInfo.BWWeight"  />
             <Radio Items="@Items" OnStateChanged="@OnItemChanged"></Radio>
         </Row>
-
-
-        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
+        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Three">
             <BootstrapInput @bind-Value="@patientInfo.HEI" />
             <BootstrapInput @bind-Value="@patientInfo.BMI"  @onclick="OnGetBMI" />
             <BootstrapInput @bind-Value="@patientInfo.BSA"  @onclick="OnGetBsa"/>
         </Row>
-
-        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
+        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Two">
             <DateTimePicker @bind-Value="@patientInfo.Transplantationtime" ShowLabel="true" Placement="Placement.Auto" />
             <Select @bind-Value="@patientInfo.Transplantationtype" />
         </Row>
 
-        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
+        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Three">
             <DateTimePicker @bind-Value="@patientInfo.Admissiontime" ShowLabel="true" Placement="Placement.Auto" />
             <DateTimePicker @bind-Value="@patientInfo.Dischargetime" ShowLabel="true" Placement="Placement.Auto" />
         </Row>
-        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
+        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Three">
 
             <BootstrapInput @bind-Value="@patientInfo.GCS" />
             <BootstrapInput @bind-Value="@patientInfo.SOFA" />
             <BootstrapInput @bind-Value="@patientInfo.APACHEⅡ" />
         </Row>
-        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
+        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Three">
             <BootstrapInput @bind-Value="@PatientInfoExDiagnosis.Affectedarea" />
             <BootstrapInput @bind-Value="@PatientInfoExDiagnosis.AffectedDiagnosis" />
         </Row>
 
-        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Three">
+        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Three">
             <Select @bind-Value="@patientInfo.Medication" />
             <Select @bind-Value="@patientInfo.Pathogenicbacteria" />
             <Select @bind-Value="@patientInfo.Healingeffect" />
 
         </Row>
 
-        <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.One">
+        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.One">
             <Textarea rows="4" @bind-Value="@patientInfo.Medicalhistorysummary" />
         </Row>
 

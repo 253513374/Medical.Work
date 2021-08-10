@@ -2,7 +2,7 @@
 <div class="container">
 
     <ValidateForm Model="@x_RayImaging">
-        <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.FormRow">
+        <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
             <BootstrapInput @bind-Value="@x_RayImaging.Medicalrecordnumber" ShowLabel="true"></BootstrapInput>
             <BootstrapInput @bind-Value="@x_RayImaging.UserName" ShowLabel="true"></BootstrapInput>
             <DateTimePicker @bind-Value="@x_RayImaging.Photodate" ShowLabel="true"></DateTimePicker>
@@ -10,7 +10,7 @@
 
         </Row>
 
-        <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
+        <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
             <Select @bind-Value="@x_RayImaging.Xrayimagingenum" ShowLabel="true"></Select>
             <Select @bind-Value="@x_RayImaging.XrayImaginglocationenum" ShowLabel="true"></Select>
             <Textarea rows="3" @bind-Value="@x_RayImaging.Describe" ShowLabel="true"></Textarea>

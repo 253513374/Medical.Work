@@ -9,16 +9,16 @@
     <div class="row">
         <div class="col-7 col-sm-7 col-lg-7 col-xl-7">
             <ValidateForm Model="@Sreport">
-                <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.FormRow">
+                <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
                     <BootstrapInput @bind-Value="@Sreport.Medicalrecordnumber" placeholder="请输入..."></BootstrapInput>
                     <BootstrapInput @bind-Value="@Sreport.UserName" placeholder="请输入 ..."></BootstrapInput>
                 </Row>
-                <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
+                <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
                     <BootstrapInput @bind-Value="@Sreport.Summaryreportclass"></BootstrapInput>
                     <DateTimePicker @bind-Value="@Sreport.Notesdate" placeholder="请输入 ..."></DateTimePicker>
                 </Row>
 
-                <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
+                <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
 
                     <Textarea placeholder="请输入 ..." rows="5" @bind-Value="@Sreport.Treatmentplan"></Textarea>
 

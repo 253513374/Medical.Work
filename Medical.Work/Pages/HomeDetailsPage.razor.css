@@ -1,7 +1,7 @@
 ﻿
 
 body {
-  
+    overflow: hidden;
 }
 
 myposition1{
@@ -18,7 +18,7 @@ div.myscroll {
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
     overflow-x: auto;
-    overflow-y: scroll;
+    overflow-y: scroll; 
     padding: 0 0.1rem;
     margin-bottom: -.2rem;
     overflow: -moz-scrollbars-none;
@@ -32,7 +32,11 @@ div.myscroll {
 
 
 div.laft_top {
-    margin-top: 50%;
-    margin-left: 50%;
-    transform: translate(-50%,-50%);
+    position: -webkit-sticky;
+    position: sticky;
+/*    top: 20px;*/
+    top: 50%;
+  /*  margin-left: 30%;*/
+    transform: translate(-0%,-50%);
 }
+

@@ -7,105 +7,108 @@
 
 
 
-<div class="d-flex justify-content-center row  w-100 h-100">
+<div class="d-flex justify-content-between row w-100">
 
-
-    <div style="width:15%;min-width:200px;">
-        <ul class="demo-ul">
-            <li><Anchor Target="anchor1" Offset="50">Anchor1</Anchor></li>
-            <li><Anchor Target="anchor2" Offset="50">Anchor2</Anchor></li>
-            <li><Anchor Target="anchor3" Offset="50">Anchor3</Anchor></li>
-            <li><Anchor Target="anchor4" Offset="50">Anchor4</Anchor></li>
-        </ul>
+    <div class="col-2 col-sm-2 col-lg-2 col-xl-2">
+        <div class="laft_top">
+            <ul class="demo-ul">
+                <li><Anchor Target="anchor1" Offset="50">基本信息</Anchor></li>
+                <li class="pt-3"><Anchor Target="anchor2" Offset="50">临床微生物检查</Anchor></li>
+                <li class="pt-3"><Anchor Target="anchor3" Offset="50">药敏试验</Anchor></li>
+                <li class="pt-3"><Anchor Target="anchor4" Offset="50">药物基因组学</Anchor></li>
+                <li class="pt-3"><Anchor Target="anchor1" Offset="50">病原菌基因</Anchor></li>
+                <li class="pt-3"><Anchor Target="anchor2" Offset="50">给药方案</Anchor></li>
+                <li class="pt-3"><Anchor Target="anchor3" Offset="50">纤维支气管镜检查</Anchor></li>
+                <li class="pt-3"><Anchor Target="anchor4" Offset="50">影像学检查</Anchor></li>
+                <li class="pt-3"><Anchor Target="anchor1" Offset="50">病理检查</Anchor></li>
+                <li class="pt-3"><Anchor Target="anchor2" Offset="50">实验室检查</Anchor></li>
+                <li class="pt-3"><Anchor Target="anchor3" Offset="50">药学监护流程</Anchor></li>
+            </ul>
+        </div>
     </div>
 
-    <div class="myscroll  d-flex justify-content-center" style="width: 70%;">
-        @*curved_box*@
-        <div class="row">
+
+    <div class=" col-10 col-sm-10 col-lg-10 col-xl-10 row d-flex justify-content-center">
+        <div class="jumbotron" id="anchor1" style="background-color:darkgray">
+            <h1 class="display-4">@patientInfo.UserName</h1>
 
 
-            <div class="jumbotron" id="anchor1">
-                <h1 class="display-4">@patientInfo.UserName</h1>
-                <div class="lead">
-                    <ul class="list-inline">
-                        @if (PatientInfokeyValuePairs is not null)
-                        {
-                            foreach (var item in PatientInfokeyValuePairs)
-                            {
-                                <li>@item.Key : @item.Value</li>
-                            }
-                        }
+            <div class="lead">
+                <!--<EditorForm Model="@patientInfo" ItemsPerRow="5" IsDisplay="true">-->
+                @*<FieldItems>
+                    <EditorItem @bind-Field="@Model." Data="@Hobbys" />
+                </FieldItems>*@
+                <!--</EditorForm>-->
 
-                    </ul>
-                </div>
-                <hr class="my-4">
-                <p>系统档案录入时间：@patientInfo.CreateTime</p>
-                <a class="btn btn-primary btn-lg" href="" role="button">其他入院记录信息</a>
+                <ValidateForm Model="@patientInfo">
+                    <Row ItemsPerRow="ItemsPerRow.Six" RowType="RowType.Normal">
+                        <Display ShowLabel="true" @bind-Value="@patientInfo.Medicalrecordnumber" />
+                        <Display ShowLabel="true" @bind-Value="@patientInfo.Department" />
+                        <Display ShowLabel="true" @bind-Value="@patientInfo.Gender" />
+
+                        <Display ShowLabel="true" @bind-Value="@patientInfo.AGE" />
+                        <Display ShowLabel="true" @bind-Value="@patientInfo.BW" />
+                        <Display ShowLabel="true" @bind-Value="@patientInfo.BWWeight" />
+                    </Row>
+                    <Row ItemsPerRow="ItemsPerRow.Six" RowType="RowType.Normal">
+
+                        <Display ShowLabel="true" @bind-Value="@patientInfo.HEI" />
+                        <Display ShowLabel="true" @bind-Value="@patientInfo.BMI" />
+                        <Display ShowLabel="true" @bind-Value="@patientInfo.BSA" />
+                        <Display ShowLabel="true" @bind-Value="@patientInfo.Transplantationtime" />
+                        <Display ShowLabel="true" @bind-Value="@patientInfo.Transplantationtime" />
+                        <Display ShowLabel="true" @bind-Value="@patientInfo.Transplantationtype" />
+                    </Row>
+                    <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Six">
+                        <Display ShowLabel="true" @bind-Value="@patientInfo.Admissiontime" />
+                        <Display ShowLabel="true" @bind-Value="@patientInfo.Dischargetime" />
+                        <Display ShowLabel="true" @bind-Value="@patientInfo.GCS" />
+                        <Display ShowLabel="true" @bind-Value="@patientInfo.SOFA" />
+                        <Display ShowLabel="true" @bind-Value="@patientInfo.APACHEⅡ" />
+                        <Display ShowLabel="true" @bind-Value="@patientInfo.Medication" />
+                    </Row>
+                    <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Three">
+                        <Display ShowLabel="true" @bind-Value="@patientInfo.Pathogenicbacteria" />
+                        <Display ShowLabel="true" @bind-Value="@patientInfo.Healingeffect" />
+                    </Row>
+                    <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Six">
+                        <Row RowType="RowType.Normal" ColSpan="5">
+                            <Textarea IsDisabled="true" rows="3" @bind-Value="@patientInfo.Medicalhistorysummary" />
+                        </Row>
+                        <a class="btn btn-primary btn-lg" href="" role="button">其他入院记录信息</a>
+                    </Row>
+                </ValidateForm>
+
             </div>
-            <div class="jumbotron" id="anchor2">
-                <h1 class="display-4">@patientInfo.UserName</h1>
-                <div class="lead">
-                    <ul class="list-inline">
-                        @if (PatientInfokeyValuePairs is not null)
-                        {
-                            foreach (var item in PatientInfokeyValuePairs)
-                            {
-                                <li>@item.Key : @item.Value</li>
-                            }
-                        }
-
-                    </ul>
-                </div>
-                <hr class="my-4">
-                <p>系统档案录入时间：@patientInfo.CreateTime</p>
-                <a class="btn btn-primary btn-lg" href="" role="button">其他入院记录信息</a>
-            </div>
-            <div class="jumbotron" id="anchor3">
-                <h1 class="display-4">@patientInfo.UserName</h1>
-                <div class="lead">
-                    <ul class="list-inline">
-                        @if (PatientInfokeyValuePairs is not null)
-                        {
-                            foreach (var item in PatientInfokeyValuePairs)
-                            {
-                                <li>@item.Key : @item.Value</li>
-                            }
-                        }
-
-                    </ul>
-                </div>
-                <hr class="my-4">
-                <p>系统档案录入时间：@patientInfo.CreateTime</p>
-                <a class="btn btn-primary btn-lg" href="" role="button">其他入院记录信息</a>
-            </div>
-            <div class="jumbotron" id="anchor4">
-                <h1 class="display-4">@patientInfo.UserName</h1>
-                <div class="lead">
-                    <ul class="list-inline">
-                        @if (PatientInfokeyValuePairs is not null)
-                        {
-                            foreach (var item in PatientInfokeyValuePairs)
-                            {
-                                <li>@item.Key : @item.Value</li>
-                            }
-                        }
-
-                    </ul>
-                </div>
-                <hr class="my-4">
-                <p>系统档案录入时间：@patientInfo.CreateTime</p>
-                <a class="btn btn-primary btn-lg" href="" role="button">其他入院记录信息</a>
-            </div>
+            <hr class="my-4">
+            <p>系统档案录入时间：@patientInfo.CreateTime</p>
         </div>
 
+
+            <div id="anchor2">
+                <ValidateForm>
+                    <Row></Row>
+                </ValidateForm>
+            </div>
+            <div id="anchor3">
+
+            </div>
+            <div id="anchor2">
+
+            </div>
+            <div id="anchor2">
+
+            </div>
+            <div id="anchor2">
+
+            </div>
+            <div id="anchor2">
+
+            </div>
     </div>
-
-
 </div>
 
-<ValidateForm>
-    <Row></Row>
-</ValidateForm>
+
 
 
 
@@ -115,6 +118,7 @@
     public string guid { set; get; }
 
     private PatientInfo patientInfo { set; get; } = new();
+    private PatientInfoExDiagnosisTable patientInfoEx { set; get; } = new();
 
     public Dictionary<string, object?> PatientInfokeyValuePairs { set; get; }
     public Dictionary<string, object?> X_raybronchoscopykeyValuePairs { set; get; }

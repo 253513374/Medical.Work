@@ -6,19 +6,19 @@
     <ValidateForm Model="@medicalPKSampling">
 
 
-        <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
+        <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
             <Select @bind-Value="@medicalPKSampling.SpecimenType"></Select>
             <DateTimePicker @bind-Value="@medicalPKSampling.CollectDateTime"></DateTimePicker>
         </Row>
 
-        <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.FormRow">
+        <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
 
 
             <DateTimePicker @bind-Value="@medicalPKSampling.StartDateTime"></DateTimePicker>
             <DateTimePicker @bind-Value="@medicalPKSampling.EndDateTime"></DateTimePicker>
            
         </Row>
-        <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
+        <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
             <DateTimePicker @bind-Value="@medicalPKSampling.LastDateTime"></DateTimePicker>
             <Select @bind-Value="@medicalPKSampling.Collectingvessel"></Select>
         </Row>
@@ -27,7 +27,7 @@
 
     <GroupBox Title="C1-C6">
         <ValidateForm Model="medicalPKSampling_Sample">
-            <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
+            <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
                 <Select @bind-Value="@medicalPKSampling_Sample.SamplingNumber">
                     <Options>
                         <SelectOption Text="C1" Value="1"></SelectOption>
@@ -41,7 +41,7 @@
                    
                 </Select>
             </Row>
-            <Row ItemsPerRow="ItemsPerRow.Three" RowType="RowType.FormRow">
+            <Row ItemsPerRow="ItemsPerRow.Three" RowType="RowType.Normal">
                 <DateTimePicker @bind-Value="@medicalPKSampling_Sample.C1bloodcollectiontime"></DateTimePicker>
                 <BootstrapInput @bind-Value="@medicalPKSampling_Sample.C1Concentration"></BootstrapInput>
                 <Select @bind-Value="@medicalPKSampling_Sample.C1ConcentrationUnit"></Select>
@@ -50,7 +50,7 @@
                 <BootstrapInput @bind-Value="@medicalPKSampling_Sample.Other"></BootstrapInput>
             </Row>
 
-            <Row ItemsPerRow="ItemsPerRow.Four" RowType="RowType.FormRow">
+            <Row ItemsPerRow="ItemsPerRow.Four" RowType="RowType.Normal">
                 <Row ColSpan="3">
                     <Textarea  rows="3" @bind-Value="@medicalPKSampling_Sample.C1Remarks"></Textarea>
                 </Row>

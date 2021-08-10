@@ -19,14 +19,14 @@
 <div style="min-width:1000px;">
     <ValidateForm Model="@Laboratoryexamination">
 
-        <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
+        <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
             <Select @bind-Value="@Laboratoryexamination.Assaysituation"></Select>
             <DateTimePicker @bind-Value="@Laboratoryexamination.Assaytime"></DateTimePicker>
         </Row>
 
         <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Inline">
             <BootstrapInput @bind-Value="@Laboratoryexamination.BodyTemperature"></BootstrapInput>
-            <Row ItemsPerRow="ItemsPerRow.Three" RowType="RowType.FormRow">
+            <Row ItemsPerRow="ItemsPerRow.Three" RowType="RowType.Normal">
                 <BootstrapInput @bind-Value="@Laboratoryexamination.Scr"></BootstrapInput>
                 <Select @bind-Value="@Laboratoryexamination.Screnum"></Select>
                 <BootstrapInput @bind-Value="@Laboratoryexamination.Screnumother"></BootstrapInput>
@@ -67,7 +67,7 @@
             <BootstrapInput @bind-Value="@Laboratoryexamination.CSF"></BootstrapInput>
            
         </Row>
-        <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.FormRow">
+        <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
             <Textarea rows="3" @bind-Value="@Laboratoryexamination.Remark"></Textarea>
         </Row>
 

@@ -7,17 +7,17 @@
 
 <ValidateForm Model="@contacts">
 
-    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.One">
+    <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.One">
         <BootstrapInput @bind-Value="@contacts.Medicalrecordnumber"></BootstrapInput>
     </Row>
-    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
+    <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Two">
         <BootstrapInput @bind-Value="@contacts.UserName"></BootstrapInput>
         <BootstrapInput @bind-Value="@contacts.Contactnumber"></BootstrapInput>
     </Row>
-    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.Two">
+    <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Two">
         <BootstrapInput @bind-Value="@contacts.Emai"></BootstrapInput>
     </Row>
-    <Row RowType="RowType.FormRow" ItemsPerRow="ItemsPerRow.One">
+    <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.One">
         <Textarea rows="3" @bind-Value="@contacts.Address" />
     </Row>
 </ValidateForm>
