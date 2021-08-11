@@ -4,7 +4,7 @@
 @page "/HomeDetailsPage/{guid}"
 
 @inject PatientInfoService pservice
-
+@inject IDbContextFactory<MedicalDbContext> contextFactory
 
 
 <div class="d-flex justify-content-between row w-100">
@@ -16,20 +16,21 @@
                 <li class="pt-3"><Anchor Target="anchor2" Offset="50">临床微生物检查</Anchor></li>
                 <li class="pt-3"><Anchor Target="anchor3" Offset="50">药敏试验</Anchor></li>
                 <li class="pt-3"><Anchor Target="anchor4" Offset="50">药物基因组学</Anchor></li>
-                <li class="pt-3"><Anchor Target="anchor1" Offset="50">病原菌基因</Anchor></li>
-                <li class="pt-3"><Anchor Target="anchor2" Offset="50">给药方案</Anchor></li>
-                <li class="pt-3"><Anchor Target="anchor3" Offset="50">纤维支气管镜检查</Anchor></li>
-                <li class="pt-3"><Anchor Target="anchor4" Offset="50">影像学检查</Anchor></li>
-                <li class="pt-3"><Anchor Target="anchor1" Offset="50">病理检查</Anchor></li>
-                <li class="pt-3"><Anchor Target="anchor2" Offset="50">实验室检查</Anchor></li>
-                <li class="pt-3"><Anchor Target="anchor3" Offset="50">药学监护流程</Anchor></li>
+                <li class="pt-3"><Anchor Target="anchor5" Offset="50">病原菌基因</Anchor></li>
+                <li class="pt-3"><Anchor Target="anchor6" Offset="50">给药方案</Anchor></li>
+                <li class="pt-3"><Anchor Target="anchor7" Offset="50">纤维支气管镜检查</Anchor></li>
+                <li class="pt-3"><Anchor Target="anchor8" Offset="50">影像学检查</Anchor></li>
+                <li class="pt-3"><Anchor Target="anchor9" Offset="50">病理检查</Anchor></li>
+                <li class="pt-3"><Anchor Target="anchor10" Offset="50">实验室检查</Anchor></li>
+                <li class="pt-3"><Anchor Target="anchor11" Offset="50">药学监护流程</Anchor></li>
             </ul>
         </div>
     </div>
 
 
     <div class=" col-10 col-sm-10 col-lg-10 col-xl-10 row d-flex justify-content-center">
-        <div class="jumbotron" id="anchor1" style="background-color:darkgray">
+        <div class="jumbotron" id="anchor1">
+            @*style="background-color:darkgray"*@
             <h1 class="display-4">@patientInfo.UserName</h1>
 
 
@@ -85,26 +86,395 @@
         </div>
 
 
-            <div id="anchor2">
-                <ValidateForm>
-                    <Row></Row>
-                </ValidateForm>
-            </div>
-            <div id="anchor3">
+        <div id="anchor2">
+            @if (PD_Microbiologicals is not null)
+            {
+                <ListView TItem="MedicalPD_Microbiological" Items="PD_Microbiologicals">
+                    <HeaderTemplate> 临床微生物检查</HeaderTemplate>
+                    <BodyTemplate>
+                        <Card Class="w-100">
+                            <CardBody>
+                                <div class="h2">是否做检查： @context.TestorisNot</div>
+                                <Row ItemsPerRow="ItemsPerRow.Two">
 
-            </div>
-            <div id="anchor2">
+                                    <div>检测日期： @context.TestTime</div>
+                                    <div>标本类型： @context.SpecimenType</div>
+                                    <div>报告时间： @context.ReportTime</div>
+                                    <div>检出细菌： @context.Bacterial</div>
+                                </Row>
+                                @*@if (@context.medicalPKSamplings is not null)
+                                {
 
-            </div>
-            <div id="anchor2">
+                                    foreach (var item in @context.medicalPKSamplings)
+                                    {
+                                        var c = $"C{@item.SamplingNumber}采样";
 
-            </div>
-            <div id="anchor2">
+                                        <GroupBox Title="@c">
+                                            <div class=" row col-12">
+                                                <div class="col-2">浓度:@item.C1Concentration  @item.C1ConcentrationUnit.ToString()/ml</div>
+                                                <div class="col-3">标准化血药浓度:@item.C1ConcentrationStandard</div>
+                                                <div class="col-2">浓度方法:@item.C1ConcentrationMethod??@item.Other</div>
+                                                <div class="col-5">备注:@item.C1Remarks</div>
+                                            </div>
+                                        </GroupBox>
+                                    }
+                                }*@
+                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                            </CardBody>
+                        </Card>
+                    </BodyTemplate>
+                </ListView>}
 
-            </div>
-            <div id="anchor2">
+        </div>
+        <div id="anchor3">
+            @if (PD_DrugAllergies is not null)
+            {
+                <ListView TItem="MedicalPD_DrugAllergy" Items="PD_DrugAllergies">
+                    <HeaderTemplate> 药敏试验检查</HeaderTemplate>
+                    <BodyTemplate>
+                        <Card Class="w-100">
+                            <CardBody>
+                                <div class="h2">是否做检查： @context.TestorisNot</div>
+                                <Row ItemsPerRow="ItemsPerRow.Two">
 
-            </div>
+                                    <div>检测日期： @context.TestTime</div>
+
+                                    <div>报告时间： @context.ReportTime</div>
+                                    <div>药敏检测法： @context.DrugsensitivityTest 或者其他： @context.DrugsensitivityTestOther  </div>
+                                    <div>MIC： @context.MIC</div>
+                                    <div>敏感性： @context.Susceptibility</div>
+                                    <div>T>MIC%:： @context.TMic</div>
+                                    <div>AUCSS,24h/MIC： @context.AUCMic</div>
+                                </Row>
+                                @*@if (@context.medicalPKSamplings is not null)
+                                {
+
+                                    foreach (var item in @context.medicalPKSamplings)
+                                    {
+                                        var c = $"C{@item.SamplingNumber}采样";
+
+                                        <GroupBox Title="@c">
+                                            <div class=" row col-12">
+                                                <div class="col-2">浓度:@item.C1Concentration  @item.C1ConcentrationUnit.ToString()/ml</div>
+                                                <div class="col-3">标准化血药浓度:@item.C1ConcentrationStandard</div>
+                                                <div class="col-2">浓度方法:@item.C1ConcentrationMethod??@item.Other</div>
+                                                <div class="col-5">备注:@item.C1Remarks</div>
+                                            </div>
+                                        </GroupBox>
+                                    }
+                                }*@
+                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                            </CardBody>
+                        </Card>
+                    </BodyTemplate>
+                </ListView>}
+
+        </div>
+        <div id="anchor4">
+            @if (PG_Pharmacogenomics is not null)
+            {
+                <ListView TItem="MedicalPG_Pharmacogenomics" Items="PG_Pharmacogenomics">
+                    <HeaderTemplate> 基因药物组学</HeaderTemplate>
+                    <BodyTemplate>
+                        <Card Class="w-100">
+                            <CardBody>
+                                <div class="h2">基因名称： @context.Genes</div>
+                                <Row ItemsPerRow="ItemsPerRow.Two">
+
+                                    <div>RS号： @context.Rs</div>
+
+
+                                    <div>基因结果： @context.GenesResults  </div>
+                                    <div>代谢性： @context.Metabolictype</div>
+                                    <div>意义： @context.Exegesis</div>
+
+                                </Row>
+                                @*@if (@context.medicalPKSamplings is not null)
+                                {
+
+                                    foreach (var item in @context.medicalPKSamplings)
+                                    {
+                                        var c = $"C{@item.SamplingNumber}采样";
+
+                                        <GroupBox Title="@c">
+                                            <div class=" row col-12">
+                                                <div class="col-2">浓度:@item.C1Concentration  @item.C1ConcentrationUnit.ToString()/ml</div>
+                                                <div class="col-3">标准化血药浓度:@item.C1ConcentrationStandard</div>
+                                                <div class="col-2">浓度方法:@item.C1ConcentrationMethod??@item.Other</div>
+                                                <div class="col-5">备注:@item.C1Remarks</div>
+                                            </div>
+                                        </GroupBox>
+                                    }
+                                }*@
+                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                            </CardBody>
+                        </Card>
+                    </BodyTemplate>
+                </ListView>}
+        </div>
+        <div id="anchor5">
+            @if (PG_PathogenGenes is not null)
+            {
+                <ListView TItem="MedicalPG_PathogenGene" Items="PG_PathogenGenes">
+                    <HeaderTemplate> 病原菌基因</HeaderTemplate>
+                    <BodyTemplate>
+                        <Card Class="w-100">
+                            <CardBody>
+                                <div class="h2">致病菌名称： @context.PathogenName</div>
+                                <Row ItemsPerRow="ItemsPerRow.Two">
+
+                                    <div>致病菌菌体基因名： @context.PathogenicGeneName</div>
+
+
+                                    <div>致病菌菌体基因检测结果： @context.PathogenicGeneDetectionResults  </div>
+
+                                    <div>意义： @context.Exegesis</div>
+
+                                </Row>
+                                @*@if (@context.medicalPKSamplings is not null)
+                                {
+
+                                    foreach (var item in @context.medicalPKSamplings)
+                                    {
+                                        var c = $"C{@item.SamplingNumber}采样";
+
+                                        <GroupBox Title="@c">
+                                            <div class=" row col-12">
+                                                <div class="col-2">浓度:@item.C1Concentration  @item.C1ConcentrationUnit.ToString()/ml</div>
+                                                <div class="col-3">标准化血药浓度:@item.C1ConcentrationStandard</div>
+                                                <div class="col-2">浓度方法:@item.C1ConcentrationMethod??@item.Other</div>
+                                                <div class="col-5">备注:@item.C1Remarks</div>
+                                            </div>
+                                        </GroupBox>
+                                    }
+                                }*@
+                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                            </CardBody>
+                        </Card>
+                    </BodyTemplate>
+                </ListView>}
+
+        </div>
+        <div id="anchor6">
+            @if (medicalPKs is not null)
+            {
+                <ListView TItem="MedicalPK" Items="medicalPKs">
+                    <HeaderTemplate>给药方案</HeaderTemplate>
+                    <BodyTemplate>
+                        <Card Class="w-100">
+                            <CardBody>
+                                <div class="h2">药品通用名： @context.DrugsNmae</div>
+                                <Row ItemsPerRow="ItemsPerRow.Four">
+
+                                    <div>溶媒： @context.DrugSolvent</div>
+
+
+                                    <div>溶媒剂量： @context.SolventToDosage  </div>
+
+                                    <div>药品剂量： @context.Drugdosage  @context.DrugdosageUnit </div>
+                                    <div>给药频率： @context.DrugNCount</div>
+                                    <div>给药途径： @context.DrugdosageRoute</div>
+                                    <div>起始给药日期： @context.FirstTime</div>
+                                    <div>结束给药日期： @context.LasttTime</div>
+                                    <div>公斤体质量日剂量： @context.AMTsingledose</div>
+                                    <div>厂家类型： @context.Manufacturertype</div>
+                                    @*  药品通用名
+                                    溶媒
+                                    溶媒剂量
+                                    药品剂量
+                                    给药频率
+                                    给药途径
+                                    起始给药日期
+                                    结束给药日期
+                                    公斤体质量日剂量
+                                    厂家类型 *@
+                                </Row>
+                                @*@if (@context.medicalPKSamplings is not null)
+                                {
+
+                                    foreach (var item in @context.medicalPKSamplings)
+                                    {
+                                        var c = $"C{@item.SamplingNumber}采样";
+
+                                        <GroupBox Title="@c">
+                                            <div class=" row col-12">
+                                                <div class="col-2">浓度:@item.C1Concentration  @item.C1ConcentrationUnit.ToString()/ml</div>
+                                                <div class="col-3">标准化血药浓度:@item.C1ConcentrationStandard</div>
+                                                <div class="col-2">浓度方法:@item.C1ConcentrationMethod??@item.Other</div>
+                                                <div class="col-5">备注:@item.C1Remarks</div>
+                                            </div>
+                                        </GroupBox>
+                                    }
+                                }*@
+                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                            </CardBody>
+                        </Card>
+                    </BodyTemplate>
+                </ListView>}
+
+        </div>
+        <div id="anchor7">
+            @if (medicalPKs is not null)
+            {
+                <ListView TItem="MedicalPK" Items="medicalPKs">
+                    <HeaderTemplate>给药方案</HeaderTemplate>
+                    <BodyTemplate>
+                        <Card Class="w-100">
+                            <CardBody>
+                                <div class="h2">药品通用名： @context.DrugsNmae</div>
+                                <Row ItemsPerRow="ItemsPerRow.Four">
+
+                                    <div>溶媒： @context.DrugSolvent</div>
+
+
+                                    <div>溶媒剂量： @context.SolventToDosage  </div>
+
+                                    <div>药品剂量： @context.Drugdosage  @context.DrugdosageUnit </div>
+                                    <div>给药频率： @context.DrugNCount</div>
+                                    <div>给药途径： @context.DrugdosageRoute</div>
+                                    <div>起始给药日期： @context.FirstTime</div>
+                                    <div>结束给药日期： @context.LasttTime</div>
+                                    <div>公斤体质量日剂量： @context.AMTsingledose</div>
+                                    <div>厂家类型： @context.Manufacturertype</div>
+
+                                </Row>
+            
+                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                            </CardBody>
+                        </Card>
+                    </BodyTemplate>
+                </ListView>}
+
+        </div>
+        <div id="anchor8">
+            @if (medicalPKs is not null)
+            {
+                <ListView TItem="MedicalPK" Items="medicalPKs">
+                    <HeaderTemplate>给药方案</HeaderTemplate>
+                    <BodyTemplate>
+                        <Card Class="w-100">
+                            <CardBody>
+                                <div class="h2">药品通用名： @context.DrugsNmae</div>
+                                <Row ItemsPerRow="ItemsPerRow.Four">
+
+                                    <div>溶媒： @context.DrugSolvent</div>
+
+
+                                    <div>溶媒剂量： @context.SolventToDosage  </div>
+
+                                    <div>药品剂量： @context.Drugdosage  @context.DrugdosageUnit </div>
+                                    <div>给药频率： @context.DrugNCount</div>
+                                    <div>给药途径： @context.DrugdosageRoute</div>
+                                    <div>起始给药日期： @context.FirstTime</div>
+                                    <div>结束给药日期： @context.LasttTime</div>
+                                    <div>公斤体质量日剂量： @context.AMTsingledose</div>
+                                    <div>厂家类型： @context.Manufacturertype</div>
+
+                                </Row>
+
+                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                            </CardBody>
+                        </Card>
+                    </BodyTemplate>
+                </ListView>}
+        </div>
+        <div id="anchor9">
+            @if (medicalPKs is not null)
+            {
+                <ListView TItem="MedicalPK" Items="medicalPKs">
+                    <HeaderTemplate>给药方案</HeaderTemplate>
+                    <BodyTemplate>
+                        <Card Class="w-100">
+                            <CardBody>
+                                <div class="h2">药品通用名： @context.DrugsNmae</div>
+                                <Row ItemsPerRow="ItemsPerRow.Four">
+
+                                    <div>溶媒： @context.DrugSolvent</div>
+
+
+                                    <div>溶媒剂量： @context.SolventToDosage  </div>
+
+                                    <div>药品剂量： @context.Drugdosage  @context.DrugdosageUnit </div>
+                                    <div>给药频率： @context.DrugNCount</div>
+                                    <div>给药途径： @context.DrugdosageRoute</div>
+                                    <div>起始给药日期： @context.FirstTime</div>
+                                    <div>结束给药日期： @context.LasttTime</div>
+                                    <div>公斤体质量日剂量： @context.AMTsingledose</div>
+                                    <div>厂家类型： @context.Manufacturertype</div>
+
+                                </Row>
+
+                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                            </CardBody>
+                        </Card>
+                    </BodyTemplate>
+                </ListView>}
+        </div>
+        <div id="anchor10">
+            @if (medicalPKs is not null)
+            {
+                <ListView TItem="MedicalPK" Items="medicalPKs">
+                    <HeaderTemplate>给药方案</HeaderTemplate>
+                    <BodyTemplate>
+                        <Card Class="w-100">
+                            <CardBody>
+                                <div class="h2">药品通用名： @context.DrugsNmae</div>
+                                <Row ItemsPerRow="ItemsPerRow.Four">
+
+                                    <div>溶媒： @context.DrugSolvent</div>
+
+
+                                    <div>溶媒剂量： @context.SolventToDosage  </div>
+
+                                    <div>药品剂量： @context.Drugdosage  @context.DrugdosageUnit </div>
+                                    <div>给药频率： @context.DrugNCount</div>
+                                    <div>给药途径： @context.DrugdosageRoute</div>
+                                    <div>起始给药日期： @context.FirstTime</div>
+                                    <div>结束给药日期： @context.LasttTime</div>
+                                    <div>公斤体质量日剂量： @context.AMTsingledose</div>
+                                    <div>厂家类型： @context.Manufacturertype</div>
+
+                                </Row>
+
+                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                            </CardBody>
+                        </Card>
+                    </BodyTemplate>
+                </ListView>}
+        </div>
+        <div id="anchor11">
+            @if (medicalPKs is not null)
+            {
+                <ListView TItem="MedicalPK" Items="medicalPKs">
+                    <HeaderTemplate>给药方案</HeaderTemplate>
+                    <BodyTemplate>
+                        <Card Class="w-100">
+                            <CardBody>
+                                <div class="h2">药品通用名： @context.DrugsNmae</div>
+                                <Row ItemsPerRow="ItemsPerRow.Four">
+
+                                    <div>溶媒： @context.DrugSolvent</div>
+
+
+                                    <div>溶媒剂量： @context.SolventToDosage  </div>
+
+                                    <div>药品剂量： @context.Drugdosage  @context.DrugdosageUnit </div>
+                                    <div>给药频率： @context.DrugNCount</div>
+                                    <div>给药途径： @context.DrugdosageRoute</div>
+                                    <div>起始给药日期： @context.FirstTime</div>
+                                    <div>结束给药日期： @context.LasttTime</div>
+                                    <div>公斤体质量日剂量： @context.AMTsingledose</div>
+                                    <div>厂家类型： @context.Manufacturertype</div>
+
+                                </Row>
+
+                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                            </CardBody>
+                        </Card>
+                    </BodyTemplate>
+                </ListView>}
+        </div>
+
     </div>
 </div>
 
@@ -134,6 +504,24 @@
     public Dictionary<string, object?> MedicalPKSamplingkeyValuePairs { set; get; }
     public Dictionary<string, object?> LaboratoryExaminationValuePairs { set; get; }
 
+
+
+    private List<MedicalPD_Microbiological> PD_Microbiologicals { set; get; }
+    private List<MedicalPD_DrugAllergy> PD_DrugAllergies { set; get; }
+
+    private List<MedicalPG_PathogenGene> PG_PathogenGenes { set; get; }
+    private List<MedicalPG_Pharmacogenomics> PG_Pharmacogenomics { set; get; }
+
+    private List<MedicalPK> medicalPKs { set; get; }
+
+    private List<X_raybronchoscopy> X_Raybronchoscopies { set; get; }
+    private List<X_rayImaging> X_RayImagings { set; get; }
+    private List<X_raypathological> X_Raypathologicals { set; get; }
+
+    private List<LaboratoryExamination> LaboratoryExaminations { set; get; }
+
+
+
     protected override Task OnParametersSetAsync()
     {
 
@@ -158,6 +546,22 @@
     private async Task GetInitializedData()
     {
         patientInfo = await pservice.GetPatientInfo(guid);
+
+        using (var context = contextFactory.CreateDbContext())
+        {
+            PD_Microbiologicals = await context.MPD_Microbiologicals.AsNoTracking().ToListAsync();
+            PD_DrugAllergies = await context.MPD_Drugs.AsNoTracking().ToListAsync();
+            PG_PathogenGenes = await context.MPG_PathogenGenes.AsNoTracking().ToListAsync();
+            PG_Pharmacogenomics = await context.MPG_Pharmacogenomics.AsNoTracking().ToListAsync();
+            medicalPKs = await context.MPKs.AsNoTracking().ToListAsync();
+            X_Raybronchoscopies = await context.X_raybronchoscopys.AsNoTracking().ToListAsync();
+
+            X_RayImagings = await context.X_rayImagings.AsNoTracking().ToListAsync();
+            X_Raypathologicals = await context.X_raypathologicals.AsNoTracking().ToListAsync();
+
+            LaboratoryExaminations = await context.laboratoryExaminations.AsNoTracking().ToListAsync();
+        }
+
     }
 
     /// <summary>
