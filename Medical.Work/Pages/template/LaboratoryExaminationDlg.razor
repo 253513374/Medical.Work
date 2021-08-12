@@ -5,26 +5,24 @@
 <style>
     .form-inline .form-group .control-label {
         margin-right: 10px;
-        width: 220px;
+        width: 260px;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
         display: block;
         text-align: right;
     }
-
-
 </style>
 
-<div style="min-width:1000px;">
+<div >
     <ValidateForm Model="@Laboratoryexamination">
 
         <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
             <Select @bind-Value="@Laboratoryexamination.Assaysituation"></Select>
             <DateTimePicker @bind-Value="@Laboratoryexamination.Assaytime"></DateTimePicker>
         </Row>
-
-        <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Inline">
+        <Divider></Divider>
+        <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
             <BootstrapInput @bind-Value="@Laboratoryexamination.BodyTemperature"></BootstrapInput>
             <Row ItemsPerRow="ItemsPerRow.Three" RowType="RowType.Normal">
                 <BootstrapInput @bind-Value="@Laboratoryexamination.Scr"></BootstrapInput>

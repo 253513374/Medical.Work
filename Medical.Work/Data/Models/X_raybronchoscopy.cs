@@ -19,7 +19,7 @@ namespace Medical.Work.Data.Models
 
 
         [AutoGenerateColumn(Ignore = true, DefaultSort=true)]
-        public DateTime Cretetime { set; get; }
+        public DateTime CreateTime { set; get; }
 
         /// <summary>
         /// 管理员账号
@@ -62,7 +62,7 @@ namespace Medical.Work.Data.Models
         [DisplayName("部位")]
         public string Xraylocation { set; get; }
         /// <summary>
-        /// 放射诊断方式
+        /// 检查结果
         /// </summary>
         [DisplayName("检查结果")]
         public string Xrayinspection { set; get; }

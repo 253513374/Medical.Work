@@ -19,7 +19,7 @@ namespace Medical.Work.Data.Models
 
       
         [AutoGenerateColumn(Ignore = true, DefaultSort = true)]
-        public DateTime Cretetime { set; get; }
+        public DateTime CreateTime { set; get; }
 
         /// <summary>
         /// 管理员账号

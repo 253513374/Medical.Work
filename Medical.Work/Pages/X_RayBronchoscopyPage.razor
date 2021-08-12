@@ -111,7 +111,7 @@
             {
                 if (x_Raybronchoscopy != null)
                 {
-                    x_Raybronchoscopy.Cretetime = DateTime.Now;
+                    x_Raybronchoscopy.CreateTime = DateTime.Now;
                     x_Raybronchoscopy.AdminName = authenticationStateTask.Result.User.Identity.Name;
                     context.X_raybronchoscopys.Add(x_Raybronchoscopy);
                     context.SaveChanges();

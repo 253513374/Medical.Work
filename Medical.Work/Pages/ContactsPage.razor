@@ -14,19 +14,31 @@
         }
     </style>
 
-<div class="container">
-    <div class="divtop d-flex align-content-center" >
-        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Two">
-            <BootstrapInput @bind-Value="@Querywhere" placeholder="请输入名称或者病历号" ShowLabel="false"></BootstrapInput>
-            <div class="form-group col-auto">
-                <div class="btn-group" role="group">
-                    <Button Color="Color.Primary" Icon="oi oi-magnifying-glass" Size="Size.Medium" @onclick="@(s=>OnQueryContacts())"> 查 询 </Button>
-                    <Button Color="Color.Success" Icon="oi oi-plus" Size="Size.Medium" @onclick="@(s=>OnCreateContacts())"> 新 建 </Button>
-                </div>
+    <div class="container">
+
+        <div class="divtop d-flex  align-items-center">
+
+            <div class="  w-100 ">
+                <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Two">
+
+                    <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s=>OnQueryContacts())"></Search>
+
+                    <button class="createbut fa fa-plus " @onclick="@(s=>OnCreateContacts())"></button>
+                </Row>
             </div>
-        </Row>
-    </div>
-     <div class="container mt-5">
+        </div>
+        @*<div class="divtop d-flex align-content-center">
+            <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Two">
+                <BootstrapInput @bind-Value="@Querywhere" placeholder="请输入名称或者病历号" ShowLabel="false"></BootstrapInput>
+                <div class="form-group col-auto">
+                    <div class="btn-group" role="group">
+                        <Button Color="Color.Primary" Icon="oi oi-magnifying-glass" Size="Size.Medium" @onclick="@(s=>OnQueryContacts())"> 查 询 </Button>
+                        <Button Color="Color.Success" Icon="oi oi-plus" Size="Size.Medium" @onclick="@(s=>OnCreateContacts())"> 新 建 </Button>
+                    </div>
+                </div>
+            </Row>
+        </div>*@
+        <div class="container mt-5">
             <table class="table table-sm text-center">
                 <thead class="mytable">
                     <tr>
@@ -72,10 +84,10 @@
                 </tbody>
             </table>
         </div>
-    
 
-    <Message @ref="MessageElement" />
-</div>
+
+        <Message @ref="MessageElement" />
+    </div>
 
 @code{
     private List<Contacts> contacts { set; get; }

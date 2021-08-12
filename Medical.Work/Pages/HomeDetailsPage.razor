@@ -7,6 +7,13 @@
 @inject IDbContextFactory<MedicalDbContext> contextFactory
 
 
+<style>
+    .listview .listview-body .listview-item {
+        width:100%;
+        margin: 0 1rem 1rem 0;
+    }
+</style>
+
 <div class="d-flex justify-content-between row w-100">
 
     <div class="col-2 col-sm-2 col-lg-2 col-xl-2">
@@ -90,11 +97,11 @@
             @if (PD_Microbiologicals is not null)
             {
                 <ListView TItem="MedicalPD_Microbiological" Items="PD_Microbiologicals">
-                    <HeaderTemplate> 临床微生物检查</HeaderTemplate>
+                    <HeaderTemplate>  <p class="h3">临床微生物检查</p></HeaderTemplate>
                     <BodyTemplate>
                         <Card Class="w-100">
                             <CardBody>
-                                <div class="h2">是否做检查： @context.TestorisNot</div>
+                                <div class="h5">是否做检查： @context.TestorisNot</div>
                                 <Row ItemsPerRow="ItemsPerRow.Two">
 
                                     <div>检测日期： @context.TestTime</div>
@@ -130,11 +137,11 @@
             @if (PD_DrugAllergies is not null)
             {
                 <ListView TItem="MedicalPD_DrugAllergy" Items="PD_DrugAllergies">
-                    <HeaderTemplate> 药敏试验检查</HeaderTemplate>
+                    <HeaderTemplate>  <p class="h3">药敏试验检查</p></HeaderTemplate>
                     <BodyTemplate>
                         <Card Class="w-100">
                             <CardBody>
-                                <div class="h2">是否做检查： @context.TestorisNot</div>
+                                <div class="h5">是否做检查： @context.TestorisNot</div>
                                 <Row ItemsPerRow="ItemsPerRow.Two">
 
                                     <div>检测日期： @context.TestTime</div>
@@ -174,11 +181,11 @@
             @if (PG_Pharmacogenomics is not null)
             {
                 <ListView TItem="MedicalPG_Pharmacogenomics" Items="PG_Pharmacogenomics">
-                    <HeaderTemplate> 基因药物组学</HeaderTemplate>
+                    <HeaderTemplate> <p class="h3">基因药物组学</p></HeaderTemplate>
                     <BodyTemplate>
                         <Card Class="w-100">
                             <CardBody>
-                                <div class="h2">基因名称： @context.Genes</div>
+                                <div class="h5">基因名称： @context.Genes</div>
                                 <Row ItemsPerRow="ItemsPerRow.Two">
 
                                     <div>RS号： @context.Rs</div>
@@ -216,11 +223,11 @@
             @if (PG_PathogenGenes is not null)
             {
                 <ListView TItem="MedicalPG_PathogenGene" Items="PG_PathogenGenes">
-                    <HeaderTemplate> 病原菌基因</HeaderTemplate>
+                    <HeaderTemplate><p class="h3">病原菌基因</p> </HeaderTemplate>
                     <BodyTemplate>
                         <Card Class="w-100">
                             <CardBody>
-                                <div class="h2">致病菌名称： @context.PathogenName</div>
+                                <div class="h5">致病菌名称： @context.PathogenName</div>
                                 <Row ItemsPerRow="ItemsPerRow.Two">
 
                                     <div>致病菌菌体基因名： @context.PathogenicGeneName</div>
@@ -259,11 +266,11 @@
             @if (medicalPKs is not null)
             {
                 <ListView TItem="MedicalPK" Items="medicalPKs">
-                    <HeaderTemplate>给药方案</HeaderTemplate>
+                    <HeaderTemplate><p class="h3">给药方案</p></HeaderTemplate>
                     <BodyTemplate>
                         <Card Class="w-100">
                             <CardBody>
-                                <div class="h2">药品通用名： @context.DrugsNmae</div>
+                                <div class="h5">药品通用名： @context.DrugsNmae</div>
                                 <Row ItemsPerRow="ItemsPerRow.Four">
 
                                     <div>溶媒： @context.DrugSolvent</div>
@@ -313,30 +320,30 @@
                 </ListView>}
 
         </div>
+
+
         <div id="anchor7">
-            @if (medicalPKs is not null)
+            @if (X_Raybronchoscopies is not null)
             {
-                <ListView TItem="MedicalPK" Items="medicalPKs">
-                    <HeaderTemplate>给药方案</HeaderTemplate>
+                <ListView TItem="X_raybronchoscopy" Items="X_Raybronchoscopies">
+                    <HeaderTemplate><p class="h3">纤维支气管镜检查</p></HeaderTemplate>
                     <BodyTemplate>
                         <Card Class="w-100">
                             <CardBody>
-                                <div class="h2">药品通用名： @context.DrugsNmae</div>
-                                <Row ItemsPerRow="ItemsPerRow.Four">
+                             
+                                <Row ItemsPerRow="ItemsPerRow.One">
 
-                                    <div>溶媒： @context.DrugSolvent</div>
+                                    <div>检查日期： @context.Photodate</div>
 
 
-                                    <div>溶媒剂量： @context.SolventToDosage  </div>
+                                    <div>报告日期： @context.Reportdate  </div>
 
-                                    <div>药品剂量： @context.Drugdosage  @context.DrugdosageUnit </div>
-                                    <div>给药频率： @context.DrugNCount</div>
-                                    <div>给药途径： @context.DrugdosageRoute</div>
-                                    <div>起始给药日期： @context.FirstTime</div>
-                                    <div>结束给药日期： @context.LasttTime</div>
-                                    <div>公斤体质量日剂量： @context.AMTsingledose</div>
-                                    <div>厂家类型： @context.Manufacturertype</div>
-
+                                 
+                                    <div>部位： @context.Xraylocation</div>
+                                    <div>检查结果： @context.Xrayinspection</div>
+                                </Row>
+                                <Row ItemsPerRow="ItemsPerRow.Six">
+                                    
                                 </Row>
             
                                 <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
@@ -347,28 +354,25 @@
 
         </div>
         <div id="anchor8">
-            @if (medicalPKs is not null)
+            @if (X_RayImagings is not null)
             {
-                <ListView TItem="MedicalPK" Items="medicalPKs">
-                    <HeaderTemplate>给药方案</HeaderTemplate>
+                <ListView TItem="X_rayImaging" Items="X_RayImagings">
+                    <HeaderTemplate><p class="h3">影像学检查</p></HeaderTemplate>
                     <BodyTemplate>
                         <Card Class="w-100">
                             <CardBody>
-                                <div class="h2">药品通用名： @context.DrugsNmae</div>
-                                <Row ItemsPerRow="ItemsPerRow.Four">
+                           
+                                <Row ItemsPerRow="ItemsPerRow.One">
 
-                                    <div>溶媒： @context.DrugSolvent</div>
+                                    <div>检查日期： @context.Photodate</div>
 
 
-                                    <div>溶媒剂量： @context.SolventToDosage  </div>
+                                    <div>报告日期： @context.Reportdate  </div>
 
-                                    <div>药品剂量： @context.Drugdosage  @context.DrugdosageUnit </div>
-                                    <div>给药频率： @context.DrugNCount</div>
-                                    <div>给药途径： @context.DrugdosageRoute</div>
-                                    <div>起始给药日期： @context.FirstTime</div>
-                                    <div>结束给药日期： @context.LasttTime</div>
-                                    <div>公斤体质量日剂量： @context.AMTsingledose</div>
-                                    <div>厂家类型： @context.Manufacturertype</div>
+                                    <div>放射诊断方式： @context.Xrayimagingenum  </div>
+                                    <div>放射诊断部位： @context.XrayImaginglocationenum</div>
+                                    <div>详细描述： @context.Describe</div>
+                                  
 
                                 </Row>
 
@@ -379,28 +383,26 @@
                 </ListView>}
         </div>
         <div id="anchor9">
-            @if (medicalPKs is not null)
+            @if (X_Raypathologicals is not null)
             {
-                <ListView TItem="MedicalPK" Items="medicalPKs">
-                    <HeaderTemplate>给药方案</HeaderTemplate>
+                <ListView TItem="X_raypathological" Items="X_Raypathologicals">
+                    <HeaderTemplate><p class="h3">病理检查</p></HeaderTemplate>
                     <BodyTemplate>
                         <Card Class="w-100">
                             <CardBody>
-                                <div class="h2">药品通用名： @context.DrugsNmae</div>
-                                <Row ItemsPerRow="ItemsPerRow.Four">
+                               
+                                <Row ItemsPerRow="ItemsPerRow.One">
 
-                                    <div>溶媒： @context.DrugSolvent</div>
+                                    <div>检查日期： @context.Photodate</div>
 
 
-                                    <div>溶媒剂量： @context.SolventToDosage  </div>
+                                    <div>报告日期： @context.Reportdate  </div>
 
-                                    <div>药品剂量： @context.Drugdosage  @context.DrugdosageUnit </div>
-                                    <div>给药频率： @context.DrugNCount</div>
-                                    <div>给药途径： @context.DrugdosageRoute</div>
-                                    <div>起始给药日期： @context.FirstTime</div>
-                                    <div>结束给药日期： @context.LasttTime</div>
-                                    <div>公斤体质量日剂量： @context.AMTsingledose</div>
-                                    <div>厂家类型： @context.Manufacturertype</div>
+
+                                    <div>部位： @context.Xraylocation</div>
+                                    <div>检查结果： @context.Xrayinspection</div>
+                                </Row>
+                                <Row ItemsPerRow="ItemsPerRow.Six">
 
                                 </Row>
 
@@ -408,71 +410,39 @@
                             </CardBody>
                         </Card>
                     </BodyTemplate>
-                </ListView>}
+                </ListView>
+                }
         </div>
         <div id="anchor10">
-            @if (medicalPKs is not null)
+            @if (LaboratoryExaminations is not null)
             {
-                <ListView TItem="MedicalPK" Items="medicalPKs">
-                    <HeaderTemplate>给药方案</HeaderTemplate>
+                <ListView TItem="LaboratoryExamination" Items="LaboratoryExaminations">
+                    <HeaderTemplate ><p class="h3">实验室检查</p></HeaderTemplate>
                     <BodyTemplate>
                         <Card Class="w-100">
                             <CardBody>
-                                <div class="h2">药品通用名： @context.DrugsNmae</div>
-                                <Row ItemsPerRow="ItemsPerRow.Four">
+                              
+                                <Row ItemsPerRow="ItemsPerRow.One">
 
-                                    <div>溶媒： @context.DrugSolvent</div>
+                                    <div>检测时间： @context.Assaytime</div>
 
 
-                                    <div>溶媒剂量： @context.SolventToDosage  </div>
+                                    <div>实验状态： @context.Assaysituation  </div>
 
-                                    <div>药品剂量： @context.Drugdosage  @context.DrugdosageUnit </div>
-                                    <div>给药频率： @context.DrugNCount</div>
-                                    <div>给药途径： @context.DrugdosageRoute</div>
-                                    <div>起始给药日期： @context.FirstTime</div>
-                                    <div>结束给药日期： @context.LasttTime</div>
-                                    <div>公斤体质量日剂量： @context.AMTsingledose</div>
-                                    <div>厂家类型： @context.Manufacturertype</div>
-
+                                    <div>体温°C： @context.BodyTemperature </div>
+                                    <div>血清肌酐实验方法： @context.Screnum</div>
+                                    <div>血清肌酐值(Scr)μmol/L： @context.Scr</div>
                                 </Row>
 
                                 <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
                             </CardBody>
                         </Card>
                     </BodyTemplate>
-                </ListView>}
+                </ListView>
+            }
         </div>
         <div id="anchor11">
-            @if (medicalPKs is not null)
-            {
-                <ListView TItem="MedicalPK" Items="medicalPKs">
-                    <HeaderTemplate>给药方案</HeaderTemplate>
-                    <BodyTemplate>
-                        <Card Class="w-100">
-                            <CardBody>
-                                <div class="h2">药品通用名： @context.DrugsNmae</div>
-                                <Row ItemsPerRow="ItemsPerRow.Four">
-
-                                    <div>溶媒： @context.DrugSolvent</div>
-
-
-                                    <div>溶媒剂量： @context.SolventToDosage  </div>
-
-                                    <div>药品剂量： @context.Drugdosage  @context.DrugdosageUnit </div>
-                                    <div>给药频率： @context.DrugNCount</div>
-                                    <div>给药途径： @context.DrugdosageRoute</div>
-                                    <div>起始给药日期： @context.FirstTime</div>
-                                    <div>结束给药日期： @context.LasttTime</div>
-                                    <div>公斤体质量日剂量： @context.AMTsingledose</div>
-                                    <div>厂家类型： @context.Manufacturertype</div>
-
-                                </Row>
-
-                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
-                            </CardBody>
-                        </Card>
-                    </BodyTemplate>
-                </ListView>}
+          
         </div>
 
     </div>

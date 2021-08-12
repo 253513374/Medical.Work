@@ -113,7 +113,7 @@
             {
                 if (rayImaging != null)
                 {
-                    rayImaging.Cretetime = DateTime.Now;
+                    rayImaging.CreateTime = DateTime.Now;
                     rayImaging.AdminName = authenticationStateTask.Result.User.Identity.Name;
                     context.X_rayImagings.Add(rayImaging);
                     context.SaveChanges();

@@ -61,7 +61,7 @@ namespace Medical.Work.Pages
                 {
                     if (raypathological != null)
                     {
-                        raypathological.Cretetime = DateTime.Now;
+                        raypathological.CreateTime = DateTime.Now;
                         raypathological.AdminName = authenticationStateTask.Result.User.Identity.Name;
                         context.X_raypathologicals.Add(raypathological);
                         context.SaveChanges();

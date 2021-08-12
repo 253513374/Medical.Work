@@ -40,7 +40,7 @@ namespace Medical.Work.Data.Models
         public string PatientInfoGuid { set; get; }
 
         [DisplayName("记录时间")]
-        public DateTime Createtime { set; get; }
+        public DateTime CreateTime { set; get; }
 
 
         /// <summary>

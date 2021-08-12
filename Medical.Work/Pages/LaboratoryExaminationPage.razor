@@ -12,7 +12,7 @@
 
             <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s=>OnSearch())"></Search>
 
-            <button class="createbut fa fa-plus" OnClick="OnShowDlg" ></button>
+            <button class="createbut fa fa-plus"  @onclick="@OnShowDlg" ></button>
         </Row>
     </div>
 </div>
@@ -20,15 +20,17 @@
 <div class="marginlr pt-2 ">
     <div style="height:100%;" class="row">
         <div class="col-7 col-sm-7 col-lg-7  ">
-            <Table TItem="LaboratoryExamination" ShowLoading="true" Items="@laboratoryExaminations" 
-                   IsPagination="true" IsStriped="true" IsBordered="true" 
-                   ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
+            <Table TItem="LaboratoryExamination" ShowLoading="true" IsPagination="true"
+                   IsStriped="true" IsBordered="true" IsAutoRefresh="true"
+                   ShowToolbar="true" ShowAddButton="false" ShowEditButton="false"
+                   ShowDeleteButton="false" OnQueryAsync="@OnQueryPageAsync"
                    ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
-                <RowButtonTemplate>
-                    <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="查看" OnClickCallback="@(() => OnRowinfoClick(context))" />
-                    @*<TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" OnClickCallback="@(() => OnRowEditClick(context,1))" />*@
-                </RowButtonTemplate>
-            </Table>
+             
+                    <RowButtonTemplate>
+                        <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="查看" OnClickCallback="@(() => OnRowinfoClick(context))" />
+                        @*<TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" OnClickCallback="@(() => OnRowEditClick(context,1))" />*@
+                    </RowButtonTemplate>
+                </Table>
         </div>
         <div class="curved_box col-4 col-sm-4 col-lg-4 pt-4 d-flex justify-content-center">
             <div class="shuli">实验室检查详细数据</div>
@@ -64,12 +66,12 @@
 
     public string Querywhere { set; get; }
 
-    protected override  Task OnInitializedAsync()
+    protected override async  Task OnInitializedAsync()
     {
 
         keyValuePairs = DisplayAttributeExtend.GetAttributeExtends<LaboratoryExamination>(laboratoryExamination);
 
-        return base.OnInitializedAsync();
+        return;// base.OnInitializedAsync();
     }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -86,7 +88,7 @@
         {
             BodyContext = new LaboratoryExamination(),
             Title = "实验室检查",
-            Size = Size.ExtraLarge,
+            Size = Size.Large,
             ComponentParamters = new KeyValuePair<string, object>[]
             {
                 new(nameof(LaboratoryExaminationDlg.OnEventCallback), EventCallback.Factory.Create<LaboratoryExamination>(this, v => laboratoryExamination = v))
@@ -100,7 +102,7 @@
             {
 
                 laboratoryExamination.AdminName = authenticationStateTask.Result.User.Identity.Name;
-                laboratoryExamination.Createtime = DateTime.Now;
+                laboratoryExamination.CreateTime = DateTime.Now;
                 context.laboratoryExaminations.Add(laboratoryExamination);
                 context.SaveChanges();
             }
@@ -108,6 +110,17 @@
         }
         StateHasChanged();
         return ;
+    }
+
+    private Task<QueryData<LaboratoryExamination>> OnQueryPageAsync(QueryPageOptions options)
+    {
+        var items = laboratoryExaminations.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems);
+        return Task.FromResult(new QueryData<LaboratoryExamination>()
+        {
+            Items = items,
+            TotalCount = laboratoryExaminations.Count()
+        });
+
     }
 
     private async Task OnSearch()
@@ -137,7 +150,7 @@
         using (var context = contextFactory.CreateDbContext())
         {
             var name = authenticationStateTask.Result.User.Identity.Name;
-            return await context.laboratoryExaminations.Where(w=>w.AdminName== name).Where(w => w.Createtime > DateTime.Now.AddDays(-30)).ToListAsync();
+            return await context.laboratoryExaminations.Where(w=>w.AdminName== name).Take(100).ToListAsync();
         }
     }
 
