@@ -71,7 +71,7 @@
         DateTime dateTime = DateTime.Now.AddDays(-30);
         if (Querywhere is null)
         {
-            X_RayImagings = await context.X_rayImagings.AsNoTracking().Where(w => w.AdminName == UserName).ToListAsync();
+            X_RayImagings = await context.X_rayImagings.AsNoTracking().Where(w => w.AdminName == UserName).Take(100).ToListAsync();
         }
         else
         {

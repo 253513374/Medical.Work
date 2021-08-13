@@ -133,6 +133,7 @@
                 </ListView>}
 
         </div>
+
         <div id="anchor3">
             @if (PD_DrugAllergies is not null)
             {
@@ -177,6 +178,7 @@
                 </ListView>}
 
         </div>
+     
         <div id="anchor4">
             @if (PG_Pharmacogenomics is not null)
             {
@@ -219,6 +221,7 @@
                     </BodyTemplate>
                 </ListView>}
         </div>
+    
         <div id="anchor5">
             @if (PG_PathogenGenes is not null)
             {
@@ -262,6 +265,7 @@
                 </ListView>}
 
         </div>
+    
         <div id="anchor6">
             @if (medicalPKs is not null)
             {
@@ -343,7 +347,14 @@
                                     <div>检查结果： @context.Xrayinspection</div>
                                 </Row>
                                 <Row ItemsPerRow="ItemsPerRow.Six">
-                                    
+                                    @if (@context.ImgUrl is not null)
+                                    {
+                                        foreach (var item in @context.ImgUrl)
+                                        {
+                                            <img src="@item.ImgUrl" style="width:150px; " />
+                                        }
+                                    }
+
                                 </Row>
             
                                 <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
@@ -361,7 +372,7 @@
                     <BodyTemplate>
                         <Card Class="w-100">
                             <CardBody>
-                           
+
                                 <Row ItemsPerRow="ItemsPerRow.One">
 
                                     <div>检查日期： @context.Photodate</div>
@@ -372,7 +383,17 @@
                                     <div>放射诊断方式： @context.Xrayimagingenum  </div>
                                     <div>放射诊断部位： @context.XrayImaginglocationenum</div>
                                     <div>详细描述： @context.Describe</div>
-                                  
+
+
+                                </Row>
+                                <Row ItemsPerRow="ItemsPerRow.Six">
+                                    @if (@context.ImgUrl is not null)
+                                    {
+                                        foreach (var item in @context.ImgUrl)
+                                        {
+                                            <img src="@item.ImgUrl" style="width:150px; " />
+                                        }
+                                    }
 
                                 </Row>
 
@@ -382,6 +403,7 @@
                     </BodyTemplate>
                 </ListView>}
         </div>
+
         <div id="anchor9">
             @if (X_Raypathologicals is not null)
             {
@@ -390,7 +412,7 @@
                     <BodyTemplate>
                         <Card Class="w-100">
                             <CardBody>
-                               
+
                                 <Row ItemsPerRow="ItemsPerRow.One">
 
                                     <div>检查日期： @context.Photodate</div>
@@ -403,6 +425,13 @@
                                     <div>检查结果： @context.Xrayinspection</div>
                                 </Row>
                                 <Row ItemsPerRow="ItemsPerRow.Six">
+                                    @if (@context.ImgUrl is not null)
+                                    {
+                                        foreach (var item in @context.ImgUrl)
+                                        {
+                                            <img src="@item.ImgUrl" style="width:150px; " />
+                                        }
+                                    }
 
                                 </Row>
 
@@ -413,6 +442,7 @@
                 </ListView>
                 }
         </div>
+       
         <div id="anchor10">
             @if (LaboratoryExaminations is not null)
             {
@@ -456,6 +486,11 @@
 
     [Parameter]
     public string guid { set; get; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    private string AdminNmae { set; get; }
 
     private PatientInfo patientInfo { set; get; } = new();
     private PatientInfoExDiagnosisTable patientInfoEx { set; get; } = new();
@@ -519,17 +554,19 @@
 
         using (var context = contextFactory.CreateDbContext())
         {
-            PD_Microbiologicals = await context.MPD_Microbiologicals.AsNoTracking().ToListAsync();
-            PD_DrugAllergies = await context.MPD_Drugs.AsNoTracking().ToListAsync();
-            PG_PathogenGenes = await context.MPG_PathogenGenes.AsNoTracking().ToListAsync();
-            PG_Pharmacogenomics = await context.MPG_Pharmacogenomics.AsNoTracking().ToListAsync();
-            medicalPKs = await context.MPKs.AsNoTracking().ToListAsync();
-            X_Raybronchoscopies = await context.X_raybronchoscopys.AsNoTracking().ToListAsync();
+            var name = authenticationStateTask.Result.User.Identity.Name;
 
-            X_RayImagings = await context.X_rayImagings.AsNoTracking().ToListAsync();
-            X_Raypathologicals = await context.X_raypathologicals.AsNoTracking().ToListAsync();
+            PD_Microbiologicals = await context.MPD_Microbiologicals.AsNoTracking().Where(w=>w.AdminName== name).ToListAsync();
+            PD_DrugAllergies = await context.MPD_Drugs.Where(w => w.AdminName == name).AsNoTracking().ToListAsync();
+            PG_PathogenGenes = await context.MPG_PathogenGenes.Where(w => w.AdminName == name).AsNoTracking().ToListAsync();
+            PG_Pharmacogenomics = await context.MPG_Pharmacogenomics.Where(w => w.AdminName == name).AsNoTracking().ToListAsync();
+            medicalPKs = await context.MPKs.Where(w => w.AdminName == name).AsNoTracking().ToListAsync();
 
-            LaboratoryExaminations = await context.laboratoryExaminations.AsNoTracking().ToListAsync();
+            X_Raybronchoscopies = await context.X_raybronchoscopys.Include(i=>i.ImgUrl).Where(w => w.AdminName == name).AsNoTracking().ToListAsync();
+            X_RayImagings = await context.X_rayImagings.Include(i => i.ImgUrl).Where(w => w.AdminName == name).AsNoTracking().ToListAsync();
+            X_Raypathologicals = await context.X_raypathologicals.Include(i => i.ImgUrl).Where(w => w.AdminName == name).AsNoTracking().ToListAsync();
+
+            LaboratoryExaminations = await context.laboratoryExaminations.Where(w => w.AdminName == name).AsNoTracking().ToListAsync();
         }
 
     }

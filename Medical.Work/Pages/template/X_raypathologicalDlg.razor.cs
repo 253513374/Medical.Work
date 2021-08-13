@@ -90,11 +90,29 @@ namespace Medical.Work.Pages.template
                     if (ret)
                     {
                         uploadFile.PrevUrl = $"images/{authenticationStateTask.Result.User.Identity.Name}/{FileName1}";
+                        if (x_Raypathological.ImgUrl is null) x_Raypathological.ImgUrl = new();
+                        var imgpath= GetImgPath(uploadFile.PrevUrl);
+                        x_Raypathological.ImgUrl.Add(imgpath);
+
                     }
 
 
                 }
             }
+        }
+
+        private X_raypathologicalPaths GetImgPath(string url)
+        {
+
+            var name = authenticationStateTask.Result.User.Identity.Name;
+            return new X_raypathologicalPaths()
+            {
+
+                ImgUrl = url,
+                Createtime = DateTime.Now,
+                Adminuser = name,
+            };
+
         }
     }
 }

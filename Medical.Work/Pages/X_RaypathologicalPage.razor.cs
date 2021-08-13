@@ -86,7 +86,7 @@ namespace Medical.Work.Pages
                 if (Querywhere is  null)
                 {
 
-                    x_Raypathologicals = await context.X_raypathologicals.AsNoTracking().Where(w => w.AdminName == UserName).ToListAsync();
+                    x_Raypathologicals = await context.X_raypathologicals.AsNoTracking().Where(w => w.AdminName == UserName).Take(100).ToListAsync();
                 }
                 else
                 {

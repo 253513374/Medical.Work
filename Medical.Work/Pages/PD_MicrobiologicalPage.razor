@@ -73,7 +73,7 @@
             }
             else
             {
-                pD_Microbiologicals = await context.MPD_Microbiologicals.AsNoTracking().Where(w => w.AdminName == adminname).ToListAsync();
+                pD_Microbiologicals = await context.MPD_Microbiologicals.AsNoTracking().Where(w => w.AdminName == adminname).Take(100).ToListAsync();
             }
         }
         StateHasChanged();

@@ -41,6 +41,7 @@ namespace Medical.Work.Pages.template
         [Parameter]
         public EventCallback<X_rayImaging> OnEventCallback { set; get; }
 
+        private List<X_rayImagePaths> x_RayImagePaths { set; get; }
         private X_rayImaging x_RayImaging { set; get; }
 
 
@@ -83,11 +84,29 @@ namespace Medical.Work.Pages.template
                     if (ret)
                     {
                         uploadFile.PrevUrl = $"images/{authenticationStateTask.Result.User.Identity.Name}/{FileName1}";
+                        if (x_RayImaging.ImgUrl is null) x_RayImaging.ImgUrl = new();
+                        var imgpath = GetImgPath(uploadFile.PrevUrl);
+                        x_RayImaging.ImgUrl.Add(imgpath);
                     }
 
 
                 }
             }
+        }
+
+
+        private  X_rayImagePaths GetImgPath (string url)
+        {
+
+            var name = authenticationStateTask.Result.User.Identity.Name;
+            return new X_rayImagePaths()
+            {
+
+                ImgUrl = url,
+                Createtime = DateTime.Now,
+                Adminuser = name,
+            };
+            
         }
     }
 }

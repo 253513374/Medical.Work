@@ -90,17 +90,34 @@ namespace Medical.Work.Pages.template
                     var ret =  await uploadFile.SaveToFile(fileName, MaxFileLength);
                     if(ret)
                     {
-                        var imapath = $"images/{authenticationStateTask.Result.User.Identity.Name}/{FileName1}";
-                        if (x_Raybronchoscopy.ImgUrl == null) x_Raybronchoscopy.ImgUrl = new();
+                        uploadFile.PrevUrl = $"images/{authenticationStateTask.Result.User.Identity.Name}/{FileName1}";
+                        if (x_Raybronchoscopy.ImgUrl is null) x_Raybronchoscopy.ImgUrl = new();
 
-                        x_Raybronchoscopy.ImgUrl.Add(new X_raybronchoscopyPaths() { ImgUrl = imapath });
-                        uploadFile.PrevUrl = imapath;
+                       // x_Raybronchoscopy.ImgUrl.Add(new X_raybronchoscopyPaths() { ImgUrl = imapath });
+                     
+
+                        var imgpath = GetImgPath(uploadFile.PrevUrl);
+                        x_Raybronchoscopy.ImgUrl.Add(imgpath);
 
                     }
 
 
                 }
             }
+        }
+
+        private X_raybronchoscopyPaths GetImgPath(string url)
+        {
+
+            var name = authenticationStateTask.Result.User.Identity.Name;
+            return new X_raybronchoscopyPaths()
+            {
+
+                ImgUrl = url,
+                Createtime = DateTime.Now,
+                Adminuser = name,
+            };
+
         }
     }
 }

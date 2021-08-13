@@ -69,7 +69,7 @@
             }
             else
             {
-                pD_DrugAllergies =await context.MPD_Drugs.AsNoTracking().Where(w => w.AdminName == adminname).ToListAsync();
+                pD_DrugAllergies =await context.MPD_Drugs.AsNoTracking().Where(w => w.AdminName == adminname).Take(100).ToListAsync();
             }
         }
         StateHasChanged();

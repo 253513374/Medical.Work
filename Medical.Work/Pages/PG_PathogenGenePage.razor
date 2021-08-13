@@ -78,7 +78,7 @@
             }
             else
             {
-                pG_PathogenGenes = await context.MPG_PathogenGenes.AsNoTracking().Where(w => w.AdminName == adminname).ToListAsync();
+                pG_PathogenGenes = await context.MPG_PathogenGenes.AsNoTracking().Where(w => w.AdminName == adminname).Take(100).ToListAsync();
             }
         }
         StateHasChanged();

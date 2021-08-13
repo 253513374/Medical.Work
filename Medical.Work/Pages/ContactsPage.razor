@@ -123,7 +123,7 @@
         using (var context = ContextFactory.CreateDbContext())
         {
 
-            contacts = await context.Contacts.AsNoTracking().Where(w => w.AdminName == name).ToListAsync();
+            contacts = await context.Contacts.AsNoTracking().Where(w => w.AdminName == name).Take(100).ToListAsync();
         }
     }
 
