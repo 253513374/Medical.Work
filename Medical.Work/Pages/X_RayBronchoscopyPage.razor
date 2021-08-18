@@ -12,26 +12,43 @@
 <div class="divtop d-flex  align-items-center">
 
     <div class="  w-100 ">
-        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Two">
+        <Card>
+            <CardHeader>
+                查询条件
+            </CardHeader>
+            <CardBody>
+                <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Two">
 
-            <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s=>OnSearch())"></Search>
+                    <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s=>OnSearch())"></Search>
 
-            <button class="createbut fa fa-plus " @onclick="@OnShowDlg"></button>
-        </Row>
+                    <button class="createbut fa fa-plus " @onclick="@OnShowDlg"></button>
+                </Row>
+            </CardBody>
+        </Card>
+               
     </div>
 </div>
 
-<div>
-    <Table TItem="X_raybronchoscopy" ShowLoading="true" IsPagination="true" 
-           IsStriped="true" IsBordered="true"  IsAutoRefresh="true"
-           ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" 
-           ShowDeleteButton="false"    OnQueryAsync="@OnQueryPageAsync"
-           ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true" >
-        <RowButtonTemplate>
-            <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context,2))" />
-            <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" OnClickCallback="@(() => OnRowEditClick(context,2))" />
-        </RowButtonTemplate>
-    </Table>
+<div class="w-100">
+
+    <Card>
+        <CardHeader>
+            查询结果
+        </CardHeader>
+        <CardBody>
+            <Table TItem="X_raybronchoscopy" ShowLoading="true" IsPagination="true"
+                   IsStriped="true" IsBordered="true" IsAutoRefresh="true"
+                   ShowToolbar="true" ShowAddButton="false" ShowEditButton="false"
+                   ShowDeleteButton="false" OnQueryAsync="@OnQueryPageAsync"
+                   ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
+                <RowButtonTemplate>
+                    <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context,2))" />
+                    <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" OnClickCallback="@(() => OnRowEditClick(context,2))" />
+                </RowButtonTemplate>
+            </Table>
+        </CardBody>
+    </Card>
+          
 </div>
 <Message @ref="MessageElement" />
 @code {
@@ -147,5 +164,40 @@
             Icon = "fa fa-info-circle",
             Color = color
         });
+    }
+
+    [Inject]
+    private SwalService? SwalService { get; set; }
+
+    private async Task Ondel(X_raybronchoscopy myobject)
+    {
+        var op = new SwalOption()
+        {
+            Title = "警告",
+            Content = "数据删除不可再恢复，是否确定删除？",
+            IsConfirm = true,
+            Category = SwalCategory.Warning
+        };
+        var re = await SwalService.ShowModal(op);
+        if (re)
+        {
+
+            using (var context = ContextFactor.CreateDbContext())
+            {
+                context.X_raybronchoscopys.Remove(myobject);
+                var ok = context.SaveChanges();
+                if (ok > 0)
+                {
+                    x_Raybronchoscopies.Remove(myobject);
+                    StateHasChanged();
+                }
+                else
+                {
+                    ShowColorMessage(Color.Warning, "数据删除失败", MessageElement);
+
+                }
+            }
+        }
+        return;
     }
 }

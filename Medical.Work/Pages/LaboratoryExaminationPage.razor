@@ -8,29 +8,45 @@
 <div class=" divtop d-flex  align-items-center">
 
     <div class="  w-100 ">
-        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Two">
 
-            <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s=>OnSearch())"></Search>
+        <Card>
+            <CardHeader>
+                查询条件
+            </CardHeader>
+            <CardBody>
+                <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Two">
 
-            <button class="createbut fa fa-plus"  @onclick="@OnShowDlg" ></button>
-        </Row>
+                    <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s=>OnSearch())"></Search>
+
+                    <button class="createbut fa fa-plus" @onclick="@OnShowDlg"></button>
+                </Row>
+            </CardBody></Card>
+               
     </div>
 </div>
 
 <div class="marginlr pt-2 ">
     <div style="height:100%;" class="row">
         <div class="col-7 col-sm-7 col-lg-7  ">
-            <Table TItem="LaboratoryExamination" ShowLoading="true" IsPagination="true"
-                   IsStriped="true" IsBordered="true" IsAutoRefresh="true"
-                   ShowToolbar="true" ShowAddButton="false" ShowEditButton="false"
-                   ShowDeleteButton="false" OnQueryAsync="@OnQueryPageAsync"
-                   ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
-             
-                    <RowButtonTemplate>
-                        <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="查看" OnClickCallback="@(() => OnRowinfoClick(context))" />
-                        @*<TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="编辑" OnClickCallback="@(() => OnRowEditClick(context,1))" />*@
-                    </RowButtonTemplate>
-                </Table>
+            <Card>
+                <CardHeader>
+                    查询结果
+                </CardHeader>
+                <CardBody>
+                    <Table TItem="LaboratoryExamination" ShowLoading="true" IsPagination="true"
+                           IsStriped="true" IsBordered="true" IsAutoRefresh="true"
+                           ShowToolbar="true" ShowAddButton="false" ShowEditButton="false"
+                           ShowDeleteButton="false" OnQueryAsync="@OnQueryPageAsync"
+                           ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
+
+                        <RowButtonTemplate>
+                            <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="查看" OnClickCallback="@(() => OnRowinfoClick(context))" />
+                            <TableCellButton Size="Size.ExtraSmall" Color="Color.Warning" Icon="fa fa-edit" Text="删除" OnClickCallback="@(() => Ondel(context))" />
+                        </RowButtonTemplate>
+                    </Table>
+                </CardBody>
+            </Card>
+           
         </div>
         <div class="curved_box col-4 col-sm-4 col-lg-4 pt-4 d-flex justify-content-center">
             <div class="shuli">实验室检查详细数据</div>
@@ -45,7 +61,7 @@
     </div>
 </div>
 
-
+<Message @ref="MessageElement" />
 
 
 @code {
@@ -56,6 +72,11 @@
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
+
+    [Inject]
+    private MessageService messageService { set; get; }
+
+    private Message MessageElement { set; get; }
 
     LaboratoryExamination laboratoryExamination { set; get; } = new();
 
@@ -161,4 +182,49 @@
         StateHasChanged();
     }
 
+    public void ShowColorMessage(Color color, string content, Message message)
+    {
+        message.SetPlacement(Placement.Top);
+        messageService?.Show(new MessageOption()
+        {
+            Host = message,
+            Content = content,
+            Icon = "fa fa-info-circle",
+            Color = color
+        });
+    }
+    [Inject]
+    private SwalService? SwalService { get; set; }
+
+    private async Task Ondel(LaboratoryExamination myobject)
+    {
+        var op = new SwalOption()
+        {
+            Title = "警告",
+            Content = "数据删除不可再恢复，是否确定删除？",
+            IsConfirm = true,
+            Category = SwalCategory.Warning
+        };
+        var re = await SwalService.ShowModal(op);
+        if (re)
+        {
+
+            using (var context = contextFactory.CreateDbContext())
+            {
+                context.laboratoryExaminations.Remove(myobject);
+                var ok = context.SaveChanges();
+                if (ok > 0)
+                {
+                    laboratoryExaminations.Remove(myobject);
+                    StateHasChanged();
+                }
+                else
+                {
+                    ShowColorMessage(Color.Warning, "数据删除失败", MessageElement);
+
+                }
+            }
+        }
+        return;
+    }
 }

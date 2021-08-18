@@ -552,21 +552,22 @@
     {
         patientInfo = await pservice.GetPatientInfo(guid);
 
+        var number = patientInfo.Medicalrecordnumber;
         using (var context = contextFactory.CreateDbContext())
         {
             var name = authenticationStateTask.Result.User.Identity.Name;
 
-            PD_Microbiologicals = await context.MPD_Microbiologicals.AsNoTracking().Where(w=>w.AdminName== name).ToListAsync();
-            PD_DrugAllergies = await context.MPD_Drugs.Where(w => w.AdminName == name).AsNoTracking().ToListAsync();
-            PG_PathogenGenes = await context.MPG_PathogenGenes.Where(w => w.AdminName == name).AsNoTracking().ToListAsync();
-            PG_Pharmacogenomics = await context.MPG_Pharmacogenomics.Where(w => w.AdminName == name).AsNoTracking().ToListAsync();
-            medicalPKs = await context.MPKs.Where(w => w.AdminName == name).AsNoTracking().ToListAsync();
+            PD_Microbiologicals = await context.MPD_Microbiologicals.AsNoTracking().Where(w=>w.AdminName== name).Where(f=>f.Medicalrecordnumber== number).ToListAsync();
+            PD_DrugAllergies = await context.MPD_Drugs.Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
+            PG_PathogenGenes = await context.MPG_PathogenGenes.Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
+            PG_Pharmacogenomics = await context.MPG_Pharmacogenomics.Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
+            medicalPKs = await context.MPKs.Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
 
-            X_Raybronchoscopies = await context.X_raybronchoscopys.Include(i=>i.ImgUrl).Where(w => w.AdminName == name).AsNoTracking().ToListAsync();
-            X_RayImagings = await context.X_rayImagings.Include(i => i.ImgUrl).Where(w => w.AdminName == name).AsNoTracking().ToListAsync();
-            X_Raypathologicals = await context.X_raypathologicals.Include(i => i.ImgUrl).Where(w => w.AdminName == name).AsNoTracking().ToListAsync();
+            X_Raybronchoscopies = await context.X_raybronchoscopys.Include(i=>i.ImgUrl).Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
+            X_RayImagings = await context.X_rayImagings.Include(i => i.ImgUrl).Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
+            X_Raypathologicals = await context.X_raypathologicals.Include(i => i.ImgUrl).Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
 
-            LaboratoryExaminations = await context.laboratoryExaminations.Where(w => w.AdminName == name).AsNoTracking().ToListAsync();
+            LaboratoryExaminations = await context.laboratoryExaminations.Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
         }
 
     }

@@ -7,40 +7,53 @@
 
 <div class=" divtop  w-100 d-flex align-items-center">
     <div class="marginlr w-100">
-        <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
-            <Search @bind-Value="@Querywhere" @onclick="@(s=>OnQuerywhere())"></Search>
-            <button class="createbut fa fa-plus" @onclick="@OnShowDlg"></button>
-        </Row>
+        <Card>
+            <CardHeader>
+                查询条件
+            </CardHeader>
+            <CardBody>
+                <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
+                    <Search @bind-Value="@Querywhere" @onclick="@(s=>OnQuerywhere())"></Search>
+                    <button class="createbut fa fa-plus" @onclick="@OnShowDlg"></button>
+                </Row>
+            </CardBody></Card>
+              
     </div>
 </div>
 <div class="marginlr pt-3">
+    <Card>
+        <CardHeader>
+            查询条件
+        </CardHeader>
+        <CardBody>
+            <Table TItem="MedicalPK" ShowLoading="true" HeaderStyle="TableHeaderStyle.Light" IsPagination="true"
+                   IsStriped="true" IsBordered="true" IsMultipleSelect="false" AllowResizing="true"
+                   ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="true"
+                   ShowExtendButtons="true" ShowColumnList="true" OnQueryAsync="@OnQueryAsync" IsAutoRefresh="true">
+                @*/*药品通用名，溶媒（如0.9% 氯化钠100ml）,单次剂量，给药频率，给药途径，开始时间，截止时间，公斤体质量日剂量，厂家类型*/*@
+                <TableColumns>
+                    <TableColumn @bind-Field="@context.DrugsNmae"></TableColumn>
+                    <TableColumn @bind-Field="@context.DrugSolvent"></TableColumn>
+                    <TableColumn @bind-Field="@context.SolventToDosage"></TableColumn>
+                    <TableColumn @bind-Field="@context.Drugdosage"></TableColumn>
+                    <TableColumn @bind-Field="@context.DrugNCount"></TableColumn>
+                    <TableColumn @bind-Field="@context.DrugdosageRoute"></TableColumn>
+                    <TableColumn @bind-Field="@context.FirstTime"></TableColumn>
+                    <TableColumn @bind-Field="@context.LasttTime"></TableColumn>
+                    <TableColumn @bind-Field="@context.AMTsingledose"></TableColumn>
+                    <TableColumn @bind-Field="@context.Manufacturertype"></TableColumn>
+                </TableColumns>
 
-    <Table TItem="MedicalPK" ShowLoading="true" HeaderStyle="TableHeaderStyle.Light"  IsPagination="true"
-           IsStriped="true" IsBordered="true" IsMultipleSelect="false" AllowResizing="true" 
-           ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="true"
-           ShowExtendButtons="true" ShowColumnList="true" OnQueryAsync="@OnQueryAsync" IsAutoRefresh="true">
-      @*/*药品通用名，溶媒（如0.9% 氯化钠100ml）,单次剂量，给药频率，给药途径，开始时间，截止时间，公斤体质量日剂量，厂家类型*/*@
-        <TableColumns>
-            <TableColumn @bind-Field="@context.DrugsNmae"></TableColumn>
-            <TableColumn @bind-Field="@context.DrugSolvent"></TableColumn>
-            <TableColumn @bind-Field="@context.SolventToDosage"></TableColumn>
-            <TableColumn @bind-Field="@context.Drugdosage"></TableColumn>
-            <TableColumn @bind-Field="@context.DrugNCount"></TableColumn>
-            <TableColumn @bind-Field="@context.DrugdosageRoute"></TableColumn>
-            <TableColumn @bind-Field="@context.FirstTime"></TableColumn>
-            <TableColumn @bind-Field="@context.LasttTime"></TableColumn>
-            <TableColumn @bind-Field="@context.AMTsingledose"></TableColumn>
-            <TableColumn @bind-Field="@context.Manufacturertype"></TableColumn>
-        </TableColumns>
+                <RowButtonTemplate>
+                    <TableCellButton Size="Size.Medium" Color="Color.Info" Icon="fa fa-edit" Text=" 操 作 " OnClickCallback="@(() => OnRowEditClick(context))" />
+                </RowButtonTemplate>
+            </Table>
+        </CardBody></Card>
+          
+            @*@if (medicalPKs is not null && medicalPKs.Count > 0)
+                {
 
-        <RowButtonTemplate>
-            <TableCellButton Size="Size.Medium" Color="Color.Info" Icon="fa fa-edit" Text=" 操 作 " OnClickCallback="@(() => OnRowEditClick(context))" />
-        </RowButtonTemplate>
-    </Table>
-    @*@if (medicalPKs is not null && medicalPKs.Count > 0)
-    {
-
-    }*@
+                }*@
 
 </div>
 
