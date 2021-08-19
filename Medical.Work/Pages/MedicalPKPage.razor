@@ -1,6 +1,8 @@
 ﻿
 @page "/MedicalPKPage"
 
+@page "/MedicalPKPage/{Text}/{Name?}"
+
 @inject IDbContextFactory<MedicalDbContext> contextFactory
 @inject NavigationManager navigationManager
 
@@ -14,10 +16,11 @@
             <CardBody>
                 <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
                     <Search @bind-Value="@Querywhere" @onclick="@(s=>OnQuerywhere())"></Search>
-                    <button class="createbut fa fa-plus" @onclick="@OnShowDlg"></button>
+                    <button class="createbut fa fa-plus" @onclick="@(()=>OnShowDlg(null))"></button>
                 </Row>
-            </CardBody></Card>
-              
+            </CardBody>
+        </Card>
+
     </div>
 </div>
 <div class="marginlr pt-3">
@@ -48,36 +51,57 @@
                     <TableCellButton Size="Size.Medium" Color="Color.Info" Icon="fa fa-edit" Text=" 操 作 " OnClickCallback="@(() => OnRowEditClick(context))" />
                 </RowButtonTemplate>
             </Table>
-        </CardBody></Card>
-          
-            @*@if (medicalPKs is not null && medicalPKs.Count > 0)
-                {
+        </CardBody>
+    </Card>
 
-                }*@
+    @*@if (medicalPKs is not null && medicalPKs.Count > 0)
+        {
+
+        }*@
 
 </div>
 
-    @code {
+@code {
 
-        private List<MedicalPK> medicalPK_s { set; get; } = new();
+    private List<MedicalPK> medicalPK_s { set; get; } = new();
 
 
-        protected override async Task OnInitializedAsync()
+    [Parameter]
+    public string Text { get; set; }
+
+    [Parameter]
+    public string Name { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Text is not null or "")
         {
-            await OnQuerywhere();
-            return;
-            //return base.OnInitializedAsync();
+            // Task.Run(()=> { ); });
+            var obj = new MedicalPK();
+            obj.Medicalrecordnumber = Text;
+            obj.UserName = Name;
+            await OnShowDlg(obj);
         }
-        private Task<QueryData<MedicalPK>> OnQueryAsync(QueryPageOptions options)
-        {
-            // 内存分页
-            var items = medicalPK_s.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems).ToList();
-
-            return Task.FromResult(new QueryData<MedicalPK>()
-            {
-                Items = items,
-                TotalCount = medicalPK_s.Count
-                // IsSearch = true
-            });
-        }
+        return;
     }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await OnQuerywhere();
+        return;
+        //return base.OnInitializedAsync();
+    }
+    private Task<QueryData<MedicalPK>> OnQueryAsync(QueryPageOptions options)
+    {
+        // 内存分页
+        var items = medicalPK_s.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems).ToList();
+
+        return Task.FromResult(new QueryData<MedicalPK>()
+        {
+            Items = items,
+            TotalCount = medicalPK_s.Count
+            // IsSearch = true
+        });
+    }
+}

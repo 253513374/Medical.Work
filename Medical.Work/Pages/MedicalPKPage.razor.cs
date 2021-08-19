@@ -50,11 +50,11 @@ namespace Medical.Work.Pages
                 // StateHasChanged();
             }
         }
-        private async Task OnShowDlg()
+        private async Task OnShowDlg(MedicalPK obj)
         {
             var retdlg = await Dialog.ShowModal<MedicalPKDlg>(new ResultDialogOption()
             {
-                BodyContext = new MedicalPK(),
+                BodyContext = obj,
                 Title = "添加给药方案",
                 Size = Size.ExtraLarge,
                 ComponentParamters = new KeyValuePair<string, object>[]

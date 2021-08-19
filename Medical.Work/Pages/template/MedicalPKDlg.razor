@@ -54,7 +54,11 @@
 
     protected override void OnParametersSet()
     {
-        medicalPK = MedicalPKobject as MedicalPK;
+        if(MedicalPKobject is not null)
+        {
+            medicalPK = MedicalPKobject as MedicalPK;
+        }
+
         base.OnParametersSet();
     }
 }

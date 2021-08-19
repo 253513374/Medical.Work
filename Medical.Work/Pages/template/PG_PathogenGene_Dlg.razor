@@ -23,7 +23,7 @@
     public object? PathogenGene { set; get; }
 
 
-    private MedicalPG_PathogenGene Genes { set; get; }
+    private MedicalPG_PathogenGene Genes { set; get; } = new();
 
 
 
@@ -33,7 +33,11 @@
 
     protected override void OnParametersSet()
     {
-        Genes = PathogenGene as MedicalPG_PathogenGene;
+        if(PathogenGene is not null)
+        {
+            Genes = PathogenGene as MedicalPG_PathogenGene;
+        }
+
         base.OnParametersSet();
     }
 }

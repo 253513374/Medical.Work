@@ -93,16 +93,18 @@
     public EventCallback<LaboratoryExamination> OnEventCallback { set; get; }
 
 
-    private LaboratoryExamination Laboratoryexamination { set; get; }
+    private LaboratoryExamination Laboratoryexamination { set; get; } = new();
 
     [CascadingParameter(Name = "BodyContext")]
     public object? objectLaboratoryExamination { set; get; }
 
-    protected override void OnInitialized()
+    protected override Task OnParametersSetAsync()
     {
-
-        Laboratoryexamination = objectLaboratoryExamination as LaboratoryExamination;
-
-        base.OnInitialized();
+        if (objectLaboratoryExamination is not null)
+        {
+            Laboratoryexamination = objectLaboratoryExamination as LaboratoryExamination;
+        }
+        return base.OnParametersSetAsync();
     }
+   
 }

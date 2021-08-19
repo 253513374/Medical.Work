@@ -1,6 +1,6 @@
 ﻿
-
-@page "/PG_PharmacogenomicsPage"
+@page  "/PG_PharmacogenomicsPage"
+@page  "/PG_PharmacogenomicsPage/{Text}/{Name?}"
 
 
 
@@ -17,10 +17,11 @@
 
                     <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s=>OnSearch())"></Search>
 
-                    <button class="createbut fa fa-plus " @onclick="@OnShowDlg"></button>
+                    <button class="createbut fa fa-plus " @onclick="@(()=>OnShowDlg(null))"></button>
                 </Row>
-            </CardBody></Card>
-               
+            </CardBody>
+        </Card>
+
     </div>
 </div>
 
@@ -40,8 +41,9 @@
                     <TableCellButton Size="Size.ExtraSmall" Color="Color.Warning" Icon="fa fa-edit" Text="删除" OnClickCallback="@(() => Ondel(context))" />
                 </RowButtonTemplate>
             </Table>
-        </CardBody></Card>
-           
+        </CardBody>
+    </Card>
+
 </div>
 <Message @ref="MessageElement" />
 
@@ -68,14 +70,35 @@
 
 
     private MedicalPG_Pharmacogenomics pG_Pharmacogenomic { set; get; }
-    private List<MedicalPG_Pharmacogenomics> pG_Pharmacogenomics  { set; get; } = new();
+    private List<MedicalPG_Pharmacogenomics> pG_Pharmacogenomics { set; get; } = new();
 
+
+
+    [Parameter]
+    public string Text { get; set; }
+
+    [Parameter]
+    public string Name { get; set; }
     protected override async Task OnParametersSetAsync()
     {
-
-        await OnSearch();
-        return; // await base.OnParametersSetAsync();
+        if (Text is not null or "")
+        {
+            // Task.Run(()=> { ); });
+            var obj = new MedicalPG_Pharmacogenomics();
+            obj.Medicalrecordnumber = Text;
+            obj.UserName = Name;
+            await OnShowDlg(obj);
+        }
+        return;
     }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await OnSearch();
+        return;// base.OnAfterRenderAsync(firstRender);
+    }
+
 
     private async Task OnSearch()
     {
@@ -109,18 +132,18 @@
         });
     }
 
-    private async Task OnShowDlg()
+    private async Task OnShowDlg(MedicalPG_Pharmacogenomics obj)
     {
         var result = await Dialogservice.ShowModal<PG_Pharmacogenomics_Dlg>(new ResultDialogOption()
         {
             Title = "新建药物基因组学",
-            BodyContext = new MedicalPG_Pharmacogenomics(),
+            BodyContext = obj,
             Size = Size.ExtraSmall,
             ComponentParamters = new KeyValuePair<string, object>[]
               {
                 //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
                       new(nameof(PG_Pharmacogenomics_Dlg.OnEventCallback), EventCallback.Factory.Create<MedicalPG_Pharmacogenomics>(this, v => pG_Pharmacogenomic = v))
-              }
+                  }
         });
 
         if (result == DialogResult.Yes)

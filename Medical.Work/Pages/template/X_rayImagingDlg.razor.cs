@@ -42,7 +42,7 @@ namespace Medical.Work.Pages.template
         public EventCallback<X_rayImaging> OnEventCallback { set; get; }
 
         private List<X_rayImagePaths> x_RayImagePaths { set; get; }
-        private X_rayImaging x_RayImaging { set; get; }
+        private X_rayImaging x_RayImaging { set; get; } = new();
 
 
         private static long MaxFileLength => 200 * 1024 * 1024;
@@ -53,7 +53,10 @@ namespace Medical.Work.Pages.template
 
         protected override Task OnInitializedAsync()
         {
-            x_RayImaging = objectX_rayImaging as X_rayImaging;
+            if(objectX_rayImaging is not null)
+            {
+                x_RayImaging = objectX_rayImaging as X_rayImaging;
+            }
             return base.OnInitializedAsync();
         }
         private async Task OnCardUpload(UploadFile uploadFile)

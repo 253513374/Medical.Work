@@ -1,7 +1,7 @@
 ﻿
 
-
 @page "/X_RayImgPage"
+@page "/X_RayImgPage/{Text}/{Name?}"
 
 
 
@@ -22,11 +22,11 @@
 
                     <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s => OnSearch())"></Search>
 
-                    <button class="createbut fa fa-plus " @onclick="@OnShowDlg"></button>
+                    <button class="createbut fa fa-plus " @onclick="@(()=>OnShowDlg(null))"></button>
                 </Row>
             </CardBody>
         </Card>
-       
+
     </div>
 </div>
 
@@ -45,7 +45,7 @@
             </Table>
         </CardBody>
     </Card>
-         
+
 </div>
 <Message @ref="MessageElement" />
 
@@ -67,9 +67,26 @@
 
     private MedicalDbContext context { set; get; }
 
+    [Parameter]
+    public string Text { get; set; }
+
+    [Parameter]
+    public string Name { get; set; }
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Text is not null or "")
+        {
+            // Task.Run(()=> { ); });
+            var obj = new X_rayImaging();
+            obj.Medicalrecordnumber = Text;
+            obj.UserName = Name;
+            await OnShowDlg(obj);
+        }
+        return;
+    }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if(firstRender)
+        if (firstRender)
         {
             context = ContextFactor.CreateDbContext();
             await OnSearch();
@@ -107,18 +124,18 @@
 
     }
 
-    public async Task OnShowDlg()
+    public async Task OnShowDlg(X_rayImaging obj)
     {
         var result = await Dialogservice.ShowModal<X_rayImagingDlg>(new ResultDialogOption()
         {
             Title = "新建影像学检查",
-            BodyContext = new X_rayImaging(),
+            BodyContext = obj,
 
             ComponentParamters = new KeyValuePair<string, object>[]
                {
                 //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
                       new(nameof(X_rayImagingDlg.OnEventCallback), EventCallback.Factory.Create<X_rayImaging>(this, v => rayImaging = v))
-               }
+                   }
         });
 
         if (result == DialogResult.Yes)

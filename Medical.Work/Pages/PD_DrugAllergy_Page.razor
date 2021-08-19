@@ -1,7 +1,7 @@
 ﻿
 
 @page "/PD_DrugAllergy_Page"
-
+@page "/PD_DrugAllergy_Page/{Text}/{Name?}"
 
 <div class=" divtop d-flex  align-items-center">
 
@@ -15,10 +15,11 @@
 
                     <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s=>OnSearch())"></Search>
 
-                    <button class="createbut fa fa-plus " @onclick="@OnShowDlg"></button>
+                    <button class="createbut fa fa-plus " @onclick="@(()=>OnShowDlg(null))"></button>
                 </Row>
-            </CardBody></Card>
-              
+            </CardBody>
+        </Card>
+
     </div>
 </div>
 
@@ -37,8 +38,9 @@
                     <TableCellButton Size="Size.ExtraSmall" Color="Color.Warning" Icon="fa fa-edit" Text="删除" OnClickCallback="@(() => Ondel(context))" />
                 </RowButtonTemplate>
             </Table>
-        </CardBody></Card>
-          
+        </CardBody>
+    </Card>
+
 </div>
 <Message @ref="MessageElement" />
 
@@ -60,30 +62,52 @@
 
     private string Querywhere { set; get; }
 
-    private List<MedicalPD_DrugAllergy> pD_DrugAllergies  { set; get; } = new();
+    private List<MedicalPD_DrugAllergy> pD_DrugAllergies { set; get; } = new();
 
     private MedicalPD_DrugAllergy pD_DrugAllergie { set; get; } = new();
 
+
+    [Parameter]
+    public string Text { get; set; }
+
+    [Parameter]
+    public string Name { get; set; }
     protected override async Task OnParametersSetAsync()
     {
-
-        await OnSearch();
-        return; // await base.OnParametersSetAsync();
+        if (Text is not null or "")
+        {
+            // Task.Run(()=> { ); });
+            var obj = new MedicalPD_DrugAllergy();
+            obj.Medicalrecordnumber = Text;
+            obj.UserName = Name;
+            await OnShowDlg(obj);
+        }
+        return;
     }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await OnSearch();
+        }
+        return;// base.OnAfterRenderAsync(firstRender);
+    }
+
 
     private async Task OnSearch()
     {
         using (var context = contextFactory.CreateDbContext())
         {
             var adminname = authenticationStateTask.Result.User.Identity.Name;
-            if(Querywhere is not null)
+            if (Querywhere is not null)
             {
-                pD_DrugAllergies =await context.MPD_Drugs.AsNoTracking().Where(w => w.Medicalrecordnumber.Contains(Querywhere)||w.UserName.Contains(Querywhere)).ToListAsync();
+                pD_DrugAllergies = await context.MPD_Drugs.AsNoTracking().Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.UserName.Contains(Querywhere)).ToListAsync();
 
             }
             else
             {
-                pD_DrugAllergies =await context.MPD_Drugs.AsNoTracking().Where(w => w.AdminName == adminname).Take(100).ToListAsync();
+                pD_DrugAllergies = await context.MPD_Drugs.AsNoTracking().Where(w => w.AdminName == adminname).Take(100).ToListAsync();
             }
         }
         StateHasChanged();
@@ -103,18 +127,18 @@
         });
     }
 
-    private async Task OnShowDlg()
+    private async Task OnShowDlg(MedicalPD_DrugAllergy obj)
     {
         var result = await Dialogservice.ShowModal<PD_DrugAllergy_Dlg>(new ResultDialogOption()
         {
             Title = "新建药敏试验检查",
-            BodyContext = new MedicalPD_DrugAllergy(),
+            BodyContext = obj,
             Size = Size.ExtraSmall,
             ComponentParamters = new KeyValuePair<string, object>[]
               {
                 //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
                       new(nameof(PD_DrugAllergy_Dlg.OnEventCallback), EventCallback.Factory.Create<MedicalPD_DrugAllergy>(this, v => pD_DrugAllergie = v))
-              }
+                  }
         });
 
         if (result == DialogResult.Yes)

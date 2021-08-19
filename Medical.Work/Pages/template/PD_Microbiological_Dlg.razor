@@ -28,12 +28,12 @@
 </div>
 
 @code {
-  
+
     [CascadingParameter(Name = "BodyContext")]
     public object? Microbiological { set; get; }
 
 
-    private MedicalPD_Microbiological medicalPD_Microbiological { set; get; }
+    private MedicalPD_Microbiological medicalPD_Microbiological { set; get; } = new();
 
 
 
@@ -43,8 +43,10 @@
 
     protected override void OnParametersSet()
     {
-        medicalPD_Microbiological = Microbiological as MedicalPD_Microbiological;
+        if(Microbiological is not null)
+        {
+            medicalPD_Microbiological = Microbiological as MedicalPD_Microbiological;
+        }
         base.OnParametersSet();
     }
-
 }

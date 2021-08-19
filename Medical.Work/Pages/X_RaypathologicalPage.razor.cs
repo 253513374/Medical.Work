@@ -29,6 +29,23 @@ namespace Medical.Work.Pages
 
         private MedicalDbContext context { set; get; }
 
+        [Parameter]
+        public string Text { get; set; }
+
+        [Parameter]
+        public string Name { get; set; }
+        protected override async Task OnParametersSetAsync()
+        {
+            if (Text is not null or "")
+            {
+                // Task.Run(()=> { ); });
+                var obj = new X_raypathological();
+                obj.Medicalrecordnumber = Text;
+                obj.UserName = Name;
+                await OnShowDlg(obj);
+            }
+            return;
+        }
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
@@ -39,13 +56,13 @@ namespace Medical.Work.Pages
             return;// base.OnAfterRenderAsync(firstRender);
         }
 
-        private async Task OnShowDlg()
+        private async Task OnShowDlg(X_raypathological obj)
         {
 
             var result = await Dialogservice.ShowModal<X_raypathologicalDlg>(new ResultDialogOption()
             {
                 Title = "新建病理检查",
-                BodyContext = new X_raypathological(),
+                BodyContext = obj,
 
                 ComponentParamters = new KeyValuePair<string, object>[]
                 {
@@ -56,7 +73,6 @@ namespace Medical.Work.Pages
 
             if (result == DialogResult.Yes)
             {
-             
                 using (var context = ContextFactor.CreateDbContext())
                 {
                     if (raypathological != null)

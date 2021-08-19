@@ -56,11 +56,15 @@ namespace Medical.Work.Pages.template
         //[NotNull]
         //private IOptions<WebsiteOptions>? SiteOptions { get; set; }
 
-        protected override Task OnInitializedAsync()
+        protected override Task OnParametersSetAsync()
         {
-            x_Raypathological = objectx_Raypathological as X_raypathological;
-            return base.OnInitializedAsync();
+            if(objectx_Raypathological is not null)
+            {
+                x_Raypathological = objectx_Raypathological as X_raypathological;
+            }
+            return base.OnParametersSetAsync();
         }
+      
 
         private async Task OnCardUpload(UploadFile uploadFile)
         {

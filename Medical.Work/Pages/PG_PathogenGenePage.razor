@@ -3,6 +3,7 @@
 
 
 @page "/PG_PathogenGenePage"
+@page "/PG_PathogenGenePage/{Text}/{Name?}"
 
 
 
@@ -19,10 +20,11 @@
 
                     <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s=>OnSearch())"></Search>
 
-                    <button class="createbut fa fa-plus " @onclick="@OnShowDlg"></button>
+                    <button class="createbut fa fa-plus " @onclick="@(()=>OnShowDlg(null))"></button>
                 </Row>
-            </CardBody></Card>
-               
+            </CardBody>
+        </Card>
+
     </div>
 </div>
 
@@ -41,8 +43,9 @@
                     <TableCellButton Size="Size.ExtraSmall" Color="Color.Warning" Icon="fa fa-edit" Text="删除" OnClickCallback="@(() => Ondel(context))" />
                 </RowButtonTemplate>
             </Table>
-        </CardBody></Card>
-          
+        </CardBody>
+    </Card>
+
 </div>
 <Message @ref="MessageElement" />
 
@@ -69,14 +72,38 @@
 
 
     private MedicalPG_PathogenGene pG_PathogenGene { set; get; } = new();
-    private List<MedicalPG_PathogenGene>  pG_PathogenGenes   { set; get; } = new();
+    private List<MedicalPG_PathogenGene> pG_PathogenGenes { set; get; } = new();
 
+
+
+    [Parameter]
+    public string Text { get; set; }
+
+    [Parameter]
+    public string Name { get; set; }
     protected override async Task OnParametersSetAsync()
     {
-
-        await OnSearch();
-        return; // await base.OnParametersSetAsync();
+        if (Text is not null or "")
+        {
+            // Task.Run(()=> { ); });
+            var obj = new MedicalPG_PathogenGene();
+            obj.Medicalrecordnumber = Text;
+            obj.UserName = Name;
+            await OnShowDlg(obj);
+        }
+        return;
     }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await OnSearch();
+        }
+        return;//base.OnAfterRenderAsync(firstRender);
+    }
+
 
     private async Task OnSearch()
     {
@@ -112,19 +139,19 @@
         });
     }
 
-    private async Task OnShowDlg()
+    private async Task OnShowDlg(MedicalPG_PathogenGene obj)
     {
 
         var result = await Dialogservice.ShowModal<PG_PathogenGene_Dlg>(new ResultDialogOption()
         {
             Title = "新建病原菌基因",
-            BodyContext = new MedicalPG_PathogenGene(),
-            Size= Size.ExtraSmall,
+            BodyContext = obj,
+            Size = Size.ExtraSmall,
             ComponentParamters = new KeyValuePair<string, object>[]
             {
                 //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
                       new(nameof(PG_PathogenGene_Dlg.OnEventCallback), EventCallback.Factory.Create<MedicalPG_PathogenGene>(this, v => pG_PathogenGene = v))
-            }
+                }
         });
 
         if (result == DialogResult.Yes)

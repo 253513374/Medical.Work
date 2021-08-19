@@ -46,7 +46,7 @@ namespace Medical.Work.Pages.template
         [Parameter]
         public EventCallback<X_raybronchoscopy> OnEventCallback { set; get; }
 
-        private X_raybronchoscopy x_Raybronchoscopy { set; get; }
+        private X_raybronchoscopy x_Raybronchoscopy { set; get; } = new();
 
         private static long MaxFileLength => 200 * 1024 * 1024;
 
@@ -54,15 +54,20 @@ namespace Medical.Work.Pages.template
         [NotNull]
         private ToastService? ToastService { get; set; }
 
-    
 
 
-        protected override Task OnInitializedAsync()
+
+        protected override Task OnParametersSetAsync()
         {
-            x_Raybronchoscopy = objectX_raybronchoscopy as X_raybronchoscopy;
-            return base.OnInitializedAsync();
-        }
+            if(objectX_raybronchoscopy is not  null)
+            {
+                x_Raybronchoscopy = objectX_raybronchoscopy as X_raybronchoscopy;
+            }
 
+          
+            return base.OnParametersSetAsync();
+        }
+       
         private async Task OnCardUpload(UploadFile uploadFile)
         {
             if (uploadFile != null && uploadFile.File != null)

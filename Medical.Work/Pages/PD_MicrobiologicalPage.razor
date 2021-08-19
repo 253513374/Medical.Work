@@ -2,6 +2,8 @@
 
 @page "/PD_MicrobiologicalPage"
 
+@page "/PD_MicrobiologicalPage/{Text}/{Name?}"
+
 
 <div class="divtop d-flex  align-items-center">
 
@@ -16,9 +18,11 @@
 
                     <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s=>OnSearch())"></Search>
 
-                    <button class="createbut fa fa-plus " @onclick="@OnShowDlg"></button>
-                </Row></CardBody></Card>
-                
+                    <button class="createbut fa fa-plus " @onclick="@(()=>OnShowDlg(null))"></button>
+                </Row>
+            </CardBody>
+        </Card>
+
     </div>
 </div>
 
@@ -39,7 +43,7 @@
             </Table>
         </CardBody>
     </Card>
-           
+
 </div>
 
 <Message @ref="MessageElement" />
@@ -68,13 +72,35 @@
     private List<MedicalPD_Microbiological> pD_Microbiologicals { set; get; } = new();
 
 
+    [Parameter]
+    public string Text { get; set; }
 
+    [Parameter]
+    public string Name { get; set; }
     protected override async Task OnParametersSetAsync()
     {
-
-        await OnSearch();
-        return; // await base.OnParametersSetAsync();
+        if (Text is not null or "")
+        {
+            // Task.Run(()=> { ); });
+            var obj = new MedicalPD_Microbiological();
+            obj.Medicalrecordnumber = Text;
+            obj.UserName = Name;
+            await OnShowDlg(obj);
+        }
+        return;
     }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await OnSearch();
+        }
+        return;//base.OnAfterRenderAsync(firstRender);
+    }
+
+
+
 
     private async Task OnSearch()
     {
@@ -108,18 +134,18 @@
         });
     }
 
-    private async Task OnShowDlg()
+    private async Task OnShowDlg(MedicalPD_Microbiological obj)
     {
         var result = await Dialogservice.ShowModal<PD_Microbiological_Dlg>(new ResultDialogOption()
         {
             Title = "新建临床微生物学检查",
-            BodyContext = new MedicalPD_Microbiological(),
+            BodyContext = obj,
             Size = Size.ExtraSmall,
             ComponentParamters = new KeyValuePair<string, object>[]
              {
                 //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
                       new(nameof(PD_Microbiological_Dlg.OnEventCallback), EventCallback.Factory.Create<MedicalPD_Microbiological>(this, v => pD_Microbiological = v))
-             }
+                 }
         });
 
         if (result == DialogResult.Yes)

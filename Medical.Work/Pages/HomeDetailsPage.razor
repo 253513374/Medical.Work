@@ -5,11 +5,12 @@
 
 @inject PatientInfoService pservice
 @inject IDbContextFactory<MedicalDbContext> contextFactory
+@inject NavigationManager   navigationManager
 
 
 <style>
     .listview .listview-body .listview-item {
-        width:100%;
+        width: 100%;
         margin: 0 1rem 1rem 0;
     }
 </style>
@@ -44,8 +45,8 @@
             <div class="lead">
                 <!--<EditorForm Model="@patientInfo" ItemsPerRow="5" IsDisplay="true">-->
                 @*<FieldItems>
-                    <EditorItem @bind-Field="@Model." Data="@Hobbys" />
-                </FieldItems>*@
+                        <EditorItem @bind-Field="@Model." Data="@Hobbys" />
+                    </FieldItems>*@
                 <!--</EditorForm>-->
 
                 <ValidateForm Model="@patientInfo">
@@ -96,232 +97,262 @@
         <div id="anchor2">
             @if (PD_Microbiologicals is not null)
             {
-                <ListView TItem="MedicalPD_Microbiological" Items="PD_Microbiologicals">
-                    <HeaderTemplate>  <p class="h3">临床微生物检查</p></HeaderTemplate>
-                    <BodyTemplate>
-                        <Card Class="w-100">
-                            <CardBody>
-                                <div class="h5">是否做检查： @context.TestorisNot</div>
-                                <Row ItemsPerRow="ItemsPerRow.Two">
+            <ListView TItem="MedicalPD_Microbiological" Items="PD_Microbiologicals">
+                @*<HeaderTemplate>  <p class="h3">临床微生物检查</p></HeaderTemplate>*@
+                <HeaderTemplate>
+                    <div class="d-flex justify-content-between">
+                        <div><p class="h3">临床微生物检查</p></div>
+                        <div>  <button class="createroundbut fa fa-plus " @onclick="@(()=>NavigateEvent(patientInfo,"PD_MicrobiologicalPage"))"></button></div>
+                    </div>
+                </HeaderTemplate>
+                <BodyTemplate>
+                    <Card Class="w-100">
+                        <CardBody>
+                            <div class="h5">是否做检查： @context.TestorisNot</div>
+                            <Row ItemsPerRow="ItemsPerRow.Two">
 
-                                    <div>检测日期： @context.TestTime</div>
-                                    <div>标本类型： @context.SpecimenType</div>
-                                    <div>报告时间： @context.ReportTime</div>
-                                    <div>检出细菌： @context.Bacterial</div>
-                                </Row>
-                                @*@if (@context.medicalPKSamplings is not null)
-                                {
+                                <div>检测日期： @context.TestTime</div>
+                                <div>标本类型： @context.SpecimenType</div>
+                                <div>报告时间： @context.ReportTime</div>
+                                <div>检出细菌： @context.Bacterial</div>
+                            </Row>
+                            @*@if (@context.medicalPKSamplings is not null)
+                    {
 
-                                    foreach (var item in @context.medicalPKSamplings)
-                                    {
-                                        var c = $"C{@item.SamplingNumber}采样";
+                        foreach (var item in @context.medicalPKSamplings)
+                        {
+                            var c = $"C{@item.SamplingNumber}采样";
 
-                                        <GroupBox Title="@c">
-                                            <div class=" row col-12">
-                                                <div class="col-2">浓度:@item.C1Concentration  @item.C1ConcentrationUnit.ToString()/ml</div>
-                                                <div class="col-3">标准化血药浓度:@item.C1ConcentrationStandard</div>
-                                                <div class="col-2">浓度方法:@item.C1ConcentrationMethod??@item.Other</div>
-                                                <div class="col-5">备注:@item.C1Remarks</div>
-                                            </div>
-                                        </GroupBox>
-                                    }
-                                }*@
-                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
-                            </CardBody>
-                        </Card>
-                    </BodyTemplate>
-                </ListView>}
+                            <GroupBox Title="@c">
+                                <div class=" row col-12">
+                                    <div class="col-2">浓度:@item.C1Concentration  @item.C1ConcentrationUnit.ToString()/ml</div>
+                                    <div class="col-3">标准化血药浓度:@item.C1ConcentrationStandard</div>
+                                    <div class="col-2">浓度方法:@item.C1ConcentrationMethod??@item.Other</div>
+                                    <div class="col-5">备注:@item.C1Remarks</div>
+                                </div>
+                            </GroupBox>
+                        }
+                    }*@
+                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                        </CardBody>
+                    </Card>
+                </BodyTemplate>
+            </ListView>}
 
         </div>
 
         <div id="anchor3">
             @if (PD_DrugAllergies is not null)
             {
-                <ListView TItem="MedicalPD_DrugAllergy" Items="PD_DrugAllergies">
-                    <HeaderTemplate>  <p class="h3">药敏试验检查</p></HeaderTemplate>
-                    <BodyTemplate>
-                        <Card Class="w-100">
-                            <CardBody>
-                                <div class="h5">是否做检查： @context.TestorisNot</div>
-                                <Row ItemsPerRow="ItemsPerRow.Two">
+            <ListView TItem="MedicalPD_DrugAllergy" Items="PD_DrugAllergies">
+                @*<HeaderTemplate>  <p class="h3">药敏试验检查</p></HeaderTemplate>*@
+                <HeaderTemplate>
+                    <div class="d-flex justify-content-between">
+                        <div><p class="h3">药敏试验检查</p></div>
+                        <div>  <button class="createroundbut fa fa-plus " @onclick="@(()=>NavigateEvent(patientInfo,"PD_DrugAllergy_Page"))"></button></div>
+                    </div>
+                </HeaderTemplate>
+                <BodyTemplate>
+                    <Card Class="w-100">
+                        <CardBody>
+                            <div class="h5">是否做检查： @context.TestorisNot</div>
+                            <Row ItemsPerRow="ItemsPerRow.Two">
 
-                                    <div>检测日期： @context.TestTime</div>
+                                <div>检测日期： @context.TestTime</div>
 
-                                    <div>报告时间： @context.ReportTime</div>
-                                    <div>药敏检测法： @context.DrugsensitivityTest 或者其他： @context.DrugsensitivityTestOther  </div>
-                                    <div>MIC： @context.MIC</div>
-                                    <div>敏感性： @context.Susceptibility</div>
-                                    <div>T>MIC%:： @context.TMic</div>
-                                    <div>AUCSS,24h/MIC： @context.AUCMic</div>
-                                </Row>
-                                @*@if (@context.medicalPKSamplings is not null)
-                                {
+                                <div>报告时间： @context.ReportTime</div>
+                                <div>药敏检测法： @context.DrugsensitivityTest 或者其他： @context.DrugsensitivityTestOther  </div>
+                                <div>MIC： @context.MIC</div>
+                                <div>敏感性： @context.Susceptibility</div>
+                                <div>T>MIC%:： @context.TMic</div>
+                                <div>AUCSS,24h/MIC： @context.AUCMic</div>
+                            </Row>
+                            @*@if (@context.medicalPKSamplings is not null)
+                    {
 
-                                    foreach (var item in @context.medicalPKSamplings)
-                                    {
-                                        var c = $"C{@item.SamplingNumber}采样";
+                        foreach (var item in @context.medicalPKSamplings)
+                        {
+                            var c = $"C{@item.SamplingNumber}采样";
 
-                                        <GroupBox Title="@c">
-                                            <div class=" row col-12">
-                                                <div class="col-2">浓度:@item.C1Concentration  @item.C1ConcentrationUnit.ToString()/ml</div>
-                                                <div class="col-3">标准化血药浓度:@item.C1ConcentrationStandard</div>
-                                                <div class="col-2">浓度方法:@item.C1ConcentrationMethod??@item.Other</div>
-                                                <div class="col-5">备注:@item.C1Remarks</div>
-                                            </div>
-                                        </GroupBox>
-                                    }
-                                }*@
-                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
-                            </CardBody>
-                        </Card>
-                    </BodyTemplate>
-                </ListView>}
+                            <GroupBox Title="@c">
+                                <div class=" row col-12">
+                                    <div class="col-2">浓度:@item.C1Concentration  @item.C1ConcentrationUnit.ToString()/ml</div>
+                                    <div class="col-3">标准化血药浓度:@item.C1ConcentrationStandard</div>
+                                    <div class="col-2">浓度方法:@item.C1ConcentrationMethod??@item.Other</div>
+                                    <div class="col-5">备注:@item.C1Remarks</div>
+                                </div>
+                            </GroupBox>
+                        }
+                    }*@
+                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                        </CardBody>
+                    </Card>
+                </BodyTemplate>
+            </ListView>}
 
         </div>
-     
+
         <div id="anchor4">
             @if (PG_Pharmacogenomics is not null)
             {
-                <ListView TItem="MedicalPG_Pharmacogenomics" Items="PG_Pharmacogenomics">
-                    <HeaderTemplate> <p class="h3">基因药物组学</p></HeaderTemplate>
-                    <BodyTemplate>
-                        <Card Class="w-100">
-                            <CardBody>
-                                <div class="h5">基因名称： @context.Genes</div>
-                                <Row ItemsPerRow="ItemsPerRow.Two">
+            <ListView TItem="MedicalPG_Pharmacogenomics" Items="PG_Pharmacogenomics">
+                @*<HeaderTemplate> <p class="h3">基因药物组学</p></HeaderTemplate>*@
+                <HeaderTemplate>
+                    <div class="d-flex justify-content-between">
+                        <div><p class="h3">基因药物组学</p></div>
+                        <div>  <button class="createroundbut fa fa-plus " @onclick="@(()=>NavigateEvent(patientInfo,"PG_PharmacogenomicsPage"))"></button></div>
+                    </div>
+                </HeaderTemplate>
+                <BodyTemplate>
+                    <Card Class="w-100">
+                        <CardBody>
+                            <div class="h5">基因名称： @context.Genes</div>
+                            <Row ItemsPerRow="ItemsPerRow.Two">
 
-                                    <div>RS号： @context.Rs</div>
+                                <div>RS号： @context.Rs</div>
 
 
-                                    <div>基因结果： @context.GenesResults  </div>
-                                    <div>代谢性： @context.Metabolictype</div>
-                                    <div>意义： @context.Exegesis</div>
+                                <div>基因结果： @context.GenesResults  </div>
+                                <div>代谢性： @context.Metabolictype</div>
+                                <div>意义： @context.Exegesis</div>
 
-                                </Row>
-                                @*@if (@context.medicalPKSamplings is not null)
-                                {
+                            </Row>
+                            @*@if (@context.medicalPKSamplings is not null)
+                    {
 
-                                    foreach (var item in @context.medicalPKSamplings)
-                                    {
-                                        var c = $"C{@item.SamplingNumber}采样";
+                        foreach (var item in @context.medicalPKSamplings)
+                        {
+                            var c = $"C{@item.SamplingNumber}采样";
 
-                                        <GroupBox Title="@c">
-                                            <div class=" row col-12">
-                                                <div class="col-2">浓度:@item.C1Concentration  @item.C1ConcentrationUnit.ToString()/ml</div>
-                                                <div class="col-3">标准化血药浓度:@item.C1ConcentrationStandard</div>
-                                                <div class="col-2">浓度方法:@item.C1ConcentrationMethod??@item.Other</div>
-                                                <div class="col-5">备注:@item.C1Remarks</div>
-                                            </div>
-                                        </GroupBox>
-                                    }
-                                }*@
-                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
-                            </CardBody>
-                        </Card>
-                    </BodyTemplate>
-                </ListView>}
+                            <GroupBox Title="@c">
+                                <div class=" row col-12">
+                                    <div class="col-2">浓度:@item.C1Concentration  @item.C1ConcentrationUnit.ToString()/ml</div>
+                                    <div class="col-3">标准化血药浓度:@item.C1ConcentrationStandard</div>
+                                    <div class="col-2">浓度方法:@item.C1ConcentrationMethod??@item.Other</div>
+                                    <div class="col-5">备注:@item.C1Remarks</div>
+                                </div>
+                            </GroupBox>
+                        }
+                    }*@
+                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                        </CardBody>
+                    </Card>
+                </BodyTemplate>
+            </ListView>}
         </div>
-    
+
         <div id="anchor5">
             @if (PG_PathogenGenes is not null)
             {
-                <ListView TItem="MedicalPG_PathogenGene" Items="PG_PathogenGenes">
-                    <HeaderTemplate><p class="h3">病原菌基因</p> </HeaderTemplate>
-                    <BodyTemplate>
-                        <Card Class="w-100">
-                            <CardBody>
-                                <div class="h5">致病菌名称： @context.PathogenName</div>
-                                <Row ItemsPerRow="ItemsPerRow.Two">
+            <ListView TItem="MedicalPG_PathogenGene" Items="PG_PathogenGenes">
+                <HeaderTemplate>
+                    <div class="d-flex justify-content-between">
+                        <div><p class="h3">病原菌基因</p></div>
+                        <div>  <button class="createroundbut fa fa-plus " @onclick="@(()=>NavigateEvent(patientInfo,"PG_PathogenGenePage"))"></button></div>
+                    </div>
+                </HeaderTemplate>
+                @*<HeaderTemplate><p class="h3">病原菌基因</p> </HeaderTemplate>*@
+                <BodyTemplate>
+                    <Card Class="w-100">
+                        <CardBody>
+                            <div class="h5">致病菌名称： @context.PathogenName</div>
+                            <Row ItemsPerRow="ItemsPerRow.Two">
 
-                                    <div>致病菌菌体基因名： @context.PathogenicGeneName</div>
+                                <div>致病菌菌体基因名： @context.PathogenicGeneName</div>
 
 
-                                    <div>致病菌菌体基因检测结果： @context.PathogenicGeneDetectionResults  </div>
+                                <div>致病菌菌体基因检测结果： @context.PathogenicGeneDetectionResults  </div>
 
-                                    <div>意义： @context.Exegesis</div>
+                                <div>意义： @context.Exegesis</div>
 
-                                </Row>
-                                @*@if (@context.medicalPKSamplings is not null)
-                                {
+                            </Row>
+                            @*@if (@context.medicalPKSamplings is not null)
+                    {
 
-                                    foreach (var item in @context.medicalPKSamplings)
-                                    {
-                                        var c = $"C{@item.SamplingNumber}采样";
+                        foreach (var item in @context.medicalPKSamplings)
+                        {
+                            var c = $"C{@item.SamplingNumber}采样";
 
-                                        <GroupBox Title="@c">
-                                            <div class=" row col-12">
-                                                <div class="col-2">浓度:@item.C1Concentration  @item.C1ConcentrationUnit.ToString()/ml</div>
-                                                <div class="col-3">标准化血药浓度:@item.C1ConcentrationStandard</div>
-                                                <div class="col-2">浓度方法:@item.C1ConcentrationMethod??@item.Other</div>
-                                                <div class="col-5">备注:@item.C1Remarks</div>
-                                            </div>
-                                        </GroupBox>
-                                    }
-                                }*@
-                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
-                            </CardBody>
-                        </Card>
-                    </BodyTemplate>
-                </ListView>}
+                            <GroupBox Title="@c">
+                                <div class=" row col-12">
+                                    <div class="col-2">浓度:@item.C1Concentration  @item.C1ConcentrationUnit.ToString()/ml</div>
+                                    <div class="col-3">标准化血药浓度:@item.C1ConcentrationStandard</div>
+                                    <div class="col-2">浓度方法:@item.C1ConcentrationMethod??@item.Other</div>
+                                    <div class="col-5">备注:@item.C1Remarks</div>
+                                </div>
+                            </GroupBox>
+                        }
+                    }*@
+                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                        </CardBody>
+                    </Card>
+                </BodyTemplate>
+            </ListView>}
 
         </div>
-    
+
         <div id="anchor6">
             @if (medicalPKs is not null)
             {
-                <ListView TItem="MedicalPK" Items="medicalPKs">
-                    <HeaderTemplate><p class="h3">给药方案</p></HeaderTemplate>
-                    <BodyTemplate>
-                        <Card Class="w-100">
-                            <CardBody>
-                                <div class="h5">药品通用名： @context.DrugsNmae</div>
-                                <Row ItemsPerRow="ItemsPerRow.Four">
+            <ListView TItem="MedicalPK" Items="medicalPKs">
+                <HeaderTemplate>
+                    <div class="d-flex justify-content-between">
+                        <div><p class="h3">给药方案</p></div>
+                        <div>  <button class="createroundbut fa fa-plus " @onclick="@(()=>NavigateEvent(patientInfo,"MedicalPKPage"))"></button></div>
+                    </div>
+                </HeaderTemplate>
+              @*  <HeaderTemplate><p class="h3">给药方案</p></HeaderTemplate>*@
+                <BodyTemplate>
+                    <Card Class="w-100">
+                        <CardBody>
+                            <div class="h5">药品通用名： @context.DrugsNmae</div>
+                            <Row ItemsPerRow="ItemsPerRow.Four">
 
-                                    <div>溶媒： @context.DrugSolvent</div>
+                                <div>溶媒： @context.DrugSolvent</div>
 
 
-                                    <div>溶媒剂量： @context.SolventToDosage  </div>
+                                <div>溶媒剂量： @context.SolventToDosage  </div>
 
-                                    <div>药品剂量： @context.Drugdosage  @context.DrugdosageUnit </div>
-                                    <div>给药频率： @context.DrugNCount</div>
-                                    <div>给药途径： @context.DrugdosageRoute</div>
-                                    <div>起始给药日期： @context.FirstTime</div>
-                                    <div>结束给药日期： @context.LasttTime</div>
-                                    <div>公斤体质量日剂量： @context.AMTsingledose</div>
-                                    <div>厂家类型： @context.Manufacturertype</div>
-                                    @*  药品通用名
-                                    溶媒
-                                    溶媒剂量
-                                    药品剂量
-                                    给药频率
-                                    给药途径
-                                    起始给药日期
-                                    结束给药日期
-                                    公斤体质量日剂量
-                                    厂家类型 *@
-                                </Row>
-                                @*@if (@context.medicalPKSamplings is not null)
-                                {
+                                <div>药品剂量： @context.Drugdosage  @context.DrugdosageUnit </div>
+                                <div>给药频率： @context.DrugNCount</div>
+                                <div>给药途径： @context.DrugdosageRoute</div>
+                                <div>起始给药日期： @context.FirstTime</div>
+                                <div>结束给药日期： @context.LasttTime</div>
+                                <div>公斤体质量日剂量： @context.AMTsingledose</div>
+                                <div>厂家类型： @context.Manufacturertype</div>
+                                @*  药品通用名
+                        溶媒
+                        溶媒剂量
+                        药品剂量
+                        给药频率
+                        给药途径
+                        起始给药日期
+                        结束给药日期
+                        公斤体质量日剂量
+                        厂家类型 *@
+                            </Row>
+                            @*@if (@context.medicalPKSamplings is not null)
+                    {
 
-                                    foreach (var item in @context.medicalPKSamplings)
-                                    {
-                                        var c = $"C{@item.SamplingNumber}采样";
+                        foreach (var item in @context.medicalPKSamplings)
+                        {
+                            var c = $"C{@item.SamplingNumber}采样";
 
-                                        <GroupBox Title="@c">
-                                            <div class=" row col-12">
-                                                <div class="col-2">浓度:@item.C1Concentration  @item.C1ConcentrationUnit.ToString()/ml</div>
-                                                <div class="col-3">标准化血药浓度:@item.C1ConcentrationStandard</div>
-                                                <div class="col-2">浓度方法:@item.C1ConcentrationMethod??@item.Other</div>
-                                                <div class="col-5">备注:@item.C1Remarks</div>
-                                            </div>
-                                        </GroupBox>
-                                    }
-                                }*@
-                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
-                            </CardBody>
-                        </Card>
-                    </BodyTemplate>
-                </ListView>}
+                            <GroupBox Title="@c">
+                                <div class=" row col-12">
+                                    <div class="col-2">浓度:@item.C1Concentration  @item.C1ConcentrationUnit.ToString()/ml</div>
+                                    <div class="col-3">标准化血药浓度:@item.C1ConcentrationStandard</div>
+                                    <div class="col-2">浓度方法:@item.C1ConcentrationMethod??@item.Other</div>
+                                    <div class="col-5">备注:@item.C1Remarks</div>
+                                </div>
+                            </GroupBox>
+                        }
+                    }*@
+                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                        </CardBody>
+                    </Card>
+                </BodyTemplate>
+            </ListView>}
 
         </div>
 
@@ -330,11 +361,16 @@
             @if (X_Raybronchoscopies is not null)
             {
                 <ListView TItem="X_raybronchoscopy" Items="X_Raybronchoscopies">
-                    <HeaderTemplate><p class="h3">纤维支气管镜检查</p></HeaderTemplate>
+                    <HeaderTemplate>
+                        <div class="d-flex justify-content-between">
+                            <div><p class="h3">纤维支气管镜检查</p></div>
+                            <div>  <button class="createroundbut fa fa-plus " @onclick="@(()=>NavigateEvent(patientInfo,"X_RayBronchoscopyPage"))"></button></div>
+                        </div>
+                    </HeaderTemplate>
                     <BodyTemplate>
                         <Card Class="w-100">
                             <CardBody>
-                             
+
                                 <Row ItemsPerRow="ItemsPerRow.One">
 
                                     <div>检查日期： @context.Photodate</div>
@@ -342,7 +378,7 @@
 
                                     <div>报告日期： @context.Reportdate  </div>
 
-                                 
+
                                     <div>部位： @context.Xraylocation</div>
                                     <div>检查结果： @context.Xrayinspection</div>
                                 </Row>
@@ -356,7 +392,7 @@
                                     }
 
                                 </Row>
-            
+
                                 <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
                             </CardBody>
                         </Card>
@@ -368,7 +404,12 @@
             @if (X_RayImagings is not null)
             {
                 <ListView TItem="X_rayImaging" Items="X_RayImagings">
-                    <HeaderTemplate><p class="h3">影像学检查</p></HeaderTemplate>
+                    <HeaderTemplate>
+                            <div class="d-flex justify-content-between">
+                                <div><p class="h3">影像学检查</p></div>
+                                <div>  <button class="createroundbut fa fa-plus " @onclick="@(()=>NavigateEvent(patientInfo,"X_rayImagingPage"))"></button></div>
+                            </div>
+                    </HeaderTemplate>
                     <BodyTemplate>
                         <Card Class="w-100">
                             <CardBody>
@@ -407,72 +448,85 @@
         <div id="anchor9">
             @if (X_Raypathologicals is not null)
             {
-                <ListView TItem="X_raypathological" Items="X_Raypathologicals">
-                    <HeaderTemplate><p class="h3">病理检查</p></HeaderTemplate>
-                    <BodyTemplate>
-                        <Card Class="w-100">
-                            <CardBody>
+            <ListView TItem="X_raypathological" Items="X_Raypathologicals">
+               @* <HeaderTemplate><p class="h3">病理检查</p></HeaderTemplate>*@
+                <HeaderTemplate>
+                    <div class="d-flex justify-content-between">
+                        <div><p class="h3">病理检查</p></div>
+                        <div>  <button class="createroundbut fa fa-plus " @onclick="@(()=>NavigateEvent(patientInfo,"X_raypathologicalPage"))"></button></div>
+                    </div>
+                </HeaderTemplate>
+                <BodyTemplate>
+                    <Card Class="w-100">
+                        <CardBody>
 
-                                <Row ItemsPerRow="ItemsPerRow.One">
+                            <Row ItemsPerRow="ItemsPerRow.One">
 
-                                    <div>检查日期： @context.Photodate</div>
-
-
-                                    <div>报告日期： @context.Reportdate  </div>
+                                <div>检查日期： @context.Photodate</div>
 
 
-                                    <div>部位： @context.Xraylocation</div>
-                                    <div>检查结果： @context.Xrayinspection</div>
-                                </Row>
-                                <Row ItemsPerRow="ItemsPerRow.Six">
-                                    @if (@context.ImgUrl is not null)
+                                <div>报告日期： @context.Reportdate  </div>
+
+
+                                <div>部位： @context.Xraylocation</div>
+                                <div>检查结果： @context.Xrayinspection</div>
+                            </Row>
+                            <Row ItemsPerRow="ItemsPerRow.Six">
+                                @if (@context.ImgUrl is not null)
+                                {
+                                    foreach (var item in @context.ImgUrl)
                                     {
-                                        foreach (var item in @context.ImgUrl)
-                                        {
-                                            <img src="@item.ImgUrl" style="width:150px; " />
-                                        }
+                                        <img src="@item.ImgUrl" style="width:150px; " />
                                     }
+                                }
 
-                                </Row>
+                            </Row>
 
-                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
-                            </CardBody>
-                        </Card>
-                    </BodyTemplate>
-                </ListView>
-                }
+                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                        </CardBody>
+                    </Card>
+                </BodyTemplate>
+            </ListView>
+            }
         </div>
-       
+
         <div id="anchor10">
             @if (LaboratoryExaminations is not null)
             {
-                <ListView TItem="LaboratoryExamination" Items="LaboratoryExaminations">
-                    <HeaderTemplate ><p class="h3">实验室检查</p></HeaderTemplate>
-                    <BodyTemplate>
-                        <Card Class="w-100">
-                            <CardBody>
-                              
-                                <Row ItemsPerRow="ItemsPerRow.One">
+            <ListView TItem="LaboratoryExamination" Items="LaboratoryExaminations">
+                @*<HeaderTemplate><p class="h3">实验室检查</p></HeaderTemplate>*@
+                <HeaderTemplate>
+                    <div class="d-flex justify-content-between">
+                        <div><p class="h3">实验室检查</p></div>
+                        <div>  <button class="createroundbut fa fa-plus " @onclick="@(()=>NavigateEvent(patientInfo,"LaboratoryExaminationPage"))"></button></div>
+                    </div>
+                </HeaderTemplate>
 
-                                    <div>检测时间： @context.Assaytime</div>
+                <BodyTemplate>
+                    <Card Class="w-100">
+                        <CardBody>
+
+                            <Row ItemsPerRow="ItemsPerRow.One">
+
+                                <div>检测时间： @context.Assaytime</div>
 
 
-                                    <div>实验状态： @context.Assaysituation  </div>
+                                <div>实验状态： @context.Assaysituation  </div>
 
-                                    <div>体温°C： @context.BodyTemperature </div>
-                                    <div>血清肌酐实验方法： @context.Screnum</div>
-                                    <div>血清肌酐值(Scr)μmol/L： @context.Scr</div>
-                                </Row>
+                                <div>体温°C： @context.BodyTemperature </div>
+                                <div>血清肌酐实验方法： @context.Screnum</div>
+                                <div>血清肌酐值(Scr)μmol/L： @context.Scr</div>
+                            </Row>
 
-                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
-                            </CardBody>
-                        </Card>
-                    </BodyTemplate>
-                </ListView>
+                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                        </CardBody>
+                    </Card>
+                </BodyTemplate>
+            </ListView>
             }
         </div>
         <div id="anchor11">
-          
+
         </div>
 
     </div>
@@ -527,6 +581,7 @@
 
 
 
+
     protected override Task OnParametersSetAsync()
     {
 
@@ -557,13 +612,13 @@
         {
             var name = authenticationStateTask.Result.User.Identity.Name;
 
-            PD_Microbiologicals = await context.MPD_Microbiologicals.AsNoTracking().Where(w=>w.AdminName== name).Where(f=>f.Medicalrecordnumber== number).ToListAsync();
+            PD_Microbiologicals = await context.MPD_Microbiologicals.AsNoTracking().Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).ToListAsync();
             PD_DrugAllergies = await context.MPD_Drugs.Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
             PG_PathogenGenes = await context.MPG_PathogenGenes.Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
             PG_Pharmacogenomics = await context.MPG_Pharmacogenomics.Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
             medicalPKs = await context.MPKs.Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
 
-            X_Raybronchoscopies = await context.X_raybronchoscopys.Include(i=>i.ImgUrl).Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
+            X_Raybronchoscopies = await context.X_raybronchoscopys.Include(i => i.ImgUrl).Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
             X_RayImagings = await context.X_rayImagings.Include(i => i.ImgUrl).Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
             X_Raypathologicals = await context.X_raypathologicals.Include(i => i.ImgUrl).Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
 
@@ -584,5 +639,14 @@
             PatientInfokeyValuePairs = DisplayAttributeExtend.GetAttributeExtends<PatientInfo>(patientInfo);
 
         });
+    }
+
+
+    private async Task NavigateEvent(PatientInfo patient,string url)
+    {
+
+        var nav = $"{url}/{patient.Medicalrecordnumber}/{patient.UserName}";
+        navigationManager.NavigateTo(nav);
+        return;
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 
-
 @page "/X_RaypathologicalPage"
+@page "/X_RaypathologicalPage/{Text}/{Name?}"
 @using System.Reflection
 
 @inject DialogService? Dialogservice
@@ -20,7 +20,7 @@
 
                     <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s => OnSearch())"></Search>
 
-                    <button class="createbut fa fa-plus " @onclick="@OnShowDlg"></button>
+                    <button class="createbut fa fa-plus " @onclick="@(()=>OnShowDlg(null))"></button>
                 </Row>
             </CardBody>
         </Card>
@@ -40,13 +40,13 @@
                    ShowDeleteButton="false" OnQueryAsync="@OnQueryPageAsync" IsAutoRefresh="true"
                    ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
                 <RowButtonTemplate>
-                  @*  <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context))" />*@
+                    @*  <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context))" />*@
                     <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="删除" OnClickCallback="@(() => Ondel(context))" />
                 </RowButtonTemplate>
             </Table>
         </CardBody>
     </Card>
-          
+
 
 </div>
 
@@ -71,9 +71,9 @@
 
     }
 
-   
 
-    private async Task Ondel(X_raypathological  myobject)
+
+    private async Task Ondel(X_raypathological myobject)
     {
         var op = new SwalOption()
         {
@@ -86,16 +86,17 @@
         if (re)
         {
 
-            using ( var context = ContextFactor.CreateDbContext())
+            using (var context = ContextFactor.CreateDbContext())
             {
                 context.X_raypathologicals.Remove(myobject);
-                var  ok =  context.SaveChanges();
-                if(ok >0)
+                var ok = context.SaveChanges();
+                if (ok > 0)
                 {
                     x_Raypathologicals.Remove(myobject);
                     StateHasChanged();
                 }
-                else{
+                else
+                {
                     ShowColorMessage(Color.Warning, "数据删除失败", MessageElement);
 
                 }
