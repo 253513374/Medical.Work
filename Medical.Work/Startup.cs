@@ -50,7 +50,7 @@ namespace Medical.Work
                     options.Password.RequireUppercase = false;
                     options.Password.RequireNonAlphanumeric = false;
 
-                    options.SignIn.RequireConfirmedEmail = true;
+                    options.SignIn.RequireConfirmedEmail = false;
                     options.SignIn.RequireConfirmedPhoneNumber = false;
                     options.SignIn.RequireConfirmedAccount = true;
 

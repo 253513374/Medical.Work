@@ -44,7 +44,7 @@ namespace Medical.Work.Pages.template
         [Parameter]
         public EventCallback<X_raypathological> OnEventCallback { set; get; }
 
-        private X_raypathological x_Raypathological { set; get; }
+        private X_raypathological x_Raypathological { set; get; } = new();
 
         private static long MaxFileLength => 200 * 1024 * 1024;
 
