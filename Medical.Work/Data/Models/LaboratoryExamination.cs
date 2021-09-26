@@ -12,37 +12,9 @@ namespace Medical.Work.Data.Models
     /// <summary>
     /// 实验室检查
     /// </summary>
-    public class LaboratoryExamination
+    public class LaboratoryExamination : BaseDataInterface
     {
-        [AutoGenerateColumn(Ignore = true)]
-        public int LaboratoryExaminationID { set; get; }
-        [AutoGenerateColumn(Ignore = true)]
-        public string AdminName{ set; get; }
-
-        /// <summary>
-        /// 病历号
-        /// </summary>
-        [NotNull]
-        [DisplayName("病历号")]
-        [AutoGenerateColumn(Ignore = true)]
-        public string Medicalrecordnumber { set; get; }
-
-        /// <summary>
-        /// 患者姓名
-        /// </summary>
-        [NotNull]
-        [DisplayName("患者姓名")]
-        [AutoGenerateColumn(Ignore = true)]
-        public string UserName { set; get; }
-
-        [DisplayName("唯一编码")]
-        [AutoGenerateColumn(Ignore = true)]
-        public string PatientInfoGuid { set; get; }
-
-        [DisplayName("记录时间")]
-        public DateTime CreateTime { set; get; }
-
-
+       
         /// <summary>
         /// 用药前  用药中  用药后
         /// </summary>
@@ -92,15 +64,15 @@ namespace Medical.Work.Data.Models
         public string BUN { set; get; }
 
         /// <summary>
-        ///  肌酐清除率 L/h 
+        /// GFR（Cockcroft-Gault）肌酐清楚率 mL/min
         /// </summary>
-        [DisplayName("肌酐清除率 L/h ")]
+        [DisplayName("GFR(Cockcroft-Gault)肌酐清楚率mL/min")]
         [AutoGenerateColumn(Ignore = true)]
         public string CLcr { set; get; }
         /// <summary>
         /// 小球滤过率 mL/(min*1.73m2)
         /// </summary>
-        [DisplayName("小球滤过率 mL/(min*1.73m2)")]
+        [DisplayName("肾小球滤过率 mL/(min*1.73m2)")]
         [AutoGenerateColumn(Ignore = true)]
         public string eGFR { set; get; }
         /// <summary>
@@ -167,14 +139,14 @@ namespace Medical.Work.Data.Models
         /// <summary>
         ///  白细胞计数（WBC）*109/L  
         /// </summary>
-        [DisplayName("白细胞计数(WBC*109/L)")]
+        [DisplayName("白细胞计数(WBC*10⁹/L)")]
         [AutoGenerateColumn(Ignore = true)]
         public string WBC { set; get; }
 
         /// <summary>
         ///  中性粒细胞（NE%）        % 
         /// </summary>
-        [DisplayName("中性粒细胞 NE% ")]
+        [DisplayName("中性粒细胞百分率 NE% ")]
         [AutoGenerateColumn(Ignore = true)]
         public string NE { set; get; }
         /// <summary>
@@ -198,7 +170,7 @@ namespace Medical.Work.Data.Models
         /// <summary>
         ///  降钙素原（PCT）       ng/ml  
         /// </summary>
-        [DisplayName(" 降钙素原（PCT）ng/ml  ")]
+        [DisplayName("降钙素原（PCT）ng/ml  ")]
         [AutoGenerateColumn(Ignore = true)]
         public string PCT { set; get; }
         /// <summary>
@@ -211,13 +183,13 @@ namespace Medical.Work.Data.Models
         /// <summary>
         /// 红细胞沉降（ESR）       mm/h 
         /// </summary>
-        [DisplayName("红细胞沉降（ESR）mm/h ")]
+        [DisplayName("红细胞沉降（ESR）mm/h")]
         [AutoGenerateColumn(Ignore = true)]
         public string ESR { set; get; }
         /// <summary>
         ///  尿白细胞计数      个/UL 
         /// </summary>
-        [DisplayName(" 尿白细胞计数 个/UL ")]
+        [DisplayName("尿白细胞计数 个/UL")]
         [AutoGenerateColumn(Ignore = true)]
         public string Uricine { set; get; }
         /// <summary>
@@ -229,25 +201,25 @@ namespace Medical.Work.Data.Models
         /// <summary>
         /// 细菌     个/UL 
         /// </summary>
-        [DisplayName("细菌（个/UL） ")]
+        [DisplayName("细菌(个/UL)")]
         [AutoGenerateColumn(Ignore = true)]
         public string bacterial { set; get; }
         /// <summary>
         ///  酵母菌     个/UL 
         /// </summary>
-        [DisplayName("酵母菌（个/UL） ")]
+        [DisplayName("酵母菌（个/UL）")]
         [AutoGenerateColumn(Ignore = true)]
         public string Yeast { set; get; }
         /// <summary>
         ///  脑脊液白细胞计数      个/UL
         /// </summary>
-        [DisplayName("脑脊液白细胞计数 (个/UL) ")]
+        [DisplayName("脑脊液白细胞计数(个/UL)")]
         [AutoGenerateColumn(Ignore = true)]
         public string CSF { set; get; }
         /// <summary>
         /// 备注
         /// </summary>
-        [DisplayName("备注 ")]
+        [DisplayName("备注")]
         [AutoGenerateColumn(Ignore = true)]
         public string Remark { set; get; }
 

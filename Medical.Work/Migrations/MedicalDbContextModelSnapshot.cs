@@ -29,13 +29,13 @@ namespace Medical.Work.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AdminName")
+                    b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Contactnumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("CreateTime")
+                    b.Property<DateTime?>("Createtime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Emai")
@@ -44,7 +44,7 @@ namespace Medical.Work.Migrations
                     b.Property<string>("Medicalrecordnumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
@@ -71,7 +71,7 @@ namespace Medical.Work.Migrations
                     b.Property<string>("AST")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AdminName")
+                    b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Assaysituation")
@@ -98,7 +98,7 @@ namespace Medical.Work.Migrations
                     b.Property<string>("Child_pugh")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime>("Createtime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ESR")
@@ -158,7 +158,7 @@ namespace Medical.Work.Migrations
                     b.Property<string>("Uricine")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WBC")
@@ -185,7 +185,7 @@ namespace Medical.Work.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime>("Createtime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("MedicalDGKGuid")
@@ -218,10 +218,10 @@ namespace Medical.Work.Migrations
                     b.Property<string>("AUCMic")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AdminName")
+                    b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime>("Createtime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DrugsName")
@@ -257,7 +257,7 @@ namespace Medical.Work.Migrations
                     b.Property<int>("TestorisNot")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MedicalPD_DrugAllergyID");
@@ -272,13 +272,13 @@ namespace Medical.Work.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AdminName")
+                    b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Bacterial")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime>("Createtime")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Inspectiontime")
@@ -305,7 +305,7 @@ namespace Medical.Work.Migrations
                     b.Property<int?>("TestorisNot")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MedicalPD_MicrobiologicalID");
@@ -320,10 +320,10 @@ namespace Medical.Work.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AdminName")
+                    b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime>("Createtime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Exegesis")
@@ -344,7 +344,7 @@ namespace Medical.Work.Migrations
                     b.Property<string>("PathogenicGeneName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
@@ -359,10 +359,10 @@ namespace Medical.Work.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AdminName")
+                    b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime>("Createtime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Exegesis")
@@ -386,7 +386,7 @@ namespace Medical.Work.Migrations
                     b.Property<string>("Rs")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
@@ -404,10 +404,10 @@ namespace Medical.Work.Migrations
                     b.Property<string>("AMTsingledose")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AdminName")
+                    b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime>("Createtime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("DrugNCount")
@@ -458,7 +458,7 @@ namespace Medical.Work.Migrations
                     b.Property<string>("SolventToDosage")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MedicalPKID");
@@ -473,7 +473,7 @@ namespace Medical.Work.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AdminName")
+                    b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CollectDateTime")
@@ -482,7 +482,7 @@ namespace Medical.Work.Migrations
                     b.Property<int?>("Collectingvessel")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime>("Createtime")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("EndDateTime")
@@ -561,7 +561,7 @@ namespace Medical.Work.Migrations
                     b.Property<string>("APACHEⅡ")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AdminName")
+                    b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Admissiontime")
@@ -582,7 +582,7 @@ namespace Medical.Work.Migrations
                     b.Property<int>("BWWeight")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("CreateTime")
+                    b.Property<DateTime?>("Createtime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Department")
@@ -633,7 +633,7 @@ namespace Medical.Work.Migrations
                     b.Property<int?>("Transplantationtype")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PatientInfoID");
@@ -692,7 +692,7 @@ namespace Medical.Work.Migrations
                     b.Property<string>("Treatmentplan")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
@@ -733,10 +733,10 @@ namespace Medical.Work.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AdminName")
+                    b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime>("Createtime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Describe")
@@ -754,7 +754,7 @@ namespace Medical.Work.Migrations
                     b.Property<DateTime>("Reportdate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("XrayImaginglocationenum")
@@ -775,10 +775,10 @@ namespace Medical.Work.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AdminName")
+                    b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime>("Createtime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Medicalrecordnumber")
@@ -793,7 +793,7 @@ namespace Medical.Work.Migrations
                     b.Property<DateTime>("Reportdate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Xrayinspection")
@@ -840,10 +840,10 @@ namespace Medical.Work.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AdminName")
+                    b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime>("Createtime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Medicalrecordnumber")
@@ -858,7 +858,7 @@ namespace Medical.Work.Migrations
                     b.Property<DateTime>("Reportdate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Xrayinspection")

@@ -6,21 +6,11 @@ using System.Threading.Tasks;
 
 namespace Medical.Work.Data.Models
 {
-    public class Contacts
+    public class Contacts :  BaseDataInterface
     {
 
-        public int ID { set; get; }
-        /// <summary>
-        /// 病历号
-        /// </summary>
-        [DisplayName("病历号")]
-        public string Medicalrecordnumber { set; get; }
 
-        /// <summary>
-        /// 姓名
-        /// </summary>
-        [DisplayName("患者姓名")]
-        public string UserName { set; get; }
+
 
         /// <summary>
         /// 联系电话
@@ -45,13 +35,13 @@ namespace Medical.Work.Data.Models
         /// 记录人账号
         /// </summary>
         [DisplayName("记录人账号")]
-        public string AdminName { set; get; }
+        public string Adminname { set; get; }
 
         /// <summary>
         /// 记录时间
         /// </summary>
         [DisplayName("记录时间")]
-        public DateTime? CreateTime { set; get; }
+        public DateTime? Createtime { set; get; }
 
         
     }

@@ -12,42 +12,10 @@ namespace Medical.Work.Data.Models
     /// <summary>
     /// 影像学检查
     /// </summary>
-    public class X_rayImaging
+    public class X_rayImaging : BaseDataInterface
     {
         [AutoGenerateColumn(Ignore = true)]
         public int X_rayImagingID { set; get; }
-
-
-
-        [AutoGenerateColumn(Ignore = true, DefaultSort = true)]
-        public DateTime CreateTime { set; get; }
-
-        /// <summary>
-        /// 管理员账号
-        /// </summary>
-        [AutoGenerateColumn(Ignore = true)]
-        public string AdminName { set; get; }
-
-
-        /// <summary>
-        /// 患者名称
-        /// </summary>
-        [DisplayName("患者姓名")]
-        [NotNull]
-        public string UserName { set; get; }
-
-
-
-        /// <summary>
-        /// 病历号
-        /// </summary>
-        [DisplayName("病历号")]
-        [NotNull]
-        public string Medicalrecordnumber { set; get; }
-
-        [DisplayName("唯一编码")]
-        [AutoGenerateColumn(Ignore = true)]
-        public string PatientInfoGuid { set; get; }
 
         /// <summary>
         /// 检查日期

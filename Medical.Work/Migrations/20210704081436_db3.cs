@@ -7,7 +7,7 @@ namespace Medical.Work.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "AdminName",
+                name: "Adminname",
                 table: "medicalPKSamplings",
                 type: "nvarchar(max)",
                 nullable: true);
@@ -22,7 +22,7 @@ namespace Medical.Work.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "AdminName",
+                name: "Adminname",
                 table: "medicalPKSamplings");
 
             migrationBuilder.DropColumn(

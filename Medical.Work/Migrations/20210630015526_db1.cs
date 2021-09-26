@@ -20,7 +20,7 @@ namespace Medical.Work.Migrations
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Uername = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Emainame = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Createtime = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -34,7 +34,7 @@ namespace Medical.Work.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MedicalDGKGuid = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Createtime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     patientInfoGuid = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     medicalPgguid = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     medicalPdguid = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -52,7 +52,7 @@ namespace Medical.Work.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Createtime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TestorNot = table.Column<int>(type: "int", nullable: false),
                     TestTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Inspectiontime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -75,7 +75,7 @@ namespace Medical.Work.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MedicalPGGuid = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Createtime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Genes = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rs = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GenesResults = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -123,8 +123,8 @@ namespace Medical.Work.Migrations
                 {
                     MedicalPKID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AdminName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Createtime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MedicalPKName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FirstTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LasttTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -153,7 +153,7 @@ namespace Medical.Work.Migrations
                     PatientInfoID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PatientInfoGuid = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Createtime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Adminuser = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Medicalrecordnumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -273,7 +273,7 @@ namespace Medical.Work.Migrations
                     MedicalPKSamplingID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MedicalPKID = table.Column<int>(type: "int", nullable: false),
-                    CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Createtime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SpecimenType = table.Column<int>(type: "int", nullable: false),
                     CollectDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     StartDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),

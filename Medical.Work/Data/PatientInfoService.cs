@@ -70,7 +70,7 @@ namespace Medical.Work.Data
             using (var context = ContextFactory.CreateDbContext())
             {
                 //context.SaveChanges();
-                return await context.patientInfos.Where(w => w.PatientInfoGuid == guid).AsNoTracking().FirstOrDefaultAsync();  
+                return await context.patientInfos.Where(w => w.Baseguid == guid).AsNoTracking().FirstOrDefaultAsync();  
             }
           
         }
@@ -80,13 +80,13 @@ namespace Medical.Work.Data
         /// 根据关键字返回一个集合
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="username"></param>
+        /// <param name="Username"></param>
         /// <returns></returns>
-        public async Task<List<PatientInfo>> QueryPatientInfos(string key,string username)
+        public async Task<List<PatientInfo>> QueryPatientInfos(string key,string Username)
         {
             using (var context = ContextFactory.CreateDbContext())
             {
-                return await context.patientInfos.Where(w=>w.AdminName== username).Where(w => w.Medicalrecordnumber.Contains(key) || w.UserName.Contains(key)).ToListAsync();
+                return await context.patientInfos.Where(w=>w.Adminname== Username).Where(w => w.Medicalrecordnumber.Contains(key) || w.Username.Contains(key)).ToListAsync();
             }
             //  null;
         }

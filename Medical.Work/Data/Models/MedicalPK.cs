@@ -14,7 +14,7 @@ namespace Medical.Work.Data.Models
     /// <summary>
     /// 给药方案
     /// </summary>
-    public class MedicalPK
+    public class MedicalPK : BaseDataInterface
     {
         /*药品通用名，溶媒（如0.9% 氯化钠100ml）,单次剂量，给药频率，给药途径，开始时间，截止时间，公斤体质量日剂量，厂家类型*/
         /// <summary>
@@ -31,32 +31,7 @@ namespace Medical.Work.Data.Models
         [AutoGenerateColumn(Ignore = true)]
         public string MedicalPKGuid { set; get; }
 
-        /// <summary>
-        /// 管理员账号
-        /// </summary>
-        //[DisplayName("管理员账号")]
-        [AutoGenerateColumn(Ignore = true)]
-        public string AdminName { set; get; }
-
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        [DisplayName("创建时间")]
-        public DateTime CreateTime { set; get; }
-        /// <summary>
-        /// 病历号
-        /// </summary>
-        [NotNull]
-        [DisplayName("病历号")]
-        public string Medicalrecordnumber { set; get; }
-
-        /// <summary>
-        /// 患者姓名
-        /// </summary>
-        [NotNull]
-        [DisplayName("患者姓名")]
-        public string UserName { set; get; }
-
+      
 
         /// <summary>
         /// 方案名称(可选)

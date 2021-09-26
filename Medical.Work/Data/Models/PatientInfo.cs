@@ -12,45 +12,8 @@ using Medical.Work.Data.Enum;
 
 namespace Medical.Work.Data.Models
 {
-    public class PatientInfo
+    public class PatientInfo : BaseDataInterface
     {
-      
-        //[DisplayName("ID")]
-        [AutoGenerateColumn(Ignore = true)]
-        public int PatientInfoID { set; get; }
-
-        //[DisplayName("唯一编码")]
-        [AutoGenerateColumn(Ignore = true)]
-        public string PatientInfoGuid { set; get; }
-
-        /// <summary>
-        /// 建立时间
-        /// </summary>
-        [DisplayName("建立时间")]
-        public DateTime? CreateTime { set; get; }
-
-        /// <summary>
-        /// 建立账号
-        /// </summary>
-        //[DisplayName("建立账号")]
-        [AutoGenerateColumn(Ignore = true)]
-        public string AdminName {set;get; }
-
-
-        /// <summary>
-        /// 病历号
-        /// </summary>
-        [NotNull]
-        [DisplayName("病历号")]
-        public string Medicalrecordnumber { set; get; }
-
-        /// <summary>
-        /// 患者姓名
-        /// </summary>
-        [NotNull]
-        [DisplayName( "患者姓名")]
-        public string UserName { set; get; }
-
         /// <summary>
         /// 科室
         /// </summary>

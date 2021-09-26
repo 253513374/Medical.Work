@@ -9,43 +9,43 @@ namespace Medical.Work.Migrations
             migrationBuilder.RenameColumn(
                 name: "Cretetime",
                 table: "X_raypathologicals",
-                newName: "CreateTime");
+                newName: "Createtime");
 
             migrationBuilder.RenameColumn(
                 name: "Cretetime",
                 table: "X_rayImagings",
-                newName: "CreateTime");
+                newName: "Createtime");
 
             migrationBuilder.RenameColumn(
                 name: "Cretetime",
                 table: "X_raybronchoscopys",
-                newName: "CreateTime");
+                newName: "Createtime");
 
             migrationBuilder.RenameColumn(
                 name: "Createtime",
                 table: "LaboratoryExamination",
-                newName: "CreateTime");
+                newName: "Createtime");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "CreateTime",
+                name: "Createtime",
                 table: "X_raypathologicals",
                 newName: "Cretetime");
 
             migrationBuilder.RenameColumn(
-                name: "CreateTime",
+                name: "Createtime",
                 table: "X_rayImagings",
                 newName: "Cretetime");
 
             migrationBuilder.RenameColumn(
-                name: "CreateTime",
+                name: "Createtime",
                 table: "X_raybronchoscopys",
                 newName: "Cretetime");
 
             migrationBuilder.RenameColumn(
-                name: "CreateTime",
+                name: "Createtime",
                 table: "LaboratoryExamination",
                 newName: "Createtime");
         }

@@ -12,7 +12,7 @@
 
             <BootstrapInput @bind-Value="@patientInfo.Medicalrecordnumber" />
             <BootstrapInput @bind-Value="@patientInfo.Department" />
-            <BootstrapInput @bind-Value="@patientInfo.UserName" />
+            <BootstrapInput @bind-Value="@patientInfo.Username" />
             <Select @bind-Value="@patientInfo.Gender" />
         </Row>
         <Row ItemsPerRow="ItemsPerRow.Six" RowType="RowType.Normal">
@@ -63,8 +63,6 @@
 
 </div>
 @code {
-
-
 
 
     [CascadingParameter(Name = "BodyContext")]

@@ -122,52 +122,52 @@ namespace Medical.Work.Migrations
             migrationBuilder.RenameColumn(
                 name: "Username",
                 table: "X_raypathologicals",
-                newName: "UserName");
+                newName: "Username");
 
             migrationBuilder.RenameColumn(
                 name: "Adminname",
                 table: "X_raypathologicals",
-                newName: "AdminName");
+                newName: "Adminname");
 
             migrationBuilder.RenameColumn(
                 name: "Username",
                 table: "X_rayImagings",
-                newName: "UserName");
+                newName: "Username");
 
             migrationBuilder.RenameColumn(
                 name: "Adminname",
                 table: "X_rayImagings",
-                newName: "AdminName");
+                newName: "Adminname");
 
             migrationBuilder.RenameColumn(
                 name: "Username",
                 table: "X_raybronchoscopys",
-                newName: "UserName");
+                newName: "Username");
 
             migrationBuilder.RenameColumn(
                 name: "Adminname",
                 table: "X_raybronchoscopys",
-                newName: "AdminName");
+                newName: "Adminname");
 
             migrationBuilder.RenameColumn(
                 name: "Username",
                 table: "Summaryreports",
-                newName: "UserName");
+                newName: "Username");
 
             migrationBuilder.RenameColumn(
                 name: "Name",
                 table: "PatientInfo",
-                newName: "UserName");
+                newName: "Username");
 
             migrationBuilder.RenameColumn(
                 name: "Adminuser",
                 table: "PatientInfo",
-                newName: "AdminName");
+                newName: "Adminname");
 
             migrationBuilder.RenameColumn(
                 name: "Username",
                 table: "MedicalPG",
-                newName: "UserName");
+                newName: "Username");
 
             migrationBuilder.RenameColumn(
                 name: "WBC",
@@ -182,32 +182,32 @@ namespace Medical.Work.Migrations
             migrationBuilder.RenameColumn(
                 name: "Treatmentsummary",
                 table: "MedicalPG",
-                newName: "AdminName");
+                newName: "Adminname");
 
             migrationBuilder.RenameColumn(
                 name: "Adminname",
                 table: "MedicalPD_Microbiological",
-                newName: "AdminName");
+                newName: "Adminname");
 
             migrationBuilder.RenameColumn(
                 name: "Name",
                 table: "LaboratoryExamination",
-                newName: "UserName");
+                newName: "Username");
 
             migrationBuilder.RenameColumn(
                 name: "Adminuser",
                 table: "LaboratoryExamination",
-                newName: "AdminName");
+                newName: "Adminname");
 
             migrationBuilder.RenameColumn(
                 name: "Uername",
                 table: "Contacts",
-                newName: "UserName");
+                newName: "Username");
 
             migrationBuilder.RenameColumn(
                 name: "Name",
                 table: "Contacts",
-                newName: "AdminName");
+                newName: "Adminname");
 
             migrationBuilder.AddColumn<string>(
                 name: "Medicalrecordnumber",
@@ -216,7 +216,7 @@ namespace Medical.Work.Migrations
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "UserName",
+                name: "Username",
                 table: "MedicalPK",
                 type: "nvarchar(max)",
                 nullable: true);
@@ -252,7 +252,7 @@ namespace Medical.Work.Migrations
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "UserName",
+                name: "Username",
                 table: "MedicalPD_Microbiological",
                 type: "nvarchar(max)",
                 nullable: true);
@@ -293,7 +293,7 @@ namespace Medical.Work.Migrations
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
             migrationBuilder.AddColumn<string>(
-                name: "UserName",
+                name: "Username",
                 table: "MedicalPD_DrugAllergy",
                 type: "nvarchar(max)",
                 nullable: true);
@@ -306,7 +306,7 @@ namespace Medical.Work.Migrations
                 table: "MedicalPK");
 
             migrationBuilder.DropColumn(
-                name: "UserName",
+                name: "Username",
                 table: "MedicalPK");
 
             migrationBuilder.DropColumn(
@@ -314,7 +314,7 @@ namespace Medical.Work.Migrations
                 table: "MedicalPD_Microbiological");
 
             migrationBuilder.DropColumn(
-                name: "UserName",
+                name: "Username",
                 table: "MedicalPD_Microbiological");
 
             migrationBuilder.DropColumn(
@@ -330,56 +330,56 @@ namespace Medical.Work.Migrations
                 table: "MedicalPD_DrugAllergy");
 
             migrationBuilder.DropColumn(
-                name: "UserName",
+                name: "Username",
                 table: "MedicalPD_DrugAllergy");
 
             migrationBuilder.RenameColumn(
-                name: "UserName",
+                name: "Username",
                 table: "X_raypathologicals",
                 newName: "Username");
 
             migrationBuilder.RenameColumn(
-                name: "AdminName",
+                name: "Adminname",
                 table: "X_raypathologicals",
                 newName: "Adminname");
 
             migrationBuilder.RenameColumn(
-                name: "UserName",
+                name: "Username",
                 table: "X_rayImagings",
                 newName: "Username");
 
             migrationBuilder.RenameColumn(
-                name: "AdminName",
+                name: "Adminname",
                 table: "X_rayImagings",
                 newName: "Adminname");
 
             migrationBuilder.RenameColumn(
-                name: "UserName",
+                name: "Username",
                 table: "X_raybronchoscopys",
                 newName: "Username");
 
             migrationBuilder.RenameColumn(
-                name: "AdminName",
+                name: "Adminname",
                 table: "X_raybronchoscopys",
                 newName: "Adminname");
 
             migrationBuilder.RenameColumn(
-                name: "UserName",
+                name: "Username",
                 table: "Summaryreports",
                 newName: "Username");
 
             migrationBuilder.RenameColumn(
-                name: "UserName",
+                name: "Username",
                 table: "PatientInfo",
                 newName: "Name");
 
             migrationBuilder.RenameColumn(
-                name: "AdminName",
+                name: "Adminname",
                 table: "PatientInfo",
                 newName: "Adminuser");
 
             migrationBuilder.RenameColumn(
-                name: "UserName",
+                name: "Username",
                 table: "MedicalPG",
                 newName: "Username");
 
@@ -394,32 +394,32 @@ namespace Medical.Work.Migrations
                 newName: "Typesofadversereactions");
 
             migrationBuilder.RenameColumn(
-                name: "AdminName",
+                name: "Adminname",
                 table: "MedicalPG",
                 newName: "Treatmentsummary");
 
             migrationBuilder.RenameColumn(
-                name: "AdminName",
+                name: "Adminname",
                 table: "MedicalPD_Microbiological",
                 newName: "Adminname");
 
             migrationBuilder.RenameColumn(
-                name: "UserName",
+                name: "Username",
                 table: "LaboratoryExamination",
                 newName: "Name");
 
             migrationBuilder.RenameColumn(
-                name: "AdminName",
+                name: "Adminname",
                 table: "LaboratoryExamination",
                 newName: "Adminuser");
 
             migrationBuilder.RenameColumn(
-                name: "UserName",
+                name: "Username",
                 table: "Contacts",
                 newName: "Uername");
 
             migrationBuilder.RenameColumn(
-                name: "AdminName",
+                name: "Adminname",
                 table: "Contacts",
                 newName: "Name");
 

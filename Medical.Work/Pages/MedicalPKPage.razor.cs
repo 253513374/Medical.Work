@@ -27,8 +27,8 @@ namespace Medical.Work.Pages
         // {
         //     using (var context  = contextFactory.CreateDbContext())
         //     {
-        //         var adminname = authenticationStateTask.Result.User.Identity.Name;
-        //         return await context.medicalPKs.AsNoTracking().Where(w=>w.AdminName== adminname).Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).ToListAsync();
+        //         var Adminname = authenticationStateTask.Result.User.Identity.Name;
+        //         return await context.medicalPKs.AsNoTracking().Where(w=>w.Adminname== Adminname).Where(w => w.Createtime > DateTime.Now.AddDays(-30)).ToListAsync();
         //     }
         // }
 
@@ -38,10 +38,10 @@ namespace Medical.Work.Pages
             {
                 using (var context = contextFactory.CreateDbContext())
                 {
-                    var adminname = authenticationStateTask.Result.User.Identity.Name;
-                    //var  medicals = await context.medicalPKs.AsNoTracking().Where(w => w.AdminName == adminname).Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).ToListAsync();
+                    var Adminname = authenticationStateTask.Result.User.Identity.Name;
+                    //var  medicals = await context.medicalPKs.AsNoTracking().Where(w => w.Adminname == Adminname).Where(w => w.Createtime > DateTime.Now.AddDays(-30)).ToListAsync();
 
-                    medicalPK_s = context.MPKs.Include(i => i.MedicalPKSamplings).ThenInclude(t => t.medicalPKSamplings).Where(w => w.AdminName == adminname).Where(w => w.CreateTime > DateTime.Now.AddDays(-30)).ToList();
+                    medicalPK_s = context.MPKs.Include(i => i.MedicalPKSamplings).ThenInclude(t => t.medicalPKSamplings).Where(w => w.Adminname == Adminname).Where(w => w.Createtime > DateTime.Now.AddDays(-30)).ToList();
                     //if (medicals.Count>0)
                     //{
                     //    medicalPK_s = medicals;
@@ -67,8 +67,8 @@ namespace Medical.Work.Pages
             {
                 using (var context = contextFactory.CreateDbContext())
                 {
-                    medicalPK.AdminName = authenticationStateTask.Result.User.Identity.Name;
-                    medicalPK.CreateTime = DateTime.Now;
+                    medicalPK.Adminname = authenticationStateTask.Result.User.Identity.Name;
+                    medicalPK.Createtime = DateTime.Now;
                     medicalPK.MedicalPKGuid = Guid.NewGuid().ToString();
                     context.MPKs.Add(medicalPK);
                     context.SaveChanges();

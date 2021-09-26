@@ -79,7 +79,7 @@
             // Task.Run(()=> { ); });
             var obj = new X_rayImaging();
             obj.Medicalrecordnumber = Text;
-            obj.UserName = Name;
+            obj.Username = Name;
             await OnShowDlg(obj);
         }
         return;
@@ -98,15 +98,15 @@
 
     public async Task OnSearch()
     {
-        var UserName = authenticationStateTask.Result.User.Identity.Name;
+        var Username = authenticationStateTask.Result.User.Identity.Name;
         DateTime dateTime = DateTime.Now.AddDays(-30);
         if (Querywhere is null)
         {
-            X_RayImagings = await context.X_rayImagings.AsNoTracking().Where(w => w.AdminName == UserName).Take(100).ToListAsync();
+            X_RayImagings = await context.X_rayImagings.AsNoTracking().Where(w => w.Adminname == Username).Take(100).ToListAsync();
         }
         else
         {
-            X_RayImagings = await context.X_rayImagings.AsNoTracking().Where(w => w.AdminName == UserName).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.UserName.Contains(Querywhere)).ToListAsync();
+            X_RayImagings = await context.X_rayImagings.AsNoTracking().Where(w => w.Adminname == Username).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.Username.Contains(Querywhere)).ToListAsync();
 
         }
         StateHasChanged();
@@ -144,8 +144,8 @@
             {
                 if (rayImaging != null)
                 {
-                    rayImaging.CreateTime = DateTime.Now;
-                    rayImaging.AdminName = authenticationStateTask.Result.User.Identity.Name;
+                    rayImaging.Createtime = DateTime.Now;
+                    rayImaging.Adminname = authenticationStateTask.Result.User.Identity.Name;
                     context.X_rayImagings.Add(rayImaging);
                     context.SaveChanges();
                     X_RayImagings.Add(rayImaging);

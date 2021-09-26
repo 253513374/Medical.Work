@@ -88,7 +88,7 @@
             // Task.Run(()=> { ); });
             var obj = new MedicalPG_PathogenGene();
             obj.Medicalrecordnumber = Text;
-            obj.UserName = Name;
+            obj.Username = Name;
             await OnShowDlg(obj);
         }
         return;
@@ -111,15 +111,15 @@
 
         using (var context = contextFactory.CreateDbContext())
         {
-            var adminname = authenticationStateTask.Result.User.Identity.Name;
+            var Adminname = authenticationStateTask.Result.User.Identity.Name;
             if (Querywhere is not null)
             {
-                pG_PathogenGenes = await context.MPG_PathogenGenes.AsNoTracking().Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.UserName.Contains(Querywhere)).ToListAsync();
+                pG_PathogenGenes = await context.MPG_PathogenGenes.AsNoTracking().Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.Username.Contains(Querywhere)).ToListAsync();
 
             }
             else
             {
-                pG_PathogenGenes = await context.MPG_PathogenGenes.AsNoTracking().Where(w => w.AdminName == adminname).Take(100).ToListAsync();
+                pG_PathogenGenes = await context.MPG_PathogenGenes.AsNoTracking().Where(w => w.Adminname == Adminname).Take(100).ToListAsync();
             }
         }
         StateHasChanged();
@@ -160,8 +160,8 @@
             {
                 if (pG_PathogenGene != null)
                 {
-                    pG_PathogenGene.CreateTime = DateTime.Now;
-                    pG_PathogenGene.AdminName = authenticationStateTask.Result.User.Identity.Name;
+                    pG_PathogenGene.Createtime = DateTime.Now;
+                    pG_PathogenGene.Adminname = authenticationStateTask.Result.User.Identity.Name;
                     context.MPG_PathogenGenes.Add(pG_PathogenGene);
                     context.SaveChanges();
                     pG_PathogenGenes.Add(pG_PathogenGene);

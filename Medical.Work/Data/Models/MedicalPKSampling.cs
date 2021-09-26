@@ -32,14 +32,14 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [DisplayName("管理员账号")]
         [AutoGenerateColumn(Ignore = true)]
-        public string AdminName { set; get; }
+        public string Adminname { set; get; }
 
         /// <summary>
         /// 创建时间
         /// </summary>
         [DisplayName("创建时间")]
         [AutoGenerateColumn(Ignore = true)]
-        public DateTime CreateTime { set; get; }
+        public DateTime Createtime { set; get; }
 
         /// <summary>
         /// 标本类型

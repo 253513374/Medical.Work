@@ -61,11 +61,11 @@ namespace Medical.Work.Pages
         {
             using ( var context  = ContextFactory.CreateDbContext())
             {
-                var username = authenticationStateTask.Result.User.Identity.Name;
-                Patients = await context.patientInfos.Where(w=>w.AdminName== username).Where(w => w.CreateTime >= RangeValue.Start && w.CreateTime <= RangeValue.End).AsNoTracking().ToListAsync();
+                var Username = authenticationStateTask.Result.User.Identity.Name;
+                Patients = await context.patientInfos.Where(w=>w.Adminname== Username).Where(w => w.Createtime >= RangeValue.Start && w.Createtime <= RangeValue.End).AsNoTracking().ToListAsync();
 
                 var array = Patients.Select(s => s.Medicalrecordnumber).ToList();
-                var arrayname = Patients.Select(s => s.UserName).ToArray();
+                var arrayname = Patients.Select(s => s.Username).ToArray();
                 Items.AddRange(array);
                 Items.AddRange(arrayname);
             }
@@ -89,9 +89,9 @@ namespace Medical.Work.Pages
 
             if (result == DialogResult.Yes)
             {
-                patientInfo.CreateTime = DateTime.Now;
-                patientInfo.AdminName = authenticationStateTask.Result.User.Identity.Name;
-                patientInfo.PatientInfoGuid = Guid.NewGuid().ToString();
+                patientInfo.Createtime = DateTime.Now;
+                patientInfo.Adminname = authenticationStateTask.Result.User.Identity.Name;
+                patientInfo.Baseguid = Guid.NewGuid().ToString();
                 InfoService.AddPatientInfo(patientInfo);
                 Patients.Add(patientInfo);
                 //UpdateDate();
@@ -119,8 +119,8 @@ namespace Medical.Work.Pages
 
             if (result == DialogResult.Yes)
             {
-                patientInfo.CreateTime = DateTime.Now;
-                patientInfo.AdminName = authenticationStateTask.Result.User.Identity.Name;
+                patientInfo.Createtime = DateTime.Now;
+                patientInfo.Adminname = authenticationStateTask.Result.User.Identity.Name;
                 InfoService.UpdatePatientInfo(patientInfo);
                 ShowColorMessage(Color.Danger, "医患信息修改成功", MessageElement);
             }
@@ -132,8 +132,8 @@ namespace Medical.Work.Pages
         private async Task OnSearch2(string searchText)
         {
             //Trace2.Log($"SearchText: {searchText}");
-            var username = authenticationStateTask.Result.User.Identity.Name;
-            Patients = await InfoService.QueryPatientInfos(searchText, username);
+            var Username = authenticationStateTask.Result.User.Identity.Name;
+            Patients = await InfoService.QueryPatientInfos(searchText, Username);
             //OnQueryPageAsync(new QueryPageOptions() );
             await mylistview.QueryAsync();
             StateHasChanged();

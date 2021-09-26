@@ -17,8 +17,8 @@ namespace Medical.Work.Migrations
                     MedicalPD_DrugAllergyID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     P_Guid = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AdminName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Createtime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TestorisNot = table.Column<int>(type: "int", nullable: false),
                     TestTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DrugsensitivityTest = table.Column<int>(type: "int", nullable: false),
@@ -41,7 +41,7 @@ namespace Medical.Work.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     P_Guid = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Createtime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TestorisNot = table.Column<int>(type: "int", nullable: false),
                     TestTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SpecimenType = table.Column<int>(type: "int", nullable: false),
@@ -71,7 +71,7 @@ namespace Medical.Work.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Createtime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DrugsensitivityTest = table.Column<int>(type: "int", nullable: false),
                     Drugsname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Inspectiontime = table.Column<DateTime>(type: "datetime2", nullable: false),

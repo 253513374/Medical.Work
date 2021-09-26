@@ -86,7 +86,7 @@
             // Task.Run(()=> { ); });
             var obj = new MedicalPG_Pharmacogenomics();
             obj.Medicalrecordnumber = Text;
-            obj.UserName = Name;
+            obj.Username = Name;
             await OnShowDlg(obj);
         }
         return;
@@ -104,15 +104,15 @@
     {
         using (var context = contextFactory.CreateDbContext())
         {
-            var adminname = authenticationStateTask.Result.User.Identity.Name;
+            var Adminname = authenticationStateTask.Result.User.Identity.Name;
             if (Querywhere is not null)
             {
-                pG_Pharmacogenomics = await context.MPG_Pharmacogenomics.AsNoTracking().Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.UserName.Contains(Querywhere)).ToListAsync();
+                pG_Pharmacogenomics = await context.MPG_Pharmacogenomics.AsNoTracking().Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.Username.Contains(Querywhere)).ToListAsync();
 
             }
             else
             {
-                pG_Pharmacogenomics = await context.MPG_Pharmacogenomics.AsNoTracking().Where(w => w.AdminName == adminname).Take(100).ToListAsync();
+                pG_Pharmacogenomics = await context.MPG_Pharmacogenomics.AsNoTracking().Where(w => w.Adminname == Adminname).Take(100).ToListAsync();
             }
         }
         StateHasChanged();
@@ -152,8 +152,8 @@
             {
                 if (pG_Pharmacogenomic != null)
                 {
-                    pG_Pharmacogenomic.CreateTime = DateTime.Now;
-                    pG_Pharmacogenomic.AdminName = authenticationStateTask.Result.User.Identity.Name;
+                    pG_Pharmacogenomic.Createtime = DateTime.Now;
+                    pG_Pharmacogenomic.Adminname = authenticationStateTask.Result.User.Identity.Name;
                     context.MPG_Pharmacogenomics.Add(pG_Pharmacogenomic);
                     context.SaveChanges();
                     pG_Pharmacogenomics.Add(pG_Pharmacogenomic);

@@ -110,9 +110,9 @@ namespace Medical.Work.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MedicalPGGuid = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AdminName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Createtime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Medicalrecordnumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PathogenName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PathogenicGeneName = table.Column<string>(type: "nvarchar(max)", nullable: true),
