@@ -13,50 +13,38 @@ namespace Medical.Work.Data.Models
     /// <summary>
     /// 临床微生物学检查
     /// </summary>
-    public class MedicalPD_Microbiological
+    public class MedicalPD_Microbiological : BaseDataInterface
     {
-        // MedicalPD_DrugAllergy
-        /// <summary>
-        /// 自增
-        /// </summary>
-        [DisplayName("自增")]
-        [AutoGenerateColumn(Ignore = true)]
-        public int MedicalPD_MicrobiologicalID { set; get; }
+       
 
 
-        /// <summary>
-        /// 唯一编码
-        /// </summary>
-        [DisplayName("唯一编码")]
-        [AutoGenerateColumn(Ignore = true)]
-        public string P_Guid { set; get; }
 
-        /// <summary>
-        /// 登陆用户名称
-        /// </summary>
-        [DisplayName("账号")]
-        [AutoGenerateColumn(Ignore = true)]
-        public string AdminName { set; get; }
+        ///// <summary>
+        ///// 登陆用户名称
+        ///// </summary>
+        //[DisplayName("账号")]
+        //[AutoGenerateColumn(Ignore = true)]
+        //public string Adminname { set; get; }
 
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        [DisplayName("创建时间")]
-        public DateTime CreateTime { set; get; }
+        ///// <summary>
+        ///// 创建时间
+        ///// </summary>
+        //[DisplayName("创建时间")]
+        //public DateTime Createtime { set; get; }
 
-        /// <summary>
-        /// 病历号
-        /// </summary>
-        [NotNull]
-        [DisplayName("病历号")]
-        public string Medicalrecordnumber { set; get; }
+        ///// <summary>
+        ///// 病历号
+        ///// </summary>
+        //[NotNull]
+        //[DisplayName("病历号")]
+        //public string Medicalrecordnumber { set; get; }
 
-        /// <summary>
-        /// 患者姓名
-        /// </summary>
-        [NotNull]
-        [DisplayName("患者姓名")]
-        public string UserName { set; get; }
+        ///// <summary>
+        ///// 患者姓名
+        ///// </summary>
+        //[NotNull]
+        //[DisplayName("患者姓名")]
+        //public string Username { set; get; }
 
         /// <summary>
         /// 是否做检查

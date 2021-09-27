@@ -11,7 +11,7 @@ namespace Medical.Work.Data
     {
 
 
-        public DbSet<MedicalDGK> medicalDGKs { set; get; }
+       // public DbSet<MedicalDGK> medicalDGKs { set; get; }
         public DbSet<MedicalPD_DrugAllergy>  MPD_Drugs { set; get; }
         public DbSet<MedicalPD_Microbiological>  MPD_Microbiologicals { set; get; }
 
@@ -21,7 +21,7 @@ namespace Medical.Work.Data
 
         public DbSet<MedicalPK> MPKs { set; get; }
         public DbSet<MedicalPKSampling> MPK_Samplings { set; get; }
-        public DbSet<MedicalPKSampling_sample> MPK_Sampling_Samples { set; get; }
+        public DbSet<MedicalPKSamplingsample> MPK_Sampling_Samples { set; get; }
         public DbSet<PatientInfo> patientInfos { set; get; }
 
         public DbSet<PatientInfoExDiagnosisTable> patientInfoExDiagnosisTables { set; get; }
@@ -55,7 +55,7 @@ namespace Medical.Work.Data
 
             modelBuilder.Entity<MedicalPK>().ToTable("PKs");
             modelBuilder.Entity<MedicalPKSampling>().ToTable("PK_Samplings");
-            modelBuilder.Entity<MedicalPKSampling_sample>().ToTable("PK_Sampling_Samples");
+            modelBuilder.Entity<MedicalPKSamplingsample>().ToTable("PK_Sampling_Samples");
             /*
              
                  public DbSet<MedicalPK> MPKs { set; get; }
@@ -66,20 +66,20 @@ namespace Medical.Work.Data
 
          
             modelBuilder.Entity<PatientInfo>().ToTable("PatientInfo");
-            modelBuilder.Entity<MedicalDGK>().ToTable("MedicalDGK");
+            //modelBuilder.Entity<MedicalDGK>().ToTable("MedicalDGK");
             modelBuilder.Entity<Contacts>().ToTable("Contacts");
 
 
 
 
             // modelBuilder.Entity<City>().HasOne(city => city.Province).WithMany(x => x.Cities).HasForeignKey(city => .ProviceId);
-            modelBuilder.Entity<MedicalPKSampling_sample>().HasOne(s => s.medicalPKSampling).WithMany(w => w.medicalPKSamplings).HasForeignKey(h=>h.MedicalPKSamplingID);
-            modelBuilder.Entity<PatientInfoExDiagnosisTable>().HasOne(s => s.Patient).WithMany(w => w.PatientInfoExDiagnosisTable).HasForeignKey(h => h.PatientInfoID);
+            modelBuilder.Entity<MedicalPKSamplingsample>().HasOne(s => s.medicalPKSampling).WithMany(w => w.medicalPKSamplings).HasForeignKey(h=>h.ID);
+            modelBuilder.Entity<PatientInfoExDiagnosisTable>().HasOne(s => s.Summaryofcases).WithMany(w => w.PatientInfoExDiagnosisTable).HasForeignKey(h => h.ID);
 
 
-            modelBuilder.Entity<X_rayImagePaths>().HasOne(s => s.x_RayImaging).WithMany(w => w.ImgUrl).HasForeignKey(h => h.X_rayImagingID).OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<X_raybronchoscopyPaths>().HasOne(s => s.x_Raybronchoscopy).WithMany(w => w.ImgUrl).HasForeignKey(h => h.X_raybronchoscopyID).OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<X_raypathologicalPaths>().HasOne(s => s.x_Raypathological).WithMany(w => w.ImgUrl).HasForeignKey(h => h.X_raypathologicalID).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<X_rayImagePaths>().HasOne(s => s.x_RayImaging).WithMany(w => w.ImgUrl).HasForeignKey(h => h.ID).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<X_raybronchoscopyPaths>().HasOne(s => s.x_Raybronchoscopy).WithMany(w => w.ImgUrl).HasForeignKey(h => h.ID).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<X_raypathologicalPaths>().HasOne(s => s.x_Raypathological).WithMany(w => w.ImgUrl).HasForeignKey(h => h.ID).OnDelete(DeleteBehavior.Cascade);
 
 
 

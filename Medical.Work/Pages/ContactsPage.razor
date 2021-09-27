@@ -61,11 +61,11 @@
                             <tr>
                                 <td>@(i++)</td>
                                 <td>@item.Medicalrecordnumber</td>
-                                <td>@item.UserName</td>
+                                <td>@item.Username</td>
                                 <td>@item.Contactnumber</td>
                                 <td>@item.Emai</td>
                                 <td>@item.Address</td>
-                                <td>@item.CreateTime</td>
+                                <td>@item.Createtime</td>
                                 <td><button class="btn" @onclick="@(s=>OnDelContacts(item.ID))">删除</button></td>
                             </tr>
                         }
@@ -76,7 +76,7 @@
                                 <td>@i</td>
                                 <td>@Telephones[i].department</td>
                                 <td>@Telephones[i].extnum</td>
-                                <td>@Telephones[i].CreateTime</td>
+                                <td>@Telephones[i].Createtime</td>
                                 <td><button class="btn" @onclick="@(s=>DelTelephones(sid))">删除</button></td>
                             </tr>
                         }*@
@@ -113,7 +113,7 @@
         using (var context = ContextFactory.CreateDbContext())
         {
             var uer = authenticationStateTask.Result.User.Identity.Name;
-            contacts =  context.Contacts.AsNoTracking().Where(w => w.AdminName == uer).ToList();
+            contacts =  context.Contacts.AsNoTracking().Where(w => w.Adminname == uer).ToList();
         }
         base.OnInitialized();
     }
@@ -123,7 +123,7 @@
         using (var context = ContextFactory.CreateDbContext())
         {
 
-            contacts = await context.Contacts.AsNoTracking().Where(w => w.AdminName == name).Take(100).ToListAsync();
+            contacts = await context.Contacts.AsNoTracking().Where(w => w.Adminname == name).Take(100).ToListAsync();
         }
     }
 
@@ -153,8 +153,8 @@
 
                // var user =  await _UserManager.GetUserAsync(authenticationStateTask.Result.User);
 
-                _Contacts.AdminName = authenticationStateTask.Result.User.Identity.Name;
-                _Contacts.CreateTime = DateTime.Now;
+                _Contacts.Adminname = authenticationStateTask.Result.User.Identity.Name;
+                _Contacts.Createtime = DateTime.Now;
                 context.Contacts.Add(_Contacts);
                 context.SaveChanges();
                 contacts.Add(_Contacts);
@@ -190,13 +190,13 @@
             contacts.Clear();
             if (Querywhere!=null)
             {
-                contacts =  await context.Contacts.AsNoTracking().Where(w=>w.AdminName== uer).Where(w => w.UserName.Contains(Querywhere) || w.Medicalrecordnumber.Contains(Querywhere)).ToListAsync();
+                contacts =  await context.Contacts.AsNoTracking().Where(w=>w.Adminname== uer).Where(w => w.Username.Contains(Querywhere) || w.Medicalrecordnumber.Contains(Querywhere)).ToListAsync();
 
 
             }
             if(Querywhere == null)
             {
-                contacts = await context.Contacts.AsNoTracking().Where(w => w.AdminName == uer).ToListAsync();
+                contacts = await context.Contacts.AsNoTracking().Where(w => w.Adminname == uer).ToListAsync();
 
             }
 

@@ -13,33 +13,33 @@ namespace Medical.Work.Data.Models
     /// <summary>
     /// 采样信息
     /// </summary>
-    public class MedicalPKSampling
+    public class MedicalPKSampling : BaseDataInterface
     {
 
 
-        [AutoGenerateColumn(Ignore = true)]
-        public int MedicalPKSamplingID { set; get; }
+        //[AutoGenerateColumn(Ignore = true)]
+        //public int MedicalPKSamplingID { set; get; }
 
         [AutoGenerateColumn(Ignore = true)]
         public int MedicalPKID { set; get; }
 
         [AutoGenerateColumn(Ignore = true)]
-        public MedicalPK medicalPK {set;get; }
+        public MedicalPK medicalPK { set; get; }
 
 
-        /// <summary>
-        /// 管理员账号
-        /// </summary>
-        [DisplayName("管理员账号")]
-        [AutoGenerateColumn(Ignore = true)]
-        public string AdminName { set; get; }
+        ///// <summary>
+        ///// 管理员账号
+        ///// </summary>
+        //[DisplayName("管理员账号")]
+        //[AutoGenerateColumn(Ignore = true)]
+        //public string Adminname { set; get; }
 
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        [DisplayName("创建时间")]
-        [AutoGenerateColumn(Ignore = true)]
-        public DateTime CreateTime { set; get; }
+        ///// <summary>
+        ///// 创建时间
+        ///// </summary>
+        //[DisplayName("创建时间")]
+        //[AutoGenerateColumn(Ignore = true)]
+        //public DateTime Createtime { set; get; }
 
         /// <summary>
         /// 标本类型
@@ -81,7 +81,7 @@ namespace Medical.Work.Data.Models
         /// 采血样品详细信息
         /// </summary>
         [AutoGenerateColumn(Ignore = true)]
-        public List<MedicalPKSampling_sample>  medicalPKSamplings { get; set; }
+        public List<MedicalPKSamplingsample> medicalPKSamplings { get; set; }
 
 
     }

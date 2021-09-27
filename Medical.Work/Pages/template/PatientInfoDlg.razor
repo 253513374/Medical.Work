@@ -12,7 +12,7 @@
 
             <BootstrapInput @bind-Value="@patientInfo.Medicalrecordnumber" />
             <BootstrapInput @bind-Value="@patientInfo.Department" />
-            <BootstrapInput @bind-Value="@patientInfo.UserName" />
+            <BootstrapInput @bind-Value="@patientInfo.Username" />
             <Select @bind-Value="@patientInfo.Gender" />
         </Row>
         <Row ItemsPerRow="ItemsPerRow.Six" RowType="RowType.Normal">
@@ -43,28 +43,17 @@
             <BootstrapInput @bind-Value="@patientInfo.SOFA" />
             <BootstrapInput @bind-Value="@patientInfo.APACHEⅡ" />
         </Row>
-        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Three">
+        @*<Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Three">
             <BootstrapInput @bind-Value="@PatientInfoExDiagnosis.Affectedarea" />
             <BootstrapInput @bind-Value="@PatientInfoExDiagnosis.AffectedDiagnosis" />
-        </Row>
+        </Row>*@
 
-        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Three">
-            <Select @bind-Value="@patientInfo.Medication" />
-            <Select @bind-Value="@patientInfo.Pathogenicbacteria" />
-            <Select @bind-Value="@patientInfo.Healingeffect" />
-
-        </Row>
-
-        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.One">
-            <Textarea rows="4" @bind-Value="@patientInfo.Medicalhistorysummary" />
-        </Row>
+     
 
     </ValidateForm>
 
 </div>
 @code {
-
-
 
 
     [CascadingParameter(Name = "BodyContext")]
@@ -80,7 +69,7 @@
 
     private int AGEDiffer { set; get; }
 
-    private PatientInfoExDiagnosisTable PatientInfoExDiagnosis { set; get; } = new();
+  
 
 
     private IEnumerable<SelectedItem> Items { get; set; } = new SelectedItem[]

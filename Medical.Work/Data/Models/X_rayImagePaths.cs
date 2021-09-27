@@ -20,7 +20,7 @@ namespace Medical.Work.Data.Models
 
 
 
-        public int X_rayImagingID { set; get; }
+        public int ID { set; get; }
         public X_rayImaging x_RayImaging { set; get; }
 
         

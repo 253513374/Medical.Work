@@ -12,53 +12,11 @@ namespace Medical.Work.Data.Models
     /// <summary>
     /// 药敏试验检查
     /// </summary>
-    public class MedicalPD_DrugAllergy
+    public class MedicalPD_DrugAllergy : BaseDataInterface
     {
 
-       
-        /// <summary>
-        /// 自增
-        /// </summary>
-        [DisplayName("自增")]
-        [AutoGenerateColumn(Ignore = true)]
-        public int MedicalPD_DrugAllergyID { set; get; }
+    
 
-
-        /// <summary>
-        /// 唯一编码
-        /// </summary>
-        [DisplayName("唯一编码")]
-        [AutoGenerateColumn(Ignore = true)]
-        public string P_Guid { set; get; }
-
-        /// <summary>
-        /// 管理员
-        /// </summary>
-        [DisplayName("管理员")]
-        [AutoGenerateColumn(Ignore = true)]
-        public string AdminName { set; get; }
-
-
-        /// <summary>
-        /// 病历号
-        /// </summary>
-        [NotNull]
-        [DisplayName("病历号")]
-        [AutoGenerateColumn(Ignore = true)]
-        public string Medicalrecordnumber { set; get; }
-
-        /// <summary>
-        /// 患者姓名
-        /// </summary>
-        [NotNull]
-        [DisplayName("患者姓名")]
-        public string UserName { set; get; }
-
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        [DisplayName("创建时间")]
-        public DateTime CreateTime { set; get; }
 
         /// <summary>
         /// 是否做检查

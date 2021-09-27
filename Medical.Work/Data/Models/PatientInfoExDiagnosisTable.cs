@@ -19,9 +19,9 @@ namespace Medical.Work.Data.Models
         public int PatientInfoExDiagnosisTableID { set; get; }
 
         [AutoGenerateColumn(Ignore = true)]
-        public int PatientInfoID { set; get; }
+        public int ID { set; get; }
 
-        public PatientInfo Patient { set; get; }
+        public SummaryOfCases Summaryofcases { set; get; }
         /// <summary>
         /// 感染诊断
         /// </summary>

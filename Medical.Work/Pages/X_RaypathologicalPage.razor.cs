@@ -41,7 +41,7 @@ namespace Medical.Work.Pages
                 // Task.Run(()=> { ); });
                 var obj = new X_raypathological();
                 obj.Medicalrecordnumber = Text;
-                obj.UserName = Name;
+                obj.Username = Name;
                 await OnShowDlg(obj);
             }
             return;
@@ -77,8 +77,8 @@ namespace Medical.Work.Pages
                 {
                     if (raypathological != null)
                     {
-                        raypathological.CreateTime = DateTime.Now;
-                        raypathological.AdminName = authenticationStateTask.Result.User.Identity.Name;
+                        raypathological.Createtime = DateTime.Now;
+                        raypathological.Adminname = authenticationStateTask.Result.User.Identity.Name;
                         context.X_raypathologicals.Add(raypathological);
                         context.SaveChanges();
                         x_Raypathologicals.Add(raypathological);
@@ -97,16 +97,16 @@ namespace Medical.Work.Pages
         {
             using (var context  = ContextFactor.CreateDbContext())
             {
-                var UserName = authenticationStateTask.Result.User.Identity.Name;
+                var Username = authenticationStateTask.Result.User.Identity.Name;
                 DateTime dateTime = DateTime.Now.AddDays(-30);
                 if (Querywhere is  null)
                 {
 
-                    x_Raypathologicals = await context.X_raypathologicals.AsNoTracking().Where(w => w.AdminName == UserName).Take(100).ToListAsync();
+                    x_Raypathologicals = await context.X_raypathologicals.AsNoTracking().Where(w => w.Adminname == Username).Take(100).ToListAsync();
                 }
                 else
                 {
-                    x_Raypathologicals = await context.X_raypathologicals.AsNoTracking().Where(w => w.AdminName == UserName).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.UserName.Contains(Querywhere)).ToListAsync();
+                    x_Raypathologicals = await context.X_raypathologicals.AsNoTracking().Where(w => w.Adminname == Username).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.Username.Contains(Querywhere)).ToListAsync();
 
                 }
             }

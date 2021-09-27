@@ -5,17 +5,18 @@
 
 
 <div style="font-size:24px;font-weight:700" class="w-100 d-flex">
-    <GroupBox Title="药敏试验" style="padding-top:50px;">
+ 
         <div style="font-size:16px;font-weight:500">
             <ValidateForm Model="@medicalPD_DrugAllergy">
                 <Row ItemsPerRow="ItemsPerRow.One">
+                    <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.Medicalrecordnumber"></BootstrapInput>
+                    <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.Username"></BootstrapInput>
                     <Select @bind-Value="@medicalPD_DrugAllergy.TestorisNot"></Select>
                     <DateTimePicker @bind-Value="@medicalPD_DrugAllergy.TestTime"></DateTimePicker>
                     <Select @bind-Value="@medicalPD_DrugAllergy.DrugsName"></Select>
                 </Row>
                 <Row ItemsPerRow="ItemsPerRow.Two">
-                    <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.Medicalrecordnumber"></BootstrapInput>
-                    <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.UserName"></BootstrapInput>
+                   
                     <Select @bind-Value="@medicalPD_DrugAllergy.DrugsensitivityTest"></Select>
                     <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.DrugsensitivityTestOther"></BootstrapInput>
                 </Row>
@@ -27,13 +28,10 @@
                     <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.TMic"></BootstrapInput>
                     <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.AUCMic"></BootstrapInput>
                 </Row>
-                <Row ItemsPerRow="ItemsPerRow.One">
-                   
-
-                </Row>
+          
             </ValidateForm>
         </div>
-    </GroupBox>
+  
 </div>
 
 @code {
@@ -42,7 +40,7 @@
     public object? DrugAllergy { set; get; }
 
 
-    private MedicalPD_DrugAllergy medicalPD_DrugAllergy { set; get; }
+    private MedicalPD_DrugAllergy medicalPD_DrugAllergy { set; get; } = new();
 
 
 
@@ -52,7 +50,11 @@
 
     protected override void OnParametersSet()
     {
-        medicalPD_DrugAllergy = DrugAllergy as MedicalPD_DrugAllergy;
+        if (DrugAllergy is not null)
+        {
+            medicalPD_DrugAllergy = DrugAllergy as MedicalPD_DrugAllergy;
+        }
+
         base.OnParametersSet();
     }
 }

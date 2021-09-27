@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Medical.Work.Pages.template
 {
-    public partial class MedicalPKSampling_sample_Dlg : ComponentBase, IResultDialog
+    public partial class MedicalPKSamplingsampleDlg : ComponentBase, IResultDialog
     {
 
         [CascadingParameter]
@@ -22,7 +22,7 @@ namespace Medical.Work.Pages.template
                 {
                     if (medicalPKSampling.medicalPKSamplings is null) medicalPKSampling.medicalPKSamplings = new();
                     var name = authenticationStateTask.Result.User.Identity.Name;
-                    medicalPKSampling.AdminName = name;
+                    medicalPKSampling.Adminname = name;
                     medicalPKSampling.medicalPKSamplings.AddRange(pKSampling_Samples);
                     await OnEventCallback.InvokeAsync(medicalPKSampling);
                 }

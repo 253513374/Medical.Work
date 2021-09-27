@@ -11,48 +11,13 @@ namespace Medical.Work.Data.Models
     /// <summary>
     /// 药物基因组学
     /// </summary>
-    public class MedicalPG_Pharmacogenomics
+    public class MedicalPG_Pharmacogenomics : BaseDataInterface
     {
 
-        /// <summary>
-        /// ID
-        /// </summary>
-        [DisplayName( "自增")]
-        [AutoGenerateColumn(Ignore = true)]
-        public int ID { set; get; }
+     
 
 
-        /// <summary>
-        /// 维一编码
-        /// </summary>
-        [DisplayName( "维一编码")]
-        [AutoGenerateColumn(Ignore = true)]
-        public string MedicalPGGuid { set; get; }
-        /// <summary>
-        /// 管理员账户
-        /// </summary>
-        [DisplayName("管理员账户")]
-        [AutoGenerateColumn(Ignore = true)]
-        public string AdminName { set; get; }
-
-        /// <summary>
-        /// 创建时间 
-        /// </summary>
-        [DisplayName("创建时间")]
-        public DateTime CreateTime { set; get; }
-
-        /// <summary>
-        /// 患者名称
-        /// </summary>
-        [DisplayName("患者名称")]
-        public string UserName { set; get; }
-
-        /// <summary>
-        /// 病历号
-        /// </summary>
-        [DisplayName("病历号")]
-        public string Medicalrecordnumber { set; get; }
-
+  
         /// <summary>
         /// 基因： 
         /// </summary>

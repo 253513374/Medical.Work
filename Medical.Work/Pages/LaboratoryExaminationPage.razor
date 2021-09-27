@@ -103,7 +103,7 @@
             // Task.Run(()=> { ); });
             var obj = new LaboratoryExamination();
             obj.Medicalrecordnumber = Text;
-            obj.UserName = Name;
+            obj.Username = Name;
             await OnShowDlg(obj);
         }
         return;
@@ -145,8 +145,8 @@
             using (var context = contextFactory.CreateDbContext())
             {
 
-                laboratoryExamination.AdminName = authenticationStateTask.Result.User.Identity.Name;
-                laboratoryExamination.CreateTime = DateTime.Now;
+                laboratoryExamination.Adminname = authenticationStateTask.Result.User.Identity.Name;
+                laboratoryExamination.Createtime = DateTime.Now;
                 context.laboratoryExaminations.Add(laboratoryExamination);
                 context.SaveChanges();
             }
@@ -175,13 +175,13 @@
             if (Querywhere != null)
             {
 
-                laboratoryExaminations = await context.laboratoryExaminations.AsNoTracking().Where(w => w.AdminName == name).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.UserName.Contains(Querywhere)).ToListAsync();
+                laboratoryExaminations = await context.laboratoryExaminations.AsNoTracking().Where(w => w.Adminname == name).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.Username.Contains(Querywhere)).ToListAsync();
 
 
             }
             else
             {
-                laboratoryExaminations = await context.laboratoryExaminations.AsNoTracking().Where(w => w.AdminName == name).ToListAsync();
+                laboratoryExaminations = await context.laboratoryExaminations.AsNoTracking().Where(w => w.Adminname == name).ToListAsync();
 
             }
             StateHasChanged();
@@ -194,7 +194,7 @@
         using (var context = contextFactory.CreateDbContext())
         {
             var name = authenticationStateTask.Result.User.Identity.Name;
-            return await context.laboratoryExaminations.Where(w => w.AdminName == name).Take(100).ToListAsync();
+            return await context.laboratoryExaminations.Where(w => w.Adminname == name).Take(100).ToListAsync();
         }
     }
 

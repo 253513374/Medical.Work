@@ -1,6 +1,6 @@
 ﻿
 
-<h3>MedicalPKSampling_sample_Dlg</h3>
+@*<h3>MedicalPKSamplingsampleDlg</h3>*@
 
 <div class="marginlr">
     <ValidateForm Model="@medicalPKSampling">
@@ -27,7 +27,8 @@
 
     <GroupBox Title="C1-C6">
         <ValidateForm Model="medicalPKSampling_Sample">
-            <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
+            <Row ItemsPerRow="ItemsPerRow.Three" RowType="RowType.Normal">
+
                 <Select @bind-Value="@medicalPKSampling_Sample.SamplingNumber">
                     <Options>
                         <SelectOption Text="C1" Value="1"></SelectOption>
@@ -38,8 +39,10 @@
                         <SelectOption Text="C6" Value="6"></SelectOption>
                         <SelectOption Text="C7" Value="7"></SelectOption>
                     </Options>
-                   
                 </Select>
+                <BootstrapInput @bind-Value="@medicalPKSampling_Sample.Number"></BootstrapInput>
+                <BootstrapInput @bind-Value="@medicalPKSampling_Sample.Samplingname"></BootstrapInput>
+
             </Row>
             <Row ItemsPerRow="ItemsPerRow.Three" RowType="RowType.Normal">
                 <DateTimePicker @bind-Value="@medicalPKSampling_Sample.C1bloodcollectiontime"></DateTimePicker>
@@ -61,7 +64,7 @@
             </Row>
         </ValidateForm>
         <div style="min-height:150px;">
-            <Table TItem="MedicalPKSampling_sample" ShowLoading="true" Items="@pKSampling_Samples" IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"
+            <Table TItem="MedicalPKSamplingsample" ShowLoading="true" Items="@pKSampling_Samples" IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"
                    ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
                    ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
                 <RowButtonTemplate>
@@ -82,9 +85,9 @@
 
 
 
-    public MedicalPKSampling_sample medicalPKSampling_Sample { set; get; } = new();
+    public MedicalPKSamplingsample medicalPKSampling_Sample { set; get; } = new();
 
-    public List<MedicalPKSampling_sample> pKSampling_Samples { set; get; } = new();
+    public List<MedicalPKSamplingsample> pKSampling_Samples { set; get; } = new();
 
     [Parameter]
     public MedicalPKSampling medicalPKSampling { set; get; }
@@ -101,7 +104,7 @@
     private  Task OnBingDrugdosage()
     {
 
-        pKSampling_Samples.Add(new MedicalPKSampling_sample() {
+        pKSampling_Samples.Add(new MedicalPKSamplingsample() {
 
             SamplingNumber =medicalPKSampling_Sample.SamplingNumber,
             C1bloodcollectiontime = medicalPKSampling_Sample.C1bloodcollectiontime,
@@ -114,7 +117,7 @@
         StateHasChanged();
         return Task.CompletedTask;
     }
-    private  Task OnDelPKSampling_sample(MedicalPKSampling_sample _Sample)
+    private  Task OnDelPKSampling_sample(MedicalPKSamplingsample _Sample)
     {
         pKSampling_Samples.Remove(_Sample);
         StateHasChanged();

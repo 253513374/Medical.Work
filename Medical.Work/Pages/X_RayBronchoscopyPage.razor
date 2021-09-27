@@ -88,7 +88,7 @@
                 // Task.Run(()=> { ); });
                 var obj = new X_raybronchoscopy();
                 obj.Medicalrecordnumber = Text;
-                obj.UserName = Name;
+                obj.Username = Name;
                 await OnShowDlg(obj);
             }
             return;// base.OnParametersSetAsync();
@@ -111,15 +111,15 @@
 
         private async Task OnSearch()
         {
-            var UserName = authenticationStateTask.Result.User.Identity.Name;
+            var Username = authenticationStateTask.Result.User.Identity.Name;
             DateTime dateTime = DateTime.Now.AddDays(-30);
             if (Querywhere is null)
             {
-                x_Raybronchoscopies = await context.X_raybronchoscopys.AsNoTracking().Where(w => w.AdminName == UserName).Take(100).ToListAsync();
+                x_Raybronchoscopies = await context.X_raybronchoscopys.AsNoTracking().Where(w => w.Adminname == Username).Take(100).ToListAsync();
             }
             else
             {
-                x_Raybronchoscopies = await context.X_raybronchoscopys.AsNoTracking().Where(w => w.AdminName == UserName).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.UserName.Contains(Querywhere)).ToListAsync();
+                x_Raybronchoscopies = await context.X_raybronchoscopys.AsNoTracking().Where(w => w.Adminname == Username).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.Username.Contains(Querywhere)).ToListAsync();
 
             }
             StateHasChanged();
@@ -160,8 +160,8 @@
                 {
                     if (x_Raybronchoscopy != null)
                     {
-                        x_Raybronchoscopy.CreateTime = DateTime.Now;
-                        x_Raybronchoscopy.AdminName = authenticationStateTask.Result.User.Identity.Name;
+                        x_Raybronchoscopy.Createtime = DateTime.Now;
+                        x_Raybronchoscopy.Adminname = authenticationStateTask.Result.User.Identity.Name;
                         context.X_raybronchoscopys.Add(x_Raybronchoscopy);
                         context.SaveChanges();
                         x_Raybronchoscopies.Add(x_Raybronchoscopy);

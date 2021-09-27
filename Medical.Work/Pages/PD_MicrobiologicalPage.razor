@@ -84,7 +84,7 @@
             // Task.Run(()=> { ); });
             var obj = new MedicalPD_Microbiological();
             obj.Medicalrecordnumber = Text;
-            obj.UserName = Name;
+            obj.Username = Name;
             await OnShowDlg(obj);
         }
         return;
@@ -106,15 +106,15 @@
     {
         using (var context = contextFactory.CreateDbContext())
         {
-            var adminname = authenticationStateTask.Result.User.Identity.Name;
+            var Adminname = authenticationStateTask.Result.User.Identity.Name;
             if (Querywhere is not null)
             {
-                pD_Microbiologicals = await context.MPD_Microbiologicals.AsNoTracking().Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.UserName.Contains(Querywhere)).ToListAsync();
+                pD_Microbiologicals = await context.MPD_Microbiologicals.AsNoTracking().Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.Username.Contains(Querywhere)).ToListAsync();
 
             }
             else
             {
-                pD_Microbiologicals = await context.MPD_Microbiologicals.AsNoTracking().Where(w => w.AdminName == adminname).Take(100).ToListAsync();
+                pD_Microbiologicals = await context.MPD_Microbiologicals.AsNoTracking().Where(w => w.Adminname == Adminname).Take(100).ToListAsync();
             }
         }
         StateHasChanged();
@@ -154,8 +154,8 @@
             {
                 if (pD_Microbiological != null)
                 {
-                    pD_Microbiological.CreateTime = DateTime.Now;
-                    pD_Microbiological.AdminName = authenticationStateTask.Result.User.Identity.Name;
+                    pD_Microbiological.Createtime = DateTime.Now;
+                    pD_Microbiological.Adminname = authenticationStateTask.Result.User.Identity.Name;
                     context.MPD_Microbiologicals.Add(pD_Microbiological);
                     context.SaveChanges();
                     pD_Microbiologicals.Add(pD_Microbiological);

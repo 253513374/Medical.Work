@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Medical.Work.Data.Models
 {
-    public class MedicalPKSampling_sample
+    public class MedicalPKSamplingsample
     {
 
         [AutoGenerateColumn(Ignore = true)]
@@ -18,7 +18,7 @@ namespace Medical.Work.Data.Models
 
 
         [AutoGenerateColumn(Ignore = true)]
-        public int MedicalPKSamplingID { get; set; }
+        public int ID { get; set; }
 
         [AutoGenerateColumn(Ignore = true)]
         public MedicalPKSampling medicalPKSampling { get; set; }
@@ -26,8 +26,18 @@ namespace Medical.Work.Data.Models
         /// <summary>
         /// 样品编号
         /// </summary>
-        [DisplayName("样品编号")]
+        [DisplayName("采样点")]
         public string SamplingNumber { get; set; }
+        /// <summary>
+        /// 样品编号
+        /// </summary>
+        [DisplayName("编号")]
+        public string Number { get; set; }
+        /// <summary>
+        /// 抽血护士
+        /// </summary>
+        [DisplayName("抽血护士")]
+        public string Samplingname { get; set; }
 
         /// <summary>
         /// C1采血时间（TIME，hh:mm）

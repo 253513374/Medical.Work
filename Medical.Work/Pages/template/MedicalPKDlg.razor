@@ -3,9 +3,17 @@
 <h3>MedicalPKDlg</h3>
 
 <ValidateForm Model="@medicalPK">
-    <Row ItemsPerRow=" ItemsPerRow.Two">
+
+    <BootstrapInput @bind-Value="medicalPK.Username"></BootstrapInput>
+    <BootstrapInput @bind-Value="medicalPK.Medicalrecordnumber"></BootstrapInput>
+    <BootstrapInput @bind-Value="medicalPK.MedicalPKName"></BootstrapInput>
+
+    <Row ItemsPerRow=" ItemsPerRow.Four">
         <BootstrapInput @bind-Value="medicalPK.DrugsNmae"></BootstrapInput>
-        <BootstrapInput @bind-Value="medicalPK.MedicalPKName"></BootstrapInput>
+        <BootstrapInput @bind-Value="@medicalPK.DrugsNmae2"> </BootstrapInput>
+        <BootstrapInput @bind-Value="@medicalPK.DrugSpecifications"> </BootstrapInput>
+        <Select @bind-Value="@medicalPK.Manufacturertype"></Select>
+
 
     </Row>
     <Row ItemsPerRow=" ItemsPerRow.Two">
@@ -15,23 +23,17 @@
 
     </Row>
     <Row ItemsPerRow=" ItemsPerRow.Four">
-        <BootstrapInput @bind-Value="@medicalPK.DrugsNmae2"> </BootstrapInput>
+
         <BootstrapInput @bind-Value="@medicalPK.Drugdosage"> </BootstrapInput>
         <Select @bind-Value="@medicalPK.DrugdosageUnit"> </Select>
 
-        <BootstrapInput @bind-Value="@medicalPK.DrugSpecifications"> </BootstrapInput>
-        <Select @bind-Value="@medicalPK.Manufacturertype"></Select>
-
-
-
-        <BootstrapInput @bind-Value="@medicalPK.DrugdosageRoute"> </BootstrapInput>
         <Select @bind-Value="@medicalPK.DrugNCount"> </Select>
 
         <Select @bind-Value="@medicalPK.DrugNCountDuration"> </Select>
+        <BootstrapInput @bind-Value="@medicalPK.DrugdosageRoute"> </BootstrapInput>
         <BootstrapInput @bind-Value="@medicalPK.DrugSolvent"> </BootstrapInput>
+
         <BootstrapInput @bind-Value="@medicalPK.SolventToDosage"> </BootstrapInput>
-
-
         <BootstrapInput @bind-Value="@medicalPK.AMTsingledose"> </BootstrapInput>
 
     </Row>

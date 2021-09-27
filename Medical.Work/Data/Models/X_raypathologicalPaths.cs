@@ -18,7 +18,7 @@ namespace Medical.Work.Data.Models
 
 
 
-        public int X_raypathologicalID { set; get; }
+        public int ID { set; get; }
         public X_raypathological  x_Raypathological { set; get; }
     }
 }

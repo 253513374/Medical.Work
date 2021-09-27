@@ -79,7 +79,7 @@
             // Task.Run(()=> { ); });
             var obj = new MedicalPD_DrugAllergy();
             obj.Medicalrecordnumber = Text;
-            obj.UserName = Name;
+            obj.Username = Name;
             await OnShowDlg(obj);
         }
         return;
@@ -99,15 +99,15 @@
     {
         using (var context = contextFactory.CreateDbContext())
         {
-            var adminname = authenticationStateTask.Result.User.Identity.Name;
+            var Adminname = authenticationStateTask.Result.User.Identity.Name;
             if (Querywhere is not null)
             {
-                pD_DrugAllergies = await context.MPD_Drugs.AsNoTracking().Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.UserName.Contains(Querywhere)).ToListAsync();
+                pD_DrugAllergies = await context.MPD_Drugs.AsNoTracking().Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.Username.Contains(Querywhere)).ToListAsync();
 
             }
             else
             {
-                pD_DrugAllergies = await context.MPD_Drugs.AsNoTracking().Where(w => w.AdminName == adminname).Take(100).ToListAsync();
+                pD_DrugAllergies = await context.MPD_Drugs.AsNoTracking().Where(w => w.Adminname == Adminname).Take(100).ToListAsync();
             }
         }
         StateHasChanged();
@@ -147,8 +147,8 @@
             {
                 if (pD_DrugAllergie != null)
                 {
-                    pD_DrugAllergie.CreateTime = DateTime.Now;
-                    pD_DrugAllergie.AdminName = authenticationStateTask.Result.User.Identity.Name;
+                    pD_DrugAllergie.Createtime = DateTime.Now;
+                    pD_DrugAllergie.Adminname = authenticationStateTask.Result.User.Identity.Name;
                     context.MPD_Drugs.Add(pD_DrugAllergie);
                     context.SaveChanges();
                     pD_DrugAllergies.Add(pD_DrugAllergie);

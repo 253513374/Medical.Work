@@ -39,7 +39,7 @@
     <div class=" col-10 col-sm-10 col-lg-10 col-xl-10 row d-flex justify-content-center">
         <div class="jumbotron" id="anchor1">
             @*style="background-color:darkgray"*@
-            <h1 class="display-4">@patientInfo.UserName</h1>
+            <h1 class="display-4">@patientInfo.Username</h1>
 
 
             <div class="lead">
@@ -74,23 +74,23 @@
                         <Display ShowLabel="true" @bind-Value="@patientInfo.GCS" />
                         <Display ShowLabel="true" @bind-Value="@patientInfo.SOFA" />
                         <Display ShowLabel="true" @bind-Value="@patientInfo.APACHEⅡ" />
-                        <Display ShowLabel="true" @bind-Value="@patientInfo.Medication" />
+                        @*<Display ShowLabel="true" @bind-Value="@patientInfo.Medication" />*@
                     </Row>
-                    <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Three">
+                    @*<Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Three">
                         <Display ShowLabel="true" @bind-Value="@patientInfo.Pathogenicbacteria" />
                         <Display ShowLabel="true" @bind-Value="@patientInfo.Healingeffect" />
-                    </Row>
+                    </Row>*@
                     <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Six">
-                        <Row RowType="RowType.Normal" ColSpan="5">
+                        @*<Row RowType="RowType.Normal" ColSpan="5">
                             <Textarea IsDisabled="true" rows="3" @bind-Value="@patientInfo.Medicalhistorysummary" />
-                        </Row>
+                        </Row>*@
                         <a class="btn btn-primary btn-lg" href="" role="button">其他入院记录信息</a>
                     </Row>
                 </ValidateForm>
 
             </div>
             <hr class="my-4">
-            <p>系统档案录入时间：@patientInfo.CreateTime</p>
+            <p>系统档案录入时间：@patientInfo.Createtime</p>
         </div>
 
 
@@ -133,7 +133,7 @@
                             </GroupBox>
                         }
                     }*@
-                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.Createtime</small></p></div>
                         </CardBody>
                     </Card>
                 </BodyTemplate>
@@ -184,7 +184,7 @@
                             </GroupBox>
                         }
                     }*@
-                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.Createtime</small></p></div>
                         </CardBody>
                     </Card>
                 </BodyTemplate>
@@ -234,7 +234,7 @@
                             </GroupBox>
                         }
                     }*@
-                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.Createtime</small></p></div>
                         </CardBody>
                     </Card>
                 </BodyTemplate>
@@ -283,7 +283,7 @@
                             </GroupBox>
                         }
                     }*@
-                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.Createtime</small></p></div>
                         </CardBody>
                     </Card>
                 </BodyTemplate>
@@ -348,7 +348,7 @@
                             </GroupBox>
                         }
                     }*@
-                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.Createtime</small></p></div>
                         </CardBody>
                     </Card>
                 </BodyTemplate>
@@ -393,7 +393,7 @@
 
                                 </Row>
 
-                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.Createtime</small></p></div>
                             </CardBody>
                         </Card>
                     </BodyTemplate>
@@ -438,7 +438,7 @@
 
                                 </Row>
 
-                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                                <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.Createtime</small></p></div>
                             </CardBody>
                         </Card>
                     </BodyTemplate>
@@ -482,7 +482,7 @@
 
                             </Row>
 
-                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.Createtime</small></p></div>
                         </CardBody>
                     </Card>
                 </BodyTemplate>
@@ -518,7 +518,7 @@
                                 <div>血清肌酐值(Scr)μmol/L： @context.Scr</div>
                             </Row>
 
-                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.CreateTime</small></p></div>
+                            <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.Createtime</small></p></div>
                         </CardBody>
                     </Card>
                 </BodyTemplate>
@@ -612,17 +612,17 @@
         {
             var name = authenticationStateTask.Result.User.Identity.Name;
 
-            PD_Microbiologicals = await context.MPD_Microbiologicals.AsNoTracking().Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).ToListAsync();
-            PD_DrugAllergies = await context.MPD_Drugs.Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
-            PG_PathogenGenes = await context.MPG_PathogenGenes.Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
-            PG_Pharmacogenomics = await context.MPG_Pharmacogenomics.Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
-            medicalPKs = await context.MPKs.Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
+            PD_Microbiologicals = await context.MPD_Microbiologicals.AsNoTracking().Where(w => w.Adminname == name).Where(f => f.Medicalrecordnumber == number).ToListAsync();
+            PD_DrugAllergies = await context.MPD_Drugs.Where(w => w.Adminname == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
+            PG_PathogenGenes = await context.MPG_PathogenGenes.Where(w => w.Adminname == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
+            PG_Pharmacogenomics = await context.MPG_Pharmacogenomics.Where(w => w.Adminname == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
+            medicalPKs = await context.MPKs.Where(w => w.Adminname == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
 
-            X_Raybronchoscopies = await context.X_raybronchoscopys.Include(i => i.ImgUrl).Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
-            X_RayImagings = await context.X_rayImagings.Include(i => i.ImgUrl).Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
-            X_Raypathologicals = await context.X_raypathologicals.Include(i => i.ImgUrl).Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
+            X_Raybronchoscopies = await context.X_raybronchoscopys.Include(i => i.ImgUrl).Where(w => w.Adminname == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
+            X_RayImagings = await context.X_rayImagings.Include(i => i.ImgUrl).Where(w => w.Adminname == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
+            X_Raypathologicals = await context.X_raypathologicals.Include(i => i.ImgUrl).Where(w => w.Adminname == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
 
-            LaboratoryExaminations = await context.laboratoryExaminations.Where(w => w.AdminName == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
+            LaboratoryExaminations = await context.laboratoryExaminations.Where(w => w.Adminname == name).Where(f => f.Medicalrecordnumber == number).AsNoTracking().ToListAsync();
         }
 
     }
@@ -645,7 +645,7 @@
     private async Task NavigateEvent(PatientInfo patient,string url)
     {
 
-        var nav = $"{url}/{patient.Medicalrecordnumber}/{patient.UserName}";
+        var nav = $"{url}/{patient.Medicalrecordnumber}/{patient.Username}";
         navigationManager.NavigateTo(nav);
         return;
     }

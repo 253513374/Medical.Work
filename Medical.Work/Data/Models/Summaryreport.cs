@@ -11,21 +11,13 @@ namespace Medical.Work.Data.Models
     /// <summary>
     /// 药学监护报告
     /// </summary>
-    public class Summaryreport
+    public class Summaryreport : BaseDataInterface
     {
 
 
-        [AutoGenerateColumn(Ignore = true)]
-        public int ID { set; get; }
+    
 
-        public DateTime Cretetime { set; get; }
-
-
-        /// <summary>
-        /// 管理员账号
-        /// </summary>
-        [AutoGenerateColumn(Ignore = true)]
-        public string Amdinname { set; get; }
+    
 
 
         /// <summary>
@@ -35,18 +27,7 @@ namespace Medical.Work.Data.Models
         public string Summaryreportclass { set; get; }
 
 
-        /// <summary>
-        /// 患者名称
-        /// </summary>
-        [DisplayName("患者名称")]
-        public string UserName { set; get; }
-
-        /// <summary>
-        /// 病历号
-        /// </summary>
-        [DisplayName("病历号")]
-        public string Medicalrecordnumber { set; get; }
-
+      
         /// <summary>
         /// 检查日期
         /// </summary>

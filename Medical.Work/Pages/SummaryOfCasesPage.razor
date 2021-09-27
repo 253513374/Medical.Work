@@ -1,0 +1,31 @@
+﻿
+
+
+@page "/SummaryOfCasesPage"
+
+
+<div class=" d-flex  align-items-center">
+    <ValidateForm Model="@summaryOfCases">
+
+        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.One">
+            <BootstrapInput @bind-Value="@summaryOfCases.Username" />
+            <BootstrapInput @bind-Value="@summaryOfCases.Medicalrecordnumber" />
+        </Row>
+        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Three">
+            <Select @bind-Value="@summaryOfCases.Medication" />
+            <Select @bind-Value="@summaryOfCases.Pathogenicbacteria" />
+            <Select @bind-Value="@summaryOfCases.Healingeffect" />
+
+        </Row>
+
+        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.One">
+            <Textarea rows="6" @bind-Value="@summaryOfCases.Medicalhistorysummary" />
+        </Row>
+    </ValidateForm>
+</div>
+
+
+    @code {
+
+        private SummaryOfCases summaryOfCases { set; get; } = new();
+    }
