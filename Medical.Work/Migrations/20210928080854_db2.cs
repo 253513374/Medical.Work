@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Medical.Work.Migrations
 {
-    public partial class db1 : Migration
+    public partial class db2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -87,8 +87,10 @@ namespace Medical.Work.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Department = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Gender = table.Column<byte>(type: "tinyint", nullable: false),
-                    AGE = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    BW = table.Column<int>(type: "int", nullable: false),
+                    AGE = table.Column<int>(type: "int", nullable: true),
+                    MonthAGE = table.Column<int>(type: "int", nullable: true),
+                    DayAGE = table.Column<int>(type: "int", nullable: true),
+                    BW = table.Column<double>(type: "float", nullable: false),
                     BWWeight = table.Column<int>(type: "int", nullable: false),
                     IsBWType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HEI = table.Column<int>(type: "int", nullable: false),
@@ -103,10 +105,6 @@ namespace Medical.Work.Migrations
                     APACHEⅡ = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Admissiontime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Dischargetime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Medicalhistorysummary = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Medication = table.Column<int>(type: "int", nullable: true),
-                    Pathogenicbacteria = table.Column<int>(type: "int", nullable: true),
-                    Healingeffect = table.Column<int>(type: "int", nullable: true),
                     LaboratoryExaminationID = table.Column<int>(type: "int", nullable: false),
                     Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Medicalrecordnumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -252,6 +250,28 @@ namespace Medical.Work.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SummaryOfCases",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Medicalhistorysummary = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Medication = table.Column<int>(type: "int", nullable: true),
+                    Pathogenicbacteria = table.Column<int>(type: "int", nullable: true),
+                    Healingeffect = table.Column<int>(type: "int", nullable: true),
+                    LaboratoryExaminationID = table.Column<int>(type: "int", nullable: false),
+                    Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Medicalrecordnumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Guid = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Createtime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SummaryOfCases", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Summaryreports",
                 columns: table => new
                 {
@@ -341,26 +361,6 @@ namespace Medical.Work.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "patientInfoExDiagnosisTables",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false),
-                    PatientInfoExDiagnosisTableID = table.Column<int>(type: "int", nullable: false),
-                    AffectedDiagnosis = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Affectedarea = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_patientInfoExDiagnosisTables", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_patientInfoExDiagnosisTables_PatientInfo_ID",
-                        column: x => x.ID,
-                        principalTable: "PatientInfo",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PK_Samplings",
                 columns: table => new
                 {
@@ -387,6 +387,26 @@ namespace Medical.Work.Migrations
                         name: "FK_PK_Samplings_PKs_MedicalPKID",
                         column: x => x.MedicalPKID,
                         principalTable: "PKs",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "patientInfoExDiagnosisTables",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false),
+                    PatientInfoExDiagnosisTableID = table.Column<int>(type: "int", nullable: false),
+                    AffectedDiagnosis = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Affectedarea = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_patientInfoExDiagnosisTables", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_patientInfoExDiagnosisTables_SummaryOfCases_ID",
+                        column: x => x.ID,
+                        principalTable: "SummaryOfCases",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -468,6 +488,7 @@ namespace Medical.Work.Migrations
                     C1Concentration = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     C1ConcentrationUnit = table.Column<int>(type: "int", nullable: false),
                     C1ConcentrationStandard = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    C1ConcentrationStandardUnit = table.Column<int>(type: "int", nullable: false),
                     C1ConcentrationMethod = table.Column<int>(type: "int", nullable: true),
                     Other = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     C1Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -503,6 +524,9 @@ namespace Medical.Work.Migrations
                 name: "LaboratoryExamination");
 
             migrationBuilder.DropTable(
+                name: "PatientInfo");
+
+            migrationBuilder.DropTable(
                 name: "patientInfoExDiagnosisTables");
 
             migrationBuilder.DropTable(
@@ -533,7 +557,7 @@ namespace Medical.Work.Migrations
                 name: "x_RaypathologicalPaths");
 
             migrationBuilder.DropTable(
-                name: "PatientInfo");
+                name: "SummaryOfCases");
 
             migrationBuilder.DropTable(
                 name: "PK_Samplings");

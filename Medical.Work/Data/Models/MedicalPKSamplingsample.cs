@@ -64,6 +64,12 @@ namespace Medical.Work.Data.Models
         public string C1ConcentrationStandard { set; get; }
 
         /// <summary>
+        /// C1浓度单位
+        /// </summary>
+        [DisplayName("浓度单位")]
+        public WeightEnum C1ConcentrationStandardUnit { set; get; } = WeightEnum.mg;
+
+        /// <summary>
         /// C1浓度方法
         /// </summary>
         [DisplayName("浓度方法")]

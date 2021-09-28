@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Medical.Work.Migrations
 {
     [DbContext(typeof(MedicalDbContext))]
-    [Migration("20210927012716_db1")]
-    partial class db1
+    [Migration("20210928080854_db2")]
+    partial class db2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -518,7 +518,7 @@ namespace Medical.Work.Migrations
                     b.ToTable("PK_Samplings");
                 });
 
-            modelBuilder.Entity("Medical.Work.Data.Models.MedicalPKSampling_sample", b =>
+            modelBuilder.Entity("Medical.Work.Data.Models.MedicalPKSamplingsample", b =>
                 {
                     b.Property<int>("ID")
                         .HasColumnType("int");
@@ -531,6 +531,9 @@ namespace Medical.Work.Migrations
 
                     b.Property<string>("C1ConcentrationStandard")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("C1ConcentrationStandardUnit")
+                        .HasColumnType("int");
 
                     b.Property<int>("C1ConcentrationUnit")
                         .HasColumnType("int");
@@ -568,8 +571,8 @@ namespace Medical.Work.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("AGE")
-                        .HasColumnType("datetime2");
+                    b.Property<int?>("AGE")
+                        .HasColumnType("int");
 
                     b.Property<string>("APACHEⅡ")
                         .HasColumnType("nvarchar(max)");
@@ -589,14 +592,17 @@ namespace Medical.Work.Migrations
                     b.Property<string>("BSA")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("BW")
-                        .HasColumnType("int");
+                    b.Property<double>("BW")
+                        .HasColumnType("float");
 
                     b.Property<int>("BWWeight")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Createtime")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("DayAGE")
+                        .HasColumnType("int");
 
                     b.Property<string>("Department")
                         .HasColumnType("nvarchar(max)");
@@ -616,29 +622,20 @@ namespace Medical.Work.Migrations
                     b.Property<int>("HEI")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Healingeffect")
-                        .HasColumnType("int");
-
                     b.Property<string>("IsBWType")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("LaboratoryExaminationID")
                         .HasColumnType("int");
 
-                    b.Property<string>("Medicalhistorysummary")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Medicalrecordnumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Medication")
+                    b.Property<int?>("MonthAGE")
                         .HasColumnType("int");
 
                     b.Property<string>("Nationality")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Pathogenicbacteria")
-                        .HasColumnType("int");
 
                     b.Property<string>("SOFA")
                         .HasColumnType("nvarchar(max)");
@@ -674,6 +671,48 @@ namespace Medical.Work.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("patientInfoExDiagnosisTables");
+                });
+
+            modelBuilder.Entity("Medical.Work.Data.Models.SummaryOfCases", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Adminname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Createtime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Guid")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Healingeffect")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LaboratoryExaminationID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Medicalhistorysummary")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Medicalrecordnumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Medication")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Pathogenicbacteria")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("SummaryOfCases");
                 });
 
             modelBuilder.Entity("Medical.Work.Data.Models.Summaryreport", b =>
@@ -928,7 +967,7 @@ namespace Medical.Work.Migrations
                     b.Navigation("medicalPK");
                 });
 
-            modelBuilder.Entity("Medical.Work.Data.Models.MedicalPKSampling_sample", b =>
+            modelBuilder.Entity("Medical.Work.Data.Models.MedicalPKSamplingsample", b =>
                 {
                     b.HasOne("Medical.Work.Data.Models.MedicalPKSampling", "medicalPKSampling")
                         .WithMany("medicalPKSamplings")
@@ -941,13 +980,13 @@ namespace Medical.Work.Migrations
 
             modelBuilder.Entity("Medical.Work.Data.Models.PatientInfoExDiagnosisTable", b =>
                 {
-                    b.HasOne("Medical.Work.Data.Models.PatientInfo", "Patient")
+                    b.HasOne("Medical.Work.Data.Models.SummaryOfCases", "Summaryofcases")
                         .WithMany("PatientInfoExDiagnosisTable")
                         .HasForeignKey("ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Patient");
+                    b.Navigation("Summaryofcases");
                 });
 
             modelBuilder.Entity("Medical.Work.Data.Models.X_rayImagePaths", b =>
@@ -993,7 +1032,7 @@ namespace Medical.Work.Migrations
                     b.Navigation("medicalPKSamplings");
                 });
 
-            modelBuilder.Entity("Medical.Work.Data.Models.PatientInfo", b =>
+            modelBuilder.Entity("Medical.Work.Data.Models.SummaryOfCases", b =>
                 {
                     b.Navigation("PatientInfoExDiagnosisTable");
                 });

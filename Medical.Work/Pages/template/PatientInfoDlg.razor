@@ -8,48 +8,114 @@
 </style>
 <div>
     <ValidateForm Model="@patientInfo">
-        <Row ItemsPerRow="ItemsPerRow.Four" RowType="RowType.Normal">
+
+        <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Inline">
 
             <BootstrapInput @bind-Value="@patientInfo.Medicalrecordnumber" />
             <BootstrapInput @bind-Value="@patientInfo.Department" />
             <BootstrapInput @bind-Value="@patientInfo.Username" />
             <Select @bind-Value="@patientInfo.Gender" />
-        </Row>
-        <Row ItemsPerRow="ItemsPerRow.Six" RowType="RowType.Normal">
-            <DateTimePicker TValue="DateTime?" Value="@patientInfo.AGE" ValueChanged="DateTimeValueChanged" DisplayText="出生日期" ShowLabel="true" Placement="Placement.Auto" />
-            <BootstrapInput @bind-Value="@AGEDiffer" IsDisabled="true" DisplayText="年龄" ShowLabel="true"></BootstrapInput>
 
-            <BootstrapInput @bind-Value="@patientInfo.BW" />
-            <Select @bind-Value="@patientInfo.BWWeight"  />
-            <Radio Items="@Items" OnStateChanged="@OnItemChanged"></Radio>
-        </Row>
-        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Three">
-            <BootstrapInput @bind-Value="@patientInfo.HEI" />
-            <BootstrapInput @bind-Value="@patientInfo.BMI"  @onclick="OnGetBMI" />
-            <BootstrapInput @bind-Value="@patientInfo.BSA"  @onclick="OnGetBsa"/>
-        </Row>
-        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Two">
-            <DateTimePicker @bind-Value="@patientInfo.Transplantationtime" ShowLabel="true" Placement="Placement.Auto" />
-            <Select @bind-Value="@patientInfo.Transplantationtype" />
+          
+
+         
         </Row>
 
-        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Three">
-            <DateTimePicker @bind-Value="@patientInfo.Admissiontime" ShowLabel="true" Placement="Placement.Auto" />
-            <DateTimePicker @bind-Value="@patientInfo.Dischargetime" ShowLabel="true" Placement="Placement.Auto" />
-        </Row>
-        <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Three">
+            <div class=" row form-inline" style="margin: 15px;" >
+                <div class="col-6 row" style="padding-right:25px;">
+                    <div class="col-6" style="padding:initial">
 
-            <BootstrapInput @bind-Value="@patientInfo.GCS" />
-            <BootstrapInput @bind-Value="@patientInfo.SOFA" />
-            <BootstrapInput @bind-Value="@patientInfo.APACHEⅡ" />
-        </Row>
-        @*<Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Three">
-            <BootstrapInput @bind-Value="@PatientInfoExDiagnosis.Affectedarea" />
-            <BootstrapInput @bind-Value="@PatientInfoExDiagnosis.AffectedDiagnosis" />
-        </Row>*@
+                        <div class="input-group flex-nowrap">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="addon-wrapping">年龄(岁)</span>
+                            </div>
+                            <input type="text" class="form-control"  @bind-value="@patientInfo.AGE" placeholder="" aria-label="" aria-describedby="addon-wrapping">
+                        </div>
 
+                      
+                    </div>
+                    <div class="col-3" style="padding:initial">
+
+                        <div class="input-group flex-nowrap">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="addon-wrapping">月</span>
+                            </div>
+                            <input type="text" class="form-control"  @bind-value="@patientInfo.MonthAGE" placeholder="" aria-label="" aria-describedby="addon-wrapping">
+                        </div>
+
+                      
+                    </div>
+                    <div class="col-3" style="padding:initial">
+
+                        <div class="input-group flex-nowrap">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="addon-wrapping">日</span>
+                            </div>
+                            <input type="text" class="form-control"  @bind-value="@patientInfo.DayAGE" placeholder="" aria-label="" aria-describedby="addon-wrapping">
+                        </div>
+
+                      
+                    </div>
+                </div>
+
+                <div class="col-6 row form-inline" style="padding-left:55px;">
+                    <div class="col-6 form-inline" style="padding:initial">
+                        @*<BootstrapInput @bind-Value="@patientInfo.BW" />*@
+                        <div class="input-group flex-nowrap">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="addon-wrapping">体重</span>
+                            </div>
+                            <input type="text" class="form-control"  @bind-value="@patientInfo.BW" placeholder="" aria-label="" aria-describedby="addon-wrapping">
+                        </div>
+                    </div>
+                    <div class="col-3" style="padding:initial">
+                        <Select @bind-Value="@patientInfo.BWWeight" ShowLabel="false" />
+                    </div>
+                    <div class="col-3" style="padding:initial">
+                        <Select Items="@Items" Value="@patientInfo.IsBWType" TValue="String" ShowLabel="false"></Select>
+                    </div>
+                   
+                   
+                  
+                </div>
+            </div>
+
+
+           
+       
      
+        <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Inline">
+            <Row  ItemsPerRow="ItemsPerRow.Three" RowType="RowType.Normal">
+              
+            </Row>
+            <Row  ItemsPerRow="ItemsPerRow.Three" RowType="RowType.Normal">
+             
+            </Row>
+        </Row>
+    
 
+
+        <Row RowType="RowType.Inline" ItemsPerRow="ItemsPerRow.Four">
+            <Row ColSpan="4" ItemsPerRow="ItemsPerRow.Three">
+                <BootstrapInput @bind-Value="@patientInfo.HEI" />
+                <BootstrapInput @bind-Value="@patientInfo.BMI" @onclick="OnGetBMI" />
+                <BootstrapInput @bind-Value="@patientInfo.BSA" @onclick="OnGetBsa" />
+            </Row>
+            <Row ColSpan="4" ItemsPerRow="ItemsPerRow.Two">
+                <DateTimePicker @bind-Value="@patientInfo.Transplantationtime" ShowLabel="true" Placement="Placement.Auto" />
+                <Select @bind-Value="@patientInfo.Transplantationtype" />
+            </Row>
+            <Row ColSpan="4" ItemsPerRow="ItemsPerRow.Two">
+                <DateTimePicker @bind-Value="@patientInfo.Admissiontime" ShowLabel="true" Placement="Placement.Auto" />
+                <DateTimePicker @bind-Value="@patientInfo.Dischargetime" ShowLabel="true" Placement="Placement.Auto" />
+            </Row>
+            <Row ColSpan="4" ItemsPerRow="ItemsPerRow.Three">
+                <BootstrapInput @bind-Value="@patientInfo.GCS" />
+                <BootstrapInput @bind-Value="@patientInfo.SOFA" />
+                <BootstrapInput @bind-Value="@patientInfo.APACHEⅡ" />
+            </Row>
+
+        </Row>
     </ValidateForm>
 
 </div>
@@ -74,6 +140,7 @@
 
     private IEnumerable<SelectedItem> Items { get; set; } = new SelectedItem[]
        {
+          
             new SelectedItem("1", "估算") ,
             new SelectedItem("2", "称重"){ Active = true }
        };
@@ -94,8 +161,8 @@
     }
     private Task DateTimeValueChanged(DateTime? d)
     {
-        patientInfo.AGE = d.Value;
-        AGEDiffer = DateTime.Now.Year - d.Value.Year;
+        //patientInfo.AGE = d.Value;
+       // AGEDiffer = DateTime.Now.Year - d.Value.Year;
         return Task.CompletedTask;
     }
 

@@ -25,22 +25,33 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [DisplayName( "性别")]
         public SexEnum Gender { set; get; }
-
+       
         /// <summary>
         /// 年龄（AGE，year）
         /// </summary>
-        [DisplayName( "年龄")]
-        public DateTime? AGE { set; get; }
+      
+        [Display(Name = "年龄")]
+        public int AGE { set; get; }
+        /// <summary>
+        /// 年龄（AGE，year）
+        /// </summary>
+        [Display(Name = "月")]
+        public int MonthAGE { set; get; }
+        /// <summary>
+        /// 年龄（AGE，year）
+        /// </summary>
+        [Display(Name = "日")]
+        public int DayAGE { set; get; }
 
         /// <summary>
         /// 体重（BW，kg）
         /// </summary>
-        [DisplayName( "体重kg")]
-        public int BW { set; get; }
+        [DisplayName( "体重")]
+        public double BW { set; get; }
         /// <summary>
         /// 体重单位（BW，kg）
         /// </summary>
-        [DisplayName("体重单位")]
+        [DisplayName("")]
         public WeightEnum BWWeight { set; get; } = WeightEnum.Kg;
 
 

@@ -23,27 +23,27 @@ namespace Medical.Work.Data.Models
         public int MedicalPKID { set; get; }
 
         /// <summary>
-        [AutoGenerateColumn(Ignore = true)]
-        public string AdminName { set; get; }
+        //[AutoGenerateColumn(Ignore = true)]
+        //public string AdminName { set; get; }
 
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        [DisplayName("创建时间")]
-        public DateTime CreateTime { set; get; }
-        /// <summary>
-        /// 病历号
-        /// </summary>
-        [NotNull]
-        [DisplayName("病历号")]
-        public string Medicalrecordnumber { set; get; }
+        ///// <summary>
+        ///// 创建时间
+        ///// </summary>
+        //[DisplayName("创建时间")]
+        //public DateTime CreateTime { set; get; }
+        ///// <summary>
+        ///// 病历号
+        ///// </summary>
+        //[NotNull]
+        //[DisplayName("病历号")]
+        //public string Medicalrecordnumber { set; get; }
 
-        /// <summary>
-        /// 患者姓名
-        /// </summary>
-        [NotNull]
-        [DisplayName("患者姓名")]
-        public string UserName { set; get; }
+        ///// <summary>
+        ///// 患者姓名
+        ///// </summary>
+        //[NotNull]
+        //[DisplayName("患者姓名")]
+        //public string UserName { set; get; }
 
 
         /// <summary>
