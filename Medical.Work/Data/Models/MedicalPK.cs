@@ -19,8 +19,8 @@ namespace Medical.Work.Data.Models
         /*药品通用名，溶媒（如0.9% 氯化钠100ml）,单次剂量，给药频率，给药途径，开始时间，截止时间，公斤体质量日剂量，厂家类型*/
 
 
-        [AutoGenerateColumn(Ignore = true)]
-        public int MedicalPKID { set; get; }
+        //[AutoGenerateColumn(Ignore = true)]
+        //public int MedicalPKID { set; get; }
 
         /// <summary>
         //[AutoGenerateColumn(Ignore = true)]

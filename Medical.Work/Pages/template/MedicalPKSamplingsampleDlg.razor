@@ -7,39 +7,44 @@
 
 
         <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
+
+            <BootstrapInput @bind-Value="@medicalPKSampling.Username"></BootstrapInput>
+            <BootstrapInput @bind-Value="@medicalPKSampling.Medicalrecordnumber"></BootstrapInput>
             <Select @bind-Value="@medicalPKSampling.SpecimenType"></Select>
-            <DateTimePicker @bind-Value="@medicalPKSampling.CollectDateTime"></DateTimePicker>
+          
         </Row>
 
         <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
-
-
+            <DateTimePicker @bind-Value="@medicalPKSampling.CollectDateTime"></DateTimePicker>
+            <DateTimePicker @bind-Value="@medicalPKSampling.LastDateTime"></DateTimePicker>
             <DateTimePicker @bind-Value="@medicalPKSampling.StartDateTime"></DateTimePicker>
             <DateTimePicker @bind-Value="@medicalPKSampling.EndDateTime"></DateTimePicker>
-           
+
         </Row>
         <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
-            <DateTimePicker @bind-Value="@medicalPKSampling.LastDateTime"></DateTimePicker>
+           
             <Select @bind-Value="@medicalPKSampling.Collectingvessel"></Select>
         </Row>
     </ValidateForm>
 
-
+    <Divider  ></Divider>
     <GroupBox Title="C1-C6">
         <ValidateForm Model="medicalPKSampling_Sample">
             <Row ItemsPerRow="ItemsPerRow.Three" RowType="RowType.Normal">
 
                 <Select @bind-Value="@medicalPKSampling_Sample.SamplingNumber">
                     <Options>
-                        <SelectOption Text="C1" Value="1"></SelectOption>
-                        <SelectOption Text="C2" Value="2"></SelectOption>
-                        <SelectOption Text="C3" Value="3"></SelectOption>
-                        <SelectOption Text="C4" Value="4"></SelectOption>
-                        <SelectOption Text="C5" Value="5"></SelectOption>
-                        <SelectOption Text="C6" Value="6"></SelectOption>
-                        <SelectOption Text="C7" Value="7"></SelectOption>
+                        <SelectOption Text="C1" Value="C1" Active="true"></SelectOption>
+                       
+                        <SelectOption Text="C2" Value="C2"></SelectOption>
+                        <SelectOption Text="C3" Value="C3"></SelectOption>
+                        <SelectOption Text="C4" Value="C4"></SelectOption>
+                        <SelectOption Text="C5" Value="C5"></SelectOption>
+                        <SelectOption Text="C6" Value="C6"></SelectOption>
+                        <SelectOption Text="C7" Value="C7"></SelectOption>
                     </Options>
                 </Select>
+
                 <BootstrapInput @bind-Value="@medicalPKSampling_Sample.Number"></BootstrapInput>
                 <BootstrapInput @bind-Value="@medicalPKSampling_Sample.Samplingname"></BootstrapInput>
 
@@ -49,18 +54,24 @@
                 <BootstrapInput @bind-Value="@medicalPKSampling_Sample.C1Concentration"></BootstrapInput>
                 <Select @bind-Value="@medicalPKSampling_Sample.C1ConcentrationUnit"></Select>
                 <BootstrapInput @bind-Value="@medicalPKSampling_Sample.C1ConcentrationStandard"></BootstrapInput>
-                <Select @bind-Value="@medicalPKSampling_Sample.C1ConcentrationMethod"></Select>
-                <BootstrapInput @bind-Value="@medicalPKSampling_Sample.Other"></BootstrapInput>
-            </Row>
+                <BootstrapInput @bind-Value="@medicalPKSampling_Sample.C1ConcentrationStandardUnit"></BootstrapInput>
 
+                <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
+                    <Select @bind-Value="@medicalPKSampling_Sample.C1ConcentrationMethod"></Select>
+                    <BootstrapInput @bind-Value="@medicalPKSampling_Sample.Other"></BootstrapInput>
+                </Row>
+               
+
+            </Row>
+          
             <Row ItemsPerRow="ItemsPerRow.Four" RowType="RowType.Normal">
                 <Row ColSpan="3">
-                    <Textarea  rows="3" @bind-Value="@medicalPKSampling_Sample.C1Remarks"></Textarea>
+                    <Textarea rows="3" @bind-Value="@medicalPKSampling_Sample.C1Remarks"></Textarea>
                 </Row>
-                <div  class="d-flex align-items-center justify-content-center w-100 h-100">
+                <div class="d-flex align-items-center justify-content-center w-100 h-100">
                     <Button class="fa fa-plus" Size="Size.Large" @onclick="@OnBingDrugdosage"> 添加 </Button>
                 </div>
-             
+
             </Row>
         </ValidateForm>
         <div style="min-height:150px;">
@@ -107,11 +118,15 @@
         pKSampling_Samples.Add(new MedicalPKSamplingsample() {
 
             SamplingNumber =medicalPKSampling_Sample.SamplingNumber,
+            Number = medicalPKSampling_Sample.Number,
+            Samplingname = medicalPKSampling_Sample.Samplingname,
+
             C1bloodcollectiontime = medicalPKSampling_Sample.C1bloodcollectiontime,
             C1Concentration = medicalPKSampling_Sample.C1Concentration,
             C1ConcentrationUnit = medicalPKSampling_Sample.C1ConcentrationUnit,
             C1ConcentrationStandard = medicalPKSampling_Sample.C1ConcentrationStandard,
             C1ConcentrationMethod = medicalPKSampling_Sample.C1ConcentrationMethod,
+
             Other = medicalPKSampling_Sample.Other,
             C1Remarks = medicalPKSampling_Sample.C1Remarks, });
         StateHasChanged();

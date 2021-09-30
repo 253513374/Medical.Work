@@ -24,10 +24,10 @@ namespace Medical.Work.Data.Models
         public MedicalPKSampling medicalPKSampling { get; set; }
 
         /// <summary>
-        /// 样品编号
+        /// 采样点
         /// </summary>
         [DisplayName("采样点")]
-        public string SamplingNumber { get; set; }
+        public string SamplingNumber { get; set; } = "C1";
         /// <summary>
         /// 样品编号
         /// </summary>
@@ -64,9 +64,9 @@ namespace Medical.Work.Data.Models
         public string C1ConcentrationStandard { set; get; }
 
         /// <summary>
-        /// C1浓度单位
+        /// 标准化血药浓度单位
         /// </summary>
-        [DisplayName("浓度单位")]
+        [DisplayName("标准化血药浓度单位")]
         public WeightEnum C1ConcentrationStandardUnit { set; get; } = WeightEnum.mg;
 
         /// <summary>

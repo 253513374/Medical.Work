@@ -82,9 +82,9 @@ namespace Medical.Work.Pages
 
         private async Task OnRowEditClick(MedicalPK medical)
         {
-            var url = $"MedicalPKDetailsPage/{medical.MedicalPKID}";
-            navigationManager.NavigateTo(url);
-            return;
+            //var url = $"MedicalPKDetailsPage/{medical.ID}";
+            //navigationManager.NavigateTo(url);
+            //return;
         }
 
 

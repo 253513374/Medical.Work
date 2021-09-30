@@ -20,11 +20,10 @@ namespace Medical.Work.Data.Models
         //[AutoGenerateColumn(Ignore = true)]
         //public int MedicalPKSamplingID { set; get; }
 
-        [AutoGenerateColumn(Ignore = true)]
-        public int MedicalPKID { set; get; }
+        //[AutoGenerateColumn(Ignore = true)]
+        //public int MedicalPKID { set; get; }
 
-        [AutoGenerateColumn(Ignore = true)]
-        public MedicalPK medicalPK { set; get; }
+
 
 
         ///// <summary>

@@ -1,58 +1,102 @@
 ﻿
-@page  "/MedicalPKDetailsPage"
-@page "/MedicalPKDetailsPage/{param?}"
+@page "/MedicalPKDetailsPage"
+@*@page "/MedicalPKDetailsPage/{Text}/{Name?}""*@
 
 @inject IDbContextFactory<MedicalDbContext> contextFactory
 
 
-<div class="w-100" style="margin-top:144px; padding:5px;"></div>
 
-<div class="  w-100 d-flex align-items-center justify-content-center">
-    <div class=" w-100 marginlr row d-flex justify-content-between " style="min-height:700px; ">
+<div class=" divtop d-flex  align-items-center">
 
-        <div class=" col-4 shadow-lg divradius p-4">
-            @if (keyValuePairs is not null)
-            {
-                foreach (var item in keyValuePairs)
-                {
-                    <div class="row d-flex justify-content-center">
-                        <div class="col-8 text-right pr-4"> <h5>@item.Key</h5></div>
-                        <div class="col-4 text-left pl-1"> <p>@item.Value</p></div>
-                    </div>
-                }
-            }
-        </div>
+    <div class="  w-100 ">
 
-        <div class="col-6 shadow-lg divradius p-4">
-            <div class="d-flex justify-content-between">
-                <p class="h3"> 绑定信息采集单 </p>
-                <Button class="oi oi-plus" Size="Size.Large" @onclick="@(s => OnBing())">新增</Button>
-            </div>
-            <div class=" d-flex align-items-center">
-                <div class="row ">
+        <Card>
+            <CardHeader>
+                查询条件
+            </CardHeader>
+            <CardBody>
+                <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Two">
 
-                    @if (medicalPKDatetimeSamplings is not null)
-                    {
-                        var items = medicalPKDatetimeSamplings.GroupBy(g => g.medicalPK.DrugsNmae).Select(s => new { name = s.Key, mcount = s.ToList() }).ToList();
-                        foreach (var item in items)
-                        {
-                            <div class="p-2">
-                                <Button Color="Color.Primary">
-                                    <i class="fa fa-file-text"></i>
-                                    <span>@item.name</span>
-                                    <Badge Color="Color.Danger">@item.mcount.Count</Badge>
-                                </Button>
-                            </div>
-                        }
-                    }
-                </div>
+                    <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s=>OnSearch())"></Search>
 
-            </div>
-        </div>
+                    <button class="createbut fa fa-plus" @onclick="@(()=>OnShowDlg(null))"></button>
+                </Row>
+            </CardBody>
+        </Card>
 
     </div>
+</div>
+
+<div class="w-100">
+    <Card>
+        <CardHeader>
+            查询结果
+        </CardHeader>
+        <CardBody>
+            <Table TItem="MedicalPKSampling" ShowLoading="true" IsPagination="true" IsStriped="true" IsBordered="true"
+                   ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
+                   OnQueryAsync="@OnQueryAsync" IsAutoRefresh="true"
+                   ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
+                <RowButtonTemplate>
+                    @* <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context,1))" />*@
+                    <TableCellButton Size="Size.ExtraSmall" Color="Color.Warning" Icon="fa fa-edit" Text="删除" OnClickCallback="@(() => Ondel(context))" />
+                </RowButtonTemplate>
+            </Table>
+        </CardBody>
+    </Card>
 
 </div>
+<Message @ref="MessageElement" />
+
+
+
+
+@*<div class="  w-100 d-flex align-items-center justify-content-center">
+        <div class=" w-100 marginlr row d-flex justify-content-between " style="min-height:700px; ">
+
+            <div class=" col-4 shadow-lg divradius p-4">
+                @if (keyValuePairs is not null)
+                {
+                    foreach (var item in keyValuePairs)
+                    {
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-8 text-right pr-4"> <h5>@item.Key</h5></div>
+                            <div class="col-4 text-left pl-1"> <p>@item.Value</p></div>
+                        </div>
+                    }
+                }
+            </div>
+
+            <div class="col-6 shadow-lg divradius p-4">
+                <div class="d-flex justify-content-between">
+                    <p class="h3"> 绑定信息采集单 </p>
+                    <Button class="oi oi-plus" Size="Size.Large" @onclick="@(s => OnBing())">新增</Button>
+                </div>
+                <div class=" d-flex align-items-center">
+                    <div class="row ">
+
+                        @if (medicalPKDatetimeSamplings is not null)
+                        {
+                            var items = medicalPKDatetimeSamplings.GroupBy(g => g.medicalPK.DrugsNmae).Select(s => new { name = s.Key, mcount = s.ToList() }).ToList();
+                            foreach (var item in items)
+                            {
+                                <div class="p-2">
+                                    <Button Color="Color.Primary">
+                                        <i class="fa fa-file-text"></i>
+                                        <span>@item.name</span>
+                                        <Badge Color="Color.Danger">@item.mcount.Count</Badge>
+                                    </Button>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>*@
 
 <div class="marginlr w-100 mt-2">
 
@@ -63,7 +107,7 @@
                 var items = medicalPK.MedicalPKSamplings;*@
     @if (pKSamplings is not null)
     {
-        <ListView TItem="MedicalPKSampling" GroupName="@(p=>p.SpecimenType)" OnQueryAsync="@OnQueryAsync">
+        <ListView TItem="MedicalPKSampling"  OnQueryAsync="@OnQueryAsync" Pageable="true">
             <HeaderTemplate> 采样信息列表</HeaderTemplate>
             <BodyTemplate>
                 <Card Class="w-100">
@@ -81,9 +125,9 @@
 
                             foreach (var item in @context.medicalPKSamplings)
                             {
-                                var c = $"C{@item.SamplingNumber}采样";
+                               // var c = $"C{@item.SamplingNumber}采样";
 
-                                <GroupBox Title="@c">
+                                <GroupBox Title="@item.SamplingNumber">
                                     <div class=" row col-12">
                                         <div class="col-2">浓度:@item.C1Concentration  @item.C1ConcentrationUnit.ToString()/ml</div>
                                         <div class="col-3">标准化血药浓度:@item.C1ConcentrationStandard</div>
@@ -105,13 +149,7 @@
 
 @code {
 
-    private MedicalPK medicalPK { set; get; }
 
-    private List<MedicalPKSampling> medicalPKDatetimeSamplings { set; get; }
-
-    private List<MedicalPKSampling> pKSamplings { set; get; }
-
-    private List<MedicalPKSamplingsample> pKSampling_Samples { set; get; }
 
 
     [CascadingParameter]
@@ -121,26 +159,73 @@
     public string param { get; set; }
 
     [Inject]
+    private MessageService messageService { set; get; }
+
+    private Message MessageElement { set; get; }
+
+    [Inject]
+    private SwalService? SwalService { get; set; }
+
+    [Inject]
     public DialogService? dialogService { set; get; }
 
     public Dictionary<string, object?> keyValuePairs { set; get; }
 
+
     public MedicalPKSampling medicalPKSampling { set; get; }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    private List<MedicalPKSampling> pKSamplings { set; get; } = new();
+
+    private List<MedicalPKSamplingsample> pKSampling_Samples { set; get; } = new List<MedicalPKSamplingsample>();
+
+    [Parameter]
+    public string Text { get; set; }
+
+    [Parameter]
+    public string Name { get; set; }
+
+
+
+    private string Querywhere { set; get; }
+
+
+    protected override async Task OnParametersSetAsync()
     {
-        if (!firstRender) return;
-        if (param != default)
+        if (Text is not null or "")
         {
-            var id = Convert.ToInt32(param);
-            medicalPK = await GetMedicalPK(id);
-            pKSamplings = medicalPK.MedicalPKSamplings;
-            medicalPKDatetimeSamplings = await GetMedicalPKSamplings();
-            keyValuePairs = DisplayAttributeExtend.GetAttributeExtends<MedicalPK>(medicalPK);
-            StateHasChanged();
+            // Task.Run(()=> { ); });
+            var obj = new MedicalPKSampling();
+            obj.Medicalrecordnumber = Text;
+            obj.Username = Name;
+            await OnShowDlg(obj);
         }
-        return;//base.OnAfterRenderAsync(firstRender);
+        return;
     }
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        await OnSearch();
+        return;//base.OnInitializedAsync();
+    }
+
+
+    //protected override async Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    if (!firstRender) return;
+
+    //    pKSamplings = await GetMedicalPKSamplings();
+    //    //if (param != default)
+    //    //{
+    //    //    var id = Convert.ToInt32(param);
+    //    //    //medicalPK = await GetMedicalPK(id);
+    //    //    // pKSamplings = medicalPK.MedicalPKSamplings;
+    //    //    pKSamplings = await GetMedicalPKSamplings();
+    //    //    //keyValuePairs = DisplayAttributeExtend.GetAttributeExtends<MedicalPK>(medicalPK);
+    //    //    StateHasChanged();
+    //    //}
+    //    return;//base.OnAfterRenderAsync(firstRender);
+    //}
 
     private Task<QueryData<MedicalPKSampling>> OnQueryAsync(QueryPageOptions options)
     {
@@ -156,37 +241,89 @@
         return null;
     }
 
-    private async Task<List<MedicalPKSampling>> GetMedicalPKSamplings(int id)
+
+    private async Task OnSearch()
     {
         using (var context = contextFactory.CreateDbContext())
         {
+            var Adminname = authenticationStateTask.Result.User.Identity.Name;
+            if (Querywhere is not null)
+            {
+                pKSamplings = await context.MPK_Samplings.AsNoTracking().Where(w => w.Adminname == Adminname).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.Username.Contains(Querywhere)).Include(i=>i.medicalPKSamplings).ToListAsync();
 
-            return await context.MPK_Samplings.AsNoTracking().Where(w => w.ID == id).ToListAsync();
+            }
+            else
+            {
+                pKSamplings = await context.MPK_Samplings.AsNoTracking().Where(w => w.Adminname == Adminname).Include(i => i.medicalPKSamplings).Take(100).ToListAsync();
+            }
         }
+        StateHasChanged();
+        return; //Task.CompletedTask;
     }
+
+    //private async Task<List<MedicalPKSampling>> GetMedicalPKSamplings(int id)
+    //{
+    //    using (var context = contextFactory.CreateDbContext())
+    //    {
+
+    //        return await context.MPK_Samplings.AsNoTracking().Where(w => w.ID == id).ToListAsync();
+    //    }
+    //}
 
     /// <summary>
     /// 获取所有的采用信息数据；方便后期使用分组 绑定给药方案
     /// </summary>
     /// <returns></returns>
-    private async Task<List<MedicalPKSampling>> GetMedicalPKSamplings()
+    //private async Task<List<MedicalPKSampling>> GetMedicalPKSamplings()
+    //{
+    //    using (var context = contextFactory.CreateDbContext())
+    //    {
+    //        var adminnamne = authenticationStateTask.Result.User.Identity.Name;
+    //        return await context.MPK_Samplings.AsNoTracking().Include(i => i.medicalPK).Where(w => w.Createtime > DateTime.Now.AddDays(-30)).Where(w => w.Adminname == adminnamne).ToListAsync();
+    //    }
+    //}
+
+    private async Task Ondel(MedicalPKSampling myobject)
     {
-        using (var context = contextFactory.CreateDbContext())
+        var op = new SwalOption()
         {
-            var adminnamne = authenticationStateTask.Result.User.Identity.Name;
-            return await context.MPK_Samplings.AsNoTracking().Include(i => i.medicalPK).Where(w => w.Createtime > DateTime.Now.AddDays(-30)).Where(w => w.Adminname == adminnamne).ToListAsync();
+            Title = "警告",
+            Content = "数据删除不可再恢复，是否确定删除？",
+            IsConfirm = true,
+            Category = SwalCategory.Warning
+        };
+        var re = await SwalService.ShowModal(op);
+        if (re)
+        {
+
+            using (var context = contextFactory.CreateDbContext())
+            {
+                context.MPK_Samplings.Remove(myobject);
+                var ok = context.SaveChanges();
+                if (ok > 0)
+                {
+                    pKSamplings.Remove(myobject);
+                    StateHasChanged();
+                }
+                else
+                {
+                    ShowColorMessage(Color.Warning, "数据删除失败", MessageElement);
+
+                }
+            }
         }
+        return;
     }
 
-    private async Task<MedicalPK> GetMedicalPK(int id)
-    {
-        using (var context = contextFactory.CreateDbContext())
-        {
-            return await context.MPKs.Include(i => i.MedicalPKSamplings).ThenInclude(t => t.medicalPKSamplings).FirstAsync(w => w.MedicalPKID == id);
-        }
-    }
+    //private async Task<MedicalPK> GetMedicalPK(int id)
+    //{
+    //    using (var context = contextFactory.CreateDbContext())
+    //    {
+    //        return await context.MPKs.Include(i => i.MedicalPKSamplings).ThenInclude(t => t.medicalPKSamplings).FirstAsync(w => w.MedicalPKID == id);
+    //    }
+    //}
 
-    private async Task OnBing()
+    private async Task OnShowDlg(MedicalPKSampling pKSampling)
     {
         var retdlg = await dialogService.ShowModal<MedicalPKSamplingsampleDlg>(new ResultDialogOption()
         {
@@ -196,7 +333,7 @@
             ComponentParamters = new KeyValuePair<string, object>[]
             {
                 new(nameof(MedicalPKSamplingsampleDlg.OnEventCallback), EventCallback.Factory.Create<MedicalPKSampling>(this, v => medicalPKSampling = v))
-                            }
+                                    }
 
         });
 
@@ -207,12 +344,15 @@
 
                 medicalPKSampling.Adminname = authenticationStateTask.Result.User.Identity.Name;
                 medicalPKSampling.Createtime = DateTime.Now;
-                if (medicalPK.MedicalPKSamplings is null) medicalPK.MedicalPKSamplings = new();
+                // if (medicalPKSampling.medicalPKSamplings is null) medicalPK.MedicalPKSamplings = new();
 
-                medicalPK.MedicalPKSamplings.Add(medicalPKSampling);
-                context.MPKs.Update(medicalPK);
+                // medicalPK.MedicalPKSamplings.Add(medicalPKSampling);
+
+                context.MPK_Samplings.Add(medicalPKSampling);
+
                 //context.medicalPKSamplings.Add(medicalPKSampling);
                 context.SaveChanges();
+                pKSamplings.Add(medicalPKSampling);
             }
 
         }
@@ -220,9 +360,16 @@
         return;
     }
 
-    //private async Task OnBingDrugdosage()
-    //{
-
-    //}
+    public void ShowColorMessage(Color color, string content, Message message)
+    {
+        message.SetPlacement(Placement.Top);
+        messageService?.Show(new MessageOption()
+        {
+            Host = message,
+            Content = content,
+            Icon = "fa fa-info-circle",
+            Color = color
+        });
+    }
 
 }
