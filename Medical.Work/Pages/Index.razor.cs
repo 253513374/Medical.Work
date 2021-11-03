@@ -45,16 +45,21 @@ namespace Medical.Work.Pages
 
         public List<string> Items { set; get; } = new List<string>(1000);
 
-        private ListView<PatientInfo> mylistview { set; get; }
+        private ListView<PatientInfo> mylistview { set; get; } = new ListView<PatientInfo>();
         public DateTimeRangeValue RangeValue { set; get; } = new() { Start = DateTime.Now.AddDays(-90), End = DateTime.Now };
 
 
 
         protected override async Task OnInitializedAsync()
         {
-            await GetForecastAsync();
+            await GetForecastAsync(); 
             return;// base.OnInitializedAsync();
         }
+        //protected override void OnInitialized()
+        //{
+          
+        //    base.OnInitialized();
+        //}
 
 
         public async Task GetForecastAsync()
@@ -149,6 +154,10 @@ namespace Medical.Work.Pages
 
         private  Task<QueryData<PatientInfo>> OnQueryPageAsync(QueryPageOptions options)
         {
+            if (Patients is null) { 
+                
+                return null;
+            }
             var items = Patients.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems);
             return Task.FromResult(new QueryData<PatientInfo>()
             {

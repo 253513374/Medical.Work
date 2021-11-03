@@ -11,12 +11,14 @@
     <div class="marginlr w-100">
         <Card>
             <CardHeader>
-                查询条件
+                查询结果
             </CardHeader>
             <CardBody>
                 <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
                     <Search @bind-Value="@Querywhere" @onclick="@(s=>OnQuerywhere())"></Search>
                     <button class="createbut fa fa-plus" @onclick="@(()=>OnShowDlg(null))"></button>
+
+                    <button class="createbut fa fa-plus" @onclick="@(()=>OnIsOpenDrawer(null))"></button>
                 </Row>
             </CardBody>
         </Card>
@@ -31,7 +33,7 @@
         <CardBody>
             <Table TItem="MedicalPK" ShowLoading="true" HeaderStyle="TableHeaderStyle.Light" IsPagination="true"
                    IsStriped="true" IsBordered="true" IsMultipleSelect="false" AllowResizing="true"
-                   ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="true"
+                   ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
                    ShowExtendButtons="true" ShowColumnList="true" OnQueryAsync="@OnQueryAsync" IsAutoRefresh="true">
                 @*/*药品通用名，溶媒（如0.9% 氯化钠100ml）,单次剂量，给药频率，给药途径，开始时间，截止时间，公斤体质量日剂量，厂家类型*/*@
                 <TableColumns>
@@ -48,7 +50,7 @@
                 </TableColumns>
 
                 <RowButtonTemplate>
-                    <TableCellButton Size="Size.Medium" Color="Color.Info" Icon="fa fa-edit" Text=" 操 作 " OnClickCallback="@(() => OnRowEditClick(context))" />
+                    <TableCellButton Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-edit" Text=" 操 作 "  OnClickCallback="@(()=>OnIsOpenDrawer(context))" />
                 </RowButtonTemplate>
             </Table>
         </CardBody>
@@ -58,13 +60,22 @@
         {
 
         }*@
-
+<Drawer Placement="Placement.Bottom" IsBackdrop="true"   IsOpen="@IsOpenDrawer" >
+    <div class="d-flex justify-content-center align-items-center flex-column" style="height: 290px;">
+        <p>抽屉内布局、组件等完全可以自定义</p>
+        <button type="button" class="btn btn-primary" @onclick="@(e => IsOpenDrawer = false)">关闭抽屉</button>
+    </div>
+</Drawer>
 </div>
+
+
+
 
 @code {
 
     private List<MedicalPK> medicalPK_s { set; get; } = new();
 
+    private bool IsOpenDrawer { set; get; }
 
     [Parameter]
     public string Text { get; set; }
@@ -92,6 +103,16 @@
         return;
         //return base.OnInitializedAsync();
     }
+
+    private Task OnIsOpenDrawer(MedicalPK medical)
+    {
+        IsOpenDrawer = true;
+        //var url = $"MedicalPKDetailsPage/{medical.ID}";
+        //navigationManager.NavigateTo(url);
+        return Task.CompletedTask; 
+    }
+
+
     private Task<QueryData<MedicalPK>> OnQueryAsync(QueryPageOptions options)
     {
         // 内存分页

@@ -34,6 +34,7 @@ namespace Medical.Work.Pages
 
         private async Task OnQuerywhere()
         {
+           
             if (Querywhere is null)
             {
                 using (var context = contextFactory.CreateDbContext())
@@ -80,12 +81,7 @@ namespace Medical.Work.Pages
 
         }
 
-        private async Task OnRowEditClick(MedicalPK medical)
-        {
-            //var url = $"MedicalPKDetailsPage/{medical.ID}";
-            //navigationManager.NavigateTo(url);
-            //return;
-        }
+    
 
 
         private async Task OnRowDetailedClick(MedicalPK medical)
