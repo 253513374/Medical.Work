@@ -1,12 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>aspnet-Medical.Work-CD832D79-3169-432B-9A8B-4E3CD6D4AD15</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BootstrapBlazor" Version="5.17.4" />
+    <PackageReference Include="BootstrapBlazor" Version="6.0.1" />
+    <PackageReference Include="BootstrapBlazor.Chart" Version="5.3.0" />
+    <PackageReference Include="BootstrapBlazor.Markdown" Version="5.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.3" />

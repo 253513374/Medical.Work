@@ -2,14 +2,27 @@
 
 
 @page "/SummaryOfCasesPage"
+@using System.Globalization
 
 
 <div class=" d-flex  align-items-center">
     <ValidateForm Model="@summaryOfCases">
 
         <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.One">
-            <BootstrapInput @bind-Value="@summaryOfCases.Username" />
-            <BootstrapInput @bind-Value="@summaryOfCases.Medicalrecordnumber" />
+            <label>患者信息</label>
+           <AutoFill TValue="PatientsTips" Value="patientsTips" Items="DataTips.PatientsTips" IsLikeMatch="true" OnSelectedItemChanged="OnAutoFillSelectedItemChanged" OnGetDisplayText="OnGetDisplayText" class="mb-3" IsSelectAllTextOnFocus="true">
+                            <Template>
+                                <div class="d-flex">
+                                    <div>
+                                        <img src="/img/gezi.png" class="bb-avatar" style="max-width:48px;" />
+                                    </div>
+                                    <div class="ps-2">
+                                        <div>@context.Number</div>
+                                        <div class="bb-sub">@context.Description</div>
+                                    </div>
+                                </div>
+                            </Template>
+            </AutoFill>
         </Row>
         <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Three">
             <Select @bind-Value="@summaryOfCases.Medication" />
@@ -19,7 +32,9 @@
         </Row>
 
         <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.One">
-            <Textarea rows="6" @bind-Value="@summaryOfCases.Medicalhistorysummary" />
+         @*   <Textarea rows="6" @bind-Value="@summaryOfCases.Medicalhistorysummary" />
+*@          <label>病史概要</label>
+            <Markdown @bind-Value="@summaryOfCases.Medicalhistorysummary" Height="500" MinHeight="300" Placeholder="这是 Markdown" PreviewStyle="PreviewStyle.Tab" InitialEditType="InitialEditType.Wysiwyg" Language="@Language" ></Markdown>
         </Row>
     </ValidateForm>
 </div>
@@ -27,5 +42,26 @@
 
     @code {
 
-        private SummaryOfCases summaryOfCases { set; get; } = new();
+    private SummaryOfCases summaryOfCases { set; get; } = new();
+
+    private string Language{ set; get; }
+    protected override Task OnInitializedAsync()
+    {
+       Language = CultureInfo.CurrentUICulture.Name;
+        return base.OnInitializedAsync();
     }
+
+    public PatientsTips patientsTips{ set; get; }  
+
+    private Task OnAutoFillSelectedItemChanged(PatientsTips tips )
+    {
+        summaryOfCases.Medicalrecordnumber = tips.Number;
+        summaryOfCases.Username = tips.Description;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+    private string OnGetDisplayText(PatientsTips tips)
+    {
+        return $"{tips.Number} - {tips.Description}";
+    }
+}

@@ -1,4 +1,5 @@
 
+using BootstrapBlazor.Components;
 using Medical.Work.Areas.Identity;
 using Medical.Work.Data;
 using Microsoft.AspNetCore.Builder;
@@ -95,6 +96,8 @@ namespace Medical.Work
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.ApplicationServices.RegisterProvider();
 
             app.UseEndpoints(endpoints =>
             {

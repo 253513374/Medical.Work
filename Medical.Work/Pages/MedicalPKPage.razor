@@ -11,15 +11,16 @@
     <div class="marginlr w-100">
         <Card>
             <CardHeader>
-                查询结果
+                查询条件
             </CardHeader>
             <CardBody>
                 <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
                     <Search @bind-Value="@Querywhere" @onclick="@(s=>OnQuerywhere())"></Search>
                     <button class="createbut fa fa-plus" @onclick="@(()=>OnShowDlg(null))"></button>
-
                     <button class="createbut fa fa-plus" @onclick="@(()=>OnIsOpenDrawer(null))"></button>
                 </Row>
+
+                
             </CardBody>
         </Card>
 
@@ -28,7 +29,7 @@
 <div class="marginlr pt-3">
     <Card>
         <CardHeader>
-            查询条件
+            查询结果
         </CardHeader>
         <CardBody>
             <Table TItem="MedicalPK" ShowLoading="true" HeaderStyle="TableHeaderStyle.Light" IsPagination="true"
@@ -83,6 +84,8 @@
     [Parameter]
     public string Name { get; set; }
 
+  
+
     protected override async Task OnParametersSetAsync()
     {
         if (Text is not null or "")
@@ -103,6 +106,8 @@
         return;
         //return base.OnInitializedAsync();
     }
+
+   
 
     private Task OnIsOpenDrawer(MedicalPK medical)
     {

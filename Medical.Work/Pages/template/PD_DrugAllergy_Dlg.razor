@@ -9,8 +9,22 @@
         <div style="font-size:16px;font-weight:500">
             <ValidateForm Model="@medicalPD_DrugAllergy">
                 <Row ItemsPerRow="ItemsPerRow.One">
-                    <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.Medicalrecordnumber"></BootstrapInput>
-                    <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.Username"></BootstrapInput>
+                   @* <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.Medicalrecordnumber"></BootstrapInput>
+                    <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.Username"></BootstrapInput>*@
+                    <label>患者信息</label>
+                      <AutoFill TValue="PatientsTips" Value="patientsTips" Items="DataTips.PatientsTips" IsLikeMatch="true" OnSelectedItemChanged="OnAutoFillSelectedItemChanged" OnGetDisplayText="OnGetDisplayText" class="mb-3" IsSelectAllTextOnFocus="true">
+                            <Template>
+                                <div class="d-flex">
+                                    <div>
+                                        <img src="/img/gezi.png" class="bb-avatar" style="max-width:48px;" />
+                                    </div>
+                                    <div class="ps-2">
+                                        <div>@context.Number</div>
+                                        <div class="bb-sub">@context.Description</div>
+                                    </div>
+                                </div>
+                            </Template>
+            </AutoFill>
                     <Select @bind-Value="@medicalPD_DrugAllergy.TestorisNot"></Select>
                     <DateTimePicker @bind-Value="@medicalPD_DrugAllergy.TestTime"></DateTimePicker>
                     <Select @bind-Value="@medicalPD_DrugAllergy.DrugsName"></Select>
@@ -56,5 +70,18 @@
         }
 
         base.OnParametersSet();
+    }
+      public PatientsTips patientsTips{ set; get; }  
+
+    private Task OnAutoFillSelectedItemChanged(PatientsTips tips )
+    {
+        medicalPD_DrugAllergy.Medicalrecordnumber = tips.Number;
+        medicalPD_DrugAllergy.Username = tips.Description;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+    private string OnGetDisplayText(PatientsTips tips)
+    {
+        return $"{tips.Number} - {tips.Description}";
     }
 }

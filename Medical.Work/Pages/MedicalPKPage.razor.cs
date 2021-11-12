@@ -19,7 +19,7 @@ namespace Medical.Work.Pages
         [CascadingParameter]
         private Task<AuthenticationState> authenticationStateTask { get; set; }
 
-        private MedicalPK medicalPK { set; get; }
+        private MedicalPK medicalPK { set; get; } = new(); 
 
         private string Querywhere { set; get; }
 

@@ -6,8 +6,24 @@
 
     <ValidateForm Model="@x_Raypathological">
         <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
-            <BootstrapInput @bind-Value="@x_Raypathological.Medicalrecordnumber" ShowLabel="true"></BootstrapInput>
+            @*<BootstrapInput @bind-Value="@x_Raypathological.Medicalrecordnumber" ShowLabel="true"></BootstrapInput>
             <BootstrapInput @bind-Value="@x_Raypathological.Username" ShowLabel="true"></BootstrapInput>
+            *@
+             <label>患者信息</label>
+              <AutoFill TValue="PatientsTips" Value="patientsTips" Items="DataTips.PatientsTips" IsLikeMatch="true" OnSelectedItemChanged="OnAutoFillSelectedItemChanged" OnGetDisplayText="OnGetDisplayText" class="mb-3" IsSelectAllTextOnFocus="true">
+                            <Template>
+                                <div class="d-flex">
+                                    <div>
+                                        <img src="/img/gezi.png" class="bb-avatar" style="max-width:48px;" />
+                                    </div>
+                                    <div class="ps-2">
+                                        <div>@context.Number</div>
+                                        <div class="bb-sub">@context.Description</div>
+                                    </div>
+                                </div>
+                            </Template>
+            </AutoFill>
+            
             <DateTimePicker @bind-Value="@x_Raypathological.Photodate" ShowLabel="true"></DateTimePicker>
             <DateTimePicker @bind-Value="@x_Raypathological.Reportdate" ShowLabel="true"></DateTimePicker>
         </Row>
@@ -21,13 +37,25 @@
     <div class="row">
         <div class="col-12">
             @*<p>本例中设置 <code>ShowProgress=true</code> 显示上传进度条</p>*@
-            <CardUpload   Accept="image/ipg,image/png,image/jpeg" TValue="string" ShowProgress="true"   OnChange="@OnCardUpload" OnDelete="@(fileName => Task.FromResult(true))"></CardUpload>
+            <CardUpload   Accept="image/ipg,image/png,image/jpeg" TValue="string" ShowProgress="true"   OnChange="@OnCardUpload" OnDelete="@OnFileDelete"></CardUpload>
         </div>
     </div>
 </div>
 
 @code {
 
-  
+    public PatientsTips patientsTips{ set; get; }  
+
+    private Task OnAutoFillSelectedItemChanged(PatientsTips tips )
+    {
+        x_Raypathological.Medicalrecordnumber = tips.Number;
+        x_Raypathological.Username = tips.Description;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+    private string OnGetDisplayText(PatientsTips tips)
+    {
+        return $"{tips.Number} - {tips.Description}";
+    }
     
 }

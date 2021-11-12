@@ -8,8 +8,22 @@
 
         <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
 
-            <BootstrapInput @bind-Value="@medicalPKSampling.Username"></BootstrapInput>
-            <BootstrapInput @bind-Value="@medicalPKSampling.Medicalrecordnumber"></BootstrapInput>
+       @*     <BootstrapInput @bind-Value="@medicalPKSampling.Username"></BootstrapInput>
+            <BootstrapInput @bind-Value="@medicalPKSampling.Medicalrecordnumber"></BootstrapInput>*@
+            <label>患者信息</label>
+             <AutoFill TValue="PatientsTips" Value="patientsTips" Items="DataTips.PatientsTips" IsLikeMatch="true" OnSelectedItemChanged="OnAutoFillSelectedItemChanged" OnGetDisplayText="OnGetDisplayText" class="mb-3" IsSelectAllTextOnFocus="true">
+                            <Template>
+                                <div class="d-flex">
+                                    <div>
+                                        <img src="/img/gezi.png" class="bb-avatar" style="max-width:48px;" />
+                                    </div>
+                                    <div class="ps-2">
+                                        <div>@context.Number</div>
+                                        <div class="bb-sub">@context.Description</div>
+                                    </div>
+                                </div>
+                            </Template>
+            </AutoFill>
             <Select @bind-Value="@medicalPKSampling.SpecimenType"></Select>
           
         </Row>
@@ -137,5 +151,19 @@
         pKSampling_Samples.Remove(_Sample);
         StateHasChanged();
         return Task.CompletedTask;
+    }
+
+    public PatientsTips patientsTips{ set; get; }  
+
+    private Task OnAutoFillSelectedItemChanged(PatientsTips tips )
+    {
+        medicalPKSampling.Medicalrecordnumber = tips.Number;
+        medicalPKSampling.Username = tips.Description;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+    private string OnGetDisplayText(PatientsTips tips)
+    {
+        return $"{tips.Number} - {tips.Description}";
     }
 }

@@ -3,9 +3,20 @@
 <h3>MedicalPKDlg</h3>
 
 <ValidateForm Model="@medicalPK">
-
-    <BootstrapInput @bind-Value="medicalPK.Username"></BootstrapInput>
-    <BootstrapInput @bind-Value="medicalPK.Medicalrecordnumber"></BootstrapInput>
+  <label>患者信息</label>
+  <AutoFill TValue="PatientsTips" Value="patientsTips" Items="DataTips.PatientsTips" IsLikeMatch="true" OnSelectedItemChanged="OnAutoFillSelectedItemChanged" OnGetDisplayText="OnGetDisplayText" class="mb-3" IsSelectAllTextOnFocus="true">
+                            <Template>
+                                <div class="d-flex">
+                                    <div>
+                                        <img src="/img/gezi.png" class="bb-avatar" style="max-width:48px;" />
+                                    </div>
+                                    <div class="ps-2">
+                                        <div>@context.Number</div>
+                                        <div class="bb-sub">@context.Description</div>
+                                    </div>
+                                </div>
+                            </Template>
+     </AutoFill>
     <BootstrapInput @bind-Value="medicalPK.MedicalPKName"></BootstrapInput>
 
     <Row ItemsPerRow=" ItemsPerRow.Four">
@@ -62,5 +73,18 @@
         }
 
         base.OnParametersSet();
+    }
+    public PatientsTips patientsTips{ set; get; }  
+
+    private Task OnAutoFillSelectedItemChanged(PatientsTips tips )
+    {
+        medicalPK.Medicalrecordnumber = tips.Number;
+        medicalPK.Username = tips.Description;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+    private string OnGetDisplayText(PatientsTips tips)
+    {
+        return $"{tips.Number} - {tips.Description}";
     }
 }

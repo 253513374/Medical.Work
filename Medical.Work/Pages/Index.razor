@@ -21,8 +21,12 @@
                     </Row>
                     <div class="pt-2"></div>
                     <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
+
                         <Search IgnoreCase="true" IsLikeMatch="true" PlaceHolder="请输入关键信息..." DisplayText="." ShowClearButton="true" Items="@Items" OnSearch="@OnSearch2" OnClear="@OnClear"></Search>
                         <button class="createbut fa fa-plus " @onclick="@CreateAddDlg"></button>
+                    
+                          
+                    
                     </Row>
                 </CardBody></Card>
                    

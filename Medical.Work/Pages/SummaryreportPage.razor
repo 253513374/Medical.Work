@@ -9,15 +9,25 @@
     <div class="row">
         <div class="col-7 col-sm-7 col-lg-7 col-xl-7">
             <ValidateForm Model="@Sreport">
-                <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
-                    <BootstrapInput @bind-Value="@Sreport.Medicalrecordnumber" placeholder="请输入..."></BootstrapInput>
-                    <BootstrapInput @bind-Value="@Sreport.Username" placeholder="请输入 ..."></BootstrapInput>
-                </Row>
                 <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
+                   <label>患者信息</label>
+                   <AutoFill TValue="PatientsTips" Value="patientsTips" Items="DataTips.PatientsTips" IsLikeMatch="true" OnSelectedItemChanged="OnAutoFillSelectedItemChanged" OnGetDisplayText="OnGetDisplayText" class="mb-3" IsSelectAllTextOnFocus="true">
+                                    <Template>
+                                        <div class="d-flex">
+                                            <div>
+                                                <img src="/img/gezi.png" class="bb-avatar" style="max-width:48px;" />
+                                            </div>
+                                            <div class="ps-2">
+                                                <div>@context.Number</div>
+                                                <div class="bb-sub">@context.Description</div>
+                                            </div>
+                                        </div>
+                                    </Template>
+                    </AutoFill>
+                
                     <BootstrapInput @bind-Value="@Sreport.Summaryreportclass"></BootstrapInput>
                     <DateTimePicker @bind-Value="@Sreport.Notesdate" placeholder="请输入 ..."></DateTimePicker>
-                </Row>
-
+                 </Row>
                 <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
 
                     <Textarea placeholder="请输入 ..." rows="5" @bind-Value="@Sreport.Treatmentplan"></Textarea>
@@ -81,7 +91,19 @@
 
             return;
         }
+     public PatientsTips patientsTips{ set; get; }  
 
+    private Task OnAutoFillSelectedItemChanged(PatientsTips tips )
+    {
+        Sreport.Medicalrecordnumber = tips.Number;
+        Sreport.Username = tips.Description;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+    private string OnGetDisplayText(PatientsTips tips)
+    {
+        return $"{tips.Number} - {tips.Description}";
+    }
         private void ShowMessage( Color color,string content)
         {
             MessageElement.SetPlacement(Placement.Top);

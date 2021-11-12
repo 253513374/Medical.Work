@@ -33,6 +33,16 @@ namespace Medical.Work.Pages.template
                     await OnEventCallback.InvokeAsync(x_Raybronchoscopy);
                 }
             }
+            else
+            {
+                if (x_Raybronchoscopy.ImgUrl is null) return;
+                foreach (var item in x_Raybronchoscopy.ImgUrl)
+                {
+                    var uploaderFolder = Path.Combine(WebHost.WebRootPath, item.ImgUrl);
+                    var delpath = Path.GetFullPath(uploaderFolder);
+                    System.IO.File.Delete(delpath);
+                }
+            }
             return;
         }
         [CascadingParameter(Name = "BodyContext")]
@@ -111,6 +121,18 @@ namespace Medical.Work.Pages.template
             }
         }
 
+
+        private Task<bool> OnFileDelete(UploadFile item)
+        {
+            //Trace?.Log($"{item.OriginFileName} {Localizer["RemoveMsg"]}");
+            //  var path = $"images{Path.DirectorySeparatorChar}{authenticationStateTask.Result.User.Identity.Name}";
+            var uploaderFolder = Path.Combine(WebHost.WebRootPath, item.PrevUrl);
+
+            x_Raybronchoscopy.ImgUrl.RemoveAll(r => r.ImgUrl == item.PrevUrl);
+            var delpath = Path.GetFullPath(uploaderFolder);
+            System.IO.File.Delete(delpath);
+            return Task.FromResult(true);
+        }
         private X_raybronchoscopyPaths GetImgPath(string url)
         {
 

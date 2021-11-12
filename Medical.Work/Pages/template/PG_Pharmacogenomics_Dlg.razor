@@ -1,21 +1,37 @@
 ﻿
 
+<div style="font-size:24px;font-weight:700" class="w-100 d-flex">
+   
+        <div style="font-size:16px;font-weight:500">
 
+            <ValidateForm Model="@Genome">
+                <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
+                   @* <BootstrapInput @bind-Value="@Genome.Medicalrecordnumber"></BootstrapInput>
+                    <BootstrapInput @bind-Value="@Genome.Username"></BootstrapInput>*@
+               <label>患者信息</label>
+              <AutoFill TValue="PatientsTips" Value="patientsTips" Items="DataTips.PatientsTips" IsLikeMatch="true" OnSelectedItemChanged="OnAutoFillSelectedItemChanged" OnGetDisplayText="OnGetDisplayText" class="mb-3" IsSelectAllTextOnFocus="true">
+                                        <Template>
+                                            <div class="d-flex">
+                                                <div>
+                                                    <img src="/img/gezi.png" class="bb-avatar" style="max-width:48px;" />
+                                                </div>
+                                                <div class="ps-2">
+                                                    <div>@context.Number</div>
+                                                    <div class="bb-sub">@context.Description</div>
+                                                </div>
+                                            </div>
+                                        </Template>
+                        </AutoFill>
+                    <BootstrapInput @bind-Value="@Genome.Rs"></BootstrapInput>
+                    <BootstrapInput @bind-Value="@Genome.Genes"></BootstrapInput>
+                    <BootstrapInput @bind-Value="@Genome.GenesResults"></BootstrapInput>
+                    <BootstrapInput @bind-Value="@Genome.Metabolictype"></BootstrapInput>
+                    <BootstrapInput @bind-Value="@Genome.Exegesis"></BootstrapInput>
+                </Row>
 
-<ValidateForm Model="@Genome">
-    <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
-        <BootstrapInput @bind-Value="@Genome.Medicalrecordnumber"></BootstrapInput>
-        <BootstrapInput @bind-Value="@Genome.Username"></BootstrapInput>
-
-        <BootstrapInput @bind-Value="@Genome.Rs"></BootstrapInput>
-        <BootstrapInput @bind-Value="@Genome.Genes"></BootstrapInput>
-        <BootstrapInput @bind-Value="@Genome.GenesResults"></BootstrapInput>
-        <BootstrapInput @bind-Value="@Genome.Metabolictype"></BootstrapInput>
-        <BootstrapInput @bind-Value="@Genome.Exegesis"></BootstrapInput>
-    </Row>
-
-</ValidateForm>
-
+            </ValidateForm>
+    </div>
+</div>
 
 
 @code {
@@ -23,7 +39,7 @@
     public object? Pharmacogenomics { set; get; }
 
 
-    private MedicalPG_Pharmacogenomics Genome { set; get; }
+    private MedicalPG_Pharmacogenomics Genome { set; get; } = new();
 
 
 
@@ -33,7 +49,24 @@
 
     protected override void OnParametersSet()
     {
-        Genome = Pharmacogenomics as MedicalPG_Pharmacogenomics;
+         if(Pharmacogenomics is not null)
+        {
+            Genome = Pharmacogenomics as MedicalPG_Pharmacogenomics;
+        }
+       
         base.OnParametersSet();
+    }
+    public PatientsTips patientsTips{ set; get; }  
+
+    private Task OnAutoFillSelectedItemChanged(PatientsTips tips )
+    {
+        Genome.Medicalrecordnumber = tips.Number;
+        Genome.Username = tips.Description;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+    private string OnGetDisplayText(PatientsTips tips)
+    {
+        return $"{tips.Number} - {tips.Description}";
     }
 }

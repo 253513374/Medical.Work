@@ -10,9 +10,6 @@ namespace Medical.Work.Data.Models
     public class SummaryOfCases:BaseDataInterface
     {
 
-
-
-
         /// <summary>
         /// 病史概要
         /// </summary>
@@ -35,6 +32,14 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [DisplayName("治疗效果")]
         public HealingeffectEnum? Healingeffect { set; get; }
+
+
+        /// <summary>
+        /// 文本路径
+        /// </summary>
+        public string TextUrl { set; get; }
+
+
         /// <summary>
         /// 感染
         /// </summary>

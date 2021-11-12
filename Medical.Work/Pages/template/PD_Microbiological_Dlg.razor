@@ -8,8 +8,23 @@
         <div style="font-size:16px;font-weight:500">
             <ValidateForm Model="@medicalPD_Microbiological">
                 <Row ItemsPerRow="ItemsPerRow.One">
-                    <BootstrapInput @bind-Value="@medicalPD_Microbiological.Username"></BootstrapInput>
+                  @*  <BootstrapInput @bind-Value="@medicalPD_Microbiological.Username"></BootstrapInput>
                     <BootstrapInput @bind-Value="@medicalPD_Microbiological.Medicalrecordnumber"></BootstrapInput>
+                   *@
+                    <label>患者信息</label>
+                      <AutoFill TValue="PatientsTips" Value="patientsTips" Items="DataTips.PatientsTips" IsLikeMatch="true" OnSelectedItemChanged="OnAutoFillSelectedItemChanged" OnGetDisplayText="OnGetDisplayText" class="mb-3" IsSelectAllTextOnFocus="true">
+                            <Template>
+                                <div class="d-flex">
+                                    <div>
+                                        <img src="/img/gezi.png" class="bb-avatar" style="max-width:48px;" />
+                                    </div>
+                                    <div class="ps-2">
+                                        <div>@context.Number</div>
+                                        <div class="bb-sub">@context.Description</div>
+                                    </div>
+                                </div>
+                            </Template>
+            </AutoFill>
                     <Select @bind-Value="@medicalPD_Microbiological.TestorisNot"></Select>
                 </Row>
                 <Row ItemsPerRow="ItemsPerRow.Two">
@@ -49,5 +64,18 @@
             medicalPD_Microbiological = Microbiological as MedicalPD_Microbiological;
         }
         base.OnParametersSet();
+    }
+      public PatientsTips patientsTips{ set; get; }  
+
+    private Task OnAutoFillSelectedItemChanged(PatientsTips tips )
+    {
+        medicalPD_Microbiological.Medicalrecordnumber = tips.Number;
+        medicalPD_Microbiological.Username = tips.Description;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+    private string OnGetDisplayText(PatientsTips tips)
+    {
+        return $"{tips.Number} - {tips.Description}";
     }
 }

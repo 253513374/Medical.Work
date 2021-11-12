@@ -28,6 +28,8 @@ namespace Medical.Work.Data
         public DbSet<Contacts> Contacts { set; get; }
 
         public DbSet<Summaryreport> Summaryreports { set; get; }
+
+        public DbSet<SummaryOfCases> SummaryOfCases { set; get; }
         public DbSet<X_raybronchoscopy> X_raybronchoscopys { set; get; }
         public DbSet<X_rayImaging> X_rayImagings { set; get; }
         public DbSet<X_raypathological> X_raypathologicals { set; get; }
@@ -41,6 +43,7 @@ namespace Medical.Work.Data
         public MedicalDbContext(DbContextOptions<MedicalDbContext> options)
            : base(options)
         {
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -64,8 +67,8 @@ namespace Medical.Work.Data
              */
 
 
-         
-            modelBuilder.Entity<PatientInfo>().ToTable("PatientInfo");
+
+            modelBuilder.Entity<PatientInfo>().ToTable("PatientInfo");//.IsMemoryOptimized();
             //modelBuilder.Entity<MedicalDGK>().ToTable("MedicalDGK");
             modelBuilder.Entity<Contacts>().ToTable("Contacts");
 
@@ -87,8 +90,5 @@ namespace Medical.Work.Data
 
             base.OnModelCreating(modelBuilder);
         }
-
-
-
     }
 }

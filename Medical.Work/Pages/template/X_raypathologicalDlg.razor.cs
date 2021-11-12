@@ -105,6 +105,18 @@ namespace Medical.Work.Pages.template
             }
         }
 
+
+        private Task<bool> OnFileDelete(UploadFile item)
+        {
+            //Trace?.Log($"{item.OriginFileName} {Localizer["RemoveMsg"]}");
+            //  var path = $"images{Path.DirectorySeparatorChar}{authenticationStateTask.Result.User.Identity.Name}";
+            var uploaderFolder = Path.Combine(WebHost.WebRootPath, item.PrevUrl);
+
+            x_Raypathological.ImgUrl.RemoveAll(r => r.ImgUrl == item.PrevUrl);
+            var delpath = Path.GetFullPath(uploaderFolder);
+            File.Delete(delpath);
+            return Task.FromResult(true);
+        }
         private X_raypathologicalPaths GetImgPath(string url)
         {
 

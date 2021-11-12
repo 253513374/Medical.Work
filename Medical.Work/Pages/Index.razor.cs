@@ -62,6 +62,10 @@ namespace Medical.Work.Pages
         //}
 
 
+        /// <summary>
+        /// 加载患者个人信息列表
+        /// </summary>
+        /// <returns></returns>
         public async Task GetForecastAsync()
         {
             using ( var context  = ContextFactory.CreateDbContext())
@@ -71,14 +75,21 @@ namespace Medical.Work.Pages
 
                 var array = Patients.Select(s => s.Medicalrecordnumber).ToList();
                 var arrayname = Patients.Select(s => s.Username).ToArray();
+
+                DataTips.PatientsTips = Patients.Select(s=> new PatientsTips { Number = s.Medicalrecordnumber,Description = s.Username }).ToList();
+
                 Items.AddRange(array);
                 Items.AddRange(arrayname);
+
             }
             StateHasChanged();
             return;
         }
 
-
+        /// <summary>
+        /// 添加患者个人基本信息数据
+        /// </summary>
+        /// <returns></returns>
         private async Task CreateAddDlg()
         {
             var result = await Dialog.ShowModal<PatientInfoDlg>(new ResultDialogOption()
@@ -108,7 +119,11 @@ namespace Medical.Work.Pages
 
         }
 
-
+        /// <summary>
+        /// 编辑患者个人基本信息数据
+        /// </summary>
+        /// <param name="patient"></param>
+        /// <returns></returns>
         private async Task OnEditpatientdlg(PatientInfo patient)
         {
             var result = await Dialog.ShowModal<PatientInfoDlg>(new ResultDialogOption()
@@ -134,6 +149,11 @@ namespace Medical.Work.Pages
         }
 
 
+        /// <summary>
+        /// 搜索患者个人信息
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <returns></returns>
         private async Task OnSearch2(string searchText)
         {
             //Trace2.Log($"SearchText: {searchText}");
@@ -152,6 +172,12 @@ namespace Medical.Work.Pages
             return ;
         }
 
+
+        /// <summary>
+        /// 内存分页显示患者信息，自动刷新
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
         private  Task<QueryData<PatientInfo>> OnQueryPageAsync(QueryPageOptions options)
         {
             if (Patients is null) { 
@@ -167,6 +193,12 @@ namespace Medical.Work.Pages
           
         }
 
+
+        /// <summary>
+        /// 删除患者个人信息
+        /// </summary>
+        /// <param name="patient"></param>
+        /// <returns></returns>
         private async Task Ondel(PatientInfo patient)
         {
             var op = new SwalOption()
