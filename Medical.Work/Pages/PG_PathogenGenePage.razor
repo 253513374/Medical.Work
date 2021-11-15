@@ -36,7 +36,7 @@
         <CardBody>
             <Table TItem="MedicalPG_PathogenGene" ShowLoading="true" IsPagination="true" IsStriped="true" IsBordered="true"
                    ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
-                   OnQueryAsync="@OnQueryAsync" IsAutoRefresh="true"
+                   OnQueryAsync="@OnQueryAsync" IsAutoRefresh="true" ShowCardView ="true"
                    ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
                 <RowButtonTemplate>
                     @* <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context,1))" />*@
