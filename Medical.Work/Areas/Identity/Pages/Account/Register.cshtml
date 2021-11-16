@@ -4,9 +4,7 @@
     ViewData["Title"] = "注册";
 }
 
-<h1>@ViewData["Title"]</h1>
-
-<div class="row">
+<div class="row d-flex justify-content-center align-content-center">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>创建一个新账户。</h4>
@@ -30,7 +28,7 @@
             <button type="submit" class="btn btn-primary">提交</button>
         </form>
     </div>
-    <div class="col-md-6 col-md-offset-2">
+   @* <div class="col-md-6 col-md-offset-2">
         <section>
             <h4>使用其他服务注册。</h4>
             <hr />
@@ -59,7 +57,7 @@
                 }
             }
         </section>
-    </div>
+    </div>*@
 </div>
 
 @section Scripts {
