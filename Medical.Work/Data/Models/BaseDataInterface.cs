@@ -1,16 +1,12 @@
 ﻿using BootstrapBlazor.Components;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Medical.Work.Data
 {
     public class BaseDataInterface
     {
-
         /// <summary>
         /// ID
         /// </summary>
@@ -23,6 +19,7 @@ namespace Medical.Work.Data
         /// </summary>
         [AutoGenerateColumn(Ignore = true)]
         public int LaboratoryExaminationID { set; get; }
+
         [AutoGenerateColumn(Ignore = true)]
         public string Adminname { set; get; }
 

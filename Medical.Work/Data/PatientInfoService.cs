@@ -1,32 +1,28 @@
 ﻿using Medical.Work.Data.Models;
-using Microsoft.AspNetCore.Components;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace Medical.Work.Data
 {
     public class PatientInfoService
     {
+        private IDbContextFactory<MedicalDbContext> ContextFactory { set; get; }
 
-
-        IDbContextFactory<MedicalDbContext> ContextFactory { set; get; }
         public PatientInfoService(IDbContextFactory<MedicalDbContext> contextFactory)
         {
             ContextFactory = contextFactory;
         }
+
         public bool UpdatePatientInfo(PatientInfo info)
         {
-
             using (var context = ContextFactory.CreateDbContext())
             {
                 context.patientInfos.Update(info);
                 context.SaveChanges();
-                
             }
-               
+
             return true;
         }
 
@@ -37,10 +33,9 @@ namespace Medical.Work.Data
                 context.patientInfos.Remove(info);
                 context.SaveChanges();
             }
-               
+
             return true;
         }
-
 
         public bool AddPatientInfo(List<PatientInfo> info)
         {
@@ -49,19 +44,18 @@ namespace Medical.Work.Data
                 context.patientInfos.AddRange(info);
                 context.SaveChanges();
             }
-                
+
             return true;
         }
 
         public bool AddPatientInfo(PatientInfo info)
         {
-
             using (var context = ContextFactory.CreateDbContext())
             {
                 context.patientInfos.Add(info);
                 context.SaveChanges();
             }
-               
+
             return true;
         }
 
@@ -70,11 +64,9 @@ namespace Medical.Work.Data
             using (var context = ContextFactory.CreateDbContext())
             {
                 //context.SaveChanges();
-                return await context.patientInfos.Where(w => w.Guid == guid).AsNoTracking().FirstOrDefaultAsync();  
+                return await context.patientInfos.Where(w => w.Guid == guid).AsNoTracking().FirstOrDefaultAsync();
             }
-          
         }
-
 
         /// <summary>
         /// 根据关键字返回一个集合
@@ -82,11 +74,11 @@ namespace Medical.Work.Data
         /// <param name="key"></param>
         /// <param name="Username"></param>
         /// <returns></returns>
-        public async Task<List<PatientInfo>> QueryPatientInfos(string key,string Username)
+        public async Task<List<PatientInfo>> QueryPatientInfos(string key, string Username)
         {
             using (var context = ContextFactory.CreateDbContext())
             {
-                return await context.patientInfos.Where(w=>w.Adminname== Username).Where(w => w.Medicalrecordnumber.Contains(key) || w.Username.Contains(key)).ToListAsync();
+                return await context.patientInfos.Where(w => w.Adminname == Username).Where(w => w.Medicalrecordnumber.Contains(key) || w.Username.Contains(key)).ToListAsync();
             }
             //  null;
         }

@@ -1,6 +1,7 @@
 ﻿
 
 @page "/SummaryreportPage"
+@using System.Diagnostics.CodeAnalysis
 
 @inject IDbContextFactory<MedicalDbContext> Contextfactory
 @inject UserManager<IdentityUser> Usermanager
@@ -46,7 +47,7 @@
 
         </div>
     </div>
-    <Message @ref="MessageElement" ></Message>
+    <Message @ref="message" ></Message>
 </div>
     @code {
         private Summaryreport Sreport { set; get; } = new();
@@ -55,14 +56,14 @@
         [CascadingParameter]
         private Task<AuthenticationState> authenticationStateTask { get; set; }
 
-
-        private Message MessageElement { set; get; }
+        [NotNull]
+        private Message message { set; get; }
 
         [Inject]
         private MessageTag Messagetagservice { set; get; }
 
         [Inject]
-        private MessageService? Messageservice { set; get; }
+        private MessageService? messageService { set; get; }
 
         [Inject]
         public DialogService? Dialogservice { set; get; }
@@ -106,13 +107,23 @@
     }
         private void ShowMessage( Color color,string content)
         {
-            MessageElement.SetPlacement(Placement.Top);
-            Messageservice?.Show(new MessageOption()
+            //MessageElement.SetPlacement(Placement.Top);
+            //Messageservice?.Show(new MessageOption()
+            //{
+            //    Host = MessageElement,
+            //    Content = content,
+            //    Icon = "fa fa-info-circle",
+            //    Color = Color.Success
+            //});
+              message.SetPlacement(Placement.Top);
+            messageService?.Show(new MessageOption()
             {
-                Host = MessageElement,
+             
                 Content = content,
                 Icon = "fa fa-info-circle",
-                Color = Color.Success
-            });
+                Color = color,
+                ShowBar = true,
+                ShowDismiss = true,
+            }, message);
         }
     }

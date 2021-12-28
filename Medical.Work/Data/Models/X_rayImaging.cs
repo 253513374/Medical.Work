@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Medical.Work.Data.Models
 {
@@ -14,8 +12,6 @@ namespace Medical.Work.Data.Models
     /// </summary>
     public class X_rayImaging : BaseDataInterface
     {
-
-
         /// <summary>
         /// 检查日期
         /// </summary>
@@ -47,7 +43,6 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [DisplayName("详细描述")]
         public string Describe { set; get; }
-
 
         /// <summary>
         /// 摄影图像

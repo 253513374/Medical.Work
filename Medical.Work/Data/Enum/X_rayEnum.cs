@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Medical.Work.Data.Enum
+﻿namespace Medical.Work.Data.Enum
 {
     public enum X_rayEnum
     {
@@ -12,14 +7,13 @@ namespace Medical.Work.Data.Enum
         病理检查
     }
 
-
     public enum X_rayImagingEnum
     {
-       X线,超声,CT,磁共振
-    }
-    public enum X_rayImaginglocationEnum
-    {
-        肺部,胸部,腹部,肝胆胰
+        X线, 超声, CT, 磁共振
     }
 
+    public enum X_rayImaginglocationEnum
+    {
+        肺部, 胸部, 腹部, 肝胆胰
+    }
 }

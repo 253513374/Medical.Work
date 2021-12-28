@@ -1,12 +1,6 @@
-﻿using BootstrapBlazor.Components;
-using Medical.Work.Data.Enum;
+﻿using Medical.Work.Data.Enum;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Medical.Work.Data.Models
 {
@@ -15,10 +9,6 @@ namespace Medical.Work.Data.Models
     /// </summary>
     public class MedicalPD_Microbiological : BaseDataInterface
     {
-       
-
-
-
         ///// <summary>
         ///// 登陆用户名称
         ///// </summary>
@@ -70,13 +60,11 @@ namespace Medical.Work.Data.Models
         [DisplayName("是否检出")]
         public TestorNotEnum? TestorNot { set; get; }
 
-
         /// <summary>
         /// 报告时间
         /// </summary>
         [DisplayName("报告时间")]
         public DateTime ReportTime { set; get; }
-
 
         /// <summary>
         ///  报告日期
@@ -84,13 +72,10 @@ namespace Medical.Work.Data.Models
         [DisplayName("报告日期")]
         public DateTime Inspectiontime { set; get; }
 
-
         /// <summary>
         /// 检出细菌
         /// </summary>
         [DisplayName("检出细菌")]
         public string Bacterial { set; get; }
-
-
     }
 }

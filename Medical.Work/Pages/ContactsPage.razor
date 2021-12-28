@@ -136,10 +136,10 @@
             // ShowCloseButton = true,
             ButtonYesText = "选择",
             ButtonYesIcon = "fa fa-search",
-            ComponentParamters = new KeyValuePair<string, object>[]
+            ComponentParamters = new Dictionary<string, object>
             {
             //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
-            new(nameof(ContactsDlg.OnEventCallback), EventCallback.Factory.Create<Contacts>(this, v => _Contacts = v))
+                [nameof(ContactsDlg.OnEventCallback)]= EventCallback.Factory.Create<Contacts>(this, v => _Contacts = v)
             }
         });
 

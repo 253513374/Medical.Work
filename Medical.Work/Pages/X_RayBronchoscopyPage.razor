@@ -146,10 +146,10 @@
                 Title = "新建纤维支气管镜检查",
                 BodyContext = _Raybronchoscopy,
 
-                ComponentParamters = new KeyValuePair<string, object>[]
+                ComponentParamters = new Dictionary<string, object>
                  {
                 //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
-                      new(nameof(X_raybronchoscopyDlg.OnEventCallback), EventCallback.Factory.Create<X_raybronchoscopy>(this, v => x_Raybronchoscopy = v))
+                      [nameof(X_raybronchoscopyDlg.OnEventCallback)]= EventCallback.Factory.Create<X_raybronchoscopy>(this, v => x_Raybronchoscopy = v)
                      }
             });
 
@@ -188,14 +188,25 @@
 
         public void ShowColorMessage(Color color, string content, Message message)
         {
+            //message.SetPlacement(Placement.Top);
+            //messageService?.Show(new MessageOption()
+            //{
+            //    Host = message,
+            //    Content = content,
+            //    Icon = "fa fa-info-circle",
+            //    Color = color
+            //});
+
             message.SetPlacement(Placement.Top);
             messageService?.Show(new MessageOption()
             {
-                Host = message,
+
                 Content = content,
                 Icon = "fa fa-info-circle",
-                Color = color
-            });
+                Color = color,
+                ShowBar = true,
+                ShowDismiss = true,
+            }, message);
         }
 
         [Inject]

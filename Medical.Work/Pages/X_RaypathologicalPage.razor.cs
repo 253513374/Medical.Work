@@ -1,30 +1,27 @@
 ﻿using BootstrapBlazor.Components;
+using Medical.Work.Data;
 using Medical.Work.Data.Models;
 using Medical.Work.Pages.template;
 using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic.CompilerServices;
-using Medical.Work.Data;
 
 namespace Medical.Work.Pages
 {
     public partial class X_RaypathologicalPage
     {
-
         private string Querywhere { set; get; }
 
+        private X_raypathological raypathological { set; get; }
 
-        private X_raypathological raypathological { set; get; } 
-
-        private List<X_raypathological>   x_Raypathologicals { set; get; } = new();
-
+        private List<X_raypathological> x_Raypathologicals { set; get; } = new();
 
         [Inject]
         private MessageService messageService { set; get; }
+
         private Message MessageElement { set; get; }
 
         private MedicalDbContext context { set; get; }
@@ -34,6 +31,7 @@ namespace Medical.Work.Pages
 
         [Parameter]
         public string Name { get; set; }
+
         protected override async Task OnParametersSetAsync()
         {
             if (Text is not null or "")
@@ -46,6 +44,7 @@ namespace Medical.Work.Pages
             }
             return;
         }
+
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
@@ -58,16 +57,15 @@ namespace Medical.Work.Pages
 
         private async Task OnShowDlg(X_raypathological obj)
         {
-
             var result = await Dialogservice.ShowModal<X_raypathologicalDlg>(new ResultDialogOption()
             {
                 Title = "新建病理检查",
                 BodyContext = obj,
 
-                ComponentParamters = new KeyValuePair<string, object>[]
+                ComponentParamters = new Dictionary<string, object>
                 {
                     //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
-                    new(nameof(X_raypathologicalDlg.OnEventCallback), EventCallback.Factory.Create<X_raypathological>(this, v => raypathological = v))
+                    [nameof(X_raypathologicalDlg.OnEventCallback)] = EventCallback.Factory.Create<X_raypathological>(this, v => raypathological = v)
                 }
             });
 
@@ -87,34 +85,26 @@ namespace Medical.Work.Pages
                 }
             }
             return;
-
         }
-
-
-
 
         public async Task OnSearch()
         {
-            using (var context  = ContextFactor.CreateDbContext())
+            using (var context = ContextFactor.CreateDbContext())
             {
                 var Username = authenticationStateTask.Result.User.Identity.Name;
                 DateTime dateTime = DateTime.Now.AddDays(-30);
-                if (Querywhere is  null)
+                if (Querywhere is null)
                 {
-
                     x_Raypathologicals = await context.X_raypathologicals.AsNoTracking().Where(w => w.Adminname == Username).Take(100).ToListAsync();
                 }
                 else
                 {
                     x_Raypathologicals = await context.X_raypathologicals.AsNoTracking().Where(w => w.Adminname == Username).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.Username.Contains(Querywhere)).ToListAsync();
-
                 }
             }
             StateHasChanged();
             return;
-               
         }
-
 
         private Task<QueryData<X_raypathological>> OnQueryPageAsync(QueryPageOptions options)
         {
@@ -124,19 +114,28 @@ namespace Medical.Work.Pages
                 Items = items,
                 TotalCount = x_Raypathologicals.Count()
             });
-
         }
+
         public void ShowColorMessage(Color color, string content, Message message)
         {
+            //message.SetPlacement(Placement.Top);
+            //messageService?.Show(new MessageOption()
+            //{
+            //    Host = message,
+            //    Content = content,
+            //    Icon = "fa fa-info-circle",
+            //    Color = color
+            //});
+
             message.SetPlacement(Placement.Top);
             messageService?.Show(new MessageOption()
             {
-                Host = message,
                 Content = content,
                 Icon = "fa fa-info-circle",
-                Color = color
-            });
+                Color = color,
+                ShowBar = true,
+                ShowDismiss = true,
+            }, message);
         }
-
     }
 }

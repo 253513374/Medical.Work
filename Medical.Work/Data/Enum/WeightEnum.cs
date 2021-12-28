@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Medical.Work.Data.Enum
+﻿namespace Medical.Work.Data.Enum
 {
     public enum WeightEnum
     {
         ug,
-        mg, 
+        mg,
         g,
         Kg,
         平车,

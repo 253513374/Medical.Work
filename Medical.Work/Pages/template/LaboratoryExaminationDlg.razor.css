@@ -1,11 +1,4 @@
-﻿
-
-
-
-
-
-
-.form-inline .form-group .control-label {
+﻿.form-inline .form-group .control-label {
     margin-right: 10px;
     width: 220px;
     text-overflow: ellipsis;

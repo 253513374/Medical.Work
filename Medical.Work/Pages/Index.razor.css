@@ -1,17 +1,8 @@
-﻿
-
-
-
-
-
-
-
-
-.istyle {
+﻿.istyle {
     color: #ffc77d
 }
 
-.istyle:hover {
-    color: #e54304;
-    border-block-color: #e54304
-}
+    .istyle:hover {
+        color: #e54304;
+        border-block-color: #e54304
+    }

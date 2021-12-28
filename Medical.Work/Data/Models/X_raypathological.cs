@@ -1,20 +1,15 @@
 ﻿using BootstrapBlazor.Components;
-using Medical.Work.Data.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Medical.Work.Data.Models
 {
-
     /// <summary>
     /// 病理检查
     /// </summary>
     public class X_raypathological : BaseDataInterface
     {
-
         //[AutoGenerateColumn(Ignore = true, DefaultSort = true)]
         //public DateTime Createtime { set; get; }
 
@@ -27,7 +22,6 @@ namespace Medical.Work.Data.Models
         //[DisplayName("唯一编码")]
         //[AutoGenerateColumn(Ignore = true)]
         //public string PatientInfoGuid { set; get; }
-
 
         ///// <summary>
         ///// 患者名称
@@ -42,7 +36,7 @@ namespace Medical.Work.Data.Models
         //public string Medicalrecordnumber { set; get; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [DisplayName("检查日期")]
         public DateTime Photodate { set; get; }
@@ -58,6 +52,7 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [DisplayName("部位")]
         public string Xraylocation { set; get; }
+
         /// <summary>
         /// 放射诊断方式
         /// </summary>

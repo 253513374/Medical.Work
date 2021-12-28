@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Medical.Work.Data.Enum
+﻿namespace Medical.Work.Data.Enum
 {
     /// <summary>
     ///  未检出,  已经检出
     /// </summary>
     public enum TestorNotEnum
     {
-        未检出,  已经检出
+        未检出, 已经检出
     }
 
     /// <summary>

@@ -1,8 +1,5 @@
 ﻿using BootstrapBlazor.Components;
 using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Medical.Work.Pages.template
@@ -15,7 +12,6 @@ namespace Medical.Work.Pages.template
             {
                 if (OnEventCallback.HasDelegate)
                 {
-
                     await OnEventCallback.InvokeAsync(medicalPD_Microbiological);
                 }
             }

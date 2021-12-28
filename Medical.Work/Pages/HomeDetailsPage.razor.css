@@ -1,12 +1,11 @@
-﻿
-
-body {
+﻿body {
     overflow: hidden;
 }
 
-myposition1{
+myposition1 {
     position: relative;
 }
+
 div.myposition2 {
     position: absolute;
     margin-left: 300px;
@@ -18,7 +17,7 @@ div.myscroll {
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
     overflow-x: auto;
-    overflow-y: scroll; 
+    overflow-y: scroll;
     padding: 0 0.1rem;
     margin-bottom: -.2rem;
     overflow: -moz-scrollbars-none;
@@ -29,14 +28,11 @@ div.myscroll {
         display: none; /*隐藏滚动条*/
     }
 
-
-
 div.laft_top {
     position: -webkit-sticky;
     position: sticky;
-/*    top: 20px;*/
+    /*    top: 20px;*/
     top: 50%;
-  /*  margin-left: 30%;*/
+    /*  margin-left: 30%;*/
     transform: translate(-0%,-50%);
 }
-

@@ -311,10 +311,7 @@
     background-color: inherit;
 }
 
-
 /********自定义**********/
-
-
 
 .createbut {
     border: 1px solid #8bdff4;
@@ -348,9 +345,8 @@
         background-color: #56CDF8;
     }
 
-.divtop{
-    height:144px;
-
+.divtop {
+    height: 144px;
 }
 
 /******** CSS 模仿纸张自然曲边视觉效果***********/
@@ -394,4 +390,3 @@
         bottom: 10px;
         z-index: -1;
     }
-

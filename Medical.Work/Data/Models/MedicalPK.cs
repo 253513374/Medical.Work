@@ -3,21 +3,15 @@ using Medical.Work.Data.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Medical.Work.Data.Models
 {
-
     /// <summary>
     /// 给药方案
     /// </summary>
     public class MedicalPK : BaseDataInterface
     {
         /*药品通用名，溶媒（如0.9% 氯化钠100ml）,单次剂量，给药频率，给药途径，开始时间，截止时间，公斤体质量日剂量，厂家类型*/
-
 
         //[AutoGenerateColumn(Ignore = true)]
         //public int MedicalPKID { set; get; }
@@ -45,7 +39,6 @@ namespace Medical.Work.Data.Models
         //[DisplayName("患者姓名")]
         //public string UserName { set; get; }
 
-
         /// <summary>
         /// 方案名称(可选)
         /// </summary>
@@ -55,7 +48,7 @@ namespace Medical.Work.Data.Models
         /// <summary>
         /// 起始给药日期（DATE，day）
         /// </summary>
-        [DisplayName( "起始给药日期")]
+        [DisplayName("起始给药日期")]
         public DateTime? FirstTime { set; get; }
 
         /// <summary>
@@ -69,7 +62,6 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [DisplayName("药品通用名")]
         public string DrugsNmae { set; get; }
-
 
         /// <summary>
         /// 药品商品名
@@ -85,13 +77,11 @@ namespace Medical.Work.Data.Models
         [AutoGenerateColumn(Ignore = true)]
         public string DrugSpecifications { set; get; }
 
-
         /// <summary>
         /// 厂家类型
         /// </summary>
         [DisplayName("厂家类型")]
         public ManufacturertypeEnum Manufacturertype { set; get; }
-
 
         /// <summary>
         /// 药品单次剂量
@@ -117,6 +107,7 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [DisplayName("给药频率")]
         public DrugNCountEnum DrugNCount { set; get; }
+
         /// <summary>
         /// 给药持续时间
         /// </summary>
@@ -136,14 +127,11 @@ namespace Medical.Work.Data.Models
         [DisplayName("溶媒剂量")]
         public string SolventToDosage { set; get; }
 
-
-
         /// <summary>
         /// 公斤体质量日剂量：      mg/kg
         /// </summary>
         [DisplayName("公斤体质量日剂量(mg·kg⁻¹·d⁻¹)")]
         public string AMTsingledose { set; get; }
-
 
         [AutoGenerateColumn(Ignore = true)]
         public List<MedicalPKSampling> MedicalPKSamplings { set; get; }

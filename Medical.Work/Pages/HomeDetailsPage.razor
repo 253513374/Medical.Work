@@ -642,11 +642,11 @@
     }
 
 
-    private async Task NavigateEvent(PatientInfo patient,string url)
+    private  Task NavigateEvent(PatientInfo patient,string url)
     {
 
         var nav = $"{url}/{patient.Medicalrecordnumber}/{patient.Username}";
         navigationManager.NavigateTo(nav);
-        return;
+        return Task.CompletedTask;
     }
 }

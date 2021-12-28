@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Medical.Work.Data.Models
 {
@@ -13,12 +10,9 @@ namespace Medical.Work.Data.Models
 
         public DateTime Createtime { set; get; }
 
-
         public string ImgUrl { set; get; }
 
-
-
         public int ID { set; get; }
-        public X_raypathological  x_Raypathological { set; get; }
+        public X_raypathological x_Raypathological { set; get; }
     }
 }

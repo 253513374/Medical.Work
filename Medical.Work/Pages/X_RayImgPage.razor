@@ -131,10 +131,10 @@
             Title = "新建影像学检查",
             BodyContext = obj,
 
-            ComponentParamters = new KeyValuePair<string, object>[]
+            ComponentParamters = new Dictionary<string, object>
                {
                 //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
-                      new(nameof(X_rayImagingDlg.OnEventCallback), EventCallback.Factory.Create<X_rayImaging>(this, v => rayImaging = v))
+                      [nameof(X_rayImagingDlg.OnEventCallback)]= EventCallback.Factory.Create<X_rayImaging>(this, v => rayImaging = v)
                    }
         });
 
@@ -162,21 +162,24 @@
     {
         message.SetPlacement(Placement.Top);
         messageService?.Show(new MessageOption()
-        {
-            Host = message,
-            Content = content,
-            Icon = "fa fa-info-circle",
-            Color = color
-        });
+            {
+
+                Content = content,
+                Icon = "fa fa-info-circle",
+                Color = color,
+                ShowBar = true,
+                ShowDismiss = true,
+            }, message);
     }
 
-    private async Task OnRowEditClick(object obj, int typeofint)
+    private  Task OnRowEditClick(object obj, int typeofint)
     {
         //if (typeofint == 1) await EditX_Raydata(obj as X_rayImaging);
 
         //if (typeofint == 2) await EditX_Raydata(obj as X_raybronchoscopy);
 
         //if (typeofint == 3) await EditX_Raydata(obj as X_raypathological);
+        return Task.CompletedTask;
     }
     private async Task OnRowDetailedClick(object obj, int typeofint)
     {

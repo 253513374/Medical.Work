@@ -1,16 +1,10 @@
 ﻿using BootstrapBlazor.Components;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Medical.Work.Data.Models
 {
     public class PatientInfoExDiagnosisTable
     {
-
-
         /// <summary>
         /// id
         /// </summary>
@@ -22,6 +16,7 @@ namespace Medical.Work.Data.Models
         public int ID { set; get; }
 
         public SummaryOfCases Summaryofcases { set; get; }
+
         /// <summary>
         /// 感染诊断
         /// </summary>
@@ -33,7 +28,5 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [DisplayName("感染部位")]
         public string Affectedarea { set; get; }
-
-      
     }
 }

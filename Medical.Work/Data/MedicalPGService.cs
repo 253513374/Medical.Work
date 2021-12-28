@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Medical.Work.Data
+﻿namespace Medical.Work.Data
 {
     public class MedicalPGService
     {
-
     }
 }

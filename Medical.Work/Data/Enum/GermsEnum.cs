@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Medical.Work.Data.Enum
+﻿namespace Medical.Work.Data.Enum
 {
     public enum GermsEnum
     {
@@ -12,6 +7,5 @@ namespace Medical.Work.Data.Enum
         隐球菌,
         其他真菌,
         类鼻疽
-        
     }
 }

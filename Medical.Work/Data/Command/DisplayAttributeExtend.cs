@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Medical.Work.Data.Command
 {
-    static  public  class DisplayAttributeExtend
+    public static class DisplayAttributeExtend
     {
-
         /// <summary>
         /// 获取标签【DisplayName】名称
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="t"></param>
         /// <returns></returns>
-        static public Dictionary<string, object?> GetAttributeExtends<T>(T t)
+        public static Dictionary<string, object?> GetAttributeExtends<T>(T t)
         {
             Type type = typeof(T);
             PropertyInfo[] properties = type.GetProperties();
@@ -26,41 +23,32 @@ namespace Medical.Work.Data.Command
             {
                 //display名字
                 var name = p.GetCustomAttribute<DisplayNameAttribute>();
-              
-                if (name!=null)
+
+                if (name != null)
                 {
                     var property = t.GetType().GetProperty(p.Name).GetValue(t, null);
 
-
                     var value = property ?? null;
-                  //  NameAttribute = name.DisplayName;
+                    //  NameAttribute = name.DisplayName;
                     dic.Add(name.DisplayName, value);
-
                 }
                 //对应的值
-
-               
-
-                
             }
             return dic;
         }
 
-        static public List<string> GetAttributeExtend<T>(T t)
+        public static List<string> GetAttributeExtend<T>(T t)
         {
             Type type = typeof(T);
             PropertyInfo[] properties = type.GetProperties();
-         
-            var list =  new  List<string>();
+
+            var list = new List<string>();
             foreach (var p in properties)
             {
                 list.Add(p.GetCustomAttribute<DisplayNameAttribute>().DisplayName);
             }
 
             return list;
-
         }
     }
-
 }
-

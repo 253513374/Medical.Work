@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using BootstrapBlazor.Components;
+﻿using BootstrapBlazor.Components;
 using Medical.Work.Data.Models;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Options;
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Medical.Work.Pages.template
 {
     public partial class X_raypathologicalDlg : ComponentBase, IResultDialog
     {
-
         private IWebHostEnvironment webHostEnvironment { set; get; }
+
         async Task IResultDialog.OnClose(DialogResult result)
         {
             if (result == DialogResult.Yes)
@@ -34,12 +29,12 @@ namespace Medical.Work.Pages.template
 
         [CascadingParameter]
         private Task<AuthenticationState> authenticationStateTask { get; set; }
+
         [Inject]
         private IWebHostEnvironment WebHost { get; set; }
 
         [CascadingParameter(Name = "BodyContext")]
         public object? objectx_Raypathological { set; get; }
-
 
         [Parameter]
         public EventCallback<X_raypathological> OnEventCallback { set; get; }
@@ -58,19 +53,17 @@ namespace Medical.Work.Pages.template
 
         protected override Task OnParametersSetAsync()
         {
-            if(objectx_Raypathological is not null)
+            if (objectx_Raypathological is not null)
             {
                 x_Raypathological = objectx_Raypathological as X_raypathological;
             }
             return base.OnParametersSetAsync();
         }
-      
 
         private async Task OnCardUpload(UploadFile uploadFile)
         {
             if (uploadFile != null && uploadFile.File != null)
             {
-
                 // 服务器端验证当文件大于 2MB 时提示文件太大信息
                 if (uploadFile.Size > MaxFileLength)
                 {
@@ -80,7 +73,6 @@ namespace Medical.Work.Pages.template
                 }
                 else
                 {
-
                     var path = $"images{Path.DirectorySeparatorChar}{authenticationStateTask.Result.User.Identity.Name}";
                     var uploaderFolder = Path.Combine(WebHost.WebRootPath, path);
                     var FileName1 = $"{Path.GetFileNameWithoutExtension(uploadFile.OriginFileName)}-{DateTimeOffset.Now:yyyyMMddHHmmss}{Path.GetExtension(uploadFile.OriginFileName)}";
@@ -95,16 +87,12 @@ namespace Medical.Work.Pages.template
                     {
                         uploadFile.PrevUrl = $"images/{authenticationStateTask.Result.User.Identity.Name}/{FileName1}";
                         if (x_Raypathological.ImgUrl is null) x_Raypathological.ImgUrl = new();
-                        var imgpath= GetImgPath(uploadFile.PrevUrl);
+                        var imgpath = GetImgPath(uploadFile.PrevUrl);
                         x_Raypathological.ImgUrl.Add(imgpath);
-
                     }
-
-
                 }
             }
         }
-
 
         private Task<bool> OnFileDelete(UploadFile item)
         {
@@ -117,18 +105,16 @@ namespace Medical.Work.Pages.template
             File.Delete(delpath);
             return Task.FromResult(true);
         }
+
         private X_raypathologicalPaths GetImgPath(string url)
         {
-
             var name = authenticationStateTask.Result.User.Identity.Name;
             return new X_raypathologicalPaths()
             {
-
                 ImgUrl = url,
                 Createtime = DateTime.Now,
                 Adminuser = name,
             };
-
         }
     }
 }

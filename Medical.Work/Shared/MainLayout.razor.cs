@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Medical.Work.Shared
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class MainLayout
     {
@@ -26,13 +26,10 @@ namespace Medical.Work.Shared
 
         private bool showCollapseBar { get; set; } = true;
 
-
         private string calssstring { get; set; }
         private List<MenuItem> Menus { get; set; }
 
         private Dictionary<string, string> TabItemTextDictionary { get; set; }
-
-
 
         /// <summary>
         /// OnInitialized 方法
@@ -62,11 +59,9 @@ namespace Medical.Work.Shared
                     new MenuItem(){Text= "采样信息" ,Url = "MedicalPKDetailsPage"}
                 } },
 
-
                 new MenuItem() {  Text = "类鼻疽-PD", Icon = "fa fa-fw fa-fa", Items= new  List<MenuItem>{
                      new MenuItem(){Text="临床微生物检查" , Url="PD_MicrobiologicalPage"},
                      new MenuItem(){Text="药敏试验",Url="PD_DrugAllergy_Page"}
-
                 } },
 
                 new MenuItem() {  Text = "类鼻疽-PG", Icon = "fa fa-fw fa-check-square-o", Items =new List<MenuItem>{
@@ -84,12 +79,10 @@ namespace Medical.Work.Shared
                 new MenuItem() {  Text = "监护日志", Icon = "fa fa-fw fa-fa", Url = "SummaryreportPage" },
                 new MenuItem() {  Text = "案例总结", Icon = "fa fa-fw fa-fa", Url = "SummaryOfCasesPage" },
                 new MenuItem() {  Text = "联系人管理", Icon = "fa fa-fw fa-check-square-o", Url = "ContactsPage" }
-
             };
 
             return menus;
         }
-
 
         private Task OnCollapsedEvent(bool s)
         {
@@ -104,7 +97,5 @@ namespace Medical.Work.Shared
 
             return Task.CompletedTask;
         }
-
-
     }
 }

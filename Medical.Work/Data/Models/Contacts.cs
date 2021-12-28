@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace Medical.Work.Data.Models
 {
-    public class Contacts :  BaseDataInterface
+    public class Contacts : BaseDataInterface
     {
-
-
-
-
         /// <summary>
         /// 联系电话
         /// </summary>
         [DisplayName("联系电话")]
         public string Contactnumber { set; get; }
+
         /// <summary>
         /// 患者邮件
         /// </summary>
@@ -29,8 +22,6 @@ namespace Medical.Work.Data.Models
         [DisplayName("单位及地址")]
         public string Address { set; get; }
 
-
-
         ///// <summary>
         ///// 记录人账号
         ///// </summary>
@@ -42,7 +33,5 @@ namespace Medical.Work.Data.Models
         ///// </summary>
         //[DisplayName("记录时间")]
         //public DateTime? Createtime { set; get; }
-
-        
     }
 }

@@ -1,28 +1,32 @@
 ﻿using BootstrapBlazor.Components;
 using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Medical.Work.Data
 {
-    public  class MessageTag
+    public class MessageTag
     {
-
         [Inject]
-        public MessageService Messageservice { get; set; }
+        public MessageService messageService { get; set; }
 
-        public  void ShowColorMessage(Color color, string content,  Message message)
+        public void ShowColorMessage(Color color, string content, Message message)
         {
+            //message.SetPlacement(Placement.Top);
+            //Messageservice?.Show(new MessageOption()
+            //{
+            //    Host = message,
+            //    Content = content,
+            //    Icon = "fa fa-info-circle",
+            //    Color = color
+            //});
             message.SetPlacement(Placement.Top);
-            Messageservice?.Show(new MessageOption()
+            messageService?.Show(new MessageOption()
             {
-                Host = message,
                 Content = content,
                 Icon = "fa fa-info-circle",
-                Color = color
-            });
+                Color = color,
+                ShowBar = true,
+                ShowDismiss = true,
+            }, message);
         }
     }
 }

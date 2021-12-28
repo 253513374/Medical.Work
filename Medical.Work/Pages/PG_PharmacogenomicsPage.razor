@@ -139,11 +139,16 @@
             Title = "新建药物基因组学",
             BodyContext = obj,
             Size = Size.ExtraSmall,
-            ComponentParamters = new KeyValuePair<string, object>[]
-              {
-                //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
-                      new(nameof(PG_Pharmacogenomics_Dlg.OnEventCallback), EventCallback.Factory.Create<MedicalPG_Pharmacogenomics>(this, v => pG_Pharmacogenomic = v))
-                  }
+                ComponentParamters = new Dictionary<string, object>
+                {
+               
+                      [nameof(PG_Pharmacogenomics_Dlg.OnEventCallback)]= EventCallback.Factory.Create<MedicalPG_Pharmacogenomics>(this, v => pG_Pharmacogenomic = v)
+                 }
+            //ComponentParamters = new KeyValuePair<string, object>[]
+            //  {
+               
+            //          new(nameof(PG_Pharmacogenomics_Dlg.OnEventCallback), EventCallback.Factory.Create<MedicalPG_Pharmacogenomics>(this, v => pG_Pharmacogenomic = v))
+            //      }
         });
 
         if (result == DialogResult.Yes)
@@ -172,14 +177,16 @@
 
     public void ShowColorMessage(Color color, string content, Message message)
     {
-        message.SetPlacement(Placement.Top);
-        messageService?.Show(new MessageOption()
-        {
-            Host = message,
-            Content = content,
-            Icon = "fa fa-info-circle",
-            Color = color
-        });
+         message.SetPlacement(Placement.Top);
+            messageService?.Show(new MessageOption()
+            {
+             
+                Content = content,
+                Icon = "fa fa-info-circle",
+                Color = color,
+                ShowBar = true,
+                ShowDismiss = true,
+            }, message);
     }
 
     [Inject]

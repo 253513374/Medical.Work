@@ -1,13 +1,10 @@
-﻿
-
-
-p{
-    margin-bottom:2px;
+﻿p {
+    margin-bottom: 2px;
 }
 
 button.addbut {
     border: 1px solid #8bdff4;
-    height:45px;
+    height: 45px;
     width: 45px;
     border-radius: 50%;
     background-color: #8bdff4;
@@ -26,7 +23,8 @@ div.tlist {
     background-color: white;
     margin: 5px;
 }
+
     div.tlist:hover {
         background-color: #fff2df;
-        border-bottom:3px solid #ff6a00;
+        border-bottom: 3px solid #ff6a00;
     }

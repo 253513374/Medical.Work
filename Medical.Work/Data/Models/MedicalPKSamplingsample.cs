@@ -1,21 +1,14 @@
 ﻿using BootstrapBlazor.Components;
 using Medical.Work.Data.Enum;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Threading.Tasks;
 
 namespace Medical.Work.Data.Models
 {
     public class MedicalPKSamplingsample
     {
-
         [AutoGenerateColumn(Ignore = true)]
         public int MedicalPKSampling_sampleID { set; get; }
-
-
 
         [AutoGenerateColumn(Ignore = true)]
         public int ID { get; set; }
@@ -28,11 +21,13 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [DisplayName("采样点")]
         public string SamplingNumber { get; set; } = "C1";
+
         /// <summary>
         /// 样品编号
         /// </summary>
         [DisplayName("编号")]
         public string Number { get; set; }
+
         /// <summary>
         /// 抽血护士
         /// </summary>
@@ -75,12 +70,12 @@ namespace Medical.Work.Data.Models
         [DisplayName("浓度方法")]
         public ConcentrationEnum? C1ConcentrationMethod { set; get; }
 
-
         /// <summary>
         /// 其他
         /// </summary>
         [DisplayName("其他")]
         public string Other { set; get; }
+
         /// <summary>
         /// C1备注
         /// </summary>

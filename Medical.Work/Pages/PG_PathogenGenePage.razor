@@ -147,10 +147,10 @@
             Title = "新建病原菌基因",
             BodyContext = obj,
             Size = Size.ExtraSmall,
-            ComponentParamters = new KeyValuePair<string, object>[]
+            ComponentParamters = new Dictionary<string, object>
             {
                 //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
-                      new(nameof(PG_PathogenGene_Dlg.OnEventCallback), EventCallback.Factory.Create<MedicalPG_PathogenGene>(this, v => pG_PathogenGene = v))
+                     [nameof(PG_PathogenGene_Dlg.OnEventCallback)]= EventCallback.Factory.Create<MedicalPG_PathogenGene>(this, v => pG_PathogenGene = v)
                 }
         });
 
@@ -179,14 +179,16 @@
     }
     public void ShowColorMessage(Color color, string content, Message message)
     {
-        message.SetPlacement(Placement.Top);
-        messageService?.Show(new MessageOption()
-        {
-            Host = message,
-            Content = content,
-            Icon = "fa fa-info-circle",
-            Color = color
-        });
+         message.SetPlacement(Placement.Top);
+            messageService?.Show(new MessageOption()
+            {
+             
+                Content = content,
+                Icon = "fa fa-info-circle",
+                Color = color,
+                ShowBar = true,
+                ShowDismiss = true,
+            }, message);
     }
     [Inject]
     private SwalService? SwalService { get; set; }

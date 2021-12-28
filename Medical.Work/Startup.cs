@@ -1,22 +1,14 @@
-
 using BootstrapBlazor.Components;
 using Medical.Work.Areas.Identity;
 using Medical.Work.Data;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Medical.Work
 {
@@ -42,8 +34,8 @@ namespace Medical.Work
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<IdentityUser>(
-                options => {
-
+                options =>
+                {
                     options.Password.RequireDigit = true;
                     options.Password.RequireLowercase = false;
                     options.Password.RequiredLength = 6;
@@ -56,7 +48,7 @@ namespace Medical.Work
                     options.SignIn.RequireConfirmedAccount = true;
 
                     options.User.RequireUniqueEmail = true;
-                    }
+                }
                 ).AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddRazorPages();
@@ -65,13 +57,12 @@ namespace Medical.Work
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddSingleton<WeatherForecastService>();
 
-         //   services.AddMatBlazor();
+            //   services.AddMatBlazor();
 
             services.AddBootstrapBlazor();
 
             services.AddScoped<PatientInfoService>();
             services.AddScoped<MessageTag>();
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

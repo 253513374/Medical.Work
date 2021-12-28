@@ -1,29 +1,26 @@
-﻿using Medical.Work.Data;
+﻿using BootstrapBlazor.Components;
+using Medical.Work.Data;
 using Medical.Work.Data.Models;
+using Medical.Work.Pages.template;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Microsoft.EntityFrameworkCore;
-using BootstrapBlazor.Components;
-using Medical.Work.Pages.template;
-using System.Runtime.InteropServices.ComTypes;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Components.Authorization;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Medical.Work.Pages
 {
     public partial class Index
     {
-
         [CascadingParameter]
         private Task<AuthenticationState> authenticationStateTask { get; set; }
 
         [Inject]
-        private MessageService   messageService { set; get; }
+        private MessageService messageService { set; get; }
+
         private Message MessageElement { set; get; }
 
         [Inject]
@@ -32,10 +29,9 @@ namespace Medical.Work.Pages
         [Inject]
         private IDbContextFactory<MedicalDbContext> ContextFactory { set; get; }
 
-
-
         [Inject]
         public DialogService? Dialog { set; get; }
+
         [Inject]
         [NotNull]
         private SwalService? SwalService { get; set; }
@@ -48,19 +44,16 @@ namespace Medical.Work.Pages
         private ListView<PatientInfo> mylistview { set; get; } = new ListView<PatientInfo>();
         public DateTimeRangeValue RangeValue { set; get; } = new() { Start = DateTime.Now.AddDays(-90), End = DateTime.Now };
 
-
-
         protected override async Task OnInitializedAsync()
         {
-            await GetForecastAsync(); 
+            await GetForecastAsync();
             return;// base.OnInitializedAsync();
         }
+
         //protected override void OnInitialized()
         //{
-          
         //    base.OnInitialized();
         //}
-
 
         /// <summary>
         /// 加载患者个人信息列表
@@ -68,19 +61,18 @@ namespace Medical.Work.Pages
         /// <returns></returns>
         public async Task GetForecastAsync()
         {
-            using ( var context  = ContextFactory.CreateDbContext())
+            using (var context = ContextFactory.CreateDbContext())
             {
                 var Username = authenticationStateTask.Result.User.Identity.Name;
-                Patients = await context.patientInfos.Where(w=>w.Adminname== Username).Where(w => w.Createtime >= RangeValue.Start && w.Createtime <= RangeValue.End).AsNoTracking().ToListAsync();
+                Patients = await context.patientInfos.Where(w => w.Adminname == Username).Where(w => w.Createtime >= RangeValue.Start && w.Createtime <= RangeValue.End).AsNoTracking().ToListAsync();
 
                 var array = Patients.Select(s => s.Medicalrecordnumber).ToList();
                 var arrayname = Patients.Select(s => s.Username).ToArray();
 
-                DataTips.PatientsTips = Patients.Select(s=> new PatientsTips { Number = s.Medicalrecordnumber,Description = s.Username }).ToList();
+                DataTips.PatientsTips = Patients.Select(s => new PatientsTips { Number = s.Medicalrecordnumber, Description = s.Username }).ToList();
 
                 Items.AddRange(array);
                 Items.AddRange(arrayname);
-
             }
             StateHasChanged();
             return;
@@ -96,11 +88,11 @@ namespace Medical.Work.Pages
             {
                 Title = "新建医患信息",
                 BodyContext = new PatientInfo(),
-
-                ComponentParamters = new KeyValuePair<string, object>[]
-                  {
-                      new(nameof(PatientInfoDlg.OnEventCallback), EventCallback.Factory.Create<PatientInfo>(this, v => patientInfo = v))
-                  }
+                ComponentParamters = new Dictionary<string, object>
+                {
+                    //[nameof(PatientInfoDlg.patientInfo)]= patientInfo,
+                    [nameof(PatientInfoDlg.OnEventCallback)] = EventCallback.Factory.Create<PatientInfo>(this, v => patientInfo = v)
+                }
             });
 
             if (result == DialogResult.Yes)
@@ -116,7 +108,6 @@ namespace Medical.Work.Pages
             }
             StateHasChanged();
             return;
-
         }
 
         /// <summary>
@@ -131,10 +122,14 @@ namespace Medical.Work.Pages
                 Title = "编辑修改医患信息",
                 BodyContext = patient,
 
-                ComponentParamters = new KeyValuePair<string, object>[]
-                 {
-                      new(nameof(PatientInfoDlg.OnEventCallback), EventCallback.Factory.Create<PatientInfo>(this, v => patientInfo = v))
-                 }
+                ComponentParamters = new Dictionary<string, object>
+                {
+                    [nameof(PatientInfoDlg.OnEventCallback)] = EventCallback.Factory.Create<PatientInfo>(this, v => patientInfo = v)
+                }
+                //ComponentParamters = new KeyValuePair<string, object>[]
+                // {
+                //      new(nameof(PatientInfoDlg.OnEventCallback), EventCallback.Factory.Create<PatientInfo>(this, v => patientInfo = v))
+                // }
             });
 
             if (result == DialogResult.Yes)
@@ -147,7 +142,6 @@ namespace Medical.Work.Pages
             StateHasChanged();
             return;
         }
-
 
         /// <summary>
         /// 搜索患者个人信息
@@ -164,35 +158,33 @@ namespace Medical.Work.Pages
             StateHasChanged();
             return;
         }
+
         private async Task OnClear(string searchText)
         {
             // Trace2.Log($"OnClear: {searchText}");
             //await GetForecastAsync(DateTime.Now);
             StateHasChanged();
-            return ;
+            return;
         }
-
 
         /// <summary>
         /// 内存分页显示患者信息，自动刷新
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        private  Task<QueryData<PatientInfo>> OnQueryPageAsync(QueryPageOptions options)
+        private Task<QueryData<PatientInfo>> OnQueryPageAsync(QueryPageOptions options)
         {
-            if (Patients is null) { 
-                
+            if (Patients is null)
+            {
                 return null;
             }
             var items = Patients.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems);
             return Task.FromResult(new QueryData<PatientInfo>()
             {
-             Items = items,
-             TotalCount = Patients.Count()
+                Items = items,
+                TotalCount = Patients.Count()
             });
-          
         }
-
 
         /// <summary>
         /// 删除患者个人信息
@@ -209,7 +201,7 @@ namespace Medical.Work.Pages
                 Category = SwalCategory.Warning
             };
             var re = await SwalService.ShowModal(op);
-            if(re)
+            if (re)
             {
                 var ret = InfoService.DeletePatientInfo(patient);
                 if (ret)
@@ -218,7 +210,7 @@ namespace Medical.Work.Pages
                     StateHasChanged();
                 }
             }
-            return ;
+            return;
         }
 
         public void ShowColorMessage(Color color, string content, Message message)
@@ -226,11 +218,12 @@ namespace Medical.Work.Pages
             message.SetPlacement(Placement.Top);
             messageService?.Show(new MessageOption()
             {
-                Host = message,
                 Content = content,
                 Icon = "fa fa-info-circle",
-                Color = color
-            });
+                Color = color,
+                ShowBar = true,
+                ShowDismiss = true,
+            }, message);
         }
     }
 }

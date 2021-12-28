@@ -1,13 +1,13 @@
 ﻿using BootstrapBlazor.Components;
 using Medical.Work.Data.Models;
 using Medical.Work.Pages.template;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace Medical.Work.Pages
 {
@@ -19,7 +19,7 @@ namespace Medical.Work.Pages
         [CascadingParameter]
         private Task<AuthenticationState> authenticationStateTask { get; set; }
 
-        private MedicalPK medicalPK { set; get; } = new(); 
+        private MedicalPK medicalPK { set; get; } = new();
 
         private string Querywhere { set; get; }
 
@@ -34,7 +34,6 @@ namespace Medical.Work.Pages
 
         private async Task OnQuerywhere()
         {
-           
             if (Querywhere is null)
             {
                 using (var context = contextFactory.CreateDbContext())
@@ -51,6 +50,7 @@ namespace Medical.Work.Pages
                 // StateHasChanged();
             }
         }
+
         private async Task OnShowDlg(MedicalPK obj)
         {
             var retdlg = await Dialog.ShowModal<MedicalPKDlg>(new ResultDialogOption()
@@ -58,10 +58,14 @@ namespace Medical.Work.Pages
                 BodyContext = obj,
                 Title = "添加给药方案",
                 Size = Size.ExtraLarge,
-                ComponentParamters = new KeyValuePair<string, object>[]
-                   {
-                    new(nameof(MedicalPKDlg.OnEventCallback), EventCallback.Factory.Create<MedicalPK>(this, v => medicalPK = v))
-                   }
+                ComponentParamters = new Dictionary<string, object>
+                {
+                    [nameof(MedicalPKDlg.OnEventCallback)] = EventCallback.Factory.Create<MedicalPK>(this, v => medicalPK = v)
+                }
+                //ComponentParamters = new KeyValuePair<string, object>[]
+                //   {
+                //    new(nameof(MedicalPKDlg.OnEventCallback), EventCallback.Factory.Create<MedicalPK>(this, v => medicalPK = v))
+                //   }
             });
 
             if (retdlg == DialogResult.Yes)
@@ -78,16 +82,11 @@ namespace Medical.Work.Pages
             }
             StateHasChanged();
             return;
-
         }
-
-    
-
 
         private async Task OnRowDetailedClick(MedicalPK medical)
         {
             return;
         }
-
     }
 }

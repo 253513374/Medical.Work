@@ -1,11 +1,7 @@
-﻿
-
-body {
+﻿body {
 }
 
-
 /*********文字竖排*********8*/
-
 
 .shuli {
     margin: 0 auto;
@@ -14,4 +10,4 @@ body {
     background-color: transparent;
     height: max-content;
     font-weight: 700
-} 
+}

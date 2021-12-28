@@ -330,9 +330,9 @@
             BodyContext = new MedicalPKSampling(),
             Title = "新增信息采集单",
             Size = Size.Large,
-            ComponentParamters = new KeyValuePair<string, object>[]
+            ComponentParamters = new Dictionary<string, object>
             {
-                new(nameof(MedicalPKSamplingsampleDlg.OnEventCallback), EventCallback.Factory.Create<MedicalPKSampling>(this, v => medicalPKSampling = v))
+                [nameof(MedicalPKSamplingsampleDlg.OnEventCallback)]= EventCallback.Factory.Create<MedicalPKSampling>(this, v => medicalPKSampling = v)
                                     }
 
         });
@@ -362,14 +362,16 @@
 
     public void ShowColorMessage(Color color, string content, Message message)
     {
-        message.SetPlacement(Placement.Top);
+         message.SetPlacement(Placement.Top);
         messageService?.Show(new MessageOption()
-        {
-            Host = message,
-            Content = content,
-            Icon = "fa fa-info-circle",
-            Color = color
-        });
+            {
+
+                Content = content,
+                Icon = "fa fa-info-circle",
+                Color = color,
+                ShowBar = true,
+                ShowDismiss = true,
+            }, message);
     }
 
 }

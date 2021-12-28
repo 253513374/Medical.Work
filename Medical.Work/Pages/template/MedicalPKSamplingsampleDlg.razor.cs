@@ -1,19 +1,15 @@
 ﻿using BootstrapBlazor.Components;
-using Medical.Work.Data.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Medical.Work.Pages.template
 {
     public partial class MedicalPKSamplingsampleDlg : ComponentBase, IResultDialog
     {
-
         [CascadingParameter]
         private Task<AuthenticationState> authenticationStateTask { get; set; }
+
         public async Task OnClose(DialogResult result)
         {
             if (result == DialogResult.Yes)

@@ -133,10 +133,10 @@
             BodyContext = obj,
             Title = "实验室检查",
             Size = Size.Large,
-            ComponentParamters = new KeyValuePair<string, object>[]
+            ComponentParamters = new Dictionary<string, object>
             {
-                new(nameof(LaboratoryExaminationDlg.OnEventCallback), EventCallback.Factory.Create<LaboratoryExamination>(this, v => laboratoryExamination = v))
-                }
+               [nameof(LaboratoryExaminationDlg.OnEventCallback)]= EventCallback.Factory.Create<LaboratoryExamination>(this, v => laboratoryExamination = v)
+            }
 
         });
 
@@ -209,12 +209,14 @@
     {
         message.SetPlacement(Placement.Top);
         messageService?.Show(new MessageOption()
-        {
-            Host = message,
-            Content = content,
-            Icon = "fa fa-info-circle",
-            Color = color
-        });
+            {
+
+                Content = content,
+                Icon = "fa fa-info-circle",
+                Color = color,
+                ShowBar = true,
+                ShowDismiss = true,
+            }, message);
     }
     [Inject]
     private SwalService? SwalService { get; set; }
