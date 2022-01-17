@@ -29,10 +29,10 @@
         </Row>
 
         <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
-            <DateTimePicker @bind-Value="@medicalPKSampling.CollectDateTime"></DateTimePicker>
-            <DateTimePicker @bind-Value="@medicalPKSampling.LastDateTime"></DateTimePicker>
-            <DateTimePicker @bind-Value="@medicalPKSampling.StartDateTime"></DateTimePicker>
-            <DateTimePicker @bind-Value="@medicalPKSampling.EndDateTime"></DateTimePicker>
+            <DateTimePicker ViewModel=DatePickerViewModel.DateTime @bind-Value="@medicalPKSampling.CollectDateTime"></DateTimePicker>
+            <DateTimePicker ViewModel=DatePickerViewModel.DateTime  @bind-Value="@medicalPKSampling.LastDateTime"></DateTimePicker>
+            <DateTimePicker ViewModel=DatePickerViewModel.DateTime @bind-Value="@medicalPKSampling.StartDateTime"></DateTimePicker>
+            <DateTimePicker ViewModel=DatePickerViewModel.DateTime @bind-Value="@medicalPKSampling.EndDateTime"></DateTimePicker>
 
         </Row>
         <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
@@ -49,7 +49,6 @@
                 <Select @bind-Value="@medicalPKSampling_Sample.SamplingNumber">
                     <Options>
                         <SelectOption Text="C1" Value="C1" Active="true"></SelectOption>
-                       
                         <SelectOption Text="C2" Value="C2"></SelectOption>
                         <SelectOption Text="C3" Value="C3"></SelectOption>
                         <SelectOption Text="C4" Value="C4"></SelectOption>
@@ -64,7 +63,7 @@
 
             </Row>
             <Row ItemsPerRow="ItemsPerRow.Three" RowType="RowType.Normal">
-                <DateTimePicker @bind-Value="@medicalPKSampling_Sample.C1bloodcollectiontime"></DateTimePicker>
+                <DateTimePicker ViewModel=DatePickerViewModel.DateTime @bind-Value="@medicalPKSampling_Sample.C1bloodcollectiontime"></DateTimePicker>
                 <BootstrapInput @bind-Value="@medicalPKSampling_Sample.C1Concentration"></BootstrapInput>
                 <Select @bind-Value="@medicalPKSampling_Sample.C1ConcentrationUnit"></Select>
                 <BootstrapInput @bind-Value="@medicalPKSampling_Sample.C1ConcentrationStandard"></BootstrapInput>
