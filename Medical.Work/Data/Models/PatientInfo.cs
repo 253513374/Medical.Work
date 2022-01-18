@@ -17,7 +17,7 @@ namespace Medical.Work.Data.Models
         /// 性别（男性记为0，女性记为1）
         /// </summary>
         [DisplayName("性别")]
-        public SexEnum Gender { set; get; }
+        public string Gender { set; get; }
 
         /// <summary>
         /// 年龄（AGE，year）
@@ -45,10 +45,10 @@ namespace Medical.Work.Data.Models
         public double BW { set; get; }
 
         /// <summary>
-        /// 体重单位（BW，kg）
+        /// 体重单位（BW，kg）WeightEnum
         /// </summary>
         [DisplayName("")]
-        public WeightEnum BWWeight { set; get; } = WeightEnum.Kg;
+        public string BWWeight { set; get; } = "kg";
 
         /// <summary>
         /// 体重测量方法（BW，kg）
@@ -75,10 +75,10 @@ namespace Medical.Work.Data.Models
         public string BSA { set; get; }
 
         /// <summary>
-        /// 移植类型
+        /// 移植类型 TransplantationEnum
         /// </summary>
         [DisplayName("移植类型")]
-        public TransplantationEnum? Transplantationtype { set; get; }
+        public string? Transplantationtype { set; get; }
 
         /// <summary>
         /// 移植手术时间
@@ -115,12 +115,6 @@ namespace Medical.Work.Data.Models
         /// </summary>
         [DisplayName("入科APACHEⅡ评分")]
         public string APACHEⅡ { set; get; }
-
-        ///// <summary>
-        ///// 感染部位
-        ///// </summary>
-        //[DisplayName("感染部位")]
-        //public string Affectedarea { set; get; }
 
         /// <summary>
         /// 入院时间

@@ -7,26 +7,30 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace Medical.Work.Migrations
 {
     [DbContext(typeof(MedicalDbContext))]
-    [Migration("20210930081744_db3")]
-    partial class db3
+    [Migration("20220118060945_app1")]
+    partial class app1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.6")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("Medical.Work.Data.Models.Contacts", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
@@ -46,9 +50,6 @@ namespace Medical.Work.Migrations
                     b.Property<string>("Guid")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LaboratoryExaminationID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Medicalrecordnumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -57,15 +58,16 @@ namespace Medical.Work.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Contacts", (string)null);
                 });
 
             modelBuilder.Entity("Medical.Work.Data.Models.LaboratoryExamination", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<string>("ALB")
                         .HasColumnType("nvarchar(max)");
@@ -127,9 +129,6 @@ namespace Medical.Work.Migrations
                     b.Property<string>("INR")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LaboratoryExaminationID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Medicalrecordnumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -186,15 +185,16 @@ namespace Medical.Work.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("LaboratoryExamination");
+                    b.ToTable("LaboratoryExamination", (string)null);
                 });
 
             modelBuilder.Entity("Medical.Work.Data.Models.MedicalPD_DrugAllergy", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<string>("AUCMic")
                         .HasColumnType("nvarchar(max)");
@@ -216,9 +216,6 @@ namespace Medical.Work.Migrations
 
                     b.Property<string>("Guid")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("LaboratoryExaminationID")
-                        .HasColumnType("int");
 
                     b.Property<string>("MIC")
                         .HasColumnType("nvarchar(max)");
@@ -246,15 +243,16 @@ namespace Medical.Work.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("PD_DrugAllergy");
+                    b.ToTable("PD_DrugAllergy", (string)null);
                 });
 
             modelBuilder.Entity("Medical.Work.Data.Models.MedicalPD_Microbiological", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
@@ -270,9 +268,6 @@ namespace Medical.Work.Migrations
 
                     b.Property<DateTime>("Inspectiontime")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("LaboratoryExaminationID")
-                        .HasColumnType("int");
 
                     b.Property<string>("Medicalrecordnumber")
                         .HasColumnType("nvarchar(max)");
@@ -297,15 +292,16 @@ namespace Medical.Work.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("PD_Microbiological");
+                    b.ToTable("PD_Microbiological", (string)null);
                 });
 
             modelBuilder.Entity("Medical.Work.Data.Models.MedicalPG_PathogenGene", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
@@ -318,9 +314,6 @@ namespace Medical.Work.Migrations
 
                     b.Property<string>("Guid")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("LaboratoryExaminationID")
-                        .HasColumnType("int");
 
                     b.Property<string>("Medicalrecordnumber")
                         .HasColumnType("nvarchar(max)");
@@ -339,15 +332,16 @@ namespace Medical.Work.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("PG_PathogenGene");
+                    b.ToTable("PG_PathogenGene", (string)null);
                 });
 
             modelBuilder.Entity("Medical.Work.Data.Models.MedicalPG_Pharmacogenomics", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
@@ -367,9 +361,6 @@ namespace Medical.Work.Migrations
                     b.Property<string>("Guid")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LaboratoryExaminationID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Medicalrecordnumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -384,15 +375,16 @@ namespace Medical.Work.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("PG_Pharmacogenomics");
+                    b.ToTable("PG_Pharmacogenomics", (string)null);
                 });
 
             modelBuilder.Entity("Medical.Work.Data.Models.MedicalPK", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<string>("AMTsingledose")
                         .HasColumnType("nvarchar(max)");
@@ -436,9 +428,6 @@ namespace Medical.Work.Migrations
                     b.Property<string>("Guid")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LaboratoryExaminationID")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("LasttTime")
                         .HasColumnType("datetime2");
 
@@ -459,15 +448,16 @@ namespace Medical.Work.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("PKs");
+                    b.ToTable("PKs", (string)null);
                 });
 
             modelBuilder.Entity("Medical.Work.Data.Models.MedicalPKSampling", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
@@ -486,9 +476,6 @@ namespace Medical.Work.Migrations
 
                     b.Property<string>("Guid")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("LaboratoryExaminationID")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("LastDateTime")
                         .HasColumnType("datetime2");
@@ -512,13 +499,16 @@ namespace Medical.Work.Migrations
 
                     b.HasIndex("MedicalPKID");
 
-                    b.ToTable("PK_Samplings");
+                    b.ToTable("PK_Samplings", (string)null);
                 });
 
             modelBuilder.Entity("Medical.Work.Data.Models.MedicalPKSamplingsample", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("sampleId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("sampleId"), 1L, 1);
 
                     b.Property<string>("C1Concentration")
                         .HasColumnType("nvarchar(max)");
@@ -541,9 +531,6 @@ namespace Medical.Work.Migrations
                     b.Property<DateTime>("C1bloodcollectiontime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("MedicalPKSampling_sampleID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Number")
                         .HasColumnType("nvarchar(max)");
 
@@ -556,17 +543,23 @@ namespace Medical.Work.Migrations
                     b.Property<string>("Samplingname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.Property<int>("sampleForeignKey")
+                        .HasColumnType("int");
 
-                    b.ToTable("PK_Sampling_Samples");
+                    b.HasKey("sampleId");
+
+                    b.HasIndex("sampleForeignKey");
+
+                    b.ToTable("PK_Sampling_Samples", (string)null);
                 });
 
             modelBuilder.Entity("Medical.Work.Data.Models.PatientInfo", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<int>("AGE")
                         .HasColumnType("int");
@@ -622,9 +615,6 @@ namespace Medical.Work.Migrations
                     b.Property<string>("IsBWType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LaboratoryExaminationID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Medicalrecordnumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -648,7 +638,7 @@ namespace Medical.Work.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("PatientInfo");
+                    b.ToTable("PatientInfo", (string)null);
                 });
 
             modelBuilder.Entity("Medical.Work.Data.Models.PatientInfoExDiagnosisTable", b =>
@@ -674,8 +664,9 @@ namespace Medical.Work.Migrations
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
@@ -687,9 +678,6 @@ namespace Medical.Work.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Healingeffect")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LaboratoryExaminationID")
                         .HasColumnType("int");
 
                     b.Property<string>("Medicalhistorysummary")
@@ -704,6 +692,9 @@ namespace Medical.Work.Migrations
                     b.Property<int?>("Pathogenicbacteria")
                         .HasColumnType("int");
 
+                    b.Property<string>("TextUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
@@ -716,8 +707,9 @@ namespace Medical.Work.Migrations
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
@@ -730,9 +722,6 @@ namespace Medical.Work.Migrations
 
                     b.Property<string>("Guid")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("LaboratoryExaminationID")
-                        .HasColumnType("int");
 
                     b.Property<string>("Medicalrecordnumber")
                         .HasColumnType("nvarchar(max)");
@@ -754,79 +743,13 @@ namespace Medical.Work.Migrations
                     b.ToTable("Summaryreports");
                 });
 
-            modelBuilder.Entity("Medical.Work.Data.Models.X_rayImagePaths", b =>
-                {
-                    b.Property<int>("ID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Adminuser")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Createtime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ImgUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("X_rayImagePathsID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("x_RayImagePaths");
-                });
-
-            modelBuilder.Entity("Medical.Work.Data.Models.X_rayImaging", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Adminname")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Createtime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Describe")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Guid")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("LaboratoryExaminationID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Medicalrecordnumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Photodate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Reportdate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("XrayImaginglocationenum")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Xrayimagingenum")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("X_rayImagings");
-                });
-
             modelBuilder.Entity("Medical.Work.Data.Models.X_raybronchoscopy", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
@@ -836,9 +759,6 @@ namespace Medical.Work.Migrations
 
                     b.Property<string>("Guid")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("LaboratoryExaminationID")
-                        .HasColumnType("int");
 
                     b.Property<string>("Medicalrecordnumber")
                         .HasColumnType("nvarchar(max)");
@@ -867,8 +787,9 @@ namespace Medical.Work.Migrations
                 {
                     b.Property<int>("X_raybronchoscopyPathsID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("X_raybronchoscopyPathsID"), 1L, 1);
 
                     b.Property<string>("Adminuser")
                         .HasColumnType("nvarchar(max)");
@@ -889,12 +810,78 @@ namespace Medical.Work.Migrations
                     b.ToTable("x_RaybronchoscopyPaths");
                 });
 
+            modelBuilder.Entity("Medical.Work.Data.Models.X_rayImagePaths", b =>
+                {
+                    b.Property<int>("ID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Adminuser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Createtime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImgUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("X_rayImagePathsID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("x_RayImagePaths");
+                });
+
+            modelBuilder.Entity("Medical.Work.Data.Models.X_rayImaging", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<string>("Adminname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Createtime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Describe")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Guid")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Medicalrecordnumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Photodate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Reportdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("XrayImaginglocationenum")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Xrayimagingenum")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("X_rayImagings");
+                });
+
             modelBuilder.Entity("Medical.Work.Data.Models.X_raypathological", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
@@ -904,9 +891,6 @@ namespace Medical.Work.Migrations
 
                     b.Property<string>("Guid")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("LaboratoryExaminationID")
-                        .HasColumnType("int");
 
                     b.Property<string>("Medicalrecordnumber")
                         .HasColumnType("nvarchar(max)");
@@ -964,7 +948,7 @@ namespace Medical.Work.Migrations
                 {
                     b.HasOne("Medical.Work.Data.Models.MedicalPKSampling", "medicalPKSampling")
                         .WithMany("medicalPKSamplings")
-                        .HasForeignKey("ID")
+                        .HasForeignKey("sampleForeignKey")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -982,17 +966,6 @@ namespace Medical.Work.Migrations
                     b.Navigation("Summaryofcases");
                 });
 
-            modelBuilder.Entity("Medical.Work.Data.Models.X_rayImagePaths", b =>
-                {
-                    b.HasOne("Medical.Work.Data.Models.X_rayImaging", "x_RayImaging")
-                        .WithMany("ImgUrl")
-                        .HasForeignKey("ID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("x_RayImaging");
-                });
-
             modelBuilder.Entity("Medical.Work.Data.Models.X_raybronchoscopyPaths", b =>
                 {
                     b.HasOne("Medical.Work.Data.Models.X_raybronchoscopy", "x_Raybronchoscopy")
@@ -1002,6 +975,17 @@ namespace Medical.Work.Migrations
                         .IsRequired();
 
                     b.Navigation("x_Raybronchoscopy");
+                });
+
+            modelBuilder.Entity("Medical.Work.Data.Models.X_rayImagePaths", b =>
+                {
+                    b.HasOne("Medical.Work.Data.Models.X_rayImaging", "x_RayImaging")
+                        .WithMany("ImgUrl")
+                        .HasForeignKey("ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("x_RayImaging");
                 });
 
             modelBuilder.Entity("Medical.Work.Data.Models.X_raypathologicalPaths", b =>
@@ -1030,12 +1014,12 @@ namespace Medical.Work.Migrations
                     b.Navigation("PatientInfoExDiagnosisTable");
                 });
 
-            modelBuilder.Entity("Medical.Work.Data.Models.X_rayImaging", b =>
+            modelBuilder.Entity("Medical.Work.Data.Models.X_raybronchoscopy", b =>
                 {
                     b.Navigation("ImgUrl");
                 });
 
-            modelBuilder.Entity("Medical.Work.Data.Models.X_raybronchoscopy", b =>
+            modelBuilder.Entity("Medical.Work.Data.Models.X_rayImaging", b =>
                 {
                     b.Navigation("ImgUrl");
                 });

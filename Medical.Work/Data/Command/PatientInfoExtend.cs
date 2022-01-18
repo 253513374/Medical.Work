@@ -21,7 +21,7 @@ namespace Medical.Work.Data.Command
             //S=0.0061×身高+0.0124×体重-0.0099
             if (patientInfo != null)
             {
-                return (patientInfo.HEI * 0.0061 + 0.0124 * patientInfo.BW - 0.0099).ToString();
+                return (patientInfo.HEI * 0.0061 + 0.0124 * patientInfo.BW - 0.0099).ToString("0.000");
             }
             return "";
         }

@@ -14,11 +14,8 @@
             <BootstrapInput @bind-Value="@patientInfo.Medicalrecordnumber" />
             <BootstrapInput @bind-Value="@patientInfo.Department" />
             <BootstrapInput @bind-Value="@patientInfo.Username" />
-            <Select @bind-Value="@patientInfo.Gender" />
-
-          
-
-         
+            <Select @bind-Value="@patientInfo.Gender" Items="EnumItems.SexItems" >
+            </Select>
         </Row>
 
             <div class=" row form-inline" style="margin: 15px;" >
@@ -69,30 +66,17 @@
                         </div>
                     </div>
                     <div class="col-3" style="padding:initial">
-                        <Select @bind-Value="@patientInfo.BWWeight" ShowLabel="false" />
+                        <Select @bind-Value="@patientInfo.BWWeight" Items="EnumItems.WeightEnum" ShowLabel="false" >
+                        </Select>
                     </div>
                     <div class="col-3" style="padding:initial">
-                        <Select Items="@Items" Value="@patientInfo.IsBWType" TValue="String" ShowLabel="false"></Select>
+                        <Select Items="EnumItems.Weighttype" Value="@patientInfo.IsBWType" TValue="String" ShowLabel="false"></Select>
                     </div>
                    
                    
                   
                 </div>
             </div>
-
-
-           
-       
-     
-        <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Inline">
-            <Row  ItemsPerRow="ItemsPerRow.Three" RowType="RowType.Normal">
-              
-            </Row>
-            <Row  ItemsPerRow="ItemsPerRow.Three" RowType="RowType.Normal">
-             
-            </Row>
-        </Row>
-    
 
 
         <Row RowType="RowType.Inline" ItemsPerRow="ItemsPerRow.Four">
@@ -103,7 +87,7 @@
             </Row>
             <Row ColSpan="4" ItemsPerRow="ItemsPerRow.Two">
                 <DateTimePicker @bind-Value="@patientInfo.Transplantationtime" ShowLabel="true" Placement="Placement.Auto" />
-                <Select @bind-Value="@patientInfo.Transplantationtype" />
+                <Select @bind-Value="@patientInfo.Transplantationtype" Items="EnumItems.TransplantationEnum" />
             </Row>
             <Row ColSpan="4" ItemsPerRow="ItemsPerRow.Two">
                 <DateTimePicker @bind-Value="@patientInfo.Admissiontime" ShowLabel="true" Placement="Placement.Auto" />
@@ -121,6 +105,8 @@
 </div>
 @code {
 
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     [CascadingParameter(Name = "BodyContext")]
     public object? objects { set; get; }

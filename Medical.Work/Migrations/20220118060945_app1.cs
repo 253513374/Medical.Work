@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
 
 namespace Medical.Work.Migrations
 {
-    public partial class db2 : Migration
+    public partial class app1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +18,6 @@ namespace Medical.Work.Migrations
                     Contactnumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Emai = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LaboratoryExaminationID = table.Column<int>(type: "int", nullable: false),
                     Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Medicalrecordnumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -67,7 +68,6 @@ namespace Medical.Work.Migrations
                     Yeast = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CSF = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Remark = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LaboratoryExaminationID = table.Column<int>(type: "int", nullable: false),
                     Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Medicalrecordnumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -87,9 +87,9 @@ namespace Medical.Work.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Department = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Gender = table.Column<byte>(type: "tinyint", nullable: false),
-                    AGE = table.Column<int>(type: "int", nullable: true),
-                    MonthAGE = table.Column<int>(type: "int", nullable: true),
-                    DayAGE = table.Column<int>(type: "int", nullable: true),
+                    AGE = table.Column<int>(type: "int", nullable: false),
+                    MonthAGE = table.Column<int>(type: "int", nullable: false),
+                    DayAGE = table.Column<int>(type: "int", nullable: false),
                     BW = table.Column<double>(type: "float", nullable: false),
                     BWWeight = table.Column<int>(type: "int", nullable: false),
                     IsBWType = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -105,7 +105,6 @@ namespace Medical.Work.Migrations
                     APACHEⅡ = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Admissiontime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Dischargetime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LaboratoryExaminationID = table.Column<int>(type: "int", nullable: false),
                     Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Medicalrecordnumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -133,7 +132,6 @@ namespace Medical.Work.Migrations
                     Susceptibility = table.Column<int>(type: "int", nullable: true),
                     TMic = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AUCMic = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LaboratoryExaminationID = table.Column<int>(type: "int", nullable: false),
                     Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Medicalrecordnumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -158,7 +156,6 @@ namespace Medical.Work.Migrations
                     ReportTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Inspectiontime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Bacterial = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LaboratoryExaminationID = table.Column<int>(type: "int", nullable: false),
                     Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Medicalrecordnumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -180,7 +177,6 @@ namespace Medical.Work.Migrations
                     PathogenicGeneName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PathogenicGeneDetectionResults = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Exegesis = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LaboratoryExaminationID = table.Column<int>(type: "int", nullable: false),
                     Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Medicalrecordnumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -203,7 +199,6 @@ namespace Medical.Work.Migrations
                     GenesResults = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Metabolictype = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Exegesis = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LaboratoryExaminationID = table.Column<int>(type: "int", nullable: false),
                     Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Medicalrecordnumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -221,7 +216,6 @@ namespace Medical.Work.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MedicalPKID = table.Column<int>(type: "int", nullable: false),
                     MedicalPKName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FirstTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     LasttTime = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -237,7 +231,6 @@ namespace Medical.Work.Migrations
                     DrugSolvent = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SolventToDosage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AMTsingledose = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LaboratoryExaminationID = table.Column<int>(type: "int", nullable: false),
                     Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Medicalrecordnumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -259,7 +252,7 @@ namespace Medical.Work.Migrations
                     Medication = table.Column<int>(type: "int", nullable: true),
                     Pathogenicbacteria = table.Column<int>(type: "int", nullable: true),
                     Healingeffect = table.Column<int>(type: "int", nullable: true),
-                    LaboratoryExaminationID = table.Column<int>(type: "int", nullable: false),
+                    TextUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Medicalrecordnumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -281,7 +274,6 @@ namespace Medical.Work.Migrations
                     Notesdate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Clinicalsymptoms = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Treatmentplan = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LaboratoryExaminationID = table.Column<int>(type: "int", nullable: false),
                     Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Medicalrecordnumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -303,7 +295,6 @@ namespace Medical.Work.Migrations
                     Reportdate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Xraylocation = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Xrayinspection = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LaboratoryExaminationID = table.Column<int>(type: "int", nullable: false),
                     Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Medicalrecordnumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -326,7 +317,6 @@ namespace Medical.Work.Migrations
                     Xrayimagingenum = table.Column<int>(type: "int", nullable: false),
                     XrayImaginglocationenum = table.Column<int>(type: "int", nullable: false),
                     Describe = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LaboratoryExaminationID = table.Column<int>(type: "int", nullable: false),
                     Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Medicalrecordnumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -348,7 +338,6 @@ namespace Medical.Work.Migrations
                     Reportdate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Xraylocation = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Xrayinspection = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LaboratoryExaminationID = table.Column<int>(type: "int", nullable: false),
                     Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Medicalrecordnumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -366,14 +355,13 @@ namespace Medical.Work.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MedicalPKID = table.Column<int>(type: "int", nullable: false),
                     SpecimenType = table.Column<int>(type: "int", nullable: true),
                     CollectDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     StartDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Collectingvessel = table.Column<int>(type: "int", nullable: true),
-                    LaboratoryExaminationID = table.Column<int>(type: "int", nullable: false),
+                    MedicalPKID = table.Column<int>(type: "int", nullable: true),
                     Adminname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Medicalrecordnumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -387,8 +375,7 @@ namespace Medical.Work.Migrations
                         name: "FK_PK_Samplings_PKs_MedicalPKID",
                         column: x => x.MedicalPKID,
                         principalTable: "PKs",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -479,8 +466,9 @@ namespace Medical.Work.Migrations
                 name: "PK_Sampling_Samples",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false),
-                    MedicalPKSampling_sampleID = table.Column<int>(type: "int", nullable: false),
+                    sampleId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    sampleForeignKey = table.Column<int>(type: "int", nullable: false),
                     SamplingNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Number = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Samplingname = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -495,14 +483,19 @@ namespace Medical.Work.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PK_Sampling_Samples", x => x.ID);
+                    table.PrimaryKey("PK_PK_Sampling_Samples", x => x.sampleId);
                     table.ForeignKey(
-                        name: "FK_PK_Sampling_Samples_PK_Samplings_ID",
-                        column: x => x.ID,
+                        name: "FK_PK_Sampling_Samples_PK_Samplings_sampleForeignKey",
+                        column: x => x.sampleForeignKey,
                         principalTable: "PK_Samplings",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PK_Sampling_Samples_sampleForeignKey",
+                table: "PK_Sampling_Samples",
+                column: "sampleForeignKey");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PK_Samplings_MedicalPKID",

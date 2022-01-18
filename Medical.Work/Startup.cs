@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace Medical.Work
 {
@@ -17,6 +18,9 @@ namespace Medical.Work
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            using var log = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateLogger();
         }
 
         public IConfiguration Configuration { get; }
@@ -27,11 +31,11 @@ namespace Medical.Work
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("MedicalIdentity")));
 
             services.AddDbContextFactory<MedicalDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("MedicalApp")));
 
             services.AddDefaultIdentity<IdentityUser>(
                 options =>

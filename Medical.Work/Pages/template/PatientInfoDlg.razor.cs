@@ -1,5 +1,7 @@
 ﻿using BootstrapBlazor.Components;
+using Medical.Work.Data.Models;
 using Microsoft.AspNetCore.Components;
+using System;
 using System.Threading.Tasks;
 
 namespace Medical.Work.Pages.template
@@ -14,6 +16,9 @@ namespace Medical.Work.Pages.template
                 if (OnEventCallback.HasDelegate)
                 {
                     //IEnumerableValues.ForEach(s => s.Remarks = Remarks);
+                    patientInfo.Adminname=authenticationStateTask.Result.User.Identity.Name;
+                    patientInfo.Createtime = DateTime.Now;
+                    patientInfo.Guid = Guid.NewGuid().ToString();
                     await OnEventCallback.InvokeAsync(patientInfo);
                 }
             }

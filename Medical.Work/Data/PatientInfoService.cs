@@ -1,5 +1,6 @@
 ﻿using Medical.Work.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,9 +11,12 @@ namespace Medical.Work.Data
     {
         private IDbContextFactory<MedicalDbContext> ContextFactory { set; get; }
 
-        public PatientInfoService(IDbContextFactory<MedicalDbContext> contextFactory)
+        private readonly ILogger _logger;
+
+        public PatientInfoService(IDbContextFactory<MedicalDbContext> contextFactory, ILogger<PatientInfoService> logger)
         {
             ContextFactory = contextFactory;
+            _logger = logger;   
         }
 
         public bool UpdatePatientInfo(PatientInfo info)
@@ -50,11 +54,20 @@ namespace Medical.Work.Data
 
         public bool AddPatientInfo(PatientInfo info)
         {
-            using (var context = ContextFactory.CreateDbContext())
+            try
             {
-                context.patientInfos.Add(info);
-                context.SaveChanges();
+                using (var context = ContextFactory.CreateDbContext())
+                {
+                    context.patientInfos.Add(info);
+                    context.SaveChanges();
+                }
             }
+            catch (System.Exception e)
+            {
+                _logger.LogInformation(e.StackTrace);
+                throw;
+            }
+           
 
             return true;
         }

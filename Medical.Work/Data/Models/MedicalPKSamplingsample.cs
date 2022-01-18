@@ -2,16 +2,24 @@
 using Medical.Work.Data.Enum;
 using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Medical.Work.Data.Models
 {
     public class MedicalPKSamplingsample
     {
+        /// <summary>
+        /// 外键
+        /// </summary>
         [AutoGenerateColumn(Ignore = true)]
-        public int MedicalPKSampling_sampleID { set; get; }
+        public int sampleForeignKey { set; get; }
 
+        /// <summary>
+        /// 主键
+        /// </summary>
         [AutoGenerateColumn(Ignore = true)]
-        public int ID { get; set; }
+        [Key]
+        public int sampleId { get; set; }
 
         [AutoGenerateColumn(Ignore = true)]
         public MedicalPKSampling medicalPKSampling { get; set; }

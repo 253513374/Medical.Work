@@ -1,6 +1,7 @@
 ﻿using BootstrapBlazor.Components;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using System;
 using System.Threading.Tasks;
 
 namespace Medical.Work.Pages.template
@@ -17,8 +18,11 @@ namespace Medical.Work.Pages.template
                 if (OnEventCallback.HasDelegate)
                 {
                     if (medicalPKSampling.medicalPKSamplings is null) medicalPKSampling.medicalPKSamplings = new();
-                    var name = authenticationStateTask.Result.User.Identity.Name;
-                    medicalPKSampling.Adminname = name;
+                    //var name = authenticationStateTask.Result.User.Identity.Name;
+                    medicalPKSampling.Adminname = authenticationStateTask.Result.User.Identity.Name;
+                    medicalPKSampling.Createtime = DateTime.Now;
+
+               
                     medicalPKSampling.medicalPKSamplings.AddRange(pKSampling_Samples);
                     await OnEventCallback.InvokeAsync(medicalPKSampling);
                 }

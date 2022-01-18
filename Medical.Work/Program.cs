@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace Medical.Work
 {
@@ -15,6 +16,9 @@ namespace Medical.Work
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                }).UseSerilog((context, configure) =>
+                {
+                    configure.ReadFrom.Configuration(context.Configuration);
                 });
     }
 }

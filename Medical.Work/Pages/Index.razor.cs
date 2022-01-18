@@ -84,6 +84,8 @@ namespace Medical.Work.Pages
         /// <returns></returns>
         private async Task CreateAddDlg()
         {
+
+            PatientInfo patient = new PatientInfo();
             var result = await Dialog.ShowModal<PatientInfoDlg>(new ResultDialogOption()
             {
                 Title = "新建医患信息",
@@ -91,19 +93,15 @@ namespace Medical.Work.Pages
                 ComponentParamters = new Dictionary<string, object>
                 {
                     //[nameof(PatientInfoDlg.patientInfo)]= patientInfo,
-                    [nameof(PatientInfoDlg.OnEventCallback)] = EventCallback.Factory.Create<PatientInfo>(this, v => patientInfo = v)
+                    [nameof(PatientInfoDlg.OnEventCallback)] = EventCallback.Factory.Create<PatientInfo>(this, v => patient = v)
                 }
             });
 
             if (result == DialogResult.Yes)
             {
-                patientInfo.Createtime = DateTime.Now;
-                patientInfo.Adminname = authenticationStateTask.Result.User.Identity.Name;
-                patientInfo.Guid = Guid.NewGuid().ToString();
-                InfoService.AddPatientInfo(patientInfo);
-                Patients.Add(patientInfo);
-                //UpdateDate();
-
+                InfoService.AddPatientInfo(patient);
+                Patients.Add(patient);
+                DataTips.PatientsTips = Patients.Select(s => new PatientsTips { Number = s.Medicalrecordnumber, Description = s.Username }).ToList();
                 ShowColorMessage(Color.Danger, "医患信息添加成功", MessageElement);
             }
             StateHasChanged();

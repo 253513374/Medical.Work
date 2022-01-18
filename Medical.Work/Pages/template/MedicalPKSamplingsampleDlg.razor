@@ -7,9 +7,6 @@
 
 
         <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
-
-       @*     <BootstrapInput @bind-Value="@medicalPKSampling.Username"></BootstrapInput>
-            <BootstrapInput @bind-Value="@medicalPKSampling.Medicalrecordnumber"></BootstrapInput>*@
             <label>患者信息</label>
              <AutoFill TValue="PatientsTips" Value="patientsTips" Items="DataTips.PatientsTips" IsLikeMatch="true" OnSelectedItemChanged="OnAutoFillSelectedItemChanged" OnGetDisplayText="OnGetDisplayText" class="mb-3" IsSelectAllTextOnFocus="true">
                             <Template>
@@ -121,15 +118,22 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        medicalPKSampling = objectPKSamplings as MedicalPKSampling;
-        // return base.OnParametersSetAsync();
+        if(objectPKSamplings is not null)
+        {
+            medicalPKSampling = objectPKSamplings as MedicalPKSampling;
+            pKSampling_Samples = medicalPKSampling.medicalPKSamplings;
+        }
+        else
+        {
+            medicalPKSampling = new MedicalPKSampling();
+            //medicalPKSampling.medicalPKSamplings = new List<MedicalPKSamplingsample>();
+        }
     }
 
     private  Task OnBingDrugdosage()
     {
 
         pKSampling_Samples.Add(new MedicalPKSamplingsample() {
-
             SamplingNumber =medicalPKSampling_Sample.SamplingNumber,
             Number = medicalPKSampling_Sample.Number,
             Samplingname = medicalPKSampling_Sample.Samplingname,

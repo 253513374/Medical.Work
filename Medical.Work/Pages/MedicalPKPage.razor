@@ -6,7 +6,7 @@
 @inject IDbContextFactory<MedicalDbContext> contextFactory
 @inject NavigationManager navigationManager
 
-
+@*给药方案*@
 <div class=" divtop  w-100 d-flex align-items-center">
     <div class="marginlr w-100">
         <Card>
@@ -17,7 +17,7 @@
                 <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
                     <Search @bind-Value="@Querywhere" @onclick="@(s=>OnQuerywhere())"></Search>
                     <button class="createbut fa fa-plus" @onclick="@(()=>OnShowDlg(null))"></button>
-                    <button class="createbut fa fa-plus" @onclick="@(()=>OnIsOpenDrawer(null))"></button>
+                 @*   <button class="createbut fa fa-plus" @onclick="@(()=>OnIsOpenDrawer(null))"></button>*@
                 </Row>
             </CardBody>
         </Card>
@@ -48,22 +48,16 @@
                 </TableColumns>
 
                 <RowButtonTemplate>
-                    <TableCellButton Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-edit" Text=" 操 作 "  OnClickCallback="@(()=>OnIsOpenDrawer(context))" />
+                     <Button Size="Size.Medium" Color="Color.Info" Icon="fa fa-e" Text=" 详情 "  OnClick="@(()=>OnDetails(context))" ></Button>
+                    <Button Size="Size.Medium" Color="Color.Info" Icon="fa fa-edit" Text=" 修改 "  OnClick="@(()=>OnEdit(context))" ></Button>
+                    <PopConfirmButton OnConfirm="@(()=>OnDelete(context))" Placement="Placement.Top" Color="Color.Danger" ConfirmIcon="fa fa-exclamation-triangle text-danger" ConfirmButtonColor="Color.Danger" Text="删除" Content="确定删除数据吗？" />
+
+
                 </RowButtonTemplate>
             </Table>
         </CardBody>
     </Card>
-
-    @*@if (medicalPKs is not null && medicalPKs.Count > 0)
-        {
-
-        }*@
-<Drawer Placement="Placement.Bottom" IsBackdrop="true"   IsOpen="@IsOpenDrawer" >
-    <div class="d-flex justify-content-center align-items-center flex-column" style="height: 290px;">
-        <p>抽屉内布局、组件等完全可以自定义</p>
-        <button type="button" class="btn btn-primary" @onclick="@(e => IsOpenDrawer = false)">关闭抽屉</button>
-    </div>
-</Drawer>
+<Message @ref="@MessageElement"></Message>
 </div>
 
 
@@ -81,7 +75,11 @@
     [Parameter]
     public string Name { get; set; }
 
-  
+    [Inject]
+    private MessageService messageService { set; get; }
+
+    private Message MessageElement { set; get; }
+
 
     protected override async Task OnParametersSetAsync()
     {
@@ -104,14 +102,67 @@
         //return base.OnInitializedAsync();
     }
 
-   
 
-    private Task OnIsOpenDrawer(MedicalPK medical)
+
+    private async Task OnEdit(MedicalPK medical)
     {
-        IsOpenDrawer = true;
-        //var url = $"MedicalPKDetailsPage/{medical.ID}";
-        //navigationManager.NavigateTo(url);
-        return Task.CompletedTask; 
+        var retdlg = await Dialog.ShowModal<MedicalPKDlg>(new ResultDialogOption()
+            {
+                BodyContext = medical,
+                Title = "编辑修改",
+                Size = Size.ExtraLarge,
+                ComponentParamters = new Dictionary<string, object>
+                {
+                    [nameof(MedicalPKDlg.OnEventCallback)] = EventCallback.Factory.Create<MedicalPK>(this, v => medicalPK = v)
+                }
+            });
+
+        if (retdlg == DialogResult.Yes)
+        {
+            try
+            {
+                using (var context = contextFactory.CreateDbContext())
+                {
+                    context.Update(medicalPK);
+                    context.SaveChanges();
+                }
+            }catch(Exception ex)
+            {
+                Log.Warning(ex.StackTrace);
+            }
+
+        }
+        StateHasChanged();
+    }
+
+    private async Task OnDelete(MedicalPK medicalPK)
+    {
+        using (var context = contextFactory.CreateDbContext())
+        {
+            context.MPKs.Remove(medicalPK);
+            //context.SaveChanges();
+            //await OnQuerywhere();
+            var ok = context.SaveChanges();
+            if (ok > 0)
+            {
+                ShowColorMessage(Color.Success, "数据删除成功", MessageElement);
+                medicalPK_s.Remove(medicalPK);
+                StateHasChanged();
+            }
+            else
+            {
+                ShowColorMessage(Color.Warning, "数据删除失败", MessageElement);
+
+            }
+
+        }
+        StateHasChanged();
+    }
+
+
+    private async Task OnDetails(MedicalPK medicalPK)
+    {
+        
     }
 
 
@@ -126,5 +177,19 @@
             TotalCount = medicalPK_s.Count
             // IsSearch = true
         });
+    }
+
+     public void ShowColorMessage(Color color, string content, Message message)
+    {
+          message.SetPlacement(Placement.Top);
+            messageService?.Show(new MessageOption()
+            {
+             
+                Content = content,
+                Icon = "fa fa-info-circle",
+                Color = color,
+                ShowBar = true,
+                ShowDismiss = true,
+            }, message);
     }
 }

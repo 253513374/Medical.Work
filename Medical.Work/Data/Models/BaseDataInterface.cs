@@ -11,15 +11,16 @@ namespace Medical.Work.Data
         /// ID
         /// </summary>
         [DisplayName("自增")]
-        [AutoGenerateColumn(Ignore = true)]
+        [AutoGenerateColumn(Ignore = false)]
         public int ID { set; get; }
+
+
+        //[AutoGenerateColumn(Ignore = true)]
+        //public int LaboratoryExaminationID { set; get; }
 
         /// <summary>
         /// 登陆用户名称
         /// </summary>
-        [AutoGenerateColumn(Ignore = true)]
-        public int LaboratoryExaminationID { set; get; }
-
         [AutoGenerateColumn(Ignore = true)]
         public string Adminname { set; get; }
 
