@@ -4,6 +4,7 @@ using Medical.Work.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Medical.Work.Migrations
 {
     [DbContext(typeof(MedicalDbContext))]
-    partial class MedicalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220119032232_db3")]
+    partial class db3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,8 +84,8 @@ namespace Medical.Work.Migrations
                     b.Property<string>("Adminname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Assaysituation")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Assaysituation")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Assaytime")
                         .HasColumnType("datetime2");
@@ -148,8 +150,8 @@ namespace Medical.Work.Migrations
                     b.Property<string>("Scr")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Screnum")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Screnum")
+                        .HasColumnType("int");
 
                     b.Property<string>("Screnumother")
                         .HasColumnType("nvarchar(max)");
@@ -206,8 +208,8 @@ namespace Medical.Work.Migrations
                     b.Property<string>("DrugsName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DrugsensitivityTest")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("DrugsensitivityTest")
+                        .HasColumnType("int");
 
                     b.Property<string>("DrugsensitivityTestOther")
                         .HasColumnType("nvarchar(max)");
@@ -224,8 +226,8 @@ namespace Medical.Work.Migrations
                     b.Property<DateTime>("ReportTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Susceptibility")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Susceptibility")
+                        .HasColumnType("int");
 
                     b.Property<string>("TMic")
                         .HasColumnType("nvarchar(max)");
@@ -233,8 +235,8 @@ namespace Medical.Work.Migrations
                     b.Property<DateTime>("TestTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TestorisNot")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TestorisNot")
+                        .HasColumnType("int");
 
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
@@ -273,17 +275,17 @@ namespace Medical.Work.Migrations
                     b.Property<DateTime>("ReportTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("SpecimenType")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("SpecimenType")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("TestTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TestorNot")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("TestorNot")
+                        .HasColumnType("int");
 
-                    b.Property<string>("TestorisNot")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("TestorisNot")
+                        .HasColumnType("int");
 
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
@@ -463,8 +465,8 @@ namespace Medical.Work.Migrations
                     b.Property<DateTime>("CollectDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Collectingvessel")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Collectingvessel")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Createtime")
                         .HasColumnType("datetime2");
@@ -484,8 +486,8 @@ namespace Medical.Work.Migrations
                     b.Property<string>("Medicalrecordnumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SpecimenType")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("SpecimenType")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("StartDateTime")
                         .HasColumnType("datetime2");
@@ -511,17 +513,17 @@ namespace Medical.Work.Migrations
                     b.Property<string>("C1Concentration")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("C1ConcentrationMethod")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("C1ConcentrationMethod")
+                        .HasColumnType("int");
 
                     b.Property<string>("C1ConcentrationStandard")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("C1ConcentrationStandardUnit")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("C1ConcentrationStandardUnit")
+                        .HasColumnType("int");
 
-                    b.Property<string>("C1ConcentrationUnit")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("C1ConcentrationUnit")
+                        .HasColumnType("int");
 
                     b.Property<string>("C1Remarks")
                         .HasColumnType("nvarchar(max)");
@@ -675,8 +677,8 @@ namespace Medical.Work.Migrations
                     b.Property<string>("Guid")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Healingeffect")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Healingeffect")
+                        .HasColumnType("int");
 
                     b.Property<string>("Medicalhistorysummary")
                         .HasColumnType("nvarchar(max)");
@@ -684,11 +686,11 @@ namespace Medical.Work.Migrations
                     b.Property<string>("Medicalrecordnumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Medication")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Medication")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Pathogenicbacteria")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Pathogenicbacteria")
+                        .HasColumnType("int");
 
                     b.Property<string>("TextUrl")
                         .HasColumnType("nvarchar(max)");
@@ -862,11 +864,11 @@ namespace Medical.Work.Migrations
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("XrayImaginglocationenum")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("XrayImaginglocationenum")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Xrayimagingenum")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Xrayimagingenum")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 

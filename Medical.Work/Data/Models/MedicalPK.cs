@@ -81,7 +81,7 @@ namespace Medical.Work.Data.Models
         /// 厂家类型
         /// </summary>
         [DisplayName("厂家类型")]
-        public ManufacturertypeEnum Manufacturertype { set; get; }
+        public string Manufacturertype { set; get; }
 
         /// <summary>
         /// 药品单次剂量
@@ -90,11 +90,11 @@ namespace Medical.Work.Data.Models
         public string Drugdosage { set; get; }
 
         /// <summary>
-        /// 药品剂量单位
+        /// 药品剂量单位 WeightEnum
         /// </summary>
         [DisplayName("药品剂量单位")]
         [AutoGenerateColumn(Ignore = true)]
-        public WeightEnum DrugdosageUnit { set; get; }
+        public string DrugdosageUnit { set; get; }
 
         /// <summary>
         /// 给药途径
@@ -103,17 +103,17 @@ namespace Medical.Work.Data.Models
         public string DrugdosageRoute { set; get; }
 
         /// <summary>
-        /// 给药频率
+        /// 给药频率 DrugNCountEnum
         /// </summary>
         [DisplayName("给药频率")]
-        public DrugNCountEnum DrugNCount { set; get; }
+        public string DrugNCount { set; get; }
 
         /// <summary>
         /// 给药持续时间
         /// </summary>
         [DisplayName("给药持续时间")]
         [AutoGenerateColumn(Ignore = true)]
-        public DrugNCountDurationEnum DrugNCountDuration { set; get; }
+        public string DrugNCountDuration { set; get; }
 
         /// <summary>
         ///  溶媒

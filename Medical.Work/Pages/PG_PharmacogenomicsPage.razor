@@ -36,10 +36,11 @@
                    ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
                    OnQueryAsync="@OnQueryAsync" IsAutoRefresh="true"
                    ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
-                <RowButtonTemplate>
-                    @* <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context,1))" />*@
-                    <TableCellButton Size="Size.ExtraSmall" Color="Color.Warning" Icon="fa fa-edit" Text="删除" OnClickCallback="@(() => Ondel(context))" />
-                </RowButtonTemplate>
+               <RowButtonTemplate>
+                    <Button Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-info" Text=" 详情 "  OnClick="@(()=>OnDetails(context))" ></Button>
+                    <Button Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-edit" Text=" 修改 "  OnClick="@(()=>OnEdit(context))" ></Button>
+                    <PopConfirmButton Size="Size.ExtraSmall" ConfirmButtonColor="Color.Danger" Icon="fa fa-trash" OnConfirm="@(()=>OnDelete(context))" Placement="Placement.Top" Color="Color.Danger" ConfirmIcon="fa fa-exclamation-triangle text-danger"  Text="删除" Content="确定删除数据吗？" />
+            </RowButtonTemplate>
             </Table>
         </CardBody>
     </Card>
@@ -57,7 +58,7 @@
     private Message MessageElement { set; get; }
 
     [Inject]
-    DialogService? Dialogservice { set; get; }
+    DialogService? dialogService { set; get; }
 
     [Inject]
     IDbContextFactory<MedicalDbContext> contextFactory { set; get; }
@@ -67,7 +68,7 @@
 
     private string Querywhere { set; get; }
 
-
+    private bool IsBackdropOpen { set; get; }
 
     private MedicalPG_Pharmacogenomics pG_Pharmacogenomic { set; get; }
     private List<MedicalPG_Pharmacogenomics> pG_Pharmacogenomics { set; get; } = new();
@@ -83,7 +84,6 @@
     {
         if (Text is not null or "")
         {
-            // Task.Run(()=> { ); });
             var obj = new MedicalPG_Pharmacogenomics();
             obj.Medicalrecordnumber = Text;
             obj.Username = Name;
@@ -134,7 +134,7 @@
 
     private async Task OnShowDlg(MedicalPG_Pharmacogenomics obj)
     {
-        var result = await Dialogservice.ShowModal<PG_Pharmacogenomics_Dlg>(new ResultDialogOption()
+        var result = await dialogService.ShowModal<PG_Pharmacogenomics_Dlg>(new ResultDialogOption()
         {
             Title = "新建药物基因组学",
             BodyContext = obj,
@@ -144,11 +144,6 @@
                
                       [nameof(PG_Pharmacogenomics_Dlg.OnEventCallback)]= EventCallback.Factory.Create<MedicalPG_Pharmacogenomics>(this, v => pG_Pharmacogenomic = v)
                  }
-            //ComponentParamters = new KeyValuePair<string, object>[]
-            //  {
-               
-            //          new(nameof(PG_Pharmacogenomics_Dlg.OnEventCallback), EventCallback.Factory.Create<MedicalPG_Pharmacogenomics>(this, v => pG_Pharmacogenomic = v))
-            //      }
         });
 
         if (result == DialogResult.Yes)
@@ -169,7 +164,68 @@
         }
         return;
     }
+    private async Task OnEdit(MedicalPG_Pharmacogenomics myobject)
+    {
 
+        MedicalPG_Pharmacogenomics  medicalPG = new MedicalPG_Pharmacogenomics();
+        var retdlg = await dialogService.ShowModal<PG_Pharmacogenomics_Dlg>(new ResultDialogOption()
+            {
+                BodyContext = myobject,
+                Title = "编辑修改",
+                Size = Size.ExtraSmall,
+                ComponentParamters = new Dictionary<string, object>
+                {
+                    [nameof(PG_Pharmacogenomics_Dlg.OnEventCallback)] = EventCallback.Factory.Create<MedicalPG_Pharmacogenomics>(this, v => medicalPG = v)
+                }
+            });
+
+        if (retdlg == DialogResult.Yes)
+        {
+            try
+            {
+                using (var context = contextFactory.CreateDbContext())
+                {
+                    context.Update(medicalPG);
+                    context.SaveChanges();
+                    ShowColorMessage(Color.Success, "数据编辑修改成功", MessageElement);
+                    Log.Information<MedicalPG_Pharmacogenomics>(medicalPG.ToString()+"-----成功修改------",medicalPG);
+                }
+            }
+            catch(Exception sqlex)
+            {
+                ShowColorMessage(Color.Warning, "数据编辑修改失败，请联系管理员", MessageElement);
+                Log.Warning(sqlex.Message);
+            }
+        }
+        StateHasChanged();
+    }
+
+    private async Task OnDelete(MedicalPG_Pharmacogenomics myobject)
+    {
+        using (var context = contextFactory.CreateDbContext())
+        {
+            context.MPG_Pharmacogenomics.Remove(myobject);
+            var ok = context.SaveChanges();
+            if (ok > 0)
+            {
+                pG_Pharmacogenomics.Remove(myobject);
+                ShowColorMessage(Color.Info, "注意：数据已经成功删除", MessageElement);
+                StateHasChanged();
+            }
+            else
+            {
+                ShowColorMessage(Color.Warning, "数据删除失败", MessageElement);
+
+            }
+        }
+
+    }
+    private async Task OnDetails(MedicalPG_Pharmacogenomics myobject)
+    {
+        pG_Pharmacogenomic = myobject;
+        StateHasChanged();
+        IsBackdropOpen = IsBackdropOpen? false : true;
+    }
     private Task OnRowEditClick()
     {
         return Task.CompletedTask;

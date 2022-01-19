@@ -41,11 +41,15 @@
                            ShowToolbar="true" ShowAddButton="false" ShowEditButton="false"
                            ShowDeleteButton="false" OnQueryAsync="@OnQueryPageAsync"
                            ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
-
                         <RowButtonTemplate>
+                            <Button Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-info" Text=" 详情 "  OnClick="@(()=>OnDetails(context))" ></Button>
+                            <Button Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-edit" Text=" 修改 "  OnClick="@(()=>OnEdit(context))" ></Button>
+                            <PopConfirmButton Size="Size.ExtraSmall" ConfirmButtonColor="Color.Danger" Icon="fa fa-trash" OnConfirm="@(()=>OnDelete(context))" Placement="Placement.Top" Color="Color.Danger" ConfirmIcon="fa fa-exclamation-triangle text-danger"  Text="删除" Content="确定删除数据吗？" />
+                        </RowButtonTemplate>
+                     @*   <RowButtonTemplate>
                             <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="查看" OnClickCallback="@(() => OnRowinfoClick(context))" />
                             <TableCellButton Size="Size.ExtraSmall" Color="Color.Warning" Icon="fa fa-edit" Text="删除" OnClickCallback="@(() => Ondel(context))" />
-                        </RowButtonTemplate>
+                        </RowButtonTemplate>*@
                     </Table>
                 </CardBody>
             </Card>
@@ -87,7 +91,7 @@
 
     public Dictionary<string, object?> keyValuePairs { set; get; }
 
-
+    private bool IsBackdropOpen{ set; get; }
     public string Querywhere { set; get; }
 
     [Parameter]
@@ -128,6 +132,7 @@
     }
     private async Task OnShowDlg(LaboratoryExamination obj)
     {
+        LaboratoryExamination laboratory = new LaboratoryExamination();
         var retdlg = await Dialog.ShowModal<LaboratoryExaminationDlg>(new ResultDialogOption()
         {
             BodyContext = obj,
@@ -144,18 +149,83 @@
         {
             using (var context = contextFactory.CreateDbContext())
             {
-
-                laboratoryExamination.Adminname = authenticationStateTask.Result.User.Identity.Name;
-                laboratoryExamination.Createtime = DateTime.Now;
-                context.laboratoryExaminations.Add(laboratoryExamination);
+                context.laboratoryExaminations.Add(laboratory);
                 context.SaveChanges();
+                ShowColorMessage(Color.Success, "数据添加成功", MessageElement);
+                Log.Information($"实验室数据添加成功:数据id{obj.Username}:{obj.Medicalrecordnumber}");
+                if(laboratoryExaminations is not null)
+                {
+                    laboratoryExaminations.Add(laboratory);
+                }
             }
 
         }
         StateHasChanged();
         return;
     }
+    private async Task OnEdit(LaboratoryExamination obj)
+    {
+        LaboratoryExamination examination = new LaboratoryExamination();
+        var retdlg = await Dialog.ShowModal<LaboratoryExaminationDlg>(new ResultDialogOption()
+            {
+                BodyContext = obj,
+                Title = "编辑修改",
+                Size = Size.ExtraLarge,
+                ComponentParamters = new Dictionary<string, object>
+                {
+                    [nameof(LaboratoryExaminationDlg.OnEventCallback)] = EventCallback.Factory.Create<LaboratoryExamination>(this, v => examination = v)
+                }
+            });
+        if (retdlg == DialogResult.Yes)
+        {
+            try
+            {
+                using (var context = contextFactory.CreateDbContext())
+                {
+                    context.Update(examination);
+                    context.SaveChanges();
+                }
+            }catch(Exception ex)
+            {
+                Log.Warning(ex.StackTrace);
+            }
+        }
+        StateHasChanged();
+    }
 
+    private async Task OnDelete(LaboratoryExamination obj)
+    {
+        using (var context = contextFactory.CreateDbContext())
+        {
+            context.laboratoryExaminations.Remove(obj);
+            var ok = context.SaveChanges();
+            if (ok > 0)
+            {
+                ShowColorMessage(Color.Success, "数据删除成功", MessageElement);
+                laboratoryExaminations.Remove(obj);
+                StateHasChanged();
+
+                 Log.Information($"给药方案数据删除成功:数据id{obj.Username}:{obj.Medicalrecordnumber}");
+            }
+            else
+            {
+                ShowColorMessage(Color.Warning, "数据删除失败", MessageElement);
+                Log.Information($"给药方案数据删除失败:数据id{obj.Username}:{obj.Medicalrecordnumber}");
+            }
+
+        }
+        StateHasChanged();
+    }
+
+
+    private async Task OnDetails(LaboratoryExamination  laboratory)
+    {
+        keyValuePairs = DisplayAttributeExtend.GetAttributeExtends<LaboratoryExamination>(laboratory);
+
+       // laboratoryExamination = laboratory;
+        StateHasChanged();
+        IsBackdropOpen = IsBackdropOpen? false : true;
+    }
     private Task<QueryData<LaboratoryExamination>> OnQueryPageAsync(QueryPageOptions options)
     {
         var items = laboratoryExaminations.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems);
@@ -176,12 +246,10 @@
             {
 
                 laboratoryExaminations = await context.laboratoryExaminations.AsNoTracking().Where(w => w.Adminname == name).Where(w => w.Medicalrecordnumber.Contains(Querywhere) || w.Username.Contains(Querywhere)).ToListAsync();
-
-
             }
             else
             {
-                laboratoryExaminations = await context.laboratoryExaminations.AsNoTracking().Where(w => w.Adminname == name).ToListAsync();
+                laboratoryExaminations = await context.laboratoryExaminations.AsNoTracking().Where(w => w.Adminname == name).OrderByDescending(o=>o.Createtime).Take(100).ToListAsync();
 
             }
             StateHasChanged();
@@ -200,8 +268,7 @@
 
     private async Task OnRowinfoClick(LaboratoryExamination examination)
     {
-        keyValuePairs = DisplayAttributeExtend.GetAttributeExtends<LaboratoryExamination>(examination);
-
+      
         StateHasChanged();
     }
 
@@ -217,39 +284,5 @@
                 ShowBar = true,
                 ShowDismiss = true,
             }, message);
-    }
-    [Inject]
-    private SwalService? SwalService { get; set; }
-
-    private async Task Ondel(LaboratoryExamination myobject)
-    {
-        var op = new SwalOption()
-        {
-            Title = "警告",
-            Content = "数据删除不可再恢复，是否确定删除？",
-            IsConfirm = true,
-            Category = SwalCategory.Warning
-        };
-        var re = await SwalService.ShowModal(op);
-        if (re)
-        {
-
-            using (var context = contextFactory.CreateDbContext())
-            {
-                context.laboratoryExaminations.Remove(myobject);
-                var ok = context.SaveChanges();
-                if (ok > 0)
-                {
-                    laboratoryExaminations.Remove(myobject);
-                    StateHasChanged();
-                }
-                else
-                {
-                    ShowColorMessage(Color.Warning, "数据删除失败", MessageElement);
-
-                }
-            }
-        }
-        return;
     }
 }

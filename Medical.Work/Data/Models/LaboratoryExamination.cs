@@ -11,10 +11,10 @@ namespace Medical.Work.Data.Models
     public class LaboratoryExamination : BaseDataInterface
     {
         /// <summary>
-        /// 用药前  用药中  用药后
+        /// 用药前  用药中  用药后 AssaysituationEnum
         /// </summary>
         [DisplayName("实验状态")]
-        public AssaysituationEnum Assaysituation { set; get; }
+        public string Assaysituation { set; get; }
 
         /// <summary>
         /// 检测时间
@@ -36,11 +36,11 @@ namespace Medical.Work.Data.Models
         public string Scr { set; get; }
 
         /// <summary>
-        /// 下拉框选择：酶法  □干化学法  其他
+        /// 血清肌酐实验方法 选择：酶法  □干化学法  其他 :ScrEnum
         /// </summary>
         [DisplayName("血清肌酐实验方法")]
         [AutoGenerateColumn(Ignore = true)]
-        public ScrEnum Screnum { set; get; }
+        public string Screnum { set; get; }
 
         /// <summary>
         /// 其他

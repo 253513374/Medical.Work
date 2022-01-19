@@ -10,10 +10,10 @@ namespace Medical.Work.Data.Models
     public class MedicalPD_DrugAllergy : BaseDataInterface
     {
         /// <summary>
-        /// 是否做检查
+        /// 是否做检查 TestorIsNotEnum
         /// </summary>
         [DisplayName("是否做检查")]
-        public TestorIsNotEnum TestorisNot { set; get; }
+        public string TestorisNot { set; get; }
 
         /// <summary>
         /// 测试日期
@@ -31,7 +31,7 @@ namespace Medical.Work.Data.Models
         /// 药敏检测方法
         /// </summary>
         [DisplayName("药敏检测方法")]
-        public DrugsensitivityEnum? DrugsensitivityTest { set; get; }
+        public string? DrugsensitivityTest { set; get; }
 
         /// <summary>
         /// 药敏检测其他方法
@@ -55,7 +55,7 @@ namespace Medical.Work.Data.Models
         /// 敏感性
         /// </summary>
         [DisplayName("敏感性")]
-        public SusceptibilityEnum? Susceptibility { set; get; }
+        public string? Susceptibility { set; get; }
 
         /// <summary>
         /// T>MIC%

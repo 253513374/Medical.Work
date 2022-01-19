@@ -1,5 +1,4 @@
 ﻿using BootstrapBlazor.Components;
-using Medical.Work.Data.Enum;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -55,10 +54,10 @@ namespace Medical.Work.Data.Models
         public string C1Concentration { set; get; }
 
         /// <summary>
-        /// C1浓度单位
+        /// C1浓度单位 WeightEnum
         /// </summary>
         [DisplayName("浓度单位")]
-        public WeightEnum C1ConcentrationUnit { set; get; } = WeightEnum.mg;
+        public string C1ConcentrationUnit { set; get; }
 
         /// <summary>
         /// C1标准化血药浓度
@@ -69,14 +68,14 @@ namespace Medical.Work.Data.Models
         /// <summary>
         /// 标准化血药浓度单位
         /// </summary>
-        [DisplayName("标准化血药浓度单位")]
-        public WeightEnum C1ConcentrationStandardUnit { set; get; } = WeightEnum.mg;
+        [DisplayName("血药浓度单位")]
+        public string C1ConcentrationStandardUnit { set; get; }// = WeightEnum.mg;
 
         /// <summary>
         /// C1浓度方法
         /// </summary>
         [DisplayName("浓度方法")]
-        public ConcentrationEnum? C1ConcentrationMethod { set; get; }
+        public string? C1ConcentrationMethod { set; get; }
 
         /// <summary>
         /// 其他

@@ -27,16 +27,16 @@ namespace Medical.Work.Data.Models
         public DateTime Reportdate { set; get; }
 
         /// <summary>
-        /// 放射诊断方式
+        /// 放射诊断方式X_rayImagingEnum
         /// </summary>
         [DisplayName("放射诊断方式")]
-        public X_rayImagingEnum Xrayimagingenum { set; get; }
+        public string Xrayimagingenum { set; get; }
 
         /// <summary>
-        /// 放射诊断部位
+        /// 放射诊断部位 X_rayImaginglocationEnum
         /// </summary>
         [DisplayName("放射诊断部位")]
-        public X_rayImaginglocationEnum XrayImaginglocationenum { set; get; }
+        public string XrayImaginglocationenum { set; get; }
 
         /// <summary>
         /// 详细描述

@@ -28,6 +28,8 @@
     </div>
 </div>
 
+
+
 <div class="w-100">
     <Card>
         <CardHeader>
@@ -39,9 +41,9 @@
                    OnQueryAsync="@OnQueryAsync" IsAutoRefresh="true"
                    ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
                 <RowButtonTemplate>
-                    <Button Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-detail" Text=" 详情 "  OnClick="@(()=>OnDetails(context))" ></Button>
+                    <Button Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-info" Text=" 详情 "  OnClick="@(()=>OnDetails(context))" ></Button>
                     <Button Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-edit" Text=" 修改 "  OnClick="@(()=>OnEdit(context))" ></Button>
-                    <PopConfirmButton Size="Size.ExtraSmall" ConfirmButtonColor="Color.Danger" Icon="fa fa-edit" OnConfirm="@(()=>OnDelete(context))" Placement="Placement.Top" Color="Color.Danger" ConfirmIcon="fa fa-exclamation-triangle text-danger"  Text="删除" Content="确定删除数据吗？" />
+                    <PopConfirmButton Size="Size.ExtraSmall" ConfirmButtonColor="Color.Danger" Icon="fa fa-trash" OnConfirm="@(()=>OnDelete(context))" Placement="Placement.Top" Color="Color.Danger" ConfirmIcon="fa fa-exclamation-triangle text-danger"  Text="删除" Content="确定删除数据吗？" />
                 </RowButtonTemplate>
             </Table>
         </CardBody>
@@ -51,6 +53,64 @@
 <Message @ref="MessageElement" />
 
 
+<Drawer Width="500px" Placement="Placement.Left" @bind-IsOpen="@IsBackdropOpen" IsBackdrop="true">
+    @if(medicalPKSampling is not null)
+    {
+          <p class="mt-3 text-center">
+             <Card Class="w-100">
+                 <CardHeader>
+                     <div >
+                          <p class="h4 " style="text-align:left">名称：@medicalPKSampling.Username</p>
+                          <p class="h4 " style="text-align:left" >编号：@medicalPKSampling.Medicalrecordnumber</p>
+                     </div>
+                   
+                 </CardHeader>
+                <CardBody>
+                    <Row ItemsPerRow="ItemsPerRow.One">
+                        <dl class="row " style="text-align:left">
+                          <dt class="col-sm-5">采集日期：</dt>
+                          <dd class="col-sm-7">@medicalPKSampling.CollectDateTime</dd>
+
+                           <dt class="col-sm-5">采血当日开始给药时间：</dt>
+                          <dd class="col-sm-7">@medicalPKSampling.StartDateTime</dd>
+
+                           <dt class="col-sm-5">采血当日输注完时间：</dt>
+                          <dd class="col-sm-7">@medicalPKSampling.EndDateTime</dd>
+
+                           <dt class="col-sm-5">采血前最后一次给药时间：</dt>
+                          <dd class="col-sm-7">@medicalPKSampling.LastDateTime</dd>
+
+                           <dt class="col-sm-5">采血管：</dt>
+                          <dd class="col-sm-7">@medicalPKSampling.Collectingvessel</dd>
+                        </dl>
+                    </Row>
+                    @if (@medicalPKSampling.medicalPKSamplings is not null)
+                    {
+
+                        foreach (var item in @medicalPKSampling.medicalPKSamplings)
+                        {
+                            // var c = $"C{@item.SamplingNumber}采样";
+
+                            <GroupBox Title="@($"{item.SamplingNumber}:{item.Samplingname}:{item.Number}")">
+                                <Row ItemsPerRow="ItemsPerRow.Three" RowType="RowType.Normal">
+                                    <p style="text-align:left">浓度:@(item.C1Concentration is not null?$"{item.C1Concentration}{item.C1ConcentrationUnit}/ml":"")</p>
+                                    <p style="text-align:left">标准化血药浓度:@item.C1ConcentrationStandard</p>
+                                    <p style="text-align:left">浓度方法:@(item.C1ConcentrationMethod is not null?item.C1ConcentrationMethod:item.Other)</p>
+                                </Row>
+                                  <Row ItemsPerRow="ItemsPerRow.One">
+                                        <p style="text-align:left">备注:@item.C1Remarks</p>
+                                  </Row>
+                            </GroupBox>
+                        }
+                    }
+                    <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@medicalPKSampling.Createtime</small></p></div>
+                </CardBody>
+             </Card>
+          </p>
+    }
+
+</Drawer>
+
 <div class="marginlr w-100 mt-2">
 
     @if (pKSamplings is not null)
@@ -58,36 +118,7 @@
         <ListView TItem="MedicalPKSampling"  OnQueryAsync="@OnQueryAsync" Pageable="true">
             <HeaderTemplate> 采样信息列表</HeaderTemplate>
             <BodyTemplate>
-                <Card Class="w-100">
-
-                    <CardBody>
-                        <Row ItemsPerRow="ItemsPerRow.One">
-                            <div>采集日期： @context.CollectDateTime</div>
-                            <div>采血当日开始给药时间： @context.StartDateTime</div>
-                            <div>采血当日输注完时间： @context.EndDateTime</div>
-                            <div>采血前最后一次给药时间： @context.LastDateTime</div>
-                            <div>采血管： @context.Collectingvessel</div>
-                        </Row>
-                        @if (@context.medicalPKSamplings is not null)
-                        {
-
-                            foreach (var item in @context.medicalPKSamplings)
-                            {
-                               // var c = $"C{@item.SamplingNumber}采样";
-
-                                <GroupBox Title="@item.SamplingNumber">
-                                    <div class=" row col-12">
-                                        <div class="col-2">浓度:@item.C1Concentration  @item.C1ConcentrationUnit.ToString()/ml</div>
-                                        <div class="col-3">标准化血药浓度:@item.C1ConcentrationStandard</div>
-                                        <div class="col-2">浓度方法:@item.C1ConcentrationMethod??@item.Other</div>
-                                        <div class="col-5">备注:@item.C1Remarks</div>
-                                    </div>
-                                </GroupBox>
-                            }
-                        }
-                        <div class="d-flex align-content-center justify-content-end"> <p class="text-muted font-weight-light text-monospace"><small>表单记录时间：@context.Createtime</small></p></div>
-                    </CardBody>
-                </Card>
+                
             </BodyTemplate>
         </ListView>
     }
@@ -133,7 +164,7 @@
     public string Name { get; set; }
 
 
-
+    private bool IsBackdropOpen{ get; set; }
     private string Querywhere { set; get; }
 
 
@@ -240,7 +271,7 @@
             if (ok > 0)
             {
                 pKSamplings.Remove(myobject);
-                 ShowColorMessage(Color.Info, "注意：数据已经成功删除", MessageElement);
+                ShowColorMessage(Color.Info, "注意：数据已经成功删除", MessageElement);
                 StateHasChanged();
             }
             else
@@ -251,9 +282,12 @@
         }
 
     }
-     private async Task OnDetails(MedicalPKSampling myobject)
+    private async Task OnDetails(MedicalPKSampling myobject)
     {
-        
+
+        medicalPKSampling = myobject;
+        StateHasChanged();
+        IsBackdropOpen = IsBackdropOpen? false : true;
     }
 
     //private async Task<MedicalPK> GetMedicalPK(int id)

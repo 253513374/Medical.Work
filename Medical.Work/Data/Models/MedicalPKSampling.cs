@@ -13,10 +13,10 @@ namespace Medical.Work.Data.Models
     {
 
         /// <summary>
-        /// 标本类型
+        /// 标本类型 SpecimenTypeEnum
         /// </summary>
         [DisplayName("标本类型")]
-        public SpecimenTypeEnum? SpecimenType { set; get; }
+        public string? SpecimenType { set; get; }
 
         /// <summary>
         /// 采集时间
@@ -43,10 +43,10 @@ namespace Medical.Work.Data.Models
         public DateTime LastDateTime { set; get; }
 
         /// <summary>
-        /// 采血管
+        /// 采血管 CollectingVesselEnum
         /// </summary>
         [DisplayName("采血管")]
-        public CollectingVesselEnum? Collectingvessel { set; get; }
+        public string? Collectingvessel { set; get; }
 
         /// <summary>
         /// 采血样品详细信息

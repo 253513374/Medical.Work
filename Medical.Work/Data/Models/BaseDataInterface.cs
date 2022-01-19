@@ -11,9 +11,8 @@ namespace Medical.Work.Data
         /// ID
         /// </summary>
         [DisplayName("自增")]
-        [AutoGenerateColumn(Ignore = false)]
+        [AutoGenerateColumn(Ignore = true)]
         public int ID { set; get; }
-
 
         //[AutoGenerateColumn(Ignore = true)]
         //public int LaboratoryExaminationID { set; get; }

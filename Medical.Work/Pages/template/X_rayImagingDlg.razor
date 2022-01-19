@@ -26,8 +26,8 @@
         </Row>
 
         <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
-            <Select @bind-Value="@x_RayImaging.Xrayimagingenum" ShowLabel="true"></Select>
-            <Select @bind-Value="@x_RayImaging.XrayImaginglocationenum" ShowLabel="true"></Select>
+            <Select @bind-Value="@x_RayImaging.Xrayimagingenum" ShowLabel="true" Items="EnumItems.X_rayImagingEnum"></Select>
+            <Select @bind-Value="@x_RayImaging.XrayImaginglocationenum" Items="EnumItems.X_rayImaginglocationEnum" ShowLabel="true"></Select>
             <Textarea rows="3" @bind-Value="@x_RayImaging.Describe" ShowLabel="true"></Textarea>
             <p>上传图片</p>
         </Row>

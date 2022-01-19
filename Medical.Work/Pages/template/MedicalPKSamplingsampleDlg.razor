@@ -21,8 +21,7 @@
                                 </div>
                             </Template>
             </AutoFill>
-            <Select @bind-Value="@medicalPKSampling.SpecimenType"></Select>
-          
+            <Select @bind-Value="@medicalPKSampling.SpecimenType" Items="EnumItems.SpecimenTypeEnum"></Select>
         </Row>
 
         <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
@@ -34,15 +33,14 @@
         </Row>
         <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
            
-            <Select @bind-Value="@medicalPKSampling.Collectingvessel"></Select>
+            <Select @bind-Value="@medicalPKSampling.Collectingvessel" Items="EnumItems.CollectingVesselEnum" ></Select>
         </Row>
     </ValidateForm>
 
     <Divider  ></Divider>
     <GroupBox Title="C1-C6">
         <ValidateForm Model="medicalPKSampling_Sample">
-            <Row ItemsPerRow="ItemsPerRow.Three" RowType="RowType.Normal">
-
+            <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
                 <Select @bind-Value="@medicalPKSampling_Sample.SamplingNumber">
                     <Options>
                         <SelectOption Text="C1" Value="C1" Active="true"></SelectOption>
@@ -54,24 +52,18 @@
                         <SelectOption Text="C7" Value="C7"></SelectOption>
                     </Options>
                 </Select>
-
+                <DateTimePicker ViewModel=DatePickerViewModel.DateTime @bind-Value="@medicalPKSampling_Sample.C1bloodcollectiontime"></DateTimePicker>
                 <BootstrapInput @bind-Value="@medicalPKSampling_Sample.Number"></BootstrapInput>
                 <BootstrapInput @bind-Value="@medicalPKSampling_Sample.Samplingname"></BootstrapInput>
 
             </Row>
-            <Row ItemsPerRow="ItemsPerRow.Three" RowType="RowType.Normal">
-                <DateTimePicker ViewModel=DatePickerViewModel.DateTime @bind-Value="@medicalPKSampling_Sample.C1bloodcollectiontime"></DateTimePicker>
-                <BootstrapInput @bind-Value="@medicalPKSampling_Sample.C1Concentration"></BootstrapInput>
-                <Select @bind-Value="@medicalPKSampling_Sample.C1ConcentrationUnit"></Select>
-                <BootstrapInput @bind-Value="@medicalPKSampling_Sample.C1ConcentrationStandard"></BootstrapInput>
-                <BootstrapInput @bind-Value="@medicalPKSampling_Sample.C1ConcentrationStandardUnit"></BootstrapInput>
-
-                <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
-                    <Select @bind-Value="@medicalPKSampling_Sample.C1ConcentrationMethod"></Select>
-                    <BootstrapInput @bind-Value="@medicalPKSampling_Sample.Other"></BootstrapInput>
-                </Row>
-               
-
+            <Row ItemsPerRow="ItemsPerRow.Six" RowType="RowType.Normal">
+               <BootstrapInput @bind-Value="@medicalPKSampling_Sample.C1Concentration"></BootstrapInput>
+               <Select @bind-Value="@medicalPKSampling_Sample.C1ConcentrationUnit" Items="EnumItems.ConcentrationWeightEnum"></Select>
+               <BootstrapInput @bind-Value="@medicalPKSampling_Sample.C1ConcentrationStandard"></BootstrapInput>
+               <Select @bind-Value="@medicalPKSampling_Sample.C1ConcentrationStandardUnit" Items="EnumItems.ConcentrationWeightEnum"></Select>
+               <Select @bind-Value="@medicalPKSampling_Sample.C1ConcentrationMethod" Items="EnumItems.ConcentrationEnum"></Select>
+               <BootstrapInput @bind-Value="@medicalPKSampling_Sample.Other"></BootstrapInput>
             </Row>
           
             <Row ItemsPerRow="ItemsPerRow.Four" RowType="RowType.Normal">
@@ -81,8 +73,8 @@
                 <div class="d-flex align-items-center justify-content-center w-100 h-100">
                     <Button class="fa fa-plus" Size="Size.Large" @onclick="@OnBingDrugdosage"> 添加 </Button>
                 </div>
-
             </Row>
+
         </ValidateForm>
         <div style="min-height:150px;">
             <Table TItem="MedicalPKSamplingsample" ShowLoading="true" Items="@pKSampling_Samples" IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"

@@ -18,7 +18,8 @@ namespace Medical.Work.Pages.template
             {
                 if (OnEventCallback.HasDelegate)
                 {
-                    //IEnumerableValues.ForEach(s => s.Remarks = Remarks);
+                    x_Raybronchoscopy.Createtime = DateTime.Now;
+                    x_Raybronchoscopy.Adminname = authenticationStateTask.Result.User.Identity.Name;
                     await OnEventCallback.InvokeAsync(x_Raybronchoscopy);
                 }
             }

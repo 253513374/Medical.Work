@@ -34,9 +34,10 @@
                    ShowDeleteButton="false" OnQueryAsync="@OnQueryAsync" IsAutoRefresh="true"
                    ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
                 <RowButtonTemplate>
-                    @* <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context,1))" />*@
-                    <TableCellButton Size="Size.ExtraSmall" Color="Color.Warning" Icon="fa fa-edit" Text="删除" OnClickCallback="@(() => Ondel(context))" />
-                </RowButtonTemplate>
+                    <Button Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-info" Text=" 详情 "  OnClick="@(()=>OnDetails(context))" ></Button>
+                    <Button Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-edit" Text=" 修改 "  OnClick="@(()=>OnEdit(context))" ></Button>
+                    <PopConfirmButton Size="Size.ExtraSmall" ConfirmButtonColor="Color.Danger" Icon="fa fa-trash" OnConfirm="@(()=>OnDelete(context))" Placement="Placement.Top" Color="Color.Danger" ConfirmIcon="fa fa-exclamation-triangle text-danger"  Text="删除" Content="确定删除数据吗？" />
+            </RowButtonTemplate>
             </Table>
         </CardBody>
     </Card>
@@ -52,7 +53,7 @@
     private Message MessageElement { set; get; }
 
     [Inject]
-    DialogService? Dialogservice { set; get; }
+    DialogService? dialogService { set; get; }
 
     [Inject]
     IDbContextFactory<MedicalDbContext> contextFactory { set; get; }
@@ -66,6 +67,7 @@
 
     private MedicalPD_DrugAllergy pD_DrugAllergie { set; get; } = new();
 
+    private bool IsBackdropOpen{ set; get; }
 
     [Parameter]
     public string Text { get; set; }
@@ -129,7 +131,7 @@
 
     private async Task OnShowDlg(MedicalPD_DrugAllergy obj)
     {
-        var result = await Dialogservice.ShowModal<PD_DrugAllergy_Dlg>(new ResultDialogOption()
+        var result = await dialogService.ShowModal<PD_DrugAllergy_Dlg>(new ResultDialogOption()
         {
             Title = "新建药敏试验检查",
             BodyContext = obj,
@@ -147,8 +149,7 @@
             {
                 if (pD_DrugAllergie != null)
                 {
-                    pD_DrugAllergie.Createtime = DateTime.Now;
-                    pD_DrugAllergie.Adminname = authenticationStateTask.Result.User.Identity.Name;
+                   
                     context.MPD_Drugs.Add(pD_DrugAllergie);
                     context.SaveChanges();
                     pD_DrugAllergies.Add(pD_DrugAllergie);
@@ -177,39 +178,69 @@
     {
         return Task.CompletedTask;
     }
-    [Inject]
-    private SwalService? SwalService { get; set; }
 
-    private async Task Ondel(MedicalPD_DrugAllergy myobject)
+    private async Task OnEdit(MedicalPD_DrugAllergy myobject)
     {
-        var op = new SwalOption()
-        {
-            Title = "警告",
-            Content = "数据删除不可再恢复，是否确定删除？",
-            IsConfirm = true,
-            Category = SwalCategory.Warning
-        };
-        var re = await SwalService.ShowModal(op);
-        if (re)
-        {
 
-            using (var context = contextFactory.CreateDbContext())
+        MedicalPD_DrugAllergy  pD_DrugAllergy = new MedicalPD_DrugAllergy();
+        var retdlg = await dialogService.ShowModal<PD_DrugAllergy_Dlg>(new ResultDialogOption()
             {
-                context.MPD_Drugs.Remove(myobject);
-                var ok = context.SaveChanges();
-                if (ok > 0)
+                BodyContext = myobject,
+                Title = "编辑修改",
+                Size = Size.ExtraLarge,
+                ComponentParamters = new Dictionary<string, object>
                 {
-                    pD_DrugAllergies.Remove(myobject);
-                    StateHasChanged();
+                    [nameof(PD_DrugAllergy_Dlg.OnEventCallback)] = EventCallback.Factory.Create<MedicalPD_DrugAllergy>(this, v => pD_DrugAllergy = v)
                 }
-                else
-                {
-                    ShowColorMessage(Color.Warning, "数据删除失败", MessageElement);
+            });
 
+        if (retdlg == DialogResult.Yes)
+        {
+            try
+            {
+                using (var context = contextFactory.CreateDbContext())
+                {
+                    context.Update(pD_DrugAllergy);
+                    context.SaveChanges();
+                    ShowColorMessage(Color.Success, "数据编辑修改成功", MessageElement);
+
+                    Log.Information<MedicalPD_DrugAllergy>(pD_DrugAllergy.ToString()+"-----成功修改------",pD_DrugAllergy);
                 }
             }
+            catch(Exception sqlex)
+            {
+                ShowColorMessage(Color.Warning, "数据编辑修改失败，请联系管理员", MessageElement);
+                Log.Warning(sqlex.Message);
+            }
+
         }
-        return;
+        StateHasChanged();
     }
 
+    private async Task OnDelete(MedicalPD_DrugAllergy myobject)
+    {
+        using (var context = contextFactory.CreateDbContext())
+        {
+            context.MPD_Drugs.Remove(myobject);
+            var ok = context.SaveChanges();
+            if (ok > 0)
+            {
+                pD_DrugAllergies.Remove(myobject);
+                ShowColorMessage(Color.Info, "注意：数据已经成功删除", MessageElement);
+                StateHasChanged();
+            }
+            else
+            {
+                ShowColorMessage(Color.Warning, "数据删除失败", MessageElement);
+
+            }
+        }
+
+    }
+    private async Task OnDetails(MedicalPD_DrugAllergy myobject)
+    {
+        pD_DrugAllergie = myobject;
+        StateHasChanged();
+        IsBackdropOpen = IsBackdropOpen? false : true;
+    }
 }

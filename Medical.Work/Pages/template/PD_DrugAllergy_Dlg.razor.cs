@@ -1,5 +1,6 @@
 ﻿using BootstrapBlazor.Components;
 using Microsoft.AspNetCore.Components;
+using System;
 using System.Threading.Tasks;
 
 namespace Medical.Work.Pages.template
@@ -12,6 +13,8 @@ namespace Medical.Work.Pages.template
             {
                 if (OnEventCallback.HasDelegate)
                 {
+                    medicalPD_DrugAllergy.Createtime = DateTime.Now;
+                    medicalPD_DrugAllergy.Adminname = authenticationStateTask.Result.User.Identity.Name;
                     await OnEventCallback.InvokeAsync(medicalPD_DrugAllergy);
                 }
             }

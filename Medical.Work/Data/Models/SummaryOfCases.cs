@@ -13,22 +13,22 @@ namespace Medical.Work.Data.Models
         public string Medicalhistorysummary { set; get; }
 
         /// <summary>
-        /// 用药目的
+        /// 用药目的 MedicationEnum
         /// </summary>
         [DisplayName("用药目的")]
-        public MedicationEnum? Medication { set; get; }
+        public string? Medication { set; get; }
 
         /// <summary>
-        /// 病原菌
+        /// 病原菌 GermsEnum
         /// </summary>
         [DisplayName("病原菌")]
-        public GermsEnum? Pathogenicbacteria { set; get; }
+        public string? Pathogenicbacteria { set; get; }
 
         /// <summary>
-        /// 治疗效果
+        /// 治疗效果 HealingeffectEnum
         /// </summary>
         [DisplayName("治疗效果")]
-        public HealingeffectEnum? Healingeffect { set; get; }
+        public string? Healingeffect { set; get; }
 
         /// <summary>
         /// 文本路径

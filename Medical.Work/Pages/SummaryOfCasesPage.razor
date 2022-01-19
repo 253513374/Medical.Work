@@ -27,9 +27,9 @@
             </AutoFill>
         </Row>
         <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Three">
-            <Select @bind-Value="@summaryOfCases.Medication" />
-            <Select @bind-Value="@summaryOfCases.Pathogenicbacteria" />
-            <Select @bind-Value="@summaryOfCases.Healingeffect" />
+            <Select @bind-Value="@summaryOfCases.Medication" Items="EnumItems.MedicationEnum" />
+            <Select @bind-Value="@summaryOfCases.Pathogenicbacteria" Items="EnumItems.PathogenicbacteriaEnum" />
+            <Select @bind-Value="@summaryOfCases.Healingeffect" Items="EnumItems.HealingeffectEnum" />
 
         </Row>
 

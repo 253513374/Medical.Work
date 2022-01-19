@@ -25,17 +25,6 @@ namespace Medical.Work.Pages
 
         private string Querywhere { set; get; }
 
-        //[Inject]
-        //ILogger<MedicalPKPage> logger { set; get; }
-
-        //private async Task<List<MedicalPK>> GetmedicalPK()
-        // {
-        //     using (var context  = contextFactory.CreateDbContext())
-        //     {
-        //         var Adminname = authenticationStateTask.Result.User.Identity.Name;
-        //         return await context.medicalPKs.AsNoTracking().Where(w=>w.Adminname== Adminname).Where(w => w.Createtime > DateTime.Now.AddDays(-30)).ToListAsync();
-        //     }
-        // }
 
         private async Task OnQuerywhere()
         {
@@ -59,6 +48,8 @@ namespace Medical.Work.Pages
 
         private async Task OnShowDlg(MedicalPK obj)
         {
+
+            MedicalPK pK = new MedicalPK();
             var retdlg = await Dialog.ShowModal<MedicalPKDlg>(new ResultDialogOption()
             {
                 BodyContext = obj,
@@ -66,7 +57,7 @@ namespace Medical.Work.Pages
                 Size = Size.ExtraLarge,
                 ComponentParamters = new Dictionary<string, object>
                 {
-                    [nameof(MedicalPKDlg.OnEventCallback)] = EventCallback.Factory.Create<MedicalPK>(this, v => medicalPK = v)
+                    [nameof(MedicalPKDlg.OnEventCallback)] = EventCallback.Factory.Create<MedicalPK>(this, v => pK = v)
                 }
             });
 
@@ -74,12 +65,10 @@ namespace Medical.Work.Pages
             {
                 using (var context = contextFactory.CreateDbContext())
                 {
-                    medicalPK.Adminname = authenticationStateTask.Result.User.Identity.Name;
-                    medicalPK.Createtime = DateTime.Now;
-                    medicalPK.Guid = Guid.NewGuid().ToString();
-                    context.MPKs.Add(medicalPK);
+                  
+                    context.MPKs.Add(pK);
                     context.SaveChanges();
-                    medicalPK_s.Add(medicalPK);
+                    medicalPK_s.Add(pK);
                 }
             }
             StateHasChanged();

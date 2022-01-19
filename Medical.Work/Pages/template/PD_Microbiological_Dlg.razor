@@ -8,9 +8,6 @@
         <div style="font-size:16px;font-weight:500">
             <ValidateForm Model="@medicalPD_Microbiological">
                 <Row ItemsPerRow="ItemsPerRow.One">
-                  @*  <BootstrapInput @bind-Value="@medicalPD_Microbiological.Username"></BootstrapInput>
-                    <BootstrapInput @bind-Value="@medicalPD_Microbiological.Medicalrecordnumber"></BootstrapInput>
-                   *@
                     <label>患者信息</label>
                       <AutoFill TValue="PatientsTips" Value="patientsTips" Items="DataTips.PatientsTips" IsLikeMatch="true" OnSelectedItemChanged="OnAutoFillSelectedItemChanged" OnGetDisplayText="OnGetDisplayText" class="mb-3" IsSelectAllTextOnFocus="true">
                             <Template>
@@ -25,13 +22,13 @@
                                 </div>
                             </Template>
             </AutoFill>
-                    <Select @bind-Value="@medicalPD_Microbiological.TestorisNot"></Select>
+                    <Select @bind-Value="@medicalPD_Microbiological.TestorisNot" Items="EnumItems.TestorIsNotEnum"></Select>
                 </Row>
                 <Row ItemsPerRow="ItemsPerRow.Two">
                    
                     <DateTimePicker @bind-Value="@medicalPD_Microbiological.TestTime"></DateTimePicker>
-                    <Select @bind-Value="@medicalPD_Microbiological.SpecimenType"></Select>
-                    <Select @bind-Value="@medicalPD_Microbiological.TestorNot"></Select>
+                    <Select @bind-Value="@medicalPD_Microbiological.SpecimenType" Items="EnumItems.SpecimenTypeEnum" ></Select>
+                    <Select @bind-Value="@medicalPD_Microbiological.TestorNot" Items="EnumItems.TestorNotEnum"></Select>
                     <DateTimePicker @bind-Value="@medicalPD_Microbiological.ReportTime"></DateTimePicker>
                 </Row>
                 <Divider></Divider>

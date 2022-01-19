@@ -37,9 +37,10 @@
                    OnQueryAsync="@OnQueryAsync" IsAutoRefresh="true"
                    ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
                 <RowButtonTemplate>
-                    @* <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context,1))" />*@
-                    <TableCellButton Size="Size.ExtraSmall" Color="Color.Warning" Icon="fa fa-edit" Text="删除" OnClickCallback="@(() => Ondel(context))" />
-                </RowButtonTemplate>
+                    <Button Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-info" Text=" 详情 "  OnClick="@(()=>OnDetails(context))" ></Button>
+                    <Button Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-edit" Text=" 修改 "  OnClick="@(()=>OnEdit(context))" ></Button>
+                    <PopConfirmButton Size="Size.ExtraSmall" ConfirmButtonColor="Color.Danger" Icon="fa fa-trash" OnConfirm="@(()=>OnDelete(context))" Placement="Placement.Top" Color="Color.Danger" ConfirmIcon="fa fa-exclamation-triangle text-danger"  Text="删除" Content="确定删除数据吗？" />
+             </RowButtonTemplate>
             </Table>
         </CardBody>
     </Card>
@@ -56,7 +57,7 @@
     private Message MessageElement { set; get; }
 
     [Inject]
-    DialogService? Dialogservice { set; get; }
+    DialogService? dialogService { set; get; }
 
     [Inject]
     IDbContextFactory<MedicalDbContext> contextFactory { set; get; }
@@ -65,6 +66,9 @@
     Task<AuthenticationState> authenticationStateTask { set; get; }
 
     private string Querywhere { set; get; }
+
+    private bool IsBackdropOpen{ set; get; }
+
 
 
     private MedicalPD_Microbiological pD_Microbiological { set; get; } = new();
@@ -136,7 +140,8 @@
 
     private async Task OnShowDlg(MedicalPD_Microbiological obj)
     {
-        var result = await Dialogservice.ShowModal<PD_Microbiological_Dlg>(new ResultDialogOption()
+        MedicalPD_Microbiological medicalPD = new MedicalPD_Microbiological();
+        var result = await dialogService.ShowModal<PD_Microbiological_Dlg>(new ResultDialogOption()
         {
             Title = "新建临床微生物学检查",
             BodyContext = obj,
@@ -144,7 +149,7 @@
             ComponentParamters = new Dictionary<string, object>
              {
                 //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
-                 [nameof(PD_Microbiological_Dlg.OnEventCallback)]= EventCallback.Factory.Create<MedicalPD_Microbiological>(this, v => pD_Microbiological = v)
+                 [nameof(PD_Microbiological_Dlg.OnEventCallback)]= EventCallback.Factory.Create<MedicalPD_Microbiological>(this, v => medicalPD = v)
              }
         });
 
@@ -152,13 +157,12 @@
         {
             using (var context = contextFactory.CreateDbContext())
             {
-                if (pD_Microbiological != null)
+                if (medicalPD != null)
                 {
-                    pD_Microbiological.Createtime = DateTime.Now;
-                    pD_Microbiological.Adminname = authenticationStateTask.Result.User.Identity.Name;
-                    context.MPD_Microbiologicals.Add(pD_Microbiological);
+                   
+                    context.MPD_Microbiologicals.Add(medicalPD);
                     context.SaveChanges();
-                    pD_Microbiologicals.Add(pD_Microbiological);
+                    pD_Microbiologicals.Add(medicalPD);
                     ShowColorMessage(Color.Success, "新建临床微生物学检查", MessageElement);
                 }
             }
@@ -166,6 +170,73 @@
         }
         return;
     }
+
+       private async Task OnEdit(MedicalPD_Microbiological myobject)
+    {
+
+        MedicalPD_Microbiological  medicalPD = new MedicalPD_Microbiological();
+        var retdlg = await dialogService.ShowModal<PD_Microbiological_Dlg>(new ResultDialogOption()
+            {
+                BodyContext = myobject,
+                Title = "编辑修改",
+                Size = Size.ExtraLarge,
+                ComponentParamters = new Dictionary<string, object>
+                {
+                    [nameof(PD_Microbiological_Dlg.OnEventCallback)] = EventCallback.Factory.Create<MedicalPD_Microbiological>(this, v => medicalPD = v)
+                }
+            });
+
+        if (retdlg == DialogResult.Yes)
+        {
+            try
+            {
+                using (var context = contextFactory.CreateDbContext())
+                {
+                    context.Update(medicalPD);
+                    context.SaveChanges();
+                    ShowColorMessage(Color.Success, "数据编辑修改成功", MessageElement);
+
+                    Log.Information<MedicalPD_Microbiological>(medicalPD.ToString()+"-----成功修改------",medicalPD);
+                }
+            }
+            catch(Exception sqlex)
+            {
+                ShowColorMessage(Color.Warning, "数据编辑修改失败，请联系管理员", MessageElement);
+                Log.Warning(sqlex.Message);
+            }
+
+        }
+        StateHasChanged();
+    }
+
+    private async Task OnDelete(MedicalPD_Microbiological myobject)
+    {
+        using (var context = contextFactory.CreateDbContext())
+        {
+            context.MPD_Microbiologicals.Remove(myobject);
+            var ok = context.SaveChanges();
+            if (ok > 0)
+            {
+                pD_Microbiologicals.Remove(myobject);
+                ShowColorMessage(Color.Info, "注意：数据已经成功删除", MessageElement);
+                StateHasChanged();
+            }
+            else
+            {
+                ShowColorMessage(Color.Warning, "数据删除失败", MessageElement);
+
+            }
+        }
+
+    }
+    private async Task OnDetails(MedicalPD_Microbiological myobject)
+    {
+
+        pD_Microbiological = myobject;
+        StateHasChanged();
+        IsBackdropOpen = IsBackdropOpen? false : true;
+    }
+
     public void ShowColorMessage(Color color, string content, Message message)
     {
          message.SetPlacement(Placement.Top);
@@ -183,39 +254,38 @@
     {
         return Task.CompletedTask;
     }
-    [Inject]
-    private SwalService? SwalService { get; set; }
 
-    private async Task Ondel(MedicalPD_Microbiological myobject)
-    {
-        var op = new SwalOption()
-        {
-            Title = "警告",
-            Content = "数据删除不可再恢复，是否确定删除？",
-            IsConfirm = true,
-            Category = SwalCategory.Warning
-        };
-        var re = await SwalService.ShowModal(op);
-        if (re)
-        {
 
-            using (var context = contextFactory.CreateDbContext())
-            {
-                context.MPD_Microbiologicals.Remove(myobject);
-                var ok = context.SaveChanges();
-                if (ok > 0)
-                {
-                    pD_Microbiologicals.Remove(myobject);
-                    StateHasChanged();
-                }
-                else
-                {
-                    ShowColorMessage(Color.Warning, "数据删除失败", MessageElement);
+    //private async Task Ondel(MedicalPD_Microbiological myobject)
+    //{
+    //    var op = new SwalOption()
+    //    {
+    //        Title = "警告",
+    //        Content = "数据删除不可再恢复，是否确定删除？",
+    //        IsConfirm = true,
+    //        Category = SwalCategory.Warning
+    //    };
+    //    var re = await SwalService.ShowModal(op);
+    //    if (re)
+    //    {
 
-                }
-            }
-        }
-        return;
-    }
+    //        using (var context = contextFactory.CreateDbContext())
+    //        {
+    //            context.MPD_Microbiologicals.Remove(myobject);
+    //            var ok = context.SaveChanges();
+    //            if (ok > 0)
+    //            {
+    //                pD_Microbiologicals.Remove(myobject);
+    //                StateHasChanged();
+    //            }
+    //            else
+    //            {
+    //                ShowColorMessage(Color.Warning, "数据删除失败", MessageElement);
+
+    //            }
+    //        }
+    //    }
+    //    return;
+    //}
 
 }

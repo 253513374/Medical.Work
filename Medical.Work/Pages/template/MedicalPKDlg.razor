@@ -23,7 +23,8 @@
         <BootstrapInput @bind-Value="medicalPK.DrugsNmae"></BootstrapInput>
         <BootstrapInput @bind-Value="@medicalPK.DrugsNmae2"> </BootstrapInput>
         <BootstrapInput @bind-Value="@medicalPK.DrugSpecifications"> </BootstrapInput>
-        <Select @bind-Value="@medicalPK.Manufacturertype"></Select>
+
+        <Select @bind-Value="@medicalPK.Manufacturertype" Items="EnumItems.Manufacturertype"></Select>
 
 
     </Row>
@@ -36,11 +37,11 @@
     <Row ItemsPerRow=" ItemsPerRow.Four">
 
         <BootstrapInput @bind-Value="@medicalPK.Drugdosage"> </BootstrapInput>
-        <Select @bind-Value="@medicalPK.DrugdosageUnit"> </Select>
+        <Select @bind-Value="@medicalPK.DrugdosageUnit" Items="EnumItems.DrugdosageUnit"> </Select>
 
-        <Select @bind-Value="@medicalPK.DrugNCount"> </Select>
+        <AutoComplete  @bind-Value="@medicalPK.DrugNCount" Items="EnumItems.DrugNCountEnum"> </AutoComplete>
 
-        <Select @bind-Value="@medicalPK.DrugNCountDuration"> </Select>
+        <AutoComplete @bind-Value="@medicalPK.DrugNCountDuration" Items="EnumItems.DrugNCountDurationEnum"> </AutoComplete>
         <BootstrapInput @bind-Value="@medicalPK.DrugdosageRoute"> </BootstrapInput>
         <BootstrapInput @bind-Value="@medicalPK.DrugSolvent"> </BootstrapInput>
 

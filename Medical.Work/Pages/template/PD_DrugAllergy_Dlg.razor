@@ -25,20 +25,20 @@
                                 </div>
                             </Template>
             </AutoFill>
-                    <Select @bind-Value="@medicalPD_DrugAllergy.TestorisNot"></Select>
+                    <Select @bind-Value="@medicalPD_DrugAllergy.TestorisNot"  Items="EnumItems.TestorIsNotEnum"></Select>
                     <DateTimePicker @bind-Value="@medicalPD_DrugAllergy.TestTime"></DateTimePicker>
-                    <Select @bind-Value="@medicalPD_DrugAllergy.DrugsName"></Select>
+                    <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.DrugsName"></BootstrapInput>
                 </Row>
                 <Row ItemsPerRow="ItemsPerRow.Two">
                    
-                    <Select @bind-Value="@medicalPD_DrugAllergy.DrugsensitivityTest"></Select>
+                    <Select @bind-Value="@medicalPD_DrugAllergy.DrugsensitivityTest" Items="EnumItems.DrugsensitivityEnum" ></Select>
                     <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.DrugsensitivityTestOther"></BootstrapInput>
                 </Row>
                 <Divider></Divider>
 
                 <Row ItemsPerRow="ItemsPerRow.Two">
                     <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.MIC"></BootstrapInput>
-                    <Select @bind-Value="@medicalPD_DrugAllergy.Susceptibility"></Select>
+                    <Select @bind-Value="@medicalPD_DrugAllergy.Susceptibility" Items="EnumItems.SusceptibilityEnum" ></Select>
                     <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.TMic"></BootstrapInput>
                     <BootstrapInput @bind-Value="@medicalPD_DrugAllergy.AUCMic"></BootstrapInput>
                 </Row>
@@ -53,6 +53,8 @@
     [CascadingParameter(Name = "BodyContext")]
     public object? DrugAllergy { set; get; }
 
+     [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     private MedicalPD_DrugAllergy medicalPD_DrugAllergy { set; get; } = new();
 
