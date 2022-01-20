@@ -5,8 +5,8 @@
 
 
 
-@inject DialogService? Dialogservice
-@inject IDbContextFactory<MedicalDbContext> ContextFactor
+@inject DialogService? dialogService
+@inject IDbContextFactory<MedicalDbContext> contextFactory
 @inject UserManager<IdentityUser> Usermanager
 
 
@@ -38,10 +38,15 @@
                    ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" IsAutoRefresh="true"
                    ShowDeleteButton="false" OnQueryAsync="@OnQueryPageAsync"
                    ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
-                <RowButtonTemplate>
+                    <RowButtonTemplate>
+                        <Button Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-info" Text=" 详情 "  OnClick="@(()=>OnDetails(context))" ></Button>
+                        <Button Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-edit" Text=" 修改 "  OnClick="@(()=>OnEdit(context))" ></Button>
+                        <PopConfirmButton Size="Size.ExtraSmall" ConfirmButtonColor="Color.Danger" Icon="fa fa-trash" OnConfirm="@(()=>OnDelete(context))" Placement="Placement.Top" Color="Color.Danger" ConfirmIcon="fa fa-exclamation-triangle text-danger"  Text="删除" Content="确定删除数据吗？" />
+                    </RowButtonTemplate>
+               @* <RowButtonTemplate>
                     <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context,1))" />
                     <TableCellButton Size="Size.ExtraSmall" Color="Color.Warning" Icon="fa fa-edit" Text="删除" OnClickCallback="@(() => Ondel(context))" />
-                </RowButtonTemplate>
+                </RowButtonTemplate>*@
             </Table>
         </CardBody>
     </Card>
@@ -64,6 +69,7 @@
     private List<X_rayImaging> X_RayImagings { set; get; } = new();
 
     private string Querywhere { set; get; }
+    private bool IsBackdropOpen{ set; get; }
 
     private MedicalDbContext context { set; get; }
 
@@ -88,7 +94,7 @@
     {
         if (firstRender)
         {
-            context = ContextFactor.CreateDbContext();
+            context = contextFactory.CreateDbContext();
             await OnSearch();
         }
         return;// base.OnAfterRenderAsync(firstRender);
@@ -126,21 +132,20 @@
 
     public async Task OnShowDlg(X_rayImaging obj)
     {
-        var result = await Dialogservice.ShowModal<X_rayImagingDlg>(new ResultDialogOption()
+        var result = await dialogService.ShowModal<X_rayImagingDlg>(new ResultDialogOption()
         {
             Title = "新建影像学检查",
             BodyContext = obj,
 
             ComponentParamters = new Dictionary<string, object>
                {
-                //new(nameof(EditReportCard.TemplateParameter), Certificatetemplate),
                       [nameof(X_rayImagingDlg.OnEventCallback)]= EventCallback.Factory.Create<X_rayImaging>(this, v => rayImaging = v)
                    }
         });
 
         if (result == DialogResult.Yes)
         {
-            using (var context = ContextFactor.CreateDbContext())
+            using (var context = contextFactory.CreateDbContext())
             {
                 if (rayImaging != null)
                 {
@@ -152,10 +157,70 @@
                     ShowColorMessage(Color.Success, "影像学检查添加成功", MessageElement);
                 }
             }
-            // MessageTagservice.ShowColorMessage(Color.Danger, "医患信息添加成功", MessageElement);
         }
         return;
-        //  return Task.CompletedTask;
+    }
+    private async Task OnEdit(X_rayImaging myobject)
+    {
+
+        X_rayImaging  rayImaging = new X_rayImaging();
+        var retdlg = await dialogService.ShowModal<X_rayImagingDlg>(new ResultDialogOption()
+            {
+                BodyContext = myobject,
+                Title = "编辑修改",
+                Size = Size.ExtraSmall,
+                ComponentParamters = new Dictionary<string, object>
+                {
+                    [nameof(X_rayImagingDlg.OnEventCallback)] = EventCallback.Factory.Create<X_rayImaging>(this, v => rayImaging = v)
+                }
+            });
+
+        if (retdlg == DialogResult.Yes)
+        {
+            try
+            {
+                using (var context = contextFactory.CreateDbContext())
+                {
+                    context.Update(rayImaging);
+                    context.SaveChanges();
+                    ShowColorMessage(Color.Success, "数据编辑修改成功", MessageElement);
+                    Log.Information<X_rayImaging>(rayImaging.ToString()+"-----成功修改------",rayImaging);
+                }
+            }
+            catch(Exception sqlex)
+            {
+                ShowColorMessage(Color.Warning, "数据编辑修改失败，请联系管理员", MessageElement);
+                Log.Warning(sqlex.Message);
+            }
+        }
+        StateHasChanged();
+    }
+
+    private async Task OnDelete(X_rayImaging myobject)
+    {
+        using (var context = contextFactory.CreateDbContext())
+        {
+            context.X_rayImagings.Remove(myobject);
+            var ok = context.SaveChanges();
+            if (ok > 0)
+            {
+                X_RayImagings.Remove(myobject);
+                ShowColorMessage(Color.Info, "注意：数据已经成功删除", MessageElement);
+                StateHasChanged();
+            }
+            else
+            {
+                ShowColorMessage(Color.Warning, "数据删除失败", MessageElement);
+
+            }
+        }
+
+    }
+    private async Task OnDetails(X_rayImaging myobject)
+    {
+        rayImaging = myobject;
+        StateHasChanged();
+        IsBackdropOpen = IsBackdropOpen? false : true;
     }
 
     public void ShowColorMessage(Color color, string content, Message message)
@@ -172,52 +237,4 @@
             }, message);
     }
 
-    private  Task OnRowEditClick(object obj, int typeofint)
-    {
-        //if (typeofint == 1) await EditX_Raydata(obj as X_rayImaging);
-
-        //if (typeofint == 2) await EditX_Raydata(obj as X_raybronchoscopy);
-
-        //if (typeofint == 3) await EditX_Raydata(obj as X_raypathological);
-        return Task.CompletedTask;
-    }
-    private async Task OnRowDetailedClick(object obj, int typeofint)
-    {
-
-    }
-
-    [Inject]
-    private SwalService? SwalService { get; set; }
-
-    private async Task Ondel(X_rayImaging myobject)
-    {
-        var op = new SwalOption()
-        {
-            Title = "警告",
-            Content = "数据删除不可再恢复，是否确定删除？",
-            IsConfirm = true,
-            Category = SwalCategory.Warning
-        };
-        var re = await SwalService.ShowModal(op);
-        if (re)
-        {
-
-            using (var context = ContextFactor.CreateDbContext())
-            {
-                context.X_rayImagings.Remove(myobject);
-                var ok = context.SaveChanges();
-                if (ok > 0)
-                {
-                    X_RayImagings.Remove(myobject);
-                    StateHasChanged();
-                }
-                else
-                {
-                    ShowColorMessage(Color.Warning, "数据删除失败", MessageElement);
-
-                }
-            }
-        }
-        return;
-    }
 }
