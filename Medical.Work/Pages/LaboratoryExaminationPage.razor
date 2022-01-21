@@ -16,10 +16,13 @@
                 查询条件
             </CardHeader>
             <CardBody>
-                <Row RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Two">
+                <Row  RowType="RowType.Normal" ItemsPerRow="ItemsPerRow.Two" style="height:75px">
 
-                    <Search IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s=>OnSearch())"></Search>
+                    <div style="align-items:center;height:75px;">
+                         <Search  IgnoreCase="true" IsLikeMatch="true" @bind-Value="@Querywhere" placeholder="请输入关键信息..." OnSearch="@(s=>OnSearch())"></Search>
+                    </div>
 
+                   
                     <button class="createbut fa fa-plus" @onclick="@(()=>OnShowDlg(null))"></button>
                 </Row>
             </CardBody>

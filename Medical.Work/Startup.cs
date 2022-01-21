@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,9 +48,10 @@ namespace Medical.Work
                     options.Password.RequireUppercase = false;
                     options.Password.RequireNonAlphanumeric = false;
 
+                    //RequireConfirmedAccount
                     options.SignIn.RequireConfirmedEmail = false;
                     options.SignIn.RequireConfirmedPhoneNumber = false;
-                    options.SignIn.RequireConfirmedAccount = true;
+                    options.SignIn.RequireConfirmedAccount = false;
 
                     options.User.RequireUniqueEmail = true;
                 }
@@ -67,6 +69,7 @@ namespace Medical.Work
 
             services.AddScoped<PatientInfoService>();
             services.AddScoped<MessageTag>();
+            services.AddScoped<EmailSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

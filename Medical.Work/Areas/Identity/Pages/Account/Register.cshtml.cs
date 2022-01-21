@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
@@ -77,19 +78,20 @@ namespace Medical.Work.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation("用户使用密码创建了一个新帐户。");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
-
-                    await _emailSender.SendEmailAsync(Input.Email, "确认您的电子邮件",
-                        $"请通过确认您的帐户 <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>点击此处</a>.");
-
+                    //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    //var callbackUrl = Url.Page(
+                    //    "/Account/ConfirmEmail",
+                    //    pageHandler: null,
+                    //    values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
+                    //    protocol: Request.Scheme);
+                   // var confirmuser = await _userManager.FindByIdAsync(user.Id);
+                   //  var re = await _userManager.ConfirmEmailAsync(confirmuser, code);
+                    //await _emailSender.SendEmailAsync(Input.Email, "确认您的电子邮件",
+                    //    $"请通过确认您的帐户 <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>点击此处</a>.");
+        
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
@@ -100,9 +102,23 @@ namespace Medical.Work.Areas.Identity.Pages.Account
                         return LocalRedirect(returnUrl);
                     }
                 }
+                bool ss = true;
                 foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    if (error.Code is "DuplicateUserName"|| error.Code is "DuplicateEmail")
+                    {
+                        if(ss)
+                        {
+                            var errormsg = $"{Input.Email}邮箱已经被注册，请更换邮箱注册。";
+                            ModelState.AddModelError(string.Empty, errormsg);
+                        }
+                        ss = false;
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                   
                 }
             }
 

@@ -4,15 +4,27 @@
 @inject ICompositeViewEngine Engine
 <!DOCTYPE html>
 <html>
+
+    
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Medical.Work</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/Identity/lib/bootstrap/dist/css/bootstrap.min.css" />
+
     <link rel="stylesheet" href="~/Identity/css/site.css" />
+    <style type="text/css">
+            html,body{
+                height:100%;
+                margin:0px;
+            }
+        </style>
 </head>
 <body>
-    <header>
+@*    <header>
         <nav class="navbar navbar-expand-sm navbar-light navbar-toggleable-sm bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" href="~/">Medical.Work</a>
@@ -37,18 +49,20 @@
                 </div>
             </div>
         </nav>
-    </header>
+    </header>*@
 
     <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        <div class="d-flex flex-column">
+              @RenderBody()
+        </div>
+         
     </div>
-    <footer class="footer border-top text-muted">
+  @*  <footer class="footer border-top text-muted">
         <div class="container">
             &copy; 2021 - Medical.Work - <a asp-area="" asp-page="Privacy">Privacy</a>
         </div>
-    </footer>
+    </footer>*@
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
     <script src="~/Identity/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/Identity/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/Identity/js/site.js" asp-append-version="true"></script>

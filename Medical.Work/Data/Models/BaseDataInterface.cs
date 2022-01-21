@@ -28,7 +28,7 @@ namespace Medical.Work.Data
         /// </summary>
         [NotNull]
         [DisplayName("编号")]
-        [AutoGenerateColumn(Ignore = true)]
+        [AutoGenerateColumn(Ignore = false)]
         public string Medicalrecordnumber { set; get; }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Medical.Work.Data
         /// </summary>
         [NotNull]
         [DisplayName("患者姓名")]
-        [AutoGenerateColumn(Ignore = true)]
+        [AutoGenerateColumn(Ignore = false)]
         public string Username { set; get; }
 
         [DisplayName("唯一编码")]

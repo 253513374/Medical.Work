@@ -4,16 +4,23 @@ using Medical.Work.Data.Models;
 using Medical.Work.Pages.template;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
+using MudBlazor;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Color = BootstrapBlazor.Components.Color;
+using DialogResult = BootstrapBlazor.Components.DialogResult;
 
 namespace Medical.Work.Pages
 {
     public partial class X_RaypathologicalPage
     {
         private string Querywhere { set; get; }
+
+        private bool IsBackdropOpen { set; get; }
 
         private X_raypathological raypathological { set; get; }
 
@@ -49,7 +56,7 @@ namespace Medical.Work.Pages
         {
             if (firstRender)
             {
-                context = ContextFactor.CreateDbContext();
+                context = contextFactory.CreateDbContext();
                 await OnSearch();
             }
             return;// base.OnAfterRenderAsync(firstRender);
@@ -57,7 +64,7 @@ namespace Medical.Work.Pages
 
         private async Task OnShowDlg(X_raypathological obj)
         {
-            var result = await Dialogservice.ShowModal<X_raypathologicalDlg>(new ResultDialogOption()
+            var result = await dialogService.ShowModal<X_raypathologicalDlg>(new ResultDialogOption()
             {
                 Title = "新建病理检查",
                 BodyContext = obj,
@@ -71,7 +78,7 @@ namespace Medical.Work.Pages
 
             if (result == DialogResult.Yes)
             {
-                using (var context = ContextFactor.CreateDbContext())
+                using (var context = contextFactory.CreateDbContext())
                 {
                     if (raypathological != null)
                     {
@@ -87,9 +94,71 @@ namespace Medical.Work.Pages
             return;
         }
 
+        private async Task OnEdit(X_raypathological myobject)
+{
+            X_raypathological raypathological = new X_raypathological();
+            var retdlg = await dialogService.ShowModal<X_raypathologicalDlg>(new ResultDialogOption()
+            {
+                BodyContext = myobject,
+                Title = "编辑修改",
+                Size = BootstrapBlazor.Components.Size.ExtraSmall,
+                ComponentParamters = new Dictionary<string, object>
+                {
+                    [nameof(X_raypathologicalDlg.OnEventCallback)] = EventCallback.Factory.Create<X_raypathological>(this, v => raypathological = v)
+                }
+            });
+
+            if (retdlg == DialogResult.Yes)
+            {
+                try
+                {
+                    using (var context = contextFactory.CreateDbContext())
+                    {
+                        context.Update(raypathological);
+                        context.SaveChanges();
+                        ShowColorMessage(Color.Success, "数据编辑修改成功", MessageElement);
+                        Log.Information(raypathological.ToString() + "-----成功修改------", raypathological);
+                    }
+                }
+                catch (Exception sqlex)
+                {
+                    ShowColorMessage(Color.Warning, "数据编辑修改失败，请联系管理员", MessageElement);
+                    Log.Warning(sqlex.Message);
+                }
+            }
+            StateHasChanged();
+        }
+
+        private async Task OnDelete(X_raypathological myobject)
+{
+            using (var context = contextFactory.CreateDbContext())
+            {
+                context.X_raypathologicals.Remove(myobject);
+                var ok = context.SaveChanges();
+                if (ok > 0)
+                {
+                    x_Raypathologicals.Remove(myobject);
+                    ShowColorMessage(Color.Info, "注意：数据已经成功删除", MessageElement);
+                    StateHasChanged();
+                }
+                else
+                {
+                    ShowColorMessage(Color.Warning, "数据删除失败", MessageElement);
+
+                }
+            }
+
+        }
+        private async Task OnDetails(X_raypathological myobject)
+        {
+            raypathological = myobject;
+            StateHasChanged();
+            IsBackdropOpen = IsBackdropOpen ? false : true;
+        }
+
         public async Task OnSearch()
         {
-            using (var context = ContextFactor.CreateDbContext())
+            using (var context = contextFactory.CreateDbContext())
             {
                 var Username = authenticationStateTask.Result.User.Identity.Name;
                 DateTime dateTime = DateTime.Now.AddDays(-30);
@@ -118,16 +187,7 @@ namespace Medical.Work.Pages
 
         public void ShowColorMessage(Color color, string content, Message message)
         {
-            //message.SetPlacement(Placement.Top);
-            //messageService?.Show(new MessageOption()
-            //{
-            //    Host = message,
-            //    Content = content,
-            //    Icon = "fa fa-info-circle",
-            //    Color = color
-            //});
-
-            message.SetPlacement(Placement.Top);
+            message.SetPlacement(BootstrapBlazor.Components.Placement.Top);
             messageService?.Show(new MessageOption()
             {
                 Content = content,

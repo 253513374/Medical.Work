@@ -4,7 +4,62 @@
     ViewData["Title"] = "注册";
 }
 
-<div class="row d-flex justify-content-center align-content-center">
+
+<div class=" vh-100 d-flex justify-content-center align-items-center" >
+    <div class="shadow-lg  pa-8"  style="width:100%;max-width:500px;"  >
+        <section>
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post" style="margin-left: 50px;margin-right: 50px;margin-bottom: 50px;">
+               <img src=/img/logo.png style="width:100%;height:auto"/>
+               @* <hr />*@
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group pt-2">
+                    <label asp-for="Input.Email"></label>
+                    <input   asp-for="Input.Email" class="form-control"  style="height:48px" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-2">
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" class="form-control" style="height:48px" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                 <div class="form-group pt-2  pb-4">
+                    <label asp-for="Input.ConfirmPassword"></label>
+                    <input asp-for="Input.ConfirmPassword" class="form-control" style="height:48px" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+               @* <div class=" form-group pt-2 pb-4 d-flex justify-content-between align-items-center ">
+                    <div class="checkbox">
+                        <label asp-for="Input.RememberMe">
+                            <input asp-for="Input.RememberMe" />
+                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                        </label>
+                       
+                    </div>
+                     <div>
+                        <a id="forgot-password" asp-page="./ForgotPassword">遗忘密码?</a>
+                    </div>
+                </div>*@
+                <div class="form-group">
+                    <button style="width:100%" type="submit" class="btn btn-primary"> 注 册 </button>
+                </div>
+                <div class="form-group pt-3">
+                    <p>
+                        已经有账户？请 <a id="login" asp-area="Identity" asp-page="/Account/Login"> Login </a>
+                    </p>
+                  @*  <p>
+                       没有账户？请 <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">点击注册</a>
+                    </p>
+                    <p>
+                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">重新发送电子邮件确认</a>
+                    </p>*@
+                </div>
+            </form>
+        </section>
+    </div>
+
+</div>
+
+@*<div class="row d-flex justify-content-center align-content-center">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>创建一个新账户。</h4>
@@ -28,37 +83,8 @@
             <button type="submit" class="btn btn-primary">提交</button>
         </form>
     </div>
-   @* <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>使用其他服务注册。</h4>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
-    </div>*@
-</div>
+
+</div>*@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

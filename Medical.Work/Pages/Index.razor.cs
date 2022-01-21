@@ -82,7 +82,7 @@ namespace Medical.Work.Pages
         /// 添加患者个人基本信息数据
         /// </summary>
         /// <returns></returns>
-        private async Task CreateAddDlg()
+        private async Task OnShowDlg(PatientInfo info)
         {
 
             PatientInfo patient = new PatientInfo();

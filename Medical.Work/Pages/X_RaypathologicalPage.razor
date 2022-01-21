@@ -4,8 +4,8 @@
 @page "/X_RaypathologicalPage/{Text}/{Name?}"
 @using System.Reflection
 
-@inject DialogService? Dialogservice
-@inject IDbContextFactory<MedicalDbContext> ContextFactor
+@inject DialogService? dialogService
+@inject IDbContextFactory<MedicalDbContext> contextFactory
 @inject UserManager<IdentityUser> Usermanager
 
 
@@ -39,10 +39,15 @@
                    ShowToolbar="true" ShowAddButton="false" ShowEditButton="false"
                    ShowDeleteButton="false" OnQueryAsync="@OnQueryPageAsync" IsAutoRefresh="true"
                    ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
-                <RowButtonTemplate>
-                    @*  <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context))" />*@
-                    <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="删除" OnClickCallback="@(() => Ondel(context))" />
-                </RowButtonTemplate>
+                    <RowButtonTemplate>
+                        <Button Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-info" Text=" 详情 "  OnClick="@(()=>OnDetails(context))" ></Button>
+                        <Button Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-edit" Text=" 修改 "  OnClick="@(()=>OnEdit(context))" ></Button>
+                        <PopConfirmButton Size="Size.ExtraSmall" ConfirmButtonColor="Color.Danger" Icon="fa fa-trash" OnConfirm="@(()=>OnDelete(context))" Placement="Placement.Top" Color="Color.Danger" ConfirmIcon="fa fa-exclamation-triangle text-danger"  Text="删除" Content="确定删除数据吗？" />
+                    </RowButtonTemplate>
+                   @*  <RowButtonTemplate>
+                         <TableCellButton Size="Size.ExtraSmall" Color="Color.Primary" Icon="fa fa-edit" Text="明细" OnClickCallback="@(() => OnRowDetailedClick(context))" />
+                         <TableCellButton Size="Size.ExtraSmall" Color="Color.Success" Icon="fa fa-edit" Text="删除" OnClickCallback="@(() => Ondel(context))" />
+                       </RowButtonTemplate>*@
             </Table>
         </CardBody>
     </Card>
@@ -63,45 +68,41 @@
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
-    [Inject]
-    private SwalService? SwalService { get; set; }
-
-    private async Task OnRowDetailedClick(object obj, int typeofint)
-    {
-
-    }
+    //[Inject]
+    //private SwalService? SwalService { get; set; }
 
 
 
-    private async Task Ondel(X_raypathological myobject)
-    {
-        var op = new SwalOption()
-        {
-            Title = "警告",
-            Content = "数据删除不可再恢复，是否确定删除？",
-            IsConfirm = true,
-            Category = SwalCategory.Warning
-        };
-        var re = await SwalService.ShowModal(op);
-        if (re)
-        {
 
-            using (var context = ContextFactor.CreateDbContext())
-            {
-                context.X_raypathologicals.Remove(myobject);
-                var ok = context.SaveChanges();
-                if (ok > 0)
-                {
-                    x_Raypathologicals.Remove(myobject);
-                    StateHasChanged();
-                }
-                else
-                {
-                    ShowColorMessage(Color.Warning, "数据删除失败", MessageElement);
+    //private async Task Ondel(X_raypathological myobject)
+    //{
+    //    var op = new SwalOption()
+    //    {
+    //        Title = "警告",
+    //        Content = "数据删除不可再恢复，是否确定删除？",
+    //        IsConfirm = true,
+    //        Category = SwalCategory.Warning
+    //    };
+    //    var re = await SwalService.ShowModal(op);
+    //    if (re)
+    //    {
 
-                }
-            }
-        }
-        return;
-    }
+    //        using (var context = contextFactory.CreateDbContext())
+    //        {
+    //            context.X_raypathologicals.Remove(myobject);
+    //            var ok = context.SaveChanges();
+    //            if (ok > 0)
+    //            {
+    //                x_Raypathologicals.Remove(myobject);
+    //                StateHasChanged();
+    //            }
+    //            else
+    //            {
+    //                ShowColorMessage(Color.Warning, "数据删除失败", MessageElement);
+
+    //            }
+    //        }
+    //    }
+    //    return;
+    //}
 }
