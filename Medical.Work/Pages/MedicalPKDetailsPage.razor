@@ -38,7 +38,7 @@
         <CardBody>
             <Table TItem="MedicalPKSampling" ShowLoading="true" IsPagination="true" IsStriped="true" IsBordered="true"
                    ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
-                   OnQueryAsync="@OnQueryAsync" IsAutoRefresh="true"
+                   OnQueryAsync="@OnQueryAsync" IsAutoRefresh="true"  FixedExtendButtonsColumn="true"
                    ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
                 <RowButtonTemplate>
                     <Button Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-info" Text=" 详情 "  OnClick="@(()=>OnDetails(context))" ></Button>
@@ -111,7 +111,7 @@
 
 </Drawer>
 
-<div class="marginlr w-100 mt-2">
+@*<div class="marginlr w-100 mt-2">
 
     @if (pKSamplings is not null)
     {
@@ -123,7 +123,7 @@
         </ListView>
     }
 
-</div>
+</div>*@
 
 
 @code {

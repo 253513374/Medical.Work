@@ -36,7 +36,7 @@
         <CardHeader>查询结果</CardHeader>
         <CardBody>
             <Table TItem="X_raypathological" ShowLoading="true" Items="@x_Raypathologicals" IsPagination="true" IsStriped="true" IsBordered="true"
-                   ShowToolbar="true" ShowAddButton="false" ShowEditButton="false"
+                   ShowToolbar="true" ShowAddButton="false" ShowEditButton="false"  FixedExtendButtonsColumn="true"
                    ShowDeleteButton="false" OnQueryAsync="@OnQueryPageAsync" IsAutoRefresh="true"
                    ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
                     <RowButtonTemplate>

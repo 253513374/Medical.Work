@@ -36,7 +36,7 @@
         <CardBody>
             <Table TItem="X_rayImaging" ShowLoading="true" IsPagination="true" IsStriped="true" IsBordered="true" IsMultipleSelect="true"
                    ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" IsAutoRefresh="true"
-                   ShowDeleteButton="false" OnQueryAsync="@OnQueryPageAsync"
+                   ShowDeleteButton="false" OnQueryAsync="@OnQueryPageAsync"  FixedExtendButtonsColumn="true"
                    ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
                     <RowButtonTemplate>
                         <Button Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-info" Text=" 详情 "  OnClick="@(()=>OnDetails(context))" ></Button>

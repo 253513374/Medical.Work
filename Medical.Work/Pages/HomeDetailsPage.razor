@@ -15,11 +15,13 @@
     }
 </style>
 
+
+
 <div class="d-flex justify-content-between row w-100">
 
     <div class="col-2 col-sm-2 col-lg-2 col-xl-2">
         <div class="laft_top">
-            <ul class="demo-ul">
+            <ul >
                 <li><Anchor Target="anchor1" Offset="50">基本信息</Anchor></li>
                 <li class="pt-3"><Anchor Target="anchor2" Offset="50">临床微生物检查</Anchor></li>
                 <li class="pt-3"><Anchor Target="anchor3" Offset="50">药敏试验</Anchor></li>
@@ -635,7 +637,6 @@
     {
         await Task.Run(() =>
         {
-
             PatientInfokeyValuePairs = DisplayAttributeExtend.GetAttributeExtends<PatientInfo>(patientInfo);
 
         });
@@ -644,7 +645,6 @@
 
     private  Task NavigateEvent(PatientInfo patient,string url)
     {
-
         var nav = $"{url}/{patient.Medicalrecordnumber}/{patient.Username}";
         navigationManager.NavigateTo(nav);
         return Task.CompletedTask;

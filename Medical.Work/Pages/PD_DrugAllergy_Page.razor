@@ -31,7 +31,7 @@
         <CardBody>
             <Table TItem="MedicalPD_DrugAllergy" ShowLoading="true" IsPagination="true" IsStriped="true" IsBordered="true"
                    ShowToolbar="true" ShowAddButton="false" ShowEditButton="false"  ShowCardView="true"
-                   ShowDeleteButton="false" OnQueryAsync="@OnQueryAsync" IsAutoRefresh="true"
+                   ShowDeleteButton="false" OnQueryAsync="@OnQueryAsync" IsAutoRefresh="true"  FixedExtendButtonsColumn="true"
                    ShowExtendButtons="true" ShowColumnList="true" AutoGenerateColumns="true">
                 <RowButtonTemplate>
                     <Button Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-info" Text=" 详情 "  OnClick="@(()=>OnDetails(context))" ></Button>

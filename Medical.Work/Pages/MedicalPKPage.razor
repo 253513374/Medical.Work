@@ -32,26 +32,28 @@
             <Table TItem="MedicalPK" ShowLoading="true" HeaderStyle="TableHeaderStyle.Light" IsPagination="true"
                    IsStriped="true" IsBordered="true" IsMultipleSelect="false" AllowResizing="true"
                    ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false"
+                   FixedExtendButtonsColumn="true"
                    ShowExtendButtons="true" ShowColumnList="true" OnQueryAsync="@OnQueryAsync" IsAutoRefresh="true">
                 @*/*药品通用名，溶媒（如0.9% 氯化钠100ml）,单次剂量，给药频率，给药途径，开始时间，截止时间，公斤体质量日剂量，厂家类型*/*@
                 <TableColumns>
-                    <TableColumn @bind-Field="@context.DrugsNmae"></TableColumn>
-                    <TableColumn @bind-Field="@context.DrugSolvent"></TableColumn>
-                    <TableColumn @bind-Field="@context.SolventToDosage"></TableColumn>
-                    <TableColumn @bind-Field="@context.Drugdosage"></TableColumn>
-                    <TableColumn @bind-Field="@context.DrugNCount"></TableColumn>
-                    <TableColumn @bind-Field="@context.DrugdosageRoute"></TableColumn>
-                    <TableColumn @bind-Field="@context.FirstTime"></TableColumn>
-                    <TableColumn @bind-Field="@context.LasttTime"></TableColumn>
-                    <TableColumn @bind-Field="@context.AMTsingledose"></TableColumn>
-                    <TableColumn @bind-Field="@context.Manufacturertype"></TableColumn>
+                    <TableColumn @bind-Field="@context.Medicalrecordnumber" Width="70"></TableColumn>
+                    <TableColumn @bind-Field="@context.Username" Width="70"></TableColumn>
+                    <TableColumn @bind-Field="@context.DrugsNmae" Width="120"></TableColumn>
+                    <TableColumn @bind-Field="@context.DrugSolvent" Width="70"></TableColumn>
+                    <TableColumn @bind-Field="@context.SolventToDosage" Width="70"></TableColumn>
+                    <TableColumn @bind-Field="@context.Drugdosage" Width="70"></TableColumn>
+                    <TableColumn @bind-Field="@context.DrugNCount" Width="70"></TableColumn>
+                    <TableColumn @bind-Field="@context.DrugdosageRoute" Width="160"></TableColumn>
+                    <TableColumn @bind-Field="@context.FirstTime" Width="125"></TableColumn>
+                    <TableColumn @bind-Field="@context.LasttTime" Width="125"></TableColumn>
+                    <TableColumn @bind-Field="@context.AMTsingledose" Width="200"></TableColumn>
+                    <TableColumn @bind-Field="@context.Manufacturertype" Width="65"></TableColumn>
                 </TableColumns>
 
                 <RowButtonTemplate>
                     <Button Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-info" Text=" 详情 "  OnClick="@(()=>OnDetails(context))" ></Button>
                     <Button Size="Size.ExtraSmall" Color="Color.Info" Icon="fa fa-edit" Text=" 修改 "  OnClick="@(()=>OnEdit(context))" ></Button>
                     <PopConfirmButton Size="Size.ExtraSmall" ConfirmButtonColor="Color.Danger" Icon="fa fa-trash" OnConfirm="@(()=>OnDelete(context))" Placement="Placement.Top" Color="Color.Danger" ConfirmIcon="fa fa-exclamation-triangle text-danger"  Text="删除" Content="确定删除数据吗？" />
-         
                 </RowButtonTemplate>
             </Table>
         </CardBody>
