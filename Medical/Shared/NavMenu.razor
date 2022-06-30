@@ -1,0 +1,84 @@
+﻿
+
+@*@using System.Drawing
+
+@using DCorlor = System.Drawing.Color*@
+
+<MudNavMenu>
+
+    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Outlined.Home">首页</MudNavLink>
+    <MudNavLink Href="PersonalFile" Icon="@Icons.Filled.FilePresent">基础档案</MudNavLink>
+@*    <MudNavLink Href="counter" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Counter</MudNavLink>
+    <MudNavLink Href="fetchdata" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Fetch data</MudNavLink>
+*@
+    <MudNavGroup Title="类鼻疽-PK" Icon="@Icons.Outlined.BubbleChart" Expanded="false">
+        <MudNavLink Href="fetchdata1" >给药方案</MudNavLink>
+        <MudNavLink Href="fetchdata2" >采样信息</MudNavLink>
+    </MudNavGroup>
+      <MudNavGroup Title="类鼻疽-PD"  Icon="@Icons.Outlined.Coronavirus" Expanded="false">
+        <MudNavLink Href="fetchdata3" >临床微生物检查</MudNavLink>
+        <MudNavLink Href="fetchdata4" >药敏试验</MudNavLink>
+    </MudNavGroup>
+      <MudNavGroup Title="类鼻疽-PG"  Icon="@Icons.Outlined.Colorize" Expanded="false">
+        <MudNavLink Href="fetchdata5" >药物基因组学</MudNavLink>
+        <MudNavLink Href="fetchdata6" >病原菌基因</MudNavLink>
+    </MudNavGroup>
+      <MudNavGroup Title="影像学检查" Icon="@Icons.Outlined.Collections" Expanded="false">
+         <MudNavLink Href="fetchdata7" >纤维支气管镜检查</MudNavLink>
+        <MudNavLink Href="fetchdata8"  >影像学检查</MudNavLink>
+         <MudNavLink Href="fetchdata9" >病理检查</MudNavLink>
+    </MudNavGroup>
+
+        <MudNavLink Href="fetchdata10" Icon="@Icons.Outlined.HomeRepairService">实验室检查</MudNavLink>
+        <MudNavLink Href="fetchdata11" Icon="@Icons.Outlined.Security"         >监护日志</MudNavLink>
+
+        <MudNavLink Href="fetchdata12" Icon="@Icons.Outlined.InsertDriveFile"  >案例总结</MudNavLink>
+     
+        <MudNavLink Href="fetchdata13" Icon="@Icons.Outlined.PersonPin"  IconColor="Color.Default"   >联系人管理</MudNavLink>
+
+</MudNavMenu>
+
+@code{
+
+    //MudBlazor.Color MColor
+    //{
+    //    get
+    //    {
+    //        return MudBlazor.Color
+    //    }
+    //}
+    // Color SS = new Color(); 
+}
+
+
+
+
+@* var menus = new List<MenuItem>
+            {
+                new MenuItem() {  Text = "首页", Icon = "fa fa-fw fa-home", Url = "/",IsActive=true, Match = NavLinkMatch.All},
+                   new MenuItem() {Text = "类鼻疽-PK", Icon = "fa fa-fw fa-database" ,Items  = new List<MenuItem>{
+                    new MenuItem(){Text= "给药方案", Url = "MedicalPKPage"},
+                    new MenuItem(){Text= "采样信息" ,Url = "MedicalPKDetailsPage"}
+                } },
+
+                new MenuItem() {  Text = "类鼻疽-PD", Icon = "fa fa-fw fa-fa", Items= new  List<MenuItem>{
+                     new MenuItem(){Text="临床微生物检查" , Url="PD_MicrobiologicalPage"},
+                     new MenuItem(){Text="药敏试验",Url="PD_DrugAllergy_Page"}
+                } },
+
+                new MenuItem() {  Text = "类鼻疽-PG", Icon = "fa fa-fw fa-check-square-o", Items =new List<MenuItem>{
+                     new MenuItem(){Text="药物基因组学", Url="PG_PharmacogenomicsPage"},
+                     new MenuItem(){Text="病原菌基因" ,Url="PG_PathogenGenePage"}
+                } },
+
+                new MenuItem() {  Text = "影像学检查", Icon = "fa fa-video-camera",Items=new List<MenuItem>(){
+                    new MenuItem(){Text= "纤维支气管镜检查", Url = "X_RayBronchoscopyPage"},
+                    new MenuItem(){Text= "影像学检查" , Url = "X_RayImgPage"},
+                    new MenuItem(){Text= "病理检查" , Url = "X_RaypathologicalPage"}
+                } },
+
+                new MenuItem() {  Text = "实验室检查", Icon = "fa fa-fw fa-table", Url = "LaboratoryExaminationPage" },
+                new MenuItem() {  Text = "监护日志", Icon = "fa fa-fw fa-fa", Url = "SummaryreportPage" },
+                new MenuItem() {  Text = "案例总结", Icon = "fa fa-fw fa-fa", Url = "SummaryOfCasesPage" },
+                new MenuItem() {  Text = "联系人管理", Icon = "fa fa-fw fa-check-square-o", Url = "ContactsPage" }
+            };*@

@@ -1,11 +1,7 @@
 ﻿using System.Collections.Generic;
 
-namespace Medical.Work.Data
+namespace Medical.Data
 {
-
-    /// <summary>
-    /// 个人档案信息
-    /// </summary>
     public static class DataTips
     {
         public static IEnumerable<PatientsTips> PatientsTips = new List<PatientsTips>();

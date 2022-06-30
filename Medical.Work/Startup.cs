@@ -95,7 +95,7 @@ namespace Medical.Work
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.ApplicationServices.RegisterProvider();
+           // app.ApplicationServices.RegisterProvider();
 
             app.UseEndpoints(endpoints =>
             {

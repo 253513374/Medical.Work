@@ -1,0 +1,24 @@
+﻿@page
+@model RegisterConfirmationModel
+@{
+    ViewData["Title"] = "Register confirmation";
+}
+
+
+@{
+    if(@Model.DisplayConfirmAccountLink)
+    {
+
+       <div class=" h-100 d-flex justify-content-center align-items-center" >
+          <p class="h3" >激活邮件已经发送至 @Model.Email , 请打开此邮箱激活您的账户</p>
+        </div>
+    }
+    else
+    {
+         <div class=" h-100 d-flex justify-content-center align-items-center" >
+          <p class="h3" > 请检查您的电子邮件以确认您的帐户。</p>
+        </div>
+
+    }
+}
+

@@ -1,0 +1,28 @@
+﻿@page "/counter"
+
+<PageTitle>Counter</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Counter</MudText>
+<MudText Class="mb-4">Current count: @currentCount</MudText>
+<MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="IncrementCount">Click me</MudButton>
+
+
+@code {
+    private int currentCount = 0;
+
+
+     [Inject]
+    protected ILogger<Counter> Logger{ set; get; }
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+          Logger.LogInformation("Counter:OnInitializedAsync");
+      //  forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+    }
+}

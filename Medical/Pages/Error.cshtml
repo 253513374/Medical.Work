@@ -1,0 +1,42 @@
+﻿@page
+@model Medical.Pages.ErrorModel
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Error</title>
+    <link href="~/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/app.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="main">
+        <div class="content px-4">
+            <h1 class="text-danger">程序出现错误.</h1>
+            <h2 class="text-danger">处理请求时，出现错误.</h2>
+
+            @if (Model.ShowRequestId)
+            {
+                <p>
+                    <strong>请求ID:</strong> <code>@Model.RequestId</code>
+                </p>
+            }
+
+            <h3>开发模式</h3>
+            <p>
+              切换到 <strong>开发模式</strong> 环境会显示有关所发生错误的详细信息。
+            </p>
+            <p>
+                <strong>不应为已部署的应用程序启用开发环境。</strong>
+                它可能导致向最终用户显示来自异常的敏感信息。
+             对于本地调试，通过将 <strong>ASPNETCORE_ENVIRONMENT</strong> 环境变量设置为 <strong>Development</strong> 来启用 <strong>Development</strong> 环境
+并重新启动应用程序。
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,243 @@
+﻿@page "/PersonalFile"
+
+
+<PageTitle>首页</PageTitle>
+
+
+<MudText Typo="Typo.h4" GutterBottom="true">数据档案管理！</MudText>
+
+<MudStack Row="true" Style="max-width:500px" Justify="Justify.SpaceBetween">
+        <MudAutocomplete T="PatientInfo" Label="输入关键信息" @bind-Value="value2" SearchFunc="@Search2"
+                         CoerceText="true" CoerceValue="true"
+                         AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary"
+                         ToStringFunc="@(e=> e==null?null :  $"{e.Medicalrecordnumber}:{e.Username}")">
+        <ItemTemplate Context="e">                          
+            <MudStack Row="true" Justify="Justify.FlexStart" AlignItems="AlignItems.Center">
+                <MudIcon  Size="Size.Medium" Icon="@Icons.Outlined.AssignmentInd"   Class="mx-2"></MudIcon>
+                <MudText  Align="Align.Center" Typo="Typo.button"  >@( $"{e.Medicalrecordnumber}:{e.Username}")</MudText>
+            </MudStack>
+        </ItemTemplate>
+        <ItemSelectedTemplate Context="e">   
+            <MudStack Row="true" Justify="Justify.FlexStart" AlignItems="AlignItems.Center">
+                <MudIcon  Size="Size.Medium" Icon="@Icons.Outlined.AssignmentInd"  Color="Color.Success"  Class="mx-2"></MudIcon>
+                <MudText  Align="Align.Center" Typo="Typo.button" Color="Color.Success" >@( $"{e.Medicalrecordnumber}:{e.Username}")</MudText>
+            </MudStack>
+        </ItemSelectedTemplate>
+    </MudAutocomplete>
+    <MudFab Color="Color.Primary"   OnClick="@OnOpenDialog" Class="mx-3" Icon="@Icons.Material.Outlined.AddCard"></MudFab>
+</MudStack>
+<MudText Class="mb-8" Typo="Typo.caption" >输入编号与姓名关键信息进行搜索</MudText>
+
+@if(Patients is null){
+    <MudCard>
+    <MudCardHeader>
+        <CardHeaderAvatar>
+            <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="40px" Width="40px"/>
+        </CardHeaderAvatar>
+        <CardHeaderContent>
+            <MudSkeleton Animation="Animation.Wave" Width="40%" />
+            <MudSkeleton Animation="Animation.Wave" Width="60%" />
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Height="250px" />
+    <MudCardContent>
+        <MudSkeleton Animation="Animation.Wave" />
+    </MudCardContent>
+    <MudCardActions>
+        <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="30px" Width="30px" Class="ml-2 mb-2" />
+        <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="30px" Width="30px" Class="ml-3 mb-2" />
+    </MudCardActions>
+</MudCard>
+}
+else{
+
+    <MudTable T="PatientInfo" FixedFooter="true" FixedHeader = "true" Height="600px" Elevation="0" Items="@Patients"  Hover="true" ReadOnly="true"
+              Filter="new Func<PatientInfo,bool>(FilterFuncTable)"  Dense="true" >
+        <ToolBarContent>
+          @*  <MudFab Size="Size.Small" DisableElevation="true" OnClick="@Refresh" Color="Color.Tertiary" StartIcon="@Icons.Filled.Refresh"></MudFab>*@
+        <MudSpacer/>
+        <MudSpacer/>
+            <MudTextField @bind-Value="searchPatientInfo" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>编号</MudTh>
+            <MudTh>姓名</MudTh>
+            <MudTh>姓别</MudTh>
+            <MudTh>科室</MudTh>
+            <MudTh>入院时间</MudTh>
+            <MudTh>出院时间</MudTh>
+            <MudTh>操作</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd >@context.Medicalrecordnumber</MudTd>
+            <MudTd >@context.Username</MudTd>
+            <MudTd >@context.Gender</MudTd>
+            <MudTd >@context.Department</MudTd>
+            <MudTd >@context.Admissiontime</MudTd>
+            <MudTd >@context.Dischargetime</MudTd>
+                          
+            <MudTd >
+                <MudIconButton  OnClick="@(s=>OnEditPatientInfo(context))" Size="Size.Small" Icon="@Icons.Outlined.ModeEdit" Variant="Variant.Text" >  </MudIconButton>
+                <MudIconButton Class="mx-1"  Size="Size.Small" Icon="@Icons.Outlined.Delete" Variant="Variant.Text" >   </MudIconButton>
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager RowsPerPageString="当前页显示行数:" PageSizeOptions="new int[]{10,20,30,50, 100}" />
+        </PagerContent>
+    </MudTable>
+
+}
+
+
+
+@code{
+
+    [Inject]
+    protected ILogger<Index> Logger{ set; get; }
+
+    [Inject]
+    protected IDbContextFactory<MedicalDbContext> DbContextFactory{ set; get; }
+    [Inject] 
+    protected IDialogService DialogService  { get; set; }
+
+    private string  searchPatientInfo{set;get;}
+    private bool resetValueOnEmptyText;
+    private bool Loading { set; get; } = true;
+    private bool coerceValue;
+    private PatientInfo value1, value2;
+
+    List<PatientInfo> Patients{ set; get; }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Loading = true;
+            using var context = DbContextFactory.CreateDbContext();
+
+            Patients = await  context.patientInfos.AsNoTracking().ToListAsync();
+
+            Loading = false;
+            StateHasChanged();
+        }
+        //  return base.OnAfterRenderAsync(firstRender);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Logger.LogInformation("Index:OnInitializedAsync");
+
+
+
+        // Logger.LogInformation("Index:OnInitializedAsync:{list}",sqllist);
+        //  return base.OnInitializedAsync();
+    }
+
+    private async Task<IEnumerable<PatientInfo>> Search2(string value)
+    {
+        // In real life use an asynchronous function for fetching data from an api.
+        // await Task.Delay(5);
+
+        // if text is null or empty, don't return values (drop-down will not open)
+        if (string.IsNullOrEmpty(value))
+            return Patients;
+        return Patients.Where(x => x.Username.Contains(value)|| x.Medicalrecordnumber.Contains(value));
+    }
+
+    private async Task OnOpenDialog()
+    {
+        DialogOptions dialogOptions = new DialogOptions();
+        dialogOptions.CloseButton = true;
+        dialogOptions.MaxWidth = MaxWidth.Medium; 
+        dialogOptions.FullWidth = true;
+        dialogOptions.DisableBackdropClick = true;
+        //var parameters = new DialogParameters();
+        //parameters.Add("TemplateData",SelectTemplate);
+        var dialog = DialogService.Show<DialogPersonalFile>("99",dialogOptions);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            //In a real world scenario we would reload the data from the source here since we "removed" it in the dialog already.
+            // Guid.TryParse(result.Data.ToString(), out Guid deletedServer);
+            //Servers.RemoveAll(item => item.Id == deletedServer);
+            return ;
+        }
+    }
+
+    private async Task OnEditPatientInfo(PatientInfo patient)
+    {
+        DialogOptions dialogOptions = new DialogOptions();
+        dialogOptions.CloseButton = true;
+        dialogOptions.MaxWidth = MaxWidth.Medium; 
+        dialogOptions.FullWidth = true;
+        dialogOptions.DisableBackdropClick = true;
+
+        var parameters = new DialogParameters();
+        parameters.Add("patientInfo",patient);
+        parameters.Add("IsEditPatientInfo",true);
+
+        var dialog = DialogService.Show<DialogPersonalFile>("99",parameters,dialogOptions);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            //In a real world scenario we would reload the data from the source here since we "removed" it in the dialog already.
+            // Guid.TryParse(result.Data.ToString(), out Guid deletedServer);
+            //Servers.RemoveAll(item => item.Id == deletedServer);
+            return ;
+        }
+    }
+
+
+    /// <summary>
+    /// 重新加载数据
+    /// </summary>
+    /// <returns></returns>
+    private async Task Refresh()
+    {
+        await OnInitializedAsync();
+        StateHasChanged();
+
+        Logger.LogInformation("刷新数据成功");
+        return;
+    }
+
+    /// <summary>
+    /// 表格数据帅选过滤
+    /// </summary>
+    /// <param name="element"></param>
+    /// <returns></returns>
+    private bool FilterFuncTable(PatientInfo element) => FilterFunc(element, searchPatientInfo);
+
+    private bool FilterFunc(PatientInfo element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+    //    if (element.Medicalrecordnumber.Contains(searchString) ||
+    //        element.Username.Contains(searchString) || element.Department.Contains(searchString)
+    //)
+            if($"{element.Medicalrecordnumber} {element.Username} {element.Department} {element.Gender}".Contains(searchString)){
+             return true;
+        }
+       
+        //if (element.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)) 
+        //    return true;
+        //if ($"{element.Number} {element.Position} {element.Molar}".Contains(searchString))  || element.Gender.Contains(searchString)
+        //    return true;
+        return false;
+    }
+
+    ///// <summary>
+    ///// 单击表格行事件，选择行数据
+    ///// </summary>
+    ///// <param name="tableRowClickEventArgs"></param>
+    //private  void  RowClickEvent(TableRowClickEventArgs<CertificateTemplate> tableRowClickEventArgs)
+    //{
+    //    SelectTemplate = tableRowClickEventArgs.Item;
+    //    StateHasChanged();
+    //    // clickedEvents.Add("Row has been clicked");
+    //}
+
+}
+

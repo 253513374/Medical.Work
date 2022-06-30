@@ -1,0 +1,26 @@
+﻿
+
+
+
+<AuthorizeView>
+    <Authorized>
+        <a  class="mx-3" style="color: #2196F3"  href="/personal/Account">你好, @(context.User.Identity.Name)!</a>
+        <form method="post" action="Identity/Account/LogOut">
+            <button  type="submit" style="color:#2196F3" class=" mx-3">退出</button>
+        </form>
+    </Authorized>
+    <NotAuthorized>
+        <a href="Identity/Account/Register">Register</a>
+        <a class="mx-5" href="Identity/Account/Login">Log in</a>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code{
+
+
+    
+    //string GetUserName(string claimsPrincipal)
+    //{
+        
+    //}
+}

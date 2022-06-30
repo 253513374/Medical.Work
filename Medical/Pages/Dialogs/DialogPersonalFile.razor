@@ -1,0 +1,193 @@
+﻿
+
+@*DialogPersonalFile*@
+
+@inject ISnackbar Snackbar
+
+<MudDialog>
+     <TitleContent>
+       
+    </TitleContent>
+    
+    <DialogContent>
+       <EditForm Model="@patientInfo" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator/>
+            <MudCard Elevation="0" >
+                <MudCardContent>
+                    <MudGrid Spacing="5" >
+                        <MudItem  lg="6" md="6" xl="6" sm="12"  >
+                            <MudStack   Row="false"  Justify="Justify.Center" Spacing="3" >
+                   
+                                <MudText Align="Align.Center" >
+                                     <MudAvatar  Image="img/logo.png"  Style="height:100px; width:100px; font-size:2rem;"></MudAvatar>
+                                </MudText>
+                                <MudText Align="Align.Center"  Typo="Typo.h6">个人档案信息</MudText>
+
+                                <MudStack Row="true">
+                                    <MudTextField  @bind-Value="@patientInfo.Username" For="@(() => patientInfo.Username)" Label="姓名" Variant="Variant.Text" />
+                                    <MudSelect  @bind-Value="@patientInfo.Gender" For="@(() => patientInfo.Gender)" Label="性别" Variant="Variant.Text" >
+                                        @foreach (var item in EnumItems.SexItems)
+                                        {
+                                              <MudSelectItem Value="@item"></MudSelectItem>
+                                        }
+                                    </MudSelect>
+                                </MudStack>
+                                  <MudTextField  @bind-Value="@patientInfo.Medicalrecordnumber" For="@(() => patientInfo.Medicalrecordnumber)" Label="编号" Variant="Variant.Text" />
+                                 <MudStack Row="true" AlignItems="AlignItems.End" >
+                                    <MudText Align="Align.Left" Style="min-width:100px" >年龄（岁）:</MudText>
+                                    <MudNumericField  HideSpinButtons="true" @bind-Value="@patientInfo.AGE" For="@(() => patientInfo.AGE)" Label="年" Variant="Variant.Text" Min="0" Max="200"/>
+                                    <MudNumericField  HideSpinButtons="true" @bind-Value="@patientInfo.MonthAGE" For="@(() => patientInfo.MonthAGE)" Label="月" Variant="Variant.Text" Min="0" />
+                                    <MudNumericField  HideSpinButtons="true" @bind-Value="@patientInfo.DayAGE" For="@(() => patientInfo.DayAGE)" Label="日" Variant="Variant.Text" Min="0" />
+                                </MudStack>
+                                 <MudStack Row="true" AlignItems="AlignItems.End">
+                                    <MudText Align="Align.Left" Style="min-width:100px">体重:</MudText>
+                                    <MudTextField  @bind-Value="@patientInfo.BW"  For="@(() => patientInfo.BW)" Label="重量" Variant="Variant.Text" />
+                                    <MudSelect  @bind-Value="@patientInfo.BWWeight" For="@(() => patientInfo.BWWeight)" Label="单位" Variant="Variant.Text" >
+                                        @foreach (var item in EnumItems.WeightEnum)
+                                        {
+                                              <MudSelectItem Value="@item"></MudSelectItem>
+                                        }
+                                    </MudSelect>
+                                    <MudSelect  @bind-Value="@patientInfo.IsBWType" For="@(() => patientInfo.IsBWType)" Label="测量方式" Variant="Variant.Text" >
+                                       @foreach (var item in EnumItems.Weighttype)
+                                        {
+                                              <MudSelectItem Value="@item"></MudSelectItem>
+                                        }
+                                    </MudSelect>
+                                </MudStack>
+                                 <MudStack Row="true">
+                                    <MudTextField  @bind-Value="@patientInfo.HEI" For="@(() => patientInfo.HEI)" Label="身高" Variant="Variant.Text" />
+                                    <MudTextField  @bind-Value="@patientInfo.BMI" For="@(() => patientInfo.BMI)" Label="BIM" Variant="Variant.Text" />
+                                    <MudTextField  @bind-Value="@patientInfo.BSA" For="@(() => patientInfo.BSA)" Label="体表面积" Variant="Variant.Text" />
+                                </MudStack>
+                            </MudStack>
+                        </MudItem>
+                        <MudItem lg="6" md="6" xl="6" sm="12" >
+                            <MudStack Row="false" Spacing="5" >
+                                <MudTextField  @bind-Value="@patientInfo.Department"   For="@(() => patientInfo.Department)" Label="科室" Variant="Variant.Text" />
+                                <MudStack Row="true">
+                                    <MudDatePicker   @bind-Value="@patientInfo.Admissiontime" For="@(() => patientInfo.Admissiontime)" Label="入院时间" Variant="Variant.Text" />
+                                    <MudDatePicker   @bind-Value="@patientInfo.Dischargetime" For="@(() => patientInfo.Dischargetime)"  Label="出院时间" Variant="Variant.Text" />
+                                </MudStack>
+
+                                <MudAutocomplete T="string" Label="移植类型" @bind-Value="@patientInfo.Transplantationtype" For="@(() => patientInfo.Transplantationtype)"
+                                SearchFunc="@OnAutoSearch" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
+                              @*  <MudSelect  @bind-Value="@patientInfo.Transplantationtype" Label="移植类型" Variant="Variant.Text" >
+                                    @foreach (var item in EnumItems.TransplantationEnum)
+                                    {
+                                        <MudSelectItem Value="@item"></MudSelectItem>
+                                    }
+                                </MudSelect>*@
+                                <MudDatePicker @bind-Value="@patientInfo.Transplantationtime" For="@(() => patientInfo.Transplantationtime)" Label="移植时间" Variant="Variant.Text" />
+                                <MudTextField  @bind-Value="@patientInfo.GCS"   For="@(() => patientInfo.GCS)" Label="格拉斯哥评分（GCS）" Variant="Variant.Text" />
+                                <MudTextField  @bind-Value="@patientInfo.SOFA" For="@(() => patientInfo.SOFA)" Label=" SOFA评分" Variant="Variant.Text" />
+                                <MudTextField  @bind-Value="@patientInfo.APACHEⅡ"  For="@(() => patientInfo.APACHEⅡ)" Label="入科APACHEⅡ评分" Variant="Variant.Text" />
+                            </MudStack>
+                        </MudItem>
+                    </MudGrid>
+    
+                </MudCardContent>
+                <MudCardActions  Class="my-10">
+                    <MudStack Row="true" Justify="Justify.FlexEnd"  Style="width:100%" >
+                        <MudButton OnClick="Cancel">取消</MudButton>
+                        <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" >保存</MudButton>
+                    </MudStack>
+                </MudCardActions>
+   
+            </MudCard>
+        </EditForm>
+    </DialogContent>
+</MudDialog>
+@code {
+
+    [CascadingParameter]
+    protected MudDialogInstance MudDialog { get; set; }
+
+
+
+    void Cancel() => MudDialog.Cancel();
+
+    [Parameter]
+    public PatientInfo?  patientInfo{ set; get; }
+
+    [Parameter]
+    public bool IsEditPatientInfo { set; get; } = false;
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    [Inject]
+    protected IDbContextFactory<MedicalDbContext> ContextFactory{ set; get; }
+
+
+    private string sss{ set; get; }
+    private int age{ set; get; }
+    private string _year{ set; get; }
+    private string _month{ set; get; }
+    protected override void OnParametersSet()
+    {
+        if(patientInfo is null)
+        {
+            patientInfo = new PatientInfo();
+        }
+        base.OnParametersSet();
+    }
+
+    private async Task<IEnumerable<string>> OnAutoSearch(string value)
+    {
+        // In real life use an asynchronous function for fetching data from an api.
+        // await Task.Delay(5);
+
+        // if text is null or empty, don't return values (drop-down will not open)
+        if (string.IsNullOrEmpty(value))
+            return EnumItems.TransplantationEnum;
+        return EnumItems.TransplantationEnum.Where(x => x.Contains(value));
+    }
+
+    private void OnValidSubmit(EditContext editcontext)
+    {
+
+        if (IsEditPatientInfo)
+        {
+             EditPatientInfo(editcontext);
+        }
+        else
+        {
+             CreatePatientInfo(editcontext);
+          
+        }
+
+        Snackbar.Add("个人档案添加成功",Severity.Success);
+        StateHasChanged();
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    private  Task CreatePatientInfo(EditContext editcontext)
+    {
+        var username = authenticationStateTask.Result.User.Identity.Name;
+
+        var patient = (PatientInfo)editcontext.Model;
+        patient.Adminname = username;
+        patient.Createtime = DateTime.Now;
+        patient.Guid = Guid.NewGuid().ToString();
+        
+
+        using var context = ContextFactory.CreateDbContext();
+        context.patientInfos.Add(patient);
+        context.SaveChanges();
+        return Task.CompletedTask;
+    }
+
+    private  Task EditPatientInfo(EditContext editcontext)
+    {
+
+        var patient = (PatientInfo)editcontext.Model;
+
+        using var context = ContextFactory.CreateDbContext();
+        context.patientInfos.Update(patient);
+        context.SaveChanges();
+
+        return Task.CompletedTask;
+
+    }
+}

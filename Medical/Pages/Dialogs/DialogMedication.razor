@@ -1,0 +1,126 @@
+﻿
+
+
+
+<MudDialog>
+     <TitleContent>
+        <MudText Align="Align.Center" Typo="Typo.h6">给药方案</MudText>
+    </TitleContent>
+    
+    <DialogContent>
+
+        <MudStack>
+          @*    <MudAutocomplete T="string" Label="US States" @bind-Value="value1" SearchFunc="@Search1"
+                         ResetValueOnEmptyText="@resetValueOnEmptyText"
+                         CoerceText="@coerceText" CoerceValue="@coerceValue" />*@
+        </MudStack>
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Cancel">取消</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit">确定</MudButton>
+    </DialogActions>
+</MudDialog>
+@*<MudForm  Model="@medicalPK">
+  <label>患者信息</label>
+  <AutoFill TValue="PatientsTips" Value="patientsTips" Items="DataTips.PatientsTips" IsLikeMatch="true" OnSelectedItemChanged="OnAutoFillSelectedItemChanged" OnGetDisplayText="OnGetDisplayText" class="mb-3" IsSelectAllTextOnFocus="true">
+        <Template>
+            <div class="d-flex">
+                <div>
+                    <img src="/img/gezi.png" class="bb-avatar" style="max-width:42px;" />
+                </div>
+                <div class="ps-2">
+                    <div style="font-size:10px;" >@context.Number</div>
+                    <div style="font-size:10px;" class="bb-sub">@context.Description</div>
+                </div>
+            </div>
+        </Template>
+     </AutoFill>
+    <BootstrapInput @bind-Value="medicalPK.MedicalPKName"></BootstrapInput>
+
+    <Row ItemsPerRow=" ItemsPerRow.Four">
+        <BootstrapInput @bind-Value="medicalPK.DrugsNmae"></BootstrapInput>
+        <BootstrapInput @bind-Value="@medicalPK.DrugsNmae2"> </BootstrapInput>
+        <BootstrapInput @bind-Value="@medicalPK.DrugSpecifications"> </BootstrapInput>
+
+        <Select @bind-Value="@medicalPK.Manufacturertype" Items="EnumItems.Manufacturertype"></Select>
+
+
+    </Row>
+    <Row ItemsPerRow=" ItemsPerRow.Two">
+
+        <DateTimePicker @bind-Value="@medicalPK.FirstTime"> </DateTimePicker>
+        <DateTimePicker @bind-Value="@medicalPK.LasttTime"> </DateTimePicker>
+
+    </Row>
+    <Row ItemsPerRow=" ItemsPerRow.Four">
+
+        <BootstrapInput @bind-Value="@medicalPK.Drugdosage"> </BootstrapInput>
+        <Select @bind-Value="@medicalPK.DrugdosageUnit" Items="EnumItems.DrugdosageUnit"> </Select>
+
+        <AutoComplete  @bind-Value="@medicalPK.DrugNCount" Items="EnumItems.DrugNCountEnum"> </AutoComplete>
+
+        <AutoComplete @bind-Value="@medicalPK.DrugNCountDuration" Items="EnumItems.DrugNCountDurationEnum"> </AutoComplete>
+        <BootstrapInput @bind-Value="@medicalPK.DrugdosageRoute"> </BootstrapInput>
+        <BootstrapInput @bind-Value="@medicalPK.DrugSolvent"> </BootstrapInput>
+
+        <BootstrapInput @bind-Value="@medicalPK.SolventToDosage"> </BootstrapInput>
+        <BootstrapInput @bind-Value="@medicalPK.AMTsingledose"> </BootstrapInput>
+
+    </Row>
+</MudForm>
+*@
+@code {
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+
+    private async Task<IEnumerable<string>> Search2(string value)
+    {
+        // In real life use an asynchronous function for fetching data from an api.
+        //await Task.Delay(5);
+
+        // if text is null or empty, don't return values (drop-down will not open)
+        //if (string.IsNullOrEmpty(value))
+            return new string[0];
+        //return states.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+    private MedicalPK medicalPK { set; get; } = new();
+
+
+    [Parameter]
+    public EventCallback<MedicalPK> OnEventCallback { set; get; } = new();
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    //[CascadingParameter(Name = "BodyContext")]
+    //public object? MedicalPKobject { set; get; }
+
+    protected override void OnParametersSet()
+    {
+        //if(MedicalPKobject is not null)
+        //{
+        //    medicalPK = MedicalPKobject as MedicalPK;
+        //}
+
+        base.OnParametersSet();
+    }
+  //  public PatientsTips patientsTips{ set; get; }  
+
+    //private Task OnAutoFillSelectedItemChanged(PatientsTips tips )
+    //{
+    //    medicalPK.Medicalrecordnumber = tips.Number;
+    //    medicalPK.Username = tips.Description;
+    //    StateHasChanged();
+    //    return Task.CompletedTask;
+    //}
+    //private string OnGetDisplayText(PatientsTips tips)
+    //{
+    //    return $"{tips.Number} - {tips.Description}";
+    //}
+}
