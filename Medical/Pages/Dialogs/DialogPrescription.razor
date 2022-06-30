@@ -1,0 +1,84 @@
+﻿
+
+
+
+<MudDialog>
+     <TitleContent>
+      @*  <MudText Align="Align.Center" Typo="Typo.h6">给药方案</MudText>*@
+    </TitleContent>
+    
+    <DialogContent>
+
+        <MudStack Row="false">
+             <MudText Align="Align.Left" Typo="Typo.h6">给药方案</MudText>
+             <MudDivider Style="width:200px" Class="mt-n3"></MudDivider>
+            
+          @*    <MudAutocomplete T="string" Label="US States" @bind-Value="value1" SearchFunc="@Search1"
+                         ResetValueOnEmptyText="@resetValueOnEmptyText"
+                         CoerceText="@coerceText" CoerceValue="@coerceValue" />*@
+        </MudStack>
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Cancel">取消</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit">确定</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+
+
+
+    [Parameter]
+    public MedicalPK medicalPK { set; get; } 
+
+
+    public bool IsEditMedicalPK { set; get; } 
+ 
+   // public EventCallback<MedicalPK> OnEventCallback { set; get; } = new();
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    //[CascadingParameter(Name = "BodyContext")]
+    //public object? MedicalPKobject { set; get; }
+
+    protected override void OnParametersSet()
+    {
+        if(medicalPK is  null)
+        {
+            medicalPK = new  MedicalPK();
+        }
+
+        base.OnParametersSet();
+    }
+
+    //private async Task<IEnumerable<string>> Search2(string value)
+    //{
+    //    // In real life use an asynchronous function for fetching data from an api.
+    //    //await Task.Delay(5);
+
+    //    // if text is null or empty, don't return values (drop-down will not open)
+    //    if (string.IsNullOrEmpty(value))
+    //        return new string[0];
+    //  //  return medicalPK.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    //}
+  //  public PatientsTips patientsTips{ set; get; }  
+
+    //private Task OnAutoFillSelectedItemChanged(PatientsTips tips )
+    //{
+    //    medicalPK.Medicalrecordnumber = tips.Number;
+    //    medicalPK.Username = tips.Description;
+    //    StateHasChanged();
+    //    return Task.CompletedTask;
+    //}
+    //private string OnGetDisplayText(PatientsTips tips)
+    //{
+    //    return $"{tips.Number} - {tips.Description}";
+    //}
+}

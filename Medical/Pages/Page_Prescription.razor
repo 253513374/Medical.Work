@@ -1,13 +1,19 @@
-﻿@page "/PersonalFile"
+﻿@*
+给药方案*@
+
+@page "/prescription"
+
+<h3>Page_Prescription</h3>
 
 
-<PageTitle>首页</PageTitle>
+
+<PageTitle>给药方案</PageTitle>
 
 
-<MudText Typo="Typo.h4" GutterBottom="true">数据档案管理！</MudText>
+<MudText Typo="Typo.h4" GutterBottom="true">给药方案管理！</MudText>
 
 <MudStack Row="true" Style="max-width:500px" Justify="Justify.SpaceBetween" AlignItems="AlignItems.End">
-        <MudAutocomplete T="PatientInfo" Label="输入关键信息" @bind-Value="value2" SearchFunc="@Search2"
+        <MudAutocomplete T="MedicalPK" Label="输入关键信息" @bind-Value="value2" SearchFunc="@Search"
                          CoerceText="true" CoerceValue="true"
                          AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary"
                          ToStringFunc="@(e=> e==null?null :  $"{e.Medicalrecordnumber}:{e.Username}")">
@@ -24,11 +30,11 @@
             </MudStack>
         </ItemSelectedTemplate>
     </MudAutocomplete>
-    <MudFab   Size="Size.Medium" Color="Color.Primary" DisableElevation="true"   OnClick="@OnOpenDialog" Class="mx-3" StartIcon="@Icons.Material.Outlined.AddCard" Label="新建档案"> </MudFab>
+    <MudFab  Label="新开药方" Size="Size.Medium" Color="Color.Primary" DisableElevation="true"   OnClick="@OnOpenDialog" Class="mx-3" StartIcon="@Icons.Material.Outlined.AddCard" > </MudFab>
 </MudStack>
 <MudText Class="mb-8" Typo="Typo.caption" >输入编号与姓名关键信息进行搜索</MudText>
 
-@if(Patients is null){
+@if(MedicalPKs is null){
     <MudCard>
     <MudCardHeader>
         <CardHeaderAvatar>
@@ -52,8 +58,8 @@
 }
 else{
 
-    <MudTable T="PatientInfo" FixedFooter="true" FixedHeader = "true" Height="600px" Elevation="0" Items="@Patients"  Hover="true" ReadOnly="true"
-              Filter="new Func<PatientInfo,bool>(FilterFuncTable)"  Dense="false" >
+    <MudTable T="MedicalPK" FixedFooter="true" FixedHeader = "true" Height="600px" Elevation="0" Items="@MedicalPKs"  Hover="true" ReadOnly="true"
+              Filter="new Func<MedicalPK,bool>(FilterFuncTable)"  Dense="false" >
         <ToolBarContent>
           @*  <MudFab Size="Size.Small" DisableElevation="true" OnClick="@Refresh" Color="Color.Tertiary" StartIcon="@Icons.Filled.Refresh"></MudFab>*@
         <MudSpacer/>
@@ -63,19 +69,19 @@ else{
         <HeaderContent>
             <MudTh><b>编号</b></MudTh>
             <MudTh><b>姓名</b></MudTh>
-            <MudTh><b>姓别</b></MudTh>
-            <MudTh><b>科室</b></MudTh>
-            <MudTh><b>入院时间</b></MudTh>
-            <MudTh><b>出院时间</b></MudTh>
+            <MudTh><b>药品通用名称</b></MudTh>
+            <MudTh><b>药品商用名称</b></MudTh>
+            <MudTh><b>开始日期</b></MudTh>
+            <MudTh><b>结束日期</b></MudTh>
             <MudTh><b>操作</b></MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd >@context.Medicalrecordnumber</MudTd>
             <MudTd >@context.Username</MudTd>
-            <MudTd >@context.Gender</MudTd>
-            <MudTd >@context.Department</MudTd>
-            <MudTd >@context.Admissiontime</MudTd>
-            <MudTd >@context.Dischargetime</MudTd>
+            <MudTd >@context.DrugsNmae</MudTd>
+            <MudTd >@context.DrugsNmae2</MudTd>
+            <MudTd >@context.FirstTime</MudTd>
+            <MudTd >@context.LasttTime</MudTd>
                           
             <MudTd >
                 <MudTooltip Text="编辑档案">
@@ -109,31 +115,31 @@ else{
     private bool resetValueOnEmptyText;
     private bool Loading { set; get; } = true;
     private bool coerceValue;
-    private PatientInfo value1, value2;
+    private MedicalPK value1, value2;
 
-    List<PatientInfo> Patients{ set; get; }
+    List<MedicalPK>  MedicalPKs{ set; get; }
 
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            Loading = true;
+            //Loading = true;
             using var context = DbContextFactory.CreateDbContext();
 
-            Patients = await  context.patientInfos.AsNoTracking().ToListAsync();
+            MedicalPKs = await  context.MPKs.AsNoTracking().ToListAsync();
 
-            Loading = false;
+           // Loading = false;
             StateHasChanged();
         }
         //  return base.OnAfterRenderAsync(firstRender);
     }
 
-    private async Task<IEnumerable<PatientInfo>> Search2(string value)
+    private async Task<IEnumerable<MedicalPK>> Search(string value)
     {
         if (string.IsNullOrEmpty(value))
-            return Patients;
-        return Patients.Where(x => x.Username.Contains(value)|| x.Medicalrecordnumber.Contains(value));
+            return MedicalPKs;
+        return MedicalPKs.Where(x => x.Username.Contains(value)|| x.Medicalrecordnumber.Contains(value));
     }
 
     private async Task OnOpenDialog()
@@ -145,7 +151,7 @@ else{
         dialogOptions.DisableBackdropClick = true;
         //var parameters = new DialogParameters();
         //parameters.Add("TemplateData",SelectTemplate);
-        var dialog = DialogService.Show<DialogPersonalFile>("99",dialogOptions);
+        var dialog = DialogService.Show<DialogPrescription>("99",dialogOptions);
         var result = await dialog.Result;
 
         if (!result.Cancelled)
@@ -157,7 +163,7 @@ else{
         }
     }
 
-    private async Task OnEditPatientInfo(PatientInfo patient)
+    private async Task OnEditPatientInfo(MedicalPK  medicalPK)
     {
         DialogOptions dialogOptions = new DialogOptions();
         dialogOptions.CloseButton = true;
@@ -166,10 +172,10 @@ else{
         dialogOptions.DisableBackdropClick = true;
 
         var parameters = new DialogParameters();
-        parameters.Add("patientInfo",patient);
-        parameters.Add("IsEditPatientInfo",true);
+        parameters.Add("medicalPK",medicalPK);
+        parameters.Add("IsEditMedicalPK",true);
 
-        var dialog = DialogService.Show<DialogPersonalFile>("99",parameters,dialogOptions);
+        var dialog = DialogService.Show<DialogPrescription>("99",parameters,dialogOptions);
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
@@ -196,16 +202,17 @@ else{
     /// </summary>
     /// <param name="element"></param>
     /// <returns></returns>
-    private bool FilterFuncTable(PatientInfo element) => FilterFunc(element, searchPatientInfo);
+    private bool FilterFuncTable(MedicalPK element) => FilterFunc(element, searchPatientInfo);
 
-    private bool FilterFunc(PatientInfo element, string searchString)
+    private bool FilterFunc(MedicalPK element, string searchString)
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
-            if($"{element.Medicalrecordnumber} {element.Username} {element.Department} {element.Gender}".Contains(searchString)){
+            if($"{element.Medicalrecordnumber} {element.Username} {element.DrugsNmae} {element.DrugsNmae2}".Contains(searchString)){
              return true;
         }
         return false;
     }
 }
+
 

@@ -57,7 +57,7 @@
                                 </MudStack>
                                  <MudStack Row="true">
                                     <MudTextField  @bind-Value="@patientInfo.HEI" For="@(() => patientInfo.HEI)" Label="身高" Variant="Variant.Text" />
-                                    <MudTextField  @bind-Value="@patientInfo.BMI" For="@(() => patientInfo.BMI)" Label="BIM" Variant="Variant.Text" />
+                                    <MudTextField  @bind-Value="@patientInfo.BMI" For="@(() => patientInfo.BMI)" OnBlur="@OnBlur" Label="BIM" Variant="Variant.Text" />
                                     <MudTextField  @bind-Value="@patientInfo.BSA" For="@(() => patientInfo.BSA)" Label="体表面积" Variant="Variant.Text" />
                                 </MudStack>
                             </MudStack>
@@ -149,12 +149,12 @@
 
         if (IsEditPatientInfo)
         {
-             EditPatientInfo(editcontext);
+            EditPatientInfo(editcontext);
         }
         else
         {
-             CreatePatientInfo(editcontext);
-          
+            CreatePatientInfo(editcontext);
+
         }
 
         Snackbar.Add("个人档案添加成功",Severity.Success);
@@ -170,7 +170,7 @@
         patient.Adminname = username;
         patient.Createtime = DateTime.Now;
         patient.Guid = Guid.NewGuid().ToString();
-        
+
 
         using var context = ContextFactory.CreateDbContext();
         context.patientInfos.Add(patient);
@@ -189,5 +189,13 @@
 
         return Task.CompletedTask;
 
+    }
+
+    private Task OnBlur()
+    {
+        patientInfo.BMI=PatientInfoExtend.GetBMI(patientInfo);
+        patientInfo.BSA = PatientInfoExtend.GetBsa(patientInfo);
+        StateHasChanged();
+        return Task.CompletedTask;
     }
 }

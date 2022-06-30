@@ -39,7 +39,7 @@ namespace Medical.Data.Models
         /// 方案名称(可选)
         /// </summary>
         [DisplayName("给药方案名称(可选)")]
-        public string MedicalPKName { set; get; }
+        public string? MedicalPKName { set; get; }
 
         /// <summary>
         /// 起始给药日期（DATE，day）
@@ -57,79 +57,79 @@ namespace Medical.Data.Models
         /// 药品通用名
         /// </summary>
         [DisplayName("药品通用名")]
-        public string DrugsNmae { set; get; }
+        public string? DrugsNmae { set; get; }
 
         /// <summary>
         /// 药品商品名
         /// </summary>
         [DisplayName("药品商品名")]
       //  [AutoGenerateColumn(Ignore = true)]
-        public string DrugsNmae2 { set; get; }
+        public string? DrugsNmae2 { set; get; }
 
         /// <summary>
         /// 药品规格
         /// </summary>
         [DisplayName("药品规格")]
        // [AutoGenerateColumn(Ignore = true)]
-        public string DrugSpecifications { set; get; }
+        public string? DrugSpecifications { set; get; }
 
         /// <summary>
         /// 厂家类型
         /// </summary>
         [DisplayName("厂家类型")]
-        public string Manufacturertype { set; get; }
+        public string? Manufacturertype { set; get; }
 
         /// <summary>
         /// 药品单次剂量
         /// </summary>
         [DisplayName("药品剂量")]
-        public string Drugdosage { set; get; }
+        public string? Drugdosage { set; get; }
 
         /// <summary>
         /// 药品剂量单位 WeightEnum
         /// </summary>
         [DisplayName("药品剂量单位")]
        // [AutoGenerateColumn(Ignore = true)]
-        public string DrugdosageUnit { set; get; }
+        public string? DrugdosageUnit { set; get; }
 
         /// <summary>
         /// 给药途径
         /// </summary>
         [DisplayName("给药途径")]
-        public string DrugdosageRoute { set; get; }
+        public string? DrugdosageRoute { set; get; }
 
         /// <summary>
         /// 给药频率 DrugNCountEnum
         /// </summary>
         [DisplayName("给药频率")]
-        public string DrugNCount { set; get; }
+        public string? DrugNCount { set; get; }
 
         /// <summary>
         /// 给药持续时间
         /// </summary>
         [DisplayName("给药持续时间")]
        // [AutoGenerateColumn(Ignore = true)]
-        public string DrugNCountDuration { set; get; }
+        public string? DrugNCountDuration { set; get; }
 
         /// <summary>
         ///  溶媒
         /// </summary>
         [DisplayName("溶媒")]
-        public string DrugSolvent { set; get; }
+        public string? DrugSolvent { set; get; }
 
         /// <summary>
         ///  溶媒剂量
         /// </summary>
         [DisplayName("溶媒剂量")]
-        public string SolventToDosage { set; get; }
+        public string? SolventToDosage { set; get; }
 
         /// <summary>
         /// 公斤体质量日剂量：      mg/kg
         /// </summary>
         [DisplayName("公斤体质量日剂量(mg·kg⁻¹·d⁻¹)")]
-        public string AMTsingledose { set; get; }
+        public string? AMTsingledose { set; get; }
 
        // [AutoGenerateColumn(Ignore = true)]
-        public List<MedicalPKSampling> MedicalPKSamplings { set; get; }
+        public List<MedicalPKSampling>? MedicalPKSamplings { set; get; }
     }
 }
