@@ -4,50 +4,104 @@
 
 @using DCorlor = System.Drawing.Color*@
 
-<MudNavMenu Bordered="true">
+<MudNavMenu Bordered="true" Color="Color.Primary" Margin="Margin.Normal" Style="color:aqua">
 
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Outlined.Home">首页</MudNavLink>
-    <MudNavLink Href="PersonalFile" Icon="@Icons.Filled.FilePresent">基础档案</MudNavLink>
-@*    <MudNavLink Href="counter" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Counter</MudNavLink>
-    <MudNavLink Href="fetchdata" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Fetch data</MudNavLink>
-*@
-    <MudNavGroup Title="类鼻疽-PK" Icon="@Icons.Outlined.BubbleChart" Expanded="false">
-        <MudNavLink Href="prescription" >给药方案</MudNavLink>
-        <MudNavLink Href="Page_Prescription" >采样信息</MudNavLink>
-    </MudNavGroup>
-      <MudNavGroup Title="类鼻疽-PD"  Icon="@Icons.Outlined.Coronavirus" Expanded="false">
-        <MudNavLink Href="Page_Prescription" >临床微生物检查</MudNavLink>
-        <MudNavLink Href="Page_Prescription" >药敏试验</MudNavLink>
-    </MudNavGroup>
-      <MudNavGroup Title="类鼻疽-PG"  Icon="@Icons.Outlined.Colorize" Expanded="false">
-        <MudNavLink Href="Page_Prescription" >药物基因组学</MudNavLink>
-        <MudNavLink Href="Page_Prescription" >病原菌基因</MudNavLink>
-    </MudNavGroup>
-      <MudNavGroup Title="影像学检查" Icon="@Icons.Outlined.Collections" Expanded="false">
-         <MudNavLink Href="Page_Prescription" >纤维支气管镜检查</MudNavLink>
-        <MudNavLink Href="Page_Prescription"  >影像学检查</MudNavLink>
-         <MudNavLink Href="Page_Prescription" >病理检查</MudNavLink>
-    </MudNavGroup>
+    @if (NavVariant ==DrawerVariant.Mini)
+    {
+        <MudTooltip Text="首页" Arrow="true" Placement="Placement.Right">
+               <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Outlined.Home">首页</MudNavLink>
+        </MudTooltip>
+        <MudTooltip Text="基础档案" Arrow="true" Placement="Placement.Right">
+            <MudNavLink Href="PersonalFile" Icon="@Icons.Outlined.FilePresent">基础档案</MudNavLink>
+        </MudTooltip>
+        <MudNavGroup Title="类鼻疽-PK" Icon="@Icons.Outlined.BubbleChart" Expanded="false">
+            <MudTooltip Text="给药方案" Arrow="true" Placement="Placement.Right">
+                <MudNavLink Href="prescription"        Icon="@Icons.Outlined.ListAlt">给药方案</MudNavLink>
+            </MudTooltip>
+            <MudTooltip Text="采样信息" Arrow="true" Placement="Placement.Right">
+                <MudNavLink Href="bloodsample"   Icon="@Icons.Outlined.BlurOn" >采样信息</MudNavLink>
+            </MudTooltip>
+        </MudNavGroup>
+       
+          <MudNavGroup Title="类鼻疽-PD"  Icon="@Icons.Outlined.Coronavirus" Expanded="false">
+            <MudTooltip Text="临床微生物检查" Arrow="true" Placement="Placement.Right">
+                 <MudNavLink Href="clinicalmicrobiology"  Icon="@Icons.Outlined.Margin">临床微生物检查</MudNavLink>
+            </MudTooltip>
+            <MudTooltip Text="药敏试验" Arrow="true" Placement="Placement.Right">
+                <MudNavLink Href="drugallergytesting"  Icon="@Icons.Outlined.BlurCircular">药敏试验</MudNavLink>
+            </MudTooltip>
+           
+            
+        </MudNavGroup>
+          <MudNavGroup Title="类鼻疽-PG"  Icon="@Icons.Outlined.Colorize" Expanded="false">
+            <MudTooltip Text="药物基因组学" Arrow="true" Placement="Placement.Right">
+                <MudNavLink Href="Pharmacogenomics"  Icon="@Icons.Outlined.Opacity" >药物基因组学</MudNavLink>
+            </MudTooltip>
+            <MudTooltip Text="病原菌基因" Arrow="true" Placement="Placement.Right">
+                <MudNavLink Href="pathogengenes"  Icon="@Icons.Outlined.Vaccines">病原菌基因</MudNavLink>
+            </MudTooltip>
+        </MudNavGroup>
+        <MudNavGroup Title="影像学检查" Icon="@Icons.Outlined.Collections" Expanded="false">
+            <MudTooltip Text="纤维支气管镜检查" Arrow="true" Placement="Placement.Right">
+                <MudNavLink Href="bronchofiberscope" Icon="@Icons.Outlined.Image">纤维支气管镜检查</MudNavLink>
+            </MudTooltip>
+            <MudTooltip Text="影像学检查" Arrow="true" Placement="Placement.Right">
+                <MudNavLink Href="iconography" Icon="@Icons.Outlined.Image">影像学检查</MudNavLink>
+            </MudTooltip>
+            <MudTooltip Text="病理检查" Arrow="true" Placement="Placement.Right">
+                <MudNavLink Href="pathology" Icon="@Icons.Outlined.Hvac">病理检查</MudNavLink>
+            </MudTooltip>
+        </MudNavGroup>
+        <MudTooltip Text="实验室检查" Arrow="true" Placement="Placement.Right">
+            <MudNavLink Href="laboratoryexaminations" Icon="@Icons.Outlined.DeviceThermostat">实验室检查</MudNavLink>
+        </MudTooltip> 
+        <MudTooltip Text="监护日志" Arrow="true" Placement="Placement.Right">
+            <MudNavLink Href="guardianship" Icon="@Icons.Outlined.Hotel"         >监护日志</MudNavLink>
+        </MudTooltip> 
+        <MudTooltip Text="案例总结" Arrow="true" Placement="Placement.Right">
+            <MudNavLink Href="summary" Icon="@Icons.Outlined.InsertDriveFile"  >案例总结</MudNavLink>
+        </MudTooltip> 
+        <MudTooltip Text="联系人管理" Arrow="true" Placement="Placement.Right">
+            <MudNavLink Href="contacts" Icon="@Icons.Outlined.PersonPin"  IconColor="Color.Default"   >联系人管理</MudNavLink>
+        </MudTooltip> 
+    }
+    else
+    {
+        <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Outlined.Home">首页</MudNavLink>
+        <MudNavLink Href="PersonalFile" Icon="@Icons.Outlined.FilePresent">基础档案</MudNavLink>
+        <MudNavGroup Title="类鼻疽-PK" Icon="@Icons.Outlined.BubbleChart" Expanded="false">
+            <MudNavLink Href="prescription"        Icon="@Icons.Outlined.ListAlt">给药方案</MudNavLink>
+            <MudNavLink Href="bloodsample"   Icon="@Icons.Outlined.BlurOn" >采样信息</MudNavLink>
+        </MudNavGroup>
+            <MudNavGroup Title="类鼻疽-PD"  Icon="@Icons.Outlined.Coronavirus" Expanded="false">
+            <MudNavLink Href="clinicalmicrobiology"  Icon="@Icons.Outlined.Margin">临床微生物检查</MudNavLink>
+            <MudNavLink Href="drugallergytesting"  Icon="@Icons.Outlined.BlurCircular">药敏试验</MudNavLink>
+        </MudNavGroup>
+            <MudNavGroup Title="类鼻疽-PG"  Icon="@Icons.Outlined.Colorize" Expanded="false">
+            <MudNavLink Href="Pharmacogenomics"  Icon="@Icons.Outlined.Opacity" >药物基因组学</MudNavLink>
+            <MudNavLink Href="pathogengenes"  Icon="@Icons.Outlined.Vaccines">病原菌基因</MudNavLink>
+        </MudNavGroup>
+            <MudNavGroup Title="影像学检查" Icon="@Icons.Outlined.Collections" Expanded="false">
+            <MudNavLink Href="bronchofiberscope" Icon="@Icons.Outlined.Image">纤维支气管镜检查</MudNavLink>
+            <MudNavLink Href="iconography" Icon="@Icons.Outlined.Image">影像学检查</MudNavLink>
+            <MudNavLink Href="pathology" Icon="@Icons.Outlined.Hvac">病理检查</MudNavLink>
+        </MudNavGroup>
 
-        <MudNavLink Href="Page_Prescription" Icon="@Icons.Outlined.HomeRepairService">实验室检查</MudNavLink>
-        <MudNavLink Href="Page_Prescription" Icon="@Icons.Outlined.Security"         >监护日志</MudNavLink>
 
-        <MudNavLink Href="Page_Prescription" Icon="@Icons.Outlined.InsertDriveFile"  >案例总结</MudNavLink>
-     
-        <MudNavLink Href="Page_Prescription" Icon="@Icons.Outlined.PersonPin"  IconColor="Color.Default"   >联系人管理</MudNavLink>
+        <MudNavLink Href="laboratoryexaminations" Icon="@Icons.Outlined.DeviceThermostat">实验室检查</MudNavLink>
 
+        <MudNavLink Href="guardianship" Icon="@Icons.Outlined.Hotel">监护日志</MudNavLink>
+
+        <MudNavLink Href="summary" Icon="@Icons.Outlined.InsertDriveFile"  >案例总结</MudNavLink>
+
+        <MudNavLink Href="contacts" Icon="@Icons.Outlined.PersonPin"  IconColor="Color.Default"   >联系人管理</MudNavLink>
+    }
 </MudNavMenu>
 
 @code{
 
-    //MudBlazor.Color MColor
-    //{
-    //    get
-    //    {
-    //        return MudBlazor.Color
-    //    }
-    //}
-    // Color SS = new Color(); 
+    [Parameter]
+    public DrawerVariant NavVariant{ set; get; }
 }
 
 

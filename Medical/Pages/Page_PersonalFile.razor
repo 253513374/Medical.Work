@@ -3,30 +3,13 @@
 
 <PageTitle>首页</PageTitle>
 
+<BannerTitle Title="基础档案管理"></BannerTitle>
 
-<MudText Typo="Typo.h4" GutterBottom="true">数据档案管理！</MudText>
+<MudPaper Elevation="0" Class="my-5">
+    <MudFab    Size="Size.Medium" Color="Color.Primary" DisableElevation="true"   OnClick="@OnOpenDialog" Class="mx-3" StartIcon="@Icons.Material.Outlined.AddCard" Label="新建档案"> </MudFab>
+  
+</MudPaper>
 
-<MudStack Row="true" Style="max-width:500px" Justify="Justify.SpaceBetween" AlignItems="AlignItems.End">
-        <MudAutocomplete T="PatientInfo" Label="输入关键信息" @bind-Value="value2" SearchFunc="@Search2"
-                         CoerceText="true" CoerceValue="true"
-                         AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary"
-                         ToStringFunc="@(e=> e==null?null :  $"{e.Medicalrecordnumber}:{e.Username}")">
-        <ItemTemplate Context="e">                          
-            <MudStack Row="true" Justify="Justify.FlexStart" AlignItems="AlignItems.Center">
-                <MudIcon  Size="Size.Medium" Icon="@Icons.Outlined.AssignmentInd"   Class="mx-2"></MudIcon>
-                <MudText  Align="Align.Center" Typo="Typo.button"  >@( $"{e.Medicalrecordnumber}:{e.Username}")</MudText>
-            </MudStack>
-        </ItemTemplate>
-        <ItemSelectedTemplate Context="e">   
-            <MudStack Row="true" Justify="Justify.FlexStart" AlignItems="AlignItems.Center">
-                <MudIcon  Size="Size.Medium" Icon="@Icons.Outlined.AssignmentInd"  Color="Color.Success"  Class="mx-2"></MudIcon>
-                <MudText  Align="Align.Center" Typo="Typo.button" Color="Color.Success" >@( $"{e.Medicalrecordnumber}:{e.Username}")</MudText>
-            </MudStack>
-        </ItemSelectedTemplate>
-    </MudAutocomplete>
-    <MudFab   Size="Size.Medium" Color="Color.Primary" DisableElevation="true"   OnClick="@OnOpenDialog" Class="mx-3" StartIcon="@Icons.Material.Outlined.AddCard" Label="新建档案"> </MudFab>
-</MudStack>
-<MudText Class="mb-8" Typo="Typo.caption" >输入编号与姓名关键信息进行搜索</MudText>
 
 @if(Patients is null){
     <MudCard>
@@ -52,12 +35,17 @@
 }
 else{
 
-    <MudTable T="PatientInfo" FixedFooter="true" FixedHeader = "true" Height="600px" Elevation="0" Items="@Patients"  Hover="true" ReadOnly="true"
+    <MudTable  T="PatientInfo" FixedFooter="true" FixedHeader = "true" Height="600px" Elevation="0" Items="@Patients"  Hover="true" ReadOnly="true"
               Filter="new Func<PatientInfo,bool>(FilterFuncTable)"  Dense="false" >
-        <ToolBarContent>
-          @*  <MudFab Size="Size.Small" DisableElevation="true" OnClick="@Refresh" Color="Color.Tertiary" StartIcon="@Icons.Filled.Refresh"></MudFab>*@
-        <MudSpacer/>
-        <MudSpacer/>
+        <ToolBarContent >
+            <MudDateRangePicker   @ref="@rangePicker" @bind-DateRange="@daterange" Label="时间范围"  >
+                <PickerActions>
+                    <MudButton Class="mr-auto align-self-start "  OnClick="@(()=>rangePicker.Clear())" >清空选择数据</MudButton>
+                    <MudButton OnClick="@(()=>rangePicker.Close(false))"> 关闭 </MudButton>
+                    <MudButton OnClick="@(()=>PickerOK())" Color="Color.Primary"> 确定</MudButton>
+                </PickerActions>
+            </MudDateRangePicker>
+            <MudSpacer/> <MudSpacer/><MudSpacer/><MudSpacer/>
             <MudTextField @bind-Value="searchPatientInfo" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
         </ToolBarContent>
         <HeaderContent>
@@ -105,28 +93,50 @@ else{
     [Inject] 
     protected IDialogService DialogService  { get; set; }
 
-    private string  searchPatientInfo{set;get;}
-    private bool resetValueOnEmptyText;
-    private bool Loading { set; get; } = true;
-    private bool coerceValue;
-    private PatientInfo value1, value2;
+    /// <summary>
+    /// 默认查询的时间范围(1个月时间)
+    ///  DateTime dateTime = DateRangeValue.End.AddDays(1).AddMilliseconds(-1);
+    ///  ListCertificates = _DbContext.TableCertificates.Where(w => w.CreateTime >= DateRangeValue.Start && w.CreateTime <= dateTime).ToList();
+    /// </summary>
+    DateRange daterange = new DateRange(DateTime.Now.Date.AddDays(-(DateTime.Now.Date.Day-1)), DateTime.Now.Date);
+    private MudDateRangePicker rangePicker{ set; get; }
 
-    List<PatientInfo> Patients{ set; get; }
+    /// <summary>
+    /// 表格过滤关键字
+    /// </summary>
+    private string searchPatientInfo{ set; get; }
+
+    private List<PatientInfo> Patients{ set; get; }
+
+
 
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            Loading = true;
             using var context = DbContextFactory.CreateDbContext();
-
-            Patients = await  context.patientInfos.AsNoTracking().ToListAsync();
-
-            Loading = false;
+            Patients = await  context.patientInfos.AsNoTracking().Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1)).ToListAsync();
             StateHasChanged();
         }
         //  return base.OnAfterRenderAsync(firstRender);
+    }
+
+    /// <summary>
+    /// 选择时间对话框确认选择
+    /// </summary>
+    /// <returns></returns>
+    private async Task  PickerOK(){
+
+        rangePicker.Close();
+
+        if (Patients is not null) Patients.Clear();
+        //if (Certificates is not null) Certificates.Clear();
+
+        await OnAfterRenderAsync(true);
+        StateHasChanged();
+
+        return;
     }
 
     private async Task<IEnumerable<PatientInfo>> Search2(string value)

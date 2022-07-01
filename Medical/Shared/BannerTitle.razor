@@ -1,0 +1,23 @@
+﻿
+
+
+<MudStack Class="mt-10" Spacing="3">
+    <MudText Typo="Typo.h4"  GutterBottom="true">@Title</MudText>
+    <MudText Typo="Typo.caption" >@TitleCaption</MudText>
+    <MudDivider Style="@DividerStyle"></MudDivider>
+</MudStack>
+
+
+@code {
+
+    [Parameter]
+    public string Title{ set; get; }
+
+    [Parameter]
+    public string TitleCaption { set; get; } = "默认时间范围为一个月时间，如需要请自行设置时间范围搜索";
+
+    [Parameter]
+    public string DividerStyle { set; get; } = "width:50%";
+
+
+}

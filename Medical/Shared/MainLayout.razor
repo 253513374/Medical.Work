@@ -7,20 +7,26 @@
 <MudLayout>
     <MudAppBar   Elevation="0" Color="Color.Transparent">
 
-        <MudIconButton Class="ml-16" Size="Size.Large" Variant="Variant.Outlined"  Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.End" OnClick="@((e) => DrawerToggle())" />
-        <MudText Class="mx-5">Menu</MudText>
+       
+        @*<MudText Class="mx-5">Menu</MudText>*@
         <MudSpacer />
        <LoginDisplay />
     </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" Elevation="0" ClipMode ="DrawerClipMode.Never" >
-        <MudDrawerHeader Class="mt-16">
-           
-            <MudImage Width="220"  Src="img/logo.png" ObjectFit="ObjectFit.Contain" ObjectPosition="ObjectPosition.Center" ></MudImage>
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="0" ClipMode ="DrawerClipMode.Always" Variant="@DrawerVariant.Mini">
+        <MudStack Class="mx-2" Row="true" Justify="@(_drawerOpen?Justify.FlexEnd : Justify.Center)" AlignItems="AlignItems.Center" >
+            <MudTooltip Text="展开菜单导航"  Arrow="true" Placement="Placement.Right">
+                 <MudIconButton  Size="Size.Small" Variant="Variant.Outlined"  Icon="@Icons.Material.Filled.Menu"  Edge="Edge.End" OnClick="@((e) => DrawerToggle())" />
+            </MudTooltip>
+        </MudStack>
+        
+        <MudDrawerHeader>
+            <MudImage Fluid="true"  Src="img/logo.png" ObjectFit="ObjectFit.ScaleDown" ObjectPosition="ObjectPosition.Center" ></MudImage>
         </MudDrawerHeader>
-        <NavMenu />
+
+        <NavMenu NavVariant="@navVariant" />
     </MudDrawer>
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.Large" Class="my-5 pt-5">
+        <MudContainer MaxWidth="MaxWidth.Large" Class="my-5">
             @Body
         </MudContainer>
     </MudMainContent>
@@ -29,8 +35,17 @@
 @code {
     bool _drawerOpen = true;
 
+    private DrawerVariant navVariant{set;get;}
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
+        if(_drawerOpen)
+        {
+            navVariant = DrawerVariant.Persistent;
+        }
+        else
+        {
+             navVariant = DrawerVariant.Mini;
+        }
     }
 }
