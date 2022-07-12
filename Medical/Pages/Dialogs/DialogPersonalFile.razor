@@ -20,6 +20,7 @@
                                 </MudText>
                                 <MudText Align="Align.Center"  Typo="Typo.h6">个人档案信息</MudText>
 
+                                  <MudTextField  @bind-Value="@patientInfo.CollationAttribute" For="@(() => patientInfo.CollationAttribute)" Label="病历属性" HelperText="用来归类分析当前档案是属于那个类型的疾病" Variant="Variant.Text" />
                                 <MudStack Row="true">
                                     <MudTextField  @bind-Value="@patientInfo.Username" For="@(() => patientInfo.Username)" Label="姓名" Variant="Variant.Text" />
                                     <MudSelect  @bind-Value="@patientInfo.Gender" For="@(() => patientInfo.Gender)" Label="性别" Variant="Variant.Text" >
@@ -86,7 +87,7 @@
                 </MudCardContent>
                 <MudCardActions  Class="my-5">
                     <MudStack Row="true" Justify="Justify.FlexEnd"  Style="width:100%" >
-                        <MudButton OnClick="Cancel">取消</MudButton>
+                        <MudButton OnClick="@(s=>MudDialog.Cancel())">取消</MudButton>
                         <MudButton StartIcon="@Icons.Outlined.Save"  ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" >保存</MudButton>
                     </MudStack>
                 </MudCardActions>
@@ -102,13 +103,13 @@
 
 
 
-    void Cancel() => MudDialog.Cancel();
+    //void Cancel() => MudDialog.Cancel();
 
     [Parameter]
     public PatientInfo?  patientInfo{ set; get; }
 
     [Parameter]
-    public bool IsEditPatientInfo { set; get; } = false;
+    public bool IsEdit { set; get; } = false;
 
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
@@ -144,13 +145,13 @@
     private void OnValidSubmit(EditContext editcontext)
     {
 
-        if (IsEditPatientInfo)
+        if (IsEdit)
         {
-            EditPatientInfo(editcontext);
+            Edit(editcontext);
         }
         else
         {
-            CreatePatientInfo(editcontext);
+            Create(editcontext);
 
         }
 
@@ -159,7 +160,7 @@
         MudDialog.Close(DialogResult.Ok(true));
     }
 
-    private  Task CreatePatientInfo(EditContext editcontext)
+    private  Task Create(EditContext editcontext)
     {
         var username = authenticationStateTask.Result.User.Identity.Name;
 
@@ -175,7 +176,7 @@
         return Task.CompletedTask;
     }
 
-    private  Task EditPatientInfo(EditContext editcontext)
+    private  Task Edit(EditContext editcontext)
     {
 
         var patient = (PatientInfo)editcontext.Model;

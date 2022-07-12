@@ -1,6 +1,7 @@
 ﻿
 
 
+@inject ISnackbar Snackbar
 
 <MudDialog>
      <TitleContent>
@@ -8,21 +9,126 @@
     </TitleContent>
     
     <DialogContent>
+        <EditForm Model="@medicalPK" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator/>
+            <MudCard Elevation="0" >
+                <MudCardContent>
+                    <MudStack Row="false">
 
-        <MudStack Row="false">
-             <MudText Align="Align.Left" Typo="Typo.h6">给药方案</MudText>
-             <MudDivider Style="width:200px" Class="mt-n3"></MudDivider>
+                                <MudStack Row="true" AlignItems="AlignItems.End" Justify="Justify.FlexStart">
+                                     <MudText Align="Align.Left" Typo="Typo.h4">给药方案</MudText>
+                                     <MudSpacer></MudSpacer>
+                                    
+                                     <MudButton  Variant="Variant.Text"EndIcon="@Icons.Filled.PersonPin"
+                                                  Color="Color.Primary" Style="text-transform:none" >绑定个人信息</MudButton>
+                                                   <MudSpacer></MudSpacer>
+                                                    <MudSpacer></MudSpacer>
+                                </MudStack>
+                                <MudDivider></MudDivider>
             
-          @*    <MudAutocomplete T="string" Label="US States" @bind-Value="value1" SearchFunc="@Search1"
-                         ResetValueOnEmptyText="@resetValueOnEmptyText"
-                         CoerceText="@coerceText" CoerceValue="@coerceValue" />*@
-        </MudStack>
-    </DialogContent>
+                                <MudPaper Elevation="1" >
 
-    <DialogActions>
-        <MudButton OnClick="Cancel">取消</MudButton>
-        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit">确定</MudButton>
-    </DialogActions>
+                                    <MudText>姓名</MudText>
+                                    <MudText>性别</MudText>
+                                    <MudText>年龄</MudText>
+                                    <MudText>科室</MudText>
+                                    <MudText>入院时间</MudText>
+                                    <MudText>出院时间</MudText>
+                                </MudPaper>
+                               @* <MudAutocomplete  Clearable="true" T="FilterCertificate" Label="请输入批次关键字" Dense="true" Style="max-width:500px"
+                                                SearchFunc="@Search" ToStringFunc="@(e=> e==null?null :  $"{e.ModelNumber}:{e.ProductName}({e.Count})")" SelectOnClick="true"
+                                                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary"
+                                                ResetValueOnEmptyText="true"   ValueChanged = "OnFilterValueChanged" 
+                                                Clearable="true">
+                                    <ItemTemplate Context="e">                          
+                                        <MudText Typo="Typo.button">@( $"{e.ModelNumber}")</MudText>
+                                        <MudText Typo="Typo.caption" Style="font-weight:700">@( $"{e.ProductName}({e.Count})")</MudText>
+                                    </ItemTemplate>
+                                    <ItemSelectedTemplate Context="e">                
+                                        <MudText Typo="Typo.caption" Color="Color.Success" >@( $"{e.ModelNumber}:{e.ProductName}({e.Count})")</MudText>
+                                    </ItemSelectedTemplate>
+
+                                </MudAutocomplete  Clearable="true">*@
+                            </MudStack>
+                    <MudGrid Spacing="5" >
+                        <MudItem  lg="6" md="6" xl="6" sm="12"  >
+
+                            
+                               <MudStack Row="false">
+                                <MudTextField    @bind-Value="@medicalPK.MedicalPKName" For="@(() => medicalPK.MedicalPKName)" Label=" 方案名称(可选)" Variant="Variant.Text" />
+                                   
+                                <MudTextField    @bind-Value="@medicalPK.DrugsNmae" For="@(() => medicalPK.DrugsNmae)" Label="药品通用名" Variant="Variant.Text" />
+                                   
+                                <MudTextField    @bind-Value="@medicalPK.DrugsNmae2" For="@(() => medicalPK.DrugsNmae2)" Label="药品商品名" Variant="Variant.Text" />
+                                <MudTextField    @bind-Value="@medicalPK.DrugSpecifications" For="@(() => medicalPK.DrugSpecifications)" Label="药品规格" Variant="Variant.Text" />
+                             
+                                <MudSelect   @bind-Value="@medicalPK.Manufacturertype" For="@(() => medicalPK.Manufacturertype)" Label="厂家类型" Variant="Variant.Text" >
+                                    @foreach (var item in EnumItems.Manufacturertype)
+                                    {
+                                            <MudSelectItem Value="@item"></MudSelectItem>
+                                    }
+                                </MudSelect>
+                                   
+
+                            </MudStack>
+
+                        </MudItem>
+                        <MudItem  lg="6" md="6" xl="6" sm="12"  >
+                            <MudStack Row="false">
+
+                                <MudAutocomplete  Clearable="true" T="string" Label="给药途径" @bind-Value="@medicalPK.DrugdosageRoute" For="@(() => medicalPK.DrugdosageRoute)"
+                                                SearchFunc="@OnAutoSearchDrugdosageRoute" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
+
+                                <MudStack Row="true">
+                                    <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@medicalPK.FirstTime" For="@(() => medicalPK.FirstTime)" Label=" 药方开始时间" Variant="Variant.Text" />
+                                    <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@medicalPK.LasttTime" For="@(() => medicalPK.LasttTime)" Label="药方结束时间" Variant="Variant.Text" />
+                                </MudStack>
+                                   
+                              
+                                <MudStack Row="true">
+
+                                    <MudAutocomplete  Clearable="true" T="string" Label="给药频率"  @bind-Value="@medicalPK.DrugNCount" For="@(() => medicalPK.DrugNCount)"
+                                                SearchFunc="@OnAutoSearchDrugNCount" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
+                                    <MudAutocomplete  Clearable="true" T="string" Label="给药持续时间"  @bind-Value="@medicalPK.DrugNCountDuration" For="@(() => medicalPK.DrugNCountDuration)"
+                                                SearchFunc="@OnAutoSearchDrugNCountDuration" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
+                                   
+                                </MudStack>
+
+                                <MudStack Row="true">
+                                    <MudTextField    @bind-Value="@medicalPK.DrugsNmae2" For="@(() => medicalPK.DrugsNmae2)" Label="单次给药剂量" Variant="Variant.Text" />
+                              
+                                     <MudAutocomplete  Clearable="true" T="string" Label="剂量单位"  @bind-Value="@medicalPK.DrugdosageUnit" For="@(() => medicalPK.DrugdosageUnit)"
+                                                SearchFunc="@OnAutoSearchDrugdosageUnit" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
+                                   
+                                </MudStack>
+                                
+                             
+                                <MudStack Row="true">
+                                  
+                                    <MudAutocomplete  Clearable="true" T="string" Label="溶媒"  @bind-Value="@medicalPK.DrugSpecifications" For="@(() => medicalPK.DrugSpecifications)"
+                                                    SearchFunc="@OnAutoSearchDrugSpecifications" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
+                                    <MudTextField    @bind-Value="@medicalPK.SolventToDosage" For="@(() => medicalPK.SolventToDosage)" AdornmentText="ml" Label="溶媒计量" Variant="Variant.Text" />
+                                </MudStack>
+                                <MudTextField    @bind-Value="@medicalPK.AMTsingledose" For="@(() => medicalPK.AMTsingledose)" Label="公斤体质量日剂量(mg·kg⁻¹·d⁻¹)" Variant="Variant.Text" />
+                                   
+
+
+
+                            </MudStack>
+                        </MudItem>
+                    </MudGrid>
+                </MudCardContent>
+
+                 <MudCardActions  Class="my-5">
+                    <MudStack Row="true" Justify="Justify.FlexEnd"  Style="width:100%" >
+                        <MudButton OnClick="Cancel">取消</MudButton>
+                        <MudButton StartIcon="@Icons.Outlined.Save"  ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" >保存</MudButton>
+                    </MudStack>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+
+    </DialogContent>
 </MudDialog>
 @code {
 
@@ -38,15 +144,25 @@
     public MedicalPK medicalPK { set; get; } 
 
 
-    public bool IsEditMedicalPK { set; get; } 
- 
-   // public EventCallback<MedicalPK> OnEventCallback { set; get; } = new();
+    /// <summary>
+    /// 当前方案绑定的个人基本信息
+    /// 表示添加的方案属于哪个患者
+    /// </summary>
+    private PatientInfo BingPatientInfo{ set; get; } 
+
+
+
+    // public EventCallback<MedicalPK> OnEventCallback { set; get; } = new();
 
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
-    //[CascadingParameter(Name = "BodyContext")]
-    //public object? MedicalPKobject { set; get; }
+
+    /// <summary>
+    /// 标识编辑进入  还是添加进入
+    /// </summary>
+    [Parameter]
+    public bool IsEdit{ set; get; }
 
     protected override void OnParametersSet()
     {
@@ -58,6 +174,38 @@
         base.OnParametersSet();
     }
 
+
+
+    /// <summary>
+    /// 表单提交
+    /// </summary>
+    /// <param name="editcontext"></param>
+    private void OnValidSubmit(EditContext editcontext)
+    {
+
+        if (IsEdit)
+        {
+            Edit(editcontext);
+        }
+        else
+        {
+            Create(editcontext);
+
+        }
+
+        Snackbar.Add("给药方案添加成功",Severity.Success);
+        StateHasChanged();
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    private  Task Edit(EditContext editcontext)
+    {
+        return Task.CompletedTask;
+    }
+    private  Task Create(EditContext editcontext)
+    {
+        return Task.CompletedTask;
+    }
     //private async Task<IEnumerable<string>> Search2(string value)
     //{
     //    // In real life use an asynchronous function for fetching data from an api.
@@ -68,7 +216,7 @@
     //        return new string[0];
     //  //  return medicalPK.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
     //}
-  //  public PatientsTips patientsTips{ set; get; }  
+    //  public PatientsTips patientsTips{ set; get; }  
 
     //private Task OnAutoFillSelectedItemChanged(PatientsTips tips )
     //{
@@ -81,4 +229,70 @@
     //{
     //    return $"{tips.Number} - {tips.Description}";
     //}
+
+
+    /// <summary>
+    /// 溶媒
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<string>> OnAutoSearchDrugSpecifications(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return EnumItems.DrugSpecificationsEnum;
+        return EnumItems.DrugSpecificationsEnum.Where(x => x.Contains(value));
+    }
+
+
+    /// <summary>
+    /// 给药频率
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<string>> OnAutoSearchDrugNCount(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return EnumItems.DrugNCountEnum;
+        return EnumItems.DrugNCountEnum.Where(x => x.Contains(value));
+    }
+
+
+    /// <summary>
+    /// 给药持续时间
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<string>> OnAutoSearchDrugNCountDuration(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return EnumItems.DrugNCountDurationEnum;
+        return EnumItems.DrugNCountDurationEnum.Where(x => x.Contains(value));
+    }
+
+    /// <summary>
+    /// 给药途径
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<string>> OnAutoSearchDrugdosageRoute(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return EnumItems.DrugdosageRouteEnum;
+        return EnumItems.DrugdosageRouteEnum.Where(x => x.Contains(value));
+    }
+
+     /// <summary>
+    /// 给药计量单位
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<string>> OnAutoSearchDrugdosageUnit(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return EnumItems.DrugdosageUnit;
+        return EnumItems.DrugdosageUnit.Where(x => x.Contains(value));
+    }
+
+
+    
 }

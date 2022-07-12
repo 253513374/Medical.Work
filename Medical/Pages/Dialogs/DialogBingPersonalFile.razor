@@ -1,0 +1,126 @@
+﻿
+
+@inject ISnackbar Snackbar
+
+<MudDialog>
+     <TitleContent></TitleContent>
+    
+    <DialogContent>
+      @*  <EditForm Model="@Tobject" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator/>
+        
+        </EditForm>*@
+            <MudCard Elevation="0" >
+                <MudCardContent>
+                    <MudStack Row="false">
+                        <MudText Typo="Typo.h4" >选择个人基本信息 </MudText>
+                    </MudStack>
+                    <MudGrid Spacing="5" >
+                         <MudItem  lg="6" md="6" xl="6" sm="12"  >
+                               <MudStack   Row="false"  Justify="Justify.Center" Spacing="3" >
+                                     <MudTextField  @bind-Value="@Personal.Username" For="@(() => Personal.Username)" Label="Username" HelperText="唯一标识" Variant="Variant.Text" />
+                           
+                               </MudStack>
+                         </MudItem>
+                         <MudItem  lg="6" md="6" xl="6" sm="12"  >
+                             <MudPaper Height="300" Width="400">
+
+                             </MudPaper>
+                         </MudItem>
+                    </MudGrid>
+                </MudCardContent>
+
+                 <MudCardActions  Class="my-5">
+                    <MudStack Row="true" Justify="Justify.FlexEnd"  Style="width:100%" >
+                         <MudButton OnClick="@(s=>MudDialog.Cancel())">取消</MudButton>
+                        <MudButton StartIcon="@Icons.Outlined.Save"  ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" >保存</MudButton>
+                    </MudStack>
+                </MudCardActions>
+            </MudCard>
+    </DialogContent>
+</MudDialog>
+
+
+
+@code {
+
+    /// <summary>
+    /// 对话框实列化对象，级联对象
+    /// </summary>
+    [CascadingParameter]
+    protected MudDialogInstance MudDialog { get; set; }
+
+
+
+    /// <summary>
+    /// 授权相关状态信息
+    /// </summary>
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    [Inject]
+    protected IDbContextFactory<MedicalDbContext> ContextFactory{ set; get; }
+
+
+    [Inject]
+    protected ILogger<DialogBingPersonalFile> Logger{ set; get; }
+
+
+
+    /// <summary>
+    /// 标识编辑进入  还是添加进入
+    /// </summary>
+    [Parameter]
+    public bool IsEdit{ set; get; }
+
+
+
+    [Parameter]
+    public PatientInfo? Personal{ set; get; }
+
+
+
+
+    /// <summary>
+    /// 表单提交
+    /// </summary>
+    /// <param name="editcontext"></param>
+    private void OnValidSubmit(EditContext editcontext)
+    {
+
+        if (IsEdit)
+        {
+            Edit(editcontext);
+        }
+        else
+        {
+            Create(editcontext);
+
+        }
+
+        Snackbar.Add("数据添加成功",Severity.Success);
+        StateHasChanged();
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+
+    /// <summary>
+    /// 编辑数据
+    /// </summary>
+    /// <param name="editcontext"></param>
+    /// <returns></returns>
+    private  Task Edit(EditContext editcontext)
+    {
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// 添加数据
+    /// </summary>
+    /// <param name="editcontext"></param>
+    /// <returns></returns>
+    private  Task Create(EditContext editcontext)
+    {
+        return Task.CompletedTask;
+    }
+}

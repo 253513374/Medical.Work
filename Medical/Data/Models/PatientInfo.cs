@@ -128,5 +128,12 @@ namespace Medical.Data.Models
         /// </summary>
         [DisplayName("出院时间")]
         public DateTime? Dischargetime { set; get; }
+
+
+        /// <summary>
+        /// 病历属性，该属性用来说明当前信息的分类说明
+        /// </summary>
+        [Required(ErrorMessage = "病历属性必须填写")]
+        public string CollationAttribute { set; get; } = "";
     }
 }

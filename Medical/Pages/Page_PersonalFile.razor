@@ -52,15 +52,18 @@ else{
             <MudTh><b>编号</b></MudTh>
             <MudTh><b>姓名</b></MudTh>
             <MudTh><b>姓别</b></MudTh>
+            <MudTh><b>病历属性</b></MudTh>
             <MudTh><b>科室</b></MudTh>
             <MudTh><b>入院时间</b></MudTh>
             <MudTh><b>出院时间</b></MudTh>
+           
             <MudTh><b>操作</b></MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd >@context.Medicalrecordnumber</MudTd>
             <MudTd >@context.Username</MudTd>
             <MudTd >@context.Gender</MudTd>
+            <MudTd >@context.CollationAttribute</MudTd>
             <MudTd >@context.Department</MudTd>
             <MudTd >@context.Admissiontime</MudTd>
             <MudTd >@context.Dischargetime</MudTd>
@@ -177,7 +180,7 @@ else{
 
         var parameters = new DialogParameters();
         parameters.Add("patientInfo",patient);
-        parameters.Add("IsEditPatientInfo",true);
+        parameters.Add("IsEdit",true);
 
         var dialog = DialogService.Show<DialogPersonalFile>("99",parameters,dialogOptions);
         var result = await dialog.Result;

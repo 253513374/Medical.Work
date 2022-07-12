@@ -40,7 +40,7 @@ namespace Medical.Data.Models
         public string DrugsensitivityTestOther { set; get; }
 
         /// <summary>
-        ///
+        /// 药品名称
         /// </summary>
         [DisplayName("药品名称")]
         public string DrugsName { set; get; }

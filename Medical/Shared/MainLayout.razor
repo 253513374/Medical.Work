@@ -19,9 +19,15 @@
             </MudTooltip>
         </MudStack>
         
-        <MudDrawerHeader>
-            <MudImage Fluid="true"  Src="img/logo.png" ObjectFit="ObjectFit.ScaleDown" ObjectPosition="ObjectPosition.Center" ></MudImage>
-        </MudDrawerHeader>
+        
+            @*//@if(_drawerOpen)*@
+            
+                <MudDrawerHeader>
+                  <MudImage Fluid="true"  Src="img/logo.png" ObjectFit="ObjectFit.ScaleDown" ObjectPosition="ObjectPosition.Center" ></MudImage>
+                </MudDrawerHeader>
+            
+          
+       
 
         <NavMenu NavVariant="@navVariant" />
     </MudDrawer>

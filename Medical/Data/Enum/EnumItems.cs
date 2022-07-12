@@ -43,7 +43,14 @@
         /// 给药频率
         /// </summary>
         public static IEnumerable<string> DrugNCountEnum { set; get; } = new[] {
-           "q24h","q12h","q6h","q3h","q24h","q36h","qn","qw","qd","q8h","bid","tid"
+          "q3h","q6h","q8h","q12h","q24h","q36h","qn","qw","qd","bid","tid"
+        };
+
+        /// <summary>
+        /// 给药途径
+        /// </summary>
+        public static IEnumerable<string> DrugdosageRouteEnum { set; get; } = new[] {
+          "口服","输液","肌肉注射"
             // public static List<string> DrugNCountEnumItems => new( { "q24h", "q12h", "q6h",
             // "q3h", "q36h", "qn", "qw", "qd", "q8h", "bid", "tid" };
         };
@@ -312,6 +319,18 @@
             "胸部",
             "腹部", 
             "肝胆胰",
+        };
+
+
+        /// <summary>
+        /// 溶媒
+        /// </summary>
+        public static IEnumerable<string> DrugSpecificationsEnum { set; get; } = new[]
+        {
+
+            "生理盐水",
+            "纯净水"
+           
         };
     }
 }

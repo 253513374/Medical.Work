@@ -4,4 +4,15 @@
 
 @code {
 
+
+    [Inject]
+    protected ILogger<Home> Logger{ set; get; }
+
+
+    protected override Task OnInitializedAsync()
+    {
+
+        Logger.LogInformation("Home-OnInitializedAsync");
+        return base.OnInitializedAsync();
+    }
 }
