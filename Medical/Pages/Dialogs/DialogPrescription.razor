@@ -13,43 +13,7 @@
             <DataAnnotationsValidator/>
             <MudCard Elevation="0" >
                 <MudCardContent>
-                    <MudStack Row="false">
-
-                                <MudStack Row="true" AlignItems="AlignItems.End" Justify="Justify.FlexStart">
-                                     <MudText Align="Align.Left" Typo="Typo.h4">给药方案</MudText>
-                                     <MudSpacer></MudSpacer>
-                                    
-                                     <MudButton  Variant="Variant.Text"EndIcon="@Icons.Filled.PersonPin"
-                                                  Color="Color.Primary" Style="text-transform:none" >绑定个人信息</MudButton>
-                                                   <MudSpacer></MudSpacer>
-                                                    <MudSpacer></MudSpacer>
-                                </MudStack>
-                                <MudDivider></MudDivider>
-            
-                                <MudPaper Elevation="1" >
-
-                                    <MudText>姓名</MudText>
-                                    <MudText>性别</MudText>
-                                    <MudText>年龄</MudText>
-                                    <MudText>科室</MudText>
-                                    <MudText>入院时间</MudText>
-                                    <MudText>出院时间</MudText>
-                                </MudPaper>
-                               @* <MudAutocomplete  Clearable="true" T="FilterCertificate" Label="请输入批次关键字" Dense="true" Style="max-width:500px"
-                                                SearchFunc="@Search" ToStringFunc="@(e=> e==null?null :  $"{e.ModelNumber}:{e.ProductName}({e.Count})")" SelectOnClick="true"
-                                                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary"
-                                                ResetValueOnEmptyText="true"   ValueChanged = "OnFilterValueChanged" 
-                                                Clearable="true">
-                                    <ItemTemplate Context="e">                          
-                                        <MudText Typo="Typo.button">@( $"{e.ModelNumber}")</MudText>
-                                        <MudText Typo="Typo.caption" Style="font-weight:700">@( $"{e.ProductName}({e.Count})")</MudText>
-                                    </ItemTemplate>
-                                    <ItemSelectedTemplate Context="e">                
-                                        <MudText Typo="Typo.caption" Color="Color.Success" >@( $"{e.ModelNumber}:{e.ProductName}({e.Count})")</MudText>
-                                    </ItemSelectedTemplate>
-
-                                </MudAutocomplete  Clearable="true">*@
-                            </MudStack>
+                    <DialogBingPersonalFile Tile="给药方案" ValueChangedEvent="@OnBingPersonalFile" ></DialogBingPersonalFile>
                     <MudGrid Spacing="5" >
                         <MudItem  lg="6" md="6" xl="6" sm="12"  >
 
@@ -151,6 +115,9 @@
     private PatientInfo BingPatientInfo{ set; get; } 
 
 
+    private  List<PatientInfo> PatientInfos{ set; get; } 
+
+
 
     // public EventCallback<MedicalPK> OnEventCallback { set; get; } = new();
 
@@ -206,30 +173,6 @@
     {
         return Task.CompletedTask;
     }
-    //private async Task<IEnumerable<string>> Search2(string value)
-    //{
-    //    // In real life use an asynchronous function for fetching data from an api.
-    //    //await Task.Delay(5);
-
-    //    // if text is null or empty, don't return values (drop-down will not open)
-    //    if (string.IsNullOrEmpty(value))
-    //        return new string[0];
-    //  //  return medicalPK.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
-    //}
-    //  public PatientsTips patientsTips{ set; get; }  
-
-    //private Task OnAutoFillSelectedItemChanged(PatientsTips tips )
-    //{
-    //    medicalPK.Medicalrecordnumber = tips.Number;
-    //    medicalPK.Username = tips.Description;
-    //    StateHasChanged();
-    //    return Task.CompletedTask;
-    //}
-    //private string OnGetDisplayText(PatientsTips tips)
-    //{
-    //    return $"{tips.Number} - {tips.Description}";
-    //}
-
 
     /// <summary>
     /// 溶媒
@@ -281,7 +224,7 @@
         return EnumItems.DrugdosageRouteEnum.Where(x => x.Contains(value));
     }
 
-     /// <summary>
+    /// <summary>
     /// 给药计量单位
     /// </summary>
     /// <param name="value"></param>
@@ -293,6 +236,13 @@
         return EnumItems.DrugdosageUnit.Where(x => x.Contains(value));
     }
 
+    private  Task OnBingPersonalFile(PatientInfo patient)
+    {
+        BingPatientInfo = patient;
 
+        return Task.CompletedTask;
+    }
+
+    
     
 }

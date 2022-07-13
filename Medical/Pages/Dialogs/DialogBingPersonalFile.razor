@@ -1,44 +1,91 @@
-﻿
+﻿@using Microsoft.Extensions.Caching.Memory
+
+
+@*
+    DialogBingPersonalFile
+*@
 
 @inject ISnackbar Snackbar
+    <MudStack Row="false">
 
-<MudDialog>
-     <TitleContent></TitleContent>
-    
-    <DialogContent>
-      @*  <EditForm Model="@Tobject" OnValidSubmit="OnValidSubmit">
-            <DataAnnotationsValidator/>
-        
-        </EditForm>*@
-            <MudCard Elevation="0" >
-                <MudCardContent>
-                    <MudStack Row="false">
-                        <MudText Typo="Typo.h4" >选择个人基本信息 </MudText>
-                    </MudStack>
-                    <MudGrid Spacing="5" >
-                         <MudItem  lg="6" md="6" xl="6" sm="12"  >
-                               <MudStack   Row="false"  Justify="Justify.Center" Spacing="3" >
-                                     <MudTextField  @bind-Value="@Personal.Username" For="@(() => Personal.Username)" Label="Username" HelperText="唯一标识" Variant="Variant.Text" />
-                           
-                               </MudStack>
-                         </MudItem>
-                         <MudItem  lg="6" md="6" xl="6" sm="12"  >
-                             <MudPaper Height="300" Width="400">
+        <MudStack Row="true" AlignItems="AlignItems.End" Justify="Justify.FlexStart">
+                <MudText Align="Align.Left"  Typo="Typo.h4">@Tile</MudText>
+                <MudSpacer></MudSpacer>
+                                    
+            <MudAutocomplete T="PatientInfo" Label="绑定个人信息" Dense="true" Variant="Variant.Filled"
+                            SearchFunc="@OnSearchPatientInfo"  SelectOnClick="true"  ToStringFunc="@(e=> e==null?null : $"{e.Username}")" 
+                            Adornment="Adornment.Start" AdornmentIcon="@Icons.Filled.PersonSearch" AdornmentColor="Color.Primary"
+                            ResetValueOnEmptyText="true"   ValueChanged = "@OnSearchValueChanged" 
+                            Clearable="true">
+                <ItemTemplate Context="e">                          
+                    <MudText Typo="Typo.caption" Style="font-weight:700">@( $"{e.Username}({e.Medicalrecordnumber}):{e.Admissiontime}-{e.Dischargetime}")</MudText>
+                </ItemTemplate>
+                <ItemSelectedTemplate Context="e">                
+                    <MudText Typo="Typo.caption" Color="Color.Success" >@( $"{e.Username}({e.Medicalrecordnumber}):{e.Admissiontime}-{e.Dischargetime}")</MudText>
+                </ItemSelectedTemplate>
 
-                             </MudPaper>
-                         </MudItem>
-                    </MudGrid>
-                </MudCardContent>
+            </MudAutocomplete >
+        </MudStack>
+        <MudDivider></MudDivider>
 
-                 <MudCardActions  Class="my-5">
-                    <MudStack Row="true" Justify="Justify.FlexEnd"  Style="width:100%" >
-                         <MudButton OnClick="@(s=>MudDialog.Cancel())">取消</MudButton>
-                        <MudButton StartIcon="@Icons.Outlined.Save"  ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" >保存</MudButton>
-                    </MudStack>
-                </MudCardActions>
-            </MudCard>
-    </DialogContent>
-</MudDialog>
+        @if(BingPatientInfo is  null)
+        {
+            <MudSkeleton Animation="Animation.Wave" Width="50%" />
+            <MudSkeleton Animation="Animation.Wave" Width="100%" ></MudSkeleton>
+            <MudSkeleton Animation="Animation.Wave" Width="80%" />
+                            
+        }
+        else
+        {
+            <MudPaper Class="d-flex justify-space-around flex-grow-1 gap-4 my-8" Elevation="10">
+                    <MudPaper  Elevation="0"   >
+                        <MudStack Row="true" Class="my-3" >
+                            <MudText  ><b>姓名</b></MudText>
+                            <MudText>@BingPatientInfo.Username</MudText>
+                        </MudStack>
+                        <MudStack Row="true" Class="my-3" >
+                            <MudText><b>科室</b></MudText>
+                            <MudText>@BingPatientInfo.Department</MudText>
+                        </MudStack>
+                    </MudPaper>
+                    <MudPaper  Elevation="0"   >
+                            <MudStack Row="true" Class="my-3" >
+                            <MudText><b>性别</b></MudText>
+                            <MudText>@BingPatientInfo.Gender</MudText>
+                        </MudStack>
+                            <MudStack Row="true"  Class="my-3" >
+                            <MudText><b>入院时间</b></MudText>
+                            <MudText>@BingPatientInfo.Admissiontime</MudText>
+                        </MudStack>
+                    </MudPaper>
+                    <MudPaper  Elevation="0"  >
+                            <MudStack Row="true" Class="my-3" >
+                            <MudText><b>年龄</b></MudText>
+                            @if(BingPatientInfo.AGE is not null && BingPatientInfo.AGE>0)
+                            {
+                                    <MudText>@($"{BingPatientInfo.AGE}")</MudText>
+                            }
+                            @if(BingPatientInfo.MonthAGE is not null &&BingPatientInfo.MonthAGE>0)
+                            {
+                                    <MudText>@($"{BingPatientInfo.MonthAGE}") （月）</MudText>
+                            }
+                            @if(BingPatientInfo.DayAGE is not null &&BingPatientInfo.DayAGE>0)
+                            {
+                                    <MudText>@($"{BingPatientInfo.DayAGE}")（日）</MudText>
+                            }
+                            @*<MudText>@(BingPatientInfo.AGE??BingPatientInfo.MonthAGE?? BingPatientInfo.DayAGE)</MudText>*@
+                        </MudStack>
+                        <MudStack Row="true" Class="my-3" >
+                            <MudText><b>出院时间</b></MudText>
+                            <MudText>@BingPatientInfo.Dischargetime</MudText>
+                        </MudStack>
+                    </MudPaper>
+                </MudPaper>
+        }
+
+                              
+                         
+    </MudStack>
 
 
 
@@ -65,45 +112,52 @@
     [Inject]
     protected ILogger<DialogBingPersonalFile> Logger{ set; get; }
 
+    [Inject] 
+    protected AutocompleteService CacheService { set; get; }
+
 
 
     /// <summary>
     /// 标识编辑进入  还是添加进入
     /// </summary>
     [Parameter]
-    public bool IsEdit{ set; get; }
+    public EventCallback<PatientInfo> ValueChangedEvent { set; get; }
 
-
-
+    /// <summary>
+    /// 标识编辑进入  还是添加进入
+    /// </summary>
     [Parameter]
-    public PatientInfo? Personal{ set; get; }
-
-
+    public string? Tile { set; get; }
 
 
     /// <summary>
-    /// 表单提交
+    /// 当前方案绑定的个人基本信息
+    /// 表示添加的方案属于哪个患者
     /// </summary>
-    /// <param name="editcontext"></param>
-    private void OnValidSubmit(EditContext editcontext)
+    private PatientInfo? BingPatientInfo{ set; get; }
+
+
+    public List<PatientInfo> PatientInfos;
+
+
+
+    protected override async Task OnParametersSetAsync()
     {
 
-        if (IsEdit)
+        //var listobject ;
+        if (!CacheService.MemoryCache.TryGetValue("CacheService", out  PatientInfos))
         {
-            Edit(editcontext);
-        }
-        else
-        {
-            Create(editcontext);
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetPriority(priority: CacheItemPriority.NeverRemove);
+            using var context = ContextFactory.CreateDbContext();
 
+            PatientInfos =   await context.patientInfos.AsNoTracking().ToListAsync();
+
+            CacheService.MemoryCache.Set("CacheService", PatientInfos, cacheEntryOptions);
         }
 
-        Snackbar.Add("数据添加成功",Severity.Success);
-        StateHasChanged();
-        MudDialog.Close(DialogResult.Ok(true));
+        // return base.OnParametersSetAsync();
     }
-
-
     /// <summary>
     /// 编辑数据
     /// </summary>
@@ -123,4 +177,32 @@
     {
         return Task.CompletedTask;
     }
+
+
+
+    /// <summary>
+    /// 搜索个人信息
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<PatientInfo>> OnSearchPatientInfo(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return PatientInfos;
+        return PatientInfos.Where(x =>$"{x.Username}{x.Medicalrecordnumber}{x.AGE}{x.Gender}".Contains(value));
+    }
+
+
+    /// <summary>
+    /// 选择的个人信息
+    /// </summary>
+    /// <param name="patient"></param>
+    /// <returns></returns>
+
+    private async Task OnSearchValueChanged(PatientInfo patient)
+    {
+       BingPatientInfo = patient;
+       await   ValueChangedEvent.InvokeAsync(patient);
+    }
+
 }

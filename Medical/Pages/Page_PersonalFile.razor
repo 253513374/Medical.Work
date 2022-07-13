@@ -96,6 +96,9 @@ else{
     [Inject] 
     protected IDialogService DialogService  { get; set; }
 
+    [Inject]
+    protected AutocompleteService AutocompleteService { set; get; }
+
     /// <summary>
     /// 默认查询的时间范围(1个月时间)
     ///  DateTime dateTime = DateRangeValue.End.AddDays(1).AddMilliseconds(-1);
@@ -119,6 +122,8 @@ else{
         if (firstRender)
         {
             using var context = DbContextFactory.CreateDbContext();
+
+           
             Patients = await  context.patientInfos.AsNoTracking().Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1)).ToListAsync();
             StateHasChanged();
         }

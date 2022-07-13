@@ -66,6 +66,8 @@ try
     builder.Services.AddServerSideBlazor();
     builder.Services.AddSingleton<WeatherForecastService>();
     builder.Services.AddSingleton<EmailSender>();
+    builder.Services.AddSingleton<AutocompleteService>();//全局单列，所有访问用户都使用同一个对象
+
 
     builder.Services.AddMudServices(config =>
     {
