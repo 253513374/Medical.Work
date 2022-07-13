@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Medical.Data.Models
 {
@@ -45,17 +47,20 @@ namespace Medical.Data.Models
         /// 起始给药日期（DATE，day）
         /// </summary>
         [DisplayName("起始给药日期")]
+        [Required(ErrorMessage = "必须填写")]
         public DateTime? FirstTime { set; get; }
 
         /// <summary>
         /// 结束给药日期（DATE，day）
         /// </summary>
         [DisplayName("结束给药日期")]
+        [Required(ErrorMessage = "必须填写")]
         public DateTime? LasttTime { set; get; }
 
         /// <summary>
         /// 药品通用名
         /// </summary>
+        [Required(ErrorMessage = "必须填写")]
         [DisplayName("药品通用名")]
         public string? DrugsNmae { set; get; }
 
@@ -63,7 +68,8 @@ namespace Medical.Data.Models
         /// 药品商品名
         /// </summary>
         [DisplayName("药品商品名")]
-      //  [AutoGenerateColumn(Ignore = true)]
+        [Required(ErrorMessage = "必须填写")]
+        //  [AutoGenerateColumn(Ignore = true)]
         public string? DrugsNmae2 { set; get; }
 
         /// <summary>
@@ -77,6 +83,7 @@ namespace Medical.Data.Models
         /// 厂家类型
         /// </summary>
         [DisplayName("厂家类型")]
+        [Required(ErrorMessage = "必须填写")]
         public string? Manufacturertype { set; get; }
 
         /// <summary>
@@ -96,6 +103,7 @@ namespace Medical.Data.Models
         /// 给药途径
         /// </summary>
         [DisplayName("给药途径")]
+        [Required(ErrorMessage = "必须填写")]
         public string? DrugdosageRoute { set; get; }
 
         /// <summary>
@@ -131,5 +139,7 @@ namespace Medical.Data.Models
 
        // [AutoGenerateColumn(Ignore = true)]
         public List<MedicalPKSampling>? MedicalPKSamplings { set; get; }
+
+      
     }
 }

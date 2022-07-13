@@ -17,27 +17,42 @@
                             Adornment="Adornment.Start" AdornmentIcon="@Icons.Filled.PersonSearch" AdornmentColor="Color.Primary"
                             ResetValueOnEmptyText="true"   ValueChanged = "@OnSearchValueChanged" 
                             Clearable="true">
-                <ItemTemplate Context="e">                          
-                    <MudText Typo="Typo.caption" Style="font-weight:700">@( $"{e.Username}({e.Medicalrecordnumber}):{e.Admissiontime}-{e.Dischargetime}")</MudText>
+                <ItemTemplate Context="e">        
+                    <MudStack Row="true">
+                        <MudIconButton Icon="@Icons.Filled.PersonOutline"></MudIconButton>
+                        <MudStack Row="false" Spacing="0">
+                            <MudText Typo="Typo.button" ><b> @( $"{e.Username}({e.Medicalrecordnumber})")</b></MudText>
+                            <MudText Typo="Typo.caption" >@( $"住院时间：{e.Admissiontime} —— {e.Dischargetime}")</MudText>
+         
+                        </MudStack>
+                    </MudStack>
                 </ItemTemplate>
-                <ItemSelectedTemplate Context="e">                
-                    <MudText Typo="Typo.caption" Color="Color.Success" >@( $"{e.Username}({e.Medicalrecordnumber}):{e.Admissiontime}-{e.Dischargetime}")</MudText>
+                <ItemSelectedTemplate Context="e">  
+                      <MudStack Row="true">
+                        <MudIconButton Icon="@Icons.Filled.PersonOutline"></MudIconButton>
+                        <MudStack Row="false" Spacing="0">
+                            <MudText Typo="Typo.button"><b> @( $"{e.Username}({e.Medicalrecordnumber})")</b></MudText>
+                            <MudText Typo="Typo.caption">@( $"住院时间：{e.Admissiontime} —— {e.Dischargetime}")</MudText>
+         
+                        </MudStack>
+                    </MudStack>
                 </ItemSelectedTemplate>
 
             </MudAutocomplete >
         </MudStack>
         <MudDivider></MudDivider>
 
-        @if(BingPatientInfo is  null)
+        @if(BingPatientInfo  is  null)
         {
-            <MudSkeleton Animation="Animation.Wave" Width="50%" />
-            <MudSkeleton Animation="Animation.Wave" Width="100%" ></MudSkeleton>
-            <MudSkeleton Animation="Animation.Wave" Width="80%" />
+            <MudSkeleton Animation="Animation.Wave" Width="50%"  />
+            <MudSkeleton Animation="Animation.Wave" Width="100%" />
+            <MudSkeleton Animation="Animation.Wave" Width="80%"  />
+           
                             
         }
         else
         {
-            <MudPaper Class="d-flex justify-space-around flex-grow-1 gap-4 my-8" Elevation="10">
+            <MudPaper Class="d-flex justify-space-around flex-grow-1 gap-4 my-3" Elevation="10">
                     <MudPaper  Elevation="0"   >
                         <MudStack Row="true" Class="my-3" >
                             <MudText  ><b>姓名</b></MudText>
@@ -81,11 +96,10 @@
                         </MudStack>
                     </MudPaper>
                 </MudPaper>
-        }
+        }       
 
-                              
-                         
-    </MudStack>
+
+</MudStack>
 
 
 
@@ -121,7 +135,7 @@
     /// 标识编辑进入  还是添加进入
     /// </summary>
     [Parameter]
-    public EventCallback<PatientInfo> ValueChangedEvent { set; get; }
+    public EventCallback<PatientInfo> BingPatientInfoChanged { set; get; }
 
     /// <summary>
     /// 标识编辑进入  还是添加进入
@@ -134,10 +148,12 @@
     /// 当前方案绑定的个人基本信息
     /// 表示添加的方案属于哪个患者
     /// </summary>
-    private PatientInfo? BingPatientInfo{ set; get; }
+    [Parameter]
+    public PatientInfo? BingPatientInfo{ set; get; }
 
 
     public List<PatientInfo> PatientInfos;
+
 
 
 
@@ -151,7 +167,7 @@
                 .SetPriority(priority: CacheItemPriority.NeverRemove);
             using var context = ContextFactory.CreateDbContext();
 
-            PatientInfos =   await context.patientInfos.AsNoTracking().ToListAsync();
+            PatientInfos =   await context.patientInfos.AsNoTracking().OrderByDescending(o=>o.Createtime).ToListAsync();
 
             CacheService.MemoryCache.Set("CacheService", PatientInfos, cacheEntryOptions);
         }
@@ -202,7 +218,7 @@
     private async Task OnSearchValueChanged(PatientInfo patient)
     {
        BingPatientInfo = patient;
-       await   ValueChangedEvent.InvokeAsync(patient);
+       await   BingPatientInfoChanged.InvokeAsync(patient);
     }
 
 }

@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Medical.Data.Models
@@ -27,7 +28,7 @@ namespace Medical.Data.Models
         /// 病历号 编号
         /// </summary>
         [NotNull]
-        [Required(ErrorMessage = "编号必须填写")]
+        
         [DisplayName("编号")]
         public string? Medicalrecordnumber { set; get; }
 
@@ -35,7 +36,7 @@ namespace Medical.Data.Models
         /// 患者姓名
         /// </summary>
         [NotNull]
-        [Required(ErrorMessage = "姓名必须填写")]
+      
         [DisplayName("患者姓名")]
         public string? Username { set; get; }
 
@@ -44,5 +45,9 @@ namespace Medical.Data.Models
 
         [DisplayName("记录时间")]
         public DateTime? Createtime { set; get; }
+
+        //[NotMapped]
+        //[Required(ErrorMessage = "必须填写")]
+        //public PatientInfo Patient { get; set; }
     }
 }

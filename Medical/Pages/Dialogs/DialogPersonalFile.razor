@@ -157,7 +157,7 @@
 
         Snackbar.Add("个人档案添加成功",Severity.Success);
         StateHasChanged();
-        MudDialog.Close(DialogResult.Ok(true));
+        MudDialog.Close(DialogResult.Ok((PatientInfo)editcontext.Model));
     }
 
     private  Task Create(EditContext editcontext)

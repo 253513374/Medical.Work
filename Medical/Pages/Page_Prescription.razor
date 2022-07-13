@@ -119,7 +119,7 @@ else{
             //Loading = true;
             using var context = DbContextFactory.CreateDbContext();
 
-            MedicalPKs = await  context.MPKs.AsNoTracking().Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1)).ToListAsync();
+            MedicalPKs = await  context.MPKs.AsNoTracking().Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1)).OrderByDescending(o=>o.Createtime).ToListAsync();
 
            // Loading = false;
             StateHasChanged();
@@ -165,9 +165,8 @@ else{
 
         if (!result.Cancelled)
         {
-            //In a real world scenario we would reload the data from the source here since we "removed" it in the dialog already.
-            // Guid.TryParse(result.Data.ToString(), out Guid deletedServer);
-            //Servers.RemoveAll(item => item.Id == deletedServer);
+           var p = result.Data as MedicalPK;
+            MedicalPKs.Insert(0,p);
             return ;
         }
     }
@@ -188,6 +187,8 @@ else{
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
+           
+            StateHasChanged();
             return ;
         }
     }

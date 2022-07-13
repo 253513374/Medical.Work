@@ -123,8 +123,8 @@ else{
         {
             using var context = DbContextFactory.CreateDbContext();
 
-           
-            Patients = await  context.patientInfos.AsNoTracking().Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1)).ToListAsync();
+
+            Patients = await  context.patientInfos.AsNoTracking().Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1)).OrderByDescending(o=>o.Createtime).ToListAsync();
             StateHasChanged();
         }
         //  return base.OnAfterRenderAsync(firstRender);
@@ -168,6 +168,9 @@ else{
 
         if (!result.Cancelled)
         {
+            var p = result.Data as PatientInfo;
+            Patients.Insert(0,p);
+            StateHasChanged();
             //In a real world scenario we would reload the data from the source here since we "removed" it in the dialog already.
             // Guid.TryParse(result.Data.ToString(), out Guid deletedServer);
             //Servers.RemoveAll(item => item.Id == deletedServer);
