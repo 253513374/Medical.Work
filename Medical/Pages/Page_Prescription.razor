@@ -181,7 +181,7 @@ else{
 
         var parameters = new DialogParameters();
         parameters.Add("medicalPK",medicalPK);
-        parameters.Add("IsEditMedicalPK",true);
+        parameters.Add("IsEdit",true);
 
         var dialog = DialogService.Show<DialogPrescription>("99",parameters,dialogOptions);
         var result = await dialog.Result;

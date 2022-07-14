@@ -68,6 +68,8 @@ try
     builder.Services.AddSingleton<EmailSender>();
     builder.Services.AddSingleton<AutocompleteService>();//全局单列，所有访问用户都使用同一个对象
 
+    builder.Services.AddScoped<EnumServer>();//同一个请求 都是一个实列对象
+
 
     builder.Services.AddMudServices(config =>
     {

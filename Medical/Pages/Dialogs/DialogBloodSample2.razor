@@ -1,0 +1,114 @@
+﻿
+
+
+<MudDialog  Options="dialogOptions">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Edit" Class="mr-3"/> 添加采血管
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <EditForm Model="@MedicalValue" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator/>
+            <MudCard Elevation="0" >
+                <MudCardContent>
+                    <MudTextField    @bind-Value="@MedicalValue.Collectingvessel" For="@(() => MedicalValue.Collectingvessel)" Label="采血管" Variant="Variant.Text" />
+                    <MudTextField    @bind-Value="@MedicalValue.SamplingNumber" For="@(() => MedicalValue.SamplingNumber)" Label="采样点" Variant="Variant.Text" />
+                    <MudTextField    @bind-Value="@MedicalValue.Number" For="@(() => MedicalValue.Number)" Label="编号" Variant="Variant.Text" />
+                    <MudTextField    @bind-Value="@MedicalValue.Samplingname" For="@(() => MedicalValue.Samplingname)" Label="抽血护士" Variant="Variant.Text" />
+                    <MudTextField    @bind-Value="@MedicalValue.C1bloodcollectiontime" For="@(() => MedicalValue.C1bloodcollectiontime)" Label="采血时间" Variant="Variant.Text" />
+                    <MudTextField    @bind-Value="@MedicalValue.C1Concentration" For="@(() => MedicalValue.C1Concentration)" Label="浓度" Variant="Variant.Text" />
+                    <MudTextField    @bind-Value="@MedicalValue.C1ConcentrationUnit" For="@(() => MedicalValue.C1ConcentrationUnit)" Label="浓度单位" Variant="Variant.Text" />
+                    <MudTextField    @bind-Value="@MedicalValue.C1ConcentrationStandard" For="@(() => MedicalValue.C1ConcentrationStandard)" Label="标准化血药浓度" Variant="Variant.Text" />
+                    <MudTextField    @bind-Value="@MedicalValue.C1ConcentrationStandardUnit" For="@(() => MedicalValue.C1ConcentrationStandardUnit)" Label="标准化血药浓度单位" Variant="Variant.Text" />
+                    <MudTextField    @bind-Value="@MedicalValue.C1ConcentrationMethod" For="@(() => MedicalValue.C1ConcentrationMethod)" Label="浓度方法" Variant="Variant.Text" />
+                  
+                        <MudTextField    @bind-Value="@MedicalValue.C1Remarks" For="@(() => MedicalValue.Drugdosage)" Label="备注" Variant="Variant.Text" />
+                                         
+                     <p>How awesome are inline dialogs?</p>
+                     <MudRating @bind-SelectedValue="rating" Class="mt-3"/>
+                </MudCardContent>
+            </MudCard>
+        </EditForm>    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Text" OnClick="@(s=>MudDialog.Cancel())" Class="px-10">取消</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit" Class="px-10">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    /// <summary>
+    /// 标识编辑进入  还是添加进入
+    /// </summary>
+    [Parameter]
+    public bool IsEdit{ set; get; }
+
+    private DialogOptions dialogOptions = new() { FullWidth = true };
+
+    private MedicalPKSamplingsample MedicalValue{ get; set; }
+
+    private int rating { get; set; }= 4;
+
+    private void Submit() => MudDialog.Close();// = false;
+
+
+
+
+    protected override Task OnParametersSetAsync()
+    {
+
+        if(MedicalValue is null)
+        {
+            MedicalValue = new MedicalPKSamplingsample();
+        }
+        return base.OnParametersSetAsync();
+    }
+
+    /// <summary>
+    /// 表单提交
+    /// </summary>
+    /// <param name="editcontext"></param>
+    private void OnValidSubmit(EditContext editcontext)
+    {
+
+        //if (BingPatientInfo is null) return;
+        if (IsEdit)
+        {
+            Edit(editcontext);
+             //Snackbar.Add("数据编辑修改成功",Severity.Success);
+        }
+        else
+        {
+            Create(editcontext);
+             //Snackbar.Add("数据添加成功",Severity.Success);
+
+        }
+
+       
+        StateHasChanged();
+        MudDialog.Close(DialogResult.Ok(editcontext.Model));
+    }
+        /// <summary>
+    /// 编辑数据
+    /// </summary>
+    /// <param name="editcontext"></param>
+    /// <returns></returns>
+    private  Task Edit(EditContext editcontext)
+    {
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// 添加数据
+    /// </summary>
+    /// <param name="editcontext"></param>
+    /// <returns></returns>
+    private  Task Create(EditContext editcontext)
+    {
+        return Task.CompletedTask;
+    }
+
+}

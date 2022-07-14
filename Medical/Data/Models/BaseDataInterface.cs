@@ -40,6 +40,10 @@ namespace Medical.Data.Models
         [DisplayName("患者姓名")]
         public string? Username { set; get; }
 
+
+        /// <summary>
+        /// PatientInfo 的唯一编码
+        /// </summary>
         [DisplayName("唯一编码")]
         public string? Guid { set; get; }
 

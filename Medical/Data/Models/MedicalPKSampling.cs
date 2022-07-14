@@ -18,25 +18,25 @@ namespace Medical.Data.Models
         /// 采集时间
         /// </summary>
         [DisplayName("采集时间")]
-        public DateTime CollectDateTime { set; get; }
+        public DateTime? CollectDateTime { set; get; }
 
         /// <summary>
         ///采血当日开始给药时间
         /// </summary>
         [DisplayName("采血当日开始给药时间")]
-        public DateTime StartDateTime { set; get; }
+        public DateTime? StartDateTime { set; get; }
 
         /// <summary>
         /// 采血当日输注完时间
         /// </summary>
         [DisplayName("采血当日输注完时间")]
-        public DateTime EndDateTime { set; get; }
+        public DateTime? EndDateTime { set; get; }
 
         /// <summary>
         /// 采血前最后一次给药时间
         /// </summary>
         [DisplayName("采血前最后一次给药时间")]
-        public DateTime LastDateTime { set; get; }
+        public DateTime? LastDateTime { set; get; }
 
         /// <summary>
         /// 采血管 CollectingVesselEnum

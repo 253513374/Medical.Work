@@ -66,7 +66,7 @@ namespace Medical.Data.Models
         /// <summary>
         /// 标准化血药浓度单位
         /// </summary>
-        [DisplayName("血药浓度单位")]
+        [DisplayName("标准化血药浓度单位")]
         public string C1ConcentrationStandardUnit { set; get; }// = WeightEnum.mg;
 
         /// <summary>
@@ -86,5 +86,12 @@ namespace Medical.Data.Models
         /// </summary>
         [DisplayName("备注")]
         public string C1Remarks { set; get; }
+
+        /// <summary>
+        /// 采血管 CollectingVesselEnum
+        /// </summary>
+        [DisplayName("采血管")]
+        public string? Collectingvessel { set; get; }
+
     }
 }

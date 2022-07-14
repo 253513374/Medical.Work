@@ -155,6 +155,10 @@
             //new string("R", "R" 
 
         };
+
+        /// <summary>
+        /// 标本类型
+        /// </summary>
         public static IEnumerable<string> SpecimenTypeEnum { set; get; } = new[]
         {
             "血液",

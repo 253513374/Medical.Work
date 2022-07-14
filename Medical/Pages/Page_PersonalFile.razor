@@ -114,7 +114,9 @@ else{
 
     private List<PatientInfo> Patients{ set; get; }
 
-
+    
+    [Inject] 
+    protected AutocompleteService CacheService { set; get; }
 
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -123,8 +125,8 @@ else{
         {
             using var context = DbContextFactory.CreateDbContext();
 
-
-            Patients = await  context.patientInfos.AsNoTracking().Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1)).OrderByDescending(o=>o.Createtime).ToListAsync();
+            Patients  = await CacheService.GetCachePatientInfoToListAsync();
+            Patients =  Patients.Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1)).OrderByDescending(o=>o.Createtime).ToList();
             StateHasChanged();
         }
         //  return base.OnAfterRenderAsync(firstRender);
@@ -170,6 +172,7 @@ else{
         {
             var p = result.Data as PatientInfo;
             Patients.Insert(0,p);
+            await CacheService.SetCachePatientInfokeyAsync(Patients);
             StateHasChanged();
             //In a real world scenario we would reload the data from the source here since we "removed" it in the dialog already.
             // Guid.TryParse(result.Data.ToString(), out Guid deletedServer);

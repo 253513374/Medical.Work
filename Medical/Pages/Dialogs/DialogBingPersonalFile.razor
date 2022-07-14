@@ -159,20 +159,7 @@
 
     protected override async Task OnParametersSetAsync()
     {
-
-        //var listobject ;
-        if (!CacheService.MemoryCache.TryGetValue("CacheService", out  PatientInfos))
-        {
-            var cacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetPriority(priority: CacheItemPriority.NeverRemove);
-            using var context = ContextFactory.CreateDbContext();
-
-            PatientInfos =   await context.patientInfos.AsNoTracking().OrderByDescending(o=>o.Createtime).ToListAsync();
-
-            CacheService.MemoryCache.Set("CacheService", PatientInfos, cacheEntryOptions);
-        }
-
-        // return base.OnParametersSetAsync();
+        PatientInfos  = await CacheService.GetCachePatientInfoToListAsync();
     }
     /// <summary>
     /// 编辑数据
