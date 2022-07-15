@@ -25,7 +25,7 @@ namespace Medical.Data.Models
         /// 采样点
         /// </summary>
         [DisplayName("采样点")]
-        public string SamplingNumber { get; set; } = "C1";
+        public string SamplingNumber { get; set; }
 
         /// <summary>
         /// 样品编号
@@ -43,7 +43,7 @@ namespace Medical.Data.Models
         /// C1采血时间（TIME，hh:mm）
         /// </summary>
         [DisplayName("采血时间")]
-        public DateTime C1bloodcollectiontime { set; get; }
+        public DateTime? C1bloodcollectiontime { set; get; }
 
         /// <summary>
         /// C1浓度

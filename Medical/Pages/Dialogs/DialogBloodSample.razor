@@ -5,7 +5,7 @@
 
 
 @inject ISnackbar Snackbar
-@inject EnumServer EServer;
+@inject EnumServer EServer
 
 <MudDialog>
      <TitleContent>
@@ -23,50 +23,63 @@
                             <MudStack Row="false">
                                 <MudAutocomplete  Clearable="true" T="string" Label="标本类型"  @bind-Value="@MedicalValue.SpecimenType" For="@(() => MedicalValue.SpecimenType)"
                                                 SearchFunc="@OnAutoSearchSpecimenType" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                            
-@*                                <MudTextField    @bind-Value="@MedicalValue.SpecimenType" For="@(() => MedicalValue.SpecimenType)" Label=" 标本类型" Variant="Variant.Text" />*@
                                 <MudTextField   T="DateTime?" Format="s" InputType="InputType.DateTimeLocal"  @bind-Value="@MedicalValue.CollectDateTime" For="@(() => MedicalValue.CollectDateTime)" Label="采集时间" Variant="Variant.Text" />
                                 <MudTextField   T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.StartDateTime" For="@(() => MedicalValue.StartDateTime)" Label="采血当日开始给药时间" Variant="Variant.Text" />
                                 <MudTextField   T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.EndDateTime" For="@(() => MedicalValue.EndDateTime)" Label="采血当日输注完时间" Variant="Variant.Text" />
-                                <MudTextField   T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.LastDateTime" For="@(() => MedicalValue.LastDateTime)" Label="采血前最后一次给药时间" Variant="Variant.Text" >
-                               @* @foreach (var item in EnumItems.Manufacturertype)
-                                {
-                                    <MudSelectItem Value="@item"></MudSelectItem>
-                                }*@
-                                </MudTextField>
-                                   
+                                <MudTextField   T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.LastDateTime" For="@(() => MedicalValue.LastDateTime)" Label="采血前最后一次给药时间" Variant="Variant.Text" />
+
 
                             </MudStack>
 
                         </MudItem>
                         <MudItem  lg="6" md="6" xl="6" sm="12"  >
+                            <MudFab OnClick="OpenCollectingvesselDialog" Color="Color.Tertiary" StartIcon="@Icons.Material.Filled.Add" Label="添加血样试管" />
+                          
+                        
+                            <MudTable T="MedicalPKSamplingsample" Items="@Samplingsamples" Hover="true" Breakpoint="Breakpoint.Sm"  Style="height:300px"  >
+                                <HeaderContent>
+                                
+                                       <MudTh><b>采样点</b></MudTh>
+                                        <MudTh><b>采血试管</b></MudTh>
+                                        <MudTh><b>采血时间</b></MudTh>
+                                        <MudTh><b>操作</b></MudTh>
+                                  
+                                </HeaderContent>
+                                <RowTemplate Context="e">
+                                    <MudTd DataLabel="采样点">@e.SamplingNumber</MudTd>
+                                    <MudTd DataLabel="采血试管">@e.Collectingvessel</MudTd>
+                                    <MudTd DataLabel="采血时间">@e.C1bloodcollectiontime</MudTd>
+                                    <MudTd DataLabel="操作">
+                                        <MudIconButton OnClick="@(s=>OnOpenDialogInfo(e))" Size="Size.Small" Icon="@Icons.Filled.Info" ></MudIconButton>
+                                
+                                    </MudTd>
+                              
+                                </RowTemplate>
+                            </MudTable>
+@*                            <MudSimpleTable Hover="true" Dense="true" FixedHeader="true"  Style="height:300px">
+                                <thead>
+                                    <tr>
+                                        @foreach (var h in headings)
+                                        {
+                                            <th>@h</th>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                      <tr>
+                                        @foreach (var row in Samplingsamples)
+                                        {
+                                            <td>@row.SamplingNumber</td>
+                                            <td>@row.Collectingvessel</td>
+                                            <td>@row.C1bloodcollectiontime</td>
+                                            <td><MudButton  OnClick="@(s=>OnOpenDialogInfo(row))" Size="Size.Small" >11</MudButton></td>
 
-                            <MudButton OnClick="OpenCollectingvesselDialog">采血管</MudButton>
-                           @* <MudStack Row="false">
-                                <MudAutocomplete  Clearable="true" T="string" Label="给药途径" @bind-Value="@MedicalValue.DrugdosageRoute" For="@(() => MedicalValue.DrugdosageRoute)"
-                                                SearchFunc="OnAutoSearchDrugdosageRoute" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                                <MudStack Row="true">
-                                    <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.FirstTime" For="@(() => MedicalValue.FirstTime)" Label=" 药方开始时间" Variant="Variant.Text" />
-                                    <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.LasttTime" For="@(() => MedicalValue.LasttTime)" Label="药方结束时间" Variant="Variant.Text" />
-                                </MudStack>
-                                <MudStack Row="true">
-                                    <MudAutocomplete  Clearable="true" T="string" Label="给药频率"  @bind-Value="@MedicalValue.DrugNCount" For="@(() => MedicalValue.DrugNCount)"
-                                                SearchFunc="@OnAutoSearchDrugNCount" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                                    <MudAutocomplete  Clearable="true" T="string" Label="给药持续时间"  @bind-Value="@MedicalValue.DrugNCountDuration" For="@(() => MedicalValue.DrugNCountDuration)"
-                                                SearchFunc="@OnAutoSearchDrugNCountDuration" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                                </MudStack>
-                                <MudStack Row="true">
-                                    <MudTextField    @bind-Value="@MedicalValue.Drugdosage" For="@(() => MedicalValue.Drugdosage)" Label="单次给药剂量" Variant="Variant.Text" />
-                                     <MudAutocomplete  Clearable="true" T="string" Label="剂量单位"  @bind-Value="@MedicalValue.DrugdosageUnit" For="@(() => MedicalValue.DrugdosageUnit)"
-                                                SearchFunc="@OnAutoSearchDrugdosageUnit" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                                </MudStack>
-                                <MudStack Row="true">
-                                    <MudAutocomplete  Clearable="true" T="string" Label="溶媒"  @bind-Value="@MedicalValue.DrugSpecifications" For="@(() => MedicalValue.DrugSpecifications)"
-                                                    SearchFunc="@OnAutoSearchDrugSpecifications" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                                    <MudTextField    @bind-Value="@MedicalValue.SolventToDosage" For="@(() => MedicalValue.SolventToDosage)" AdornmentText="ml" Label="溶媒计量" Variant="Variant.Text" />
-                                </MudStack>
-                                <MudTextField    @bind-Value="@MedicalValue.AMTsingledose" For="@(() => MedicalValue.AMTsingledose)" Label="公斤体质量日剂量(mg·kg⁻¹·d⁻¹)" Variant="Variant.Text" />
-                            </MudStack>*@
+                                            <MudIconButton OnClick="@(s=>OnOpenDialogInfo(row))" Size="Size.Small" Icon="@Icons.Filled.InfoOutlined" ></MudIconButton>
+                                
+                                        }
+                                    </tr>
+                                </tbody>
+                            </MudSimpleTable>*@
                         </MudItem>
                     </MudGrid>
                 </MudCardContent>
@@ -79,7 +92,6 @@
                 </MudCardActions>
             </MudCard>
         </EditForm>
-
     </DialogContent>
 </MudDialog>
 
@@ -90,7 +102,7 @@
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
-   //   [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    //   [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
 
     [Parameter]
@@ -109,7 +121,7 @@
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
 
-   
+
     /// <summary>
     /// 标识编辑进入  还是添加进入
     /// </summary>
@@ -125,12 +137,69 @@
     //private    void Submit() => CollectingvesselVisible = false;
     [Inject] 
     protected IDialogService DialogService  { get; set; }
- 
 
 
-    private void OpenCollectingvesselDialog()
+    protected List<MedicalPKSamplingsample> Samplingsamples { set; get; } = new List<MedicalPKSamplingsample>();
+
+    private async Task OpenCollectingvesselDialog()
     {
-        DialogService.Show<DialogBloodSample2>("Second Level Dialog");
+        DialogOptions dialogOptions = new() { 
+             FullWidth = true,
+              MaxWidth=MaxWidth.ExtraSmall
+         };
+
+        var parameters = new DialogParameters();
+        parameters.Add("IsEdit",false);
+
+        var dialog =DialogService.Show<DialogBloodSample2>("1",parameters,dialogOptions);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            var p = result.Data as MedicalPKSamplingsample;
+
+            Samplingsamples.Add(p);
+
+            return ;
+        }
+        StateHasChanged();
+
+    }
+
+
+    /// <summary>
+    /// 删除数据采血样试管
+    /// </summary>
+    /// <returns></returns>
+    private async Task OnOpenDialogInfo(MedicalPKSamplingsample samplingsample)
+    {
+
+        DialogOptions dialogOptions = new() { 
+             FullWidth = true,
+              MaxWidth=MaxWidth.ExtraSmall
+         };
+
+        var parameters = new DialogParameters();
+        parameters.Add("MedicalValue",samplingsample);
+        parameters.Add("IsEdit",true);
+        parameters.Add("IsDelete",true);
+
+        var dialog =DialogService.Show<DialogBloodSample2>("1",parameters,dialogOptions);
+
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            var isdelete = (bool)result.Data;
+
+            if(isdelete)
+            {
+                Samplingsamples.Remove(samplingsample);
+            }
+            return ;
+        }
+        StateHasChanged();
+
     }
 
     protected override void OnParametersSet()
@@ -187,6 +256,9 @@
         createModel.Guid = BingPatientInfo.Guid;
         createModel.Username = BingPatientInfo.Username;
         createModel.Medicalrecordnumber = BingPatientInfo.Medicalrecordnumber;
+
+        createModel.medicalPKSamplings = new List<MedicalPKSamplingsample>();
+        createModel.medicalPKSamplings.AddRange(Samplingsamples);
 
         using var context = ContextFactory.CreateDbContext();
         context.MPK_Samplings.Add(createModel);

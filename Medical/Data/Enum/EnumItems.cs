@@ -6,8 +6,7 @@
         /// 标准血浓度测试方法
         /// </summary>
         public static IEnumerable<string> ConcentrationEnum { set; get; } = new[] {
-        "HPLC法","酶联免疫法","质谱法","其他"
-         
+        "HPLC法","酶联免疫法","质谱法"
         };
 
         public static IEnumerable<string> ConcentrationWeightEnum { get; set; } = new[] {
@@ -237,7 +236,7 @@
             //  "","请选择..." 
               "酶法", 
               "干化学法",
-              "其他"
+              
         };
 
         /// <summary>
