@@ -1,6 +1,7 @@
 ﻿using Medical.Data.Enum;
 using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Medical.Data.Models
 {
@@ -13,19 +14,20 @@ namespace Medical.Data.Models
         /// 是否做检查 TestorIsNotEnum
         /// </summary>
         [DisplayName("是否做检查")]
-        public string TestorisNot { set; get; }
+        [Required(ErrorMessage = "必须填写")]
+        public string? TestorisNot { set; get; }
 
         /// <summary>
         /// 测试日期
         /// </summary>
         [DisplayName("检测日期")]
-        public DateTime TestTime { set; get; }
+        public DateTime? TestTime { set; get; }
 
         /// <summary>
         /// 报告时间
         /// </summary>
         [DisplayName("报告时间")]
-        public DateTime ReportTime { set; get; }
+        public DateTime? ReportTime { set; get; }
 
         /// <summary>
         /// 药敏检测方法
@@ -37,19 +39,19 @@ namespace Medical.Data.Models
         /// 药敏检测其他方法
         /// </summary>
         [DisplayName("药敏检测其他方法")]
-        public string DrugsensitivityTestOther { set; get; }
+        public string? DrugsensitivityTestOther { set; get; }
 
         /// <summary>
         /// 药品名称
         /// </summary>
         [DisplayName("药品名称")]
-        public string DrugsName { set; get; }
+        public string? DrugsName { set; get; }
 
         /// <summary>
         /// MIC: 伏立康唑，氟康唑，卡泊芬净，两性霉素B，美罗培南，亚胺培南，头孢他啶，复方磺胺甲噁唑，头孢哌酮舒巴坦钠，头孢哌酮他唑巴坦，哌拉西林他唑巴坦，替加环素，达托霉素……..
         /// </summary>
         [DisplayName("MIC(mg/ml)")]
-        public string MIC { set; get; }
+        public string? MIC { set; get; }
 
         /// <summary>
         /// 敏感性
@@ -61,12 +63,12 @@ namespace Medical.Data.Models
         /// T>MIC%
         /// </summary>
         [DisplayName("T>MIC%")]
-        public string TMic { set; get; }
+        public string? TMic { set; get; }
 
         /// <summary>
         /// AUCSS,24h/MIC
         /// </summary>
         [DisplayName("AUCSS,24h/MIC")]
-        public string AUCMic { set; get; }
+        public string? AUCMic { set; get; }
     }
 }

@@ -119,7 +119,10 @@ else{
             //Loading = true;
             using var context = DbContextFactory.CreateDbContext();
 
-            MedicalPKs = await  context.MPKs.AsNoTracking().Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1)).OrderByDescending(o=>o.Createtime).ToListAsync();
+            MedicalPKs = await  context.MPKs.AsNoTracking()
+                                            .Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1))
+                                            .OrderByDescending(o => o.Createtime)
+                                            .ToListAsync();
 
            // Loading = false;
             StateHasChanged();

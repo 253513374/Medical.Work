@@ -123,7 +123,11 @@ else{
             //Loading = true;
             using var context = DbContextFactory.CreateDbContext();
 
-            MedicalPG_Pharmacogenomics = await  context.MPG_Pharmacogenomics.AsNoTracking().Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1)).ToListAsync();
+            MedicalPG_Pharmacogenomics = await  context.MPG_Pharmacogenomics
+                                                        .AsNoTracking()
+                                                        .Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1))
+                                                        .OrderByDescending(o=>o.Createtime)
+                                                        .ToListAsync();
 
            // Loading = false;
             StateHasChanged();
@@ -158,20 +162,16 @@ else{
     private async Task OnOpenDialog()
     {
         DialogOptions dialogOptions = new DialogOptions();
-        dialogOptions.CloseButton = true;
-        dialogOptions.MaxWidth = MaxWidth.Medium; 
-        dialogOptions.FullWidth = true;
-        dialogOptions.DisableBackdropClick = true;
+        dialogOptions.MaxWidth = MaxWidth.Small; 
         //var parameters = new DialogParameters();
         //parameters.Add("TemplateData",SelectTemplate);
-        var dialog = DialogService.Show<DialogPrescription>("99",dialogOptions);
+        var dialog = DialogService.Show<DialogPharmacogenomics>("99",dialogOptions);
         var result = await dialog.Result;
 
         if (!result.Cancelled)
         {
-            //In a real world scenario we would reload the data from the source here since we "removed" it in the dialog already.
-            // Guid.TryParse(result.Data.ToString(), out Guid deletedServer);
-            //Servers.RemoveAll(item => item.Id == deletedServer);
+            var p = result.Data as MedicalPG_Pharmacogenomics;
+            MedicalPG_Pharmacogenomics.Insert(0,p);
             return ;
         }
     }
@@ -179,19 +179,17 @@ else{
     private async Task OnEditPatientInfo(MedicalPG_Pharmacogenomics  MedicalPG_Pharmacogenomics)
     {
         DialogOptions dialogOptions = new DialogOptions();
-        dialogOptions.CloseButton = true;
-        dialogOptions.MaxWidth = MaxWidth.Medium; 
-        dialogOptions.FullWidth = true;
-        dialogOptions.DisableBackdropClick = true;
-
+        dialogOptions.MaxWidth = MaxWidth.Small; 
+        
         var parameters = new DialogParameters();
-        parameters.Add("MedicalPG_Pharmacogenomics",MedicalPG_Pharmacogenomics);
-        parameters.Add("IsEditMedicalPK",true);
+        parameters.Add("MedicalValue",MedicalPG_Pharmacogenomics);
+        parameters.Add("IsEdit",true);
 
-        var dialog = DialogService.Show<DialogPrescription>("99",parameters,dialogOptions);
+        var dialog = DialogService.Show<DialogPharmacogenomics>("99",parameters,dialogOptions);
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
+           
             return ;
         }
     }

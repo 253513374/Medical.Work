@@ -5,6 +5,12 @@ namespace Medical.Data.Models
 {
     public class MedicalPKSamplingsample
     {
+
+
+        /// <summary>
+        /// 唯一编码
+        /// </summary>
+        public string SamplingGuid { set; get; }
         /// <summary>
         /// 外键
         /// </summary>
@@ -25,6 +31,7 @@ namespace Medical.Data.Models
         /// 采样点
         /// </summary>
         [DisplayName("采样点")]
+        [Required(ErrorMessage = "必须填写")]
         public string SamplingNumber { get; set; }
 
         /// <summary>
@@ -43,6 +50,7 @@ namespace Medical.Data.Models
         /// C1采血时间（TIME，hh:mm）
         /// </summary>
         [DisplayName("采血时间")]
+        [Required(ErrorMessage = "必须填写")]
         public DateTime? C1bloodcollectiontime { set; get; }
 
         /// <summary>
@@ -91,6 +99,7 @@ namespace Medical.Data.Models
         /// 采血管 CollectingVesselEnum
         /// </summary>
         [DisplayName("采血管")]
+        [Required(ErrorMessage = "必须填写")]
         public string? Collectingvessel { set; get; }
 
     }

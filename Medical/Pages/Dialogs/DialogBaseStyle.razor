@@ -6,6 +6,7 @@
      <TitleContent></TitleContent>
     
     <DialogContent>
+        @*<DialogBingPersonalFile BingPatientInfo="@(BingPatientInfo is null?null:BingPatientInfo)"  Tile="采样信息" BingPatientInfoChanged="@OnBingPersonalFile" ></DialogBingPersonalFile>*@
         <EditForm Model="@Tobject" OnValidSubmit="OnValidSubmit">
             <DataAnnotationsValidator/>
             <MudCard Elevation="0" >

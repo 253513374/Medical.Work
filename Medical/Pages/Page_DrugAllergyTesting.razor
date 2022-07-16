@@ -124,7 +124,11 @@ else{
             //Loading = true;
             using var context = DbContextFactory.CreateDbContext();
 
-            MedicalPD_DrugAllergies = await  context.MPD_Drugs.AsNoTracking().Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1)).ToListAsync();
+            MedicalPD_DrugAllergies = await  context.MPD_Drugs
+                                                .AsNoTracking()
+                                                .Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1))
+                                                .OrderByDescending(o => o.Createtime)
+                                                .ToListAsync();
 
            // Loading = false;
             StateHasChanged();
@@ -159,20 +163,16 @@ else{
     private async Task OnOpenDialog()
     {
         DialogOptions dialogOptions = new DialogOptions();
-        dialogOptions.CloseButton = true;
-        dialogOptions.MaxWidth = MaxWidth.Medium; 
-        dialogOptions.FullWidth = true;
-        dialogOptions.DisableBackdropClick = true;
+        dialogOptions.MaxWidth = MaxWidth.Small; 
         //var parameters = new DialogParameters();
         //parameters.Add("TemplateData",SelectTemplate);
-        var dialog = DialogService.Show<DialogPrescription>("99",dialogOptions);
+        var dialog = DialogService.Show<DialogDrugAllergyTesting>("99",dialogOptions);
         var result = await dialog.Result;
 
         if (!result.Cancelled)
         {
-            //In a real world scenario we would reload the data from the source here since we "removed" it in the dialog already.
-            // Guid.TryParse(result.Data.ToString(), out Guid deletedServer);
-            //Servers.RemoveAll(item => item.Id == deletedServer);
+            var p = result.Data as MedicalPD_DrugAllergy;
+            MedicalPD_DrugAllergies.Insert(0,p);
             return ;
         }
     }
@@ -180,16 +180,13 @@ else{
     private async Task OnEditPatientInfo(MedicalPD_DrugAllergy  MedicalPD_DrugAllergy)
     {
         DialogOptions dialogOptions = new DialogOptions();
-        dialogOptions.CloseButton = true;
-        dialogOptions.MaxWidth = MaxWidth.Medium; 
-        dialogOptions.FullWidth = true;
-        dialogOptions.DisableBackdropClick = true;
+        dialogOptions.MaxWidth = MaxWidth.Small; 
 
         var parameters = new DialogParameters();
-        parameters.Add("MedicalPD_DrugAllergy",MedicalPD_DrugAllergy);
-        parameters.Add("IsEditMedicalPK",true);
+        parameters.Add("MedicalValue",MedicalPD_DrugAllergy);
+        parameters.Add("IsEdit",true);
 
-        var dialog = DialogService.Show<DialogPrescription>("99",parameters,dialogOptions);
+        var dialog = DialogService.Show<DialogDrugAllergyTesting>("99",parameters,dialogOptions);
         var result = await dialog.Result;
         if (!result.Cancelled)
         {

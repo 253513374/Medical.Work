@@ -6,20 +6,50 @@ namespace Medical.Data
     public class MedicalDbContext : DbContext
     {
         // public DbSet<MedicalDGK> medicalDGKs { set; get; }
+
+        /// <summary>
+        /// 药敏试验
+        /// </summary>
         public DbSet<MedicalPD_DrugAllergy> MPD_Drugs { set; get; }
 
+        /// <summary>
+        /// 临床微生物
+        /// </summary>
         public DbSet<MedicalPD_Microbiological> MPD_Microbiologicals { set; get; }
 
+
+        /// <summary>
+        /// 药物基因组学
+        /// </summary>
         public DbSet<MedicalPG_Pharmacogenomics> MPG_Pharmacogenomics { set; get; }
 
+        /// <summary>
+        /// 病原菌基因
+        /// </summary>
         public DbSet<MedicalPG_PathogenGene> MPG_PathogenGenes { set; get; }
 
+
+        /// <summary>
+        /// 给药方案
+        /// </summary>
         public DbSet<MedicalPK> MPKs { set; get; }
+
+        /// <summary>
+        /// 采集信息
+        /// </summary>
         public DbSet<MedicalPKSampling> MPK_Samplings { set; get; }
         public DbSet<MedicalPKSamplingsample> MPK_Sampling_Samples { set; get; }
+
+        /// <summary>
+        /// 个人基础信息
+        /// </summary>
         public DbSet<PatientInfo> patientInfos { set; get; }
 
         public DbSet<PatientInfoExDiagnosisTable> patientInfoExDiagnosisTables { set; get; }
+
+        /// <summary>
+        /// 联系人
+        /// </summary>
         public DbSet<Contacts> Contacts { set; get; }
 
         public DbSet<Summaryreport> Summaryreports { set; get; }
@@ -32,6 +62,10 @@ namespace Medical.Data
         public DbSet<X_raybronchoscopyPaths> x_RaybronchoscopyPaths { set; get; }
         public DbSet<X_raypathologicalPaths> x_RaypathologicalPaths { set; get; }
 
+
+        /// <summary>
+        /// 生物实验室检查
+        /// </summary>
         public DbSet<LaboratoryExamination> laboratoryExaminations { set; get; }
 
         public MedicalDbContext(DbContextOptions<MedicalDbContext> options)

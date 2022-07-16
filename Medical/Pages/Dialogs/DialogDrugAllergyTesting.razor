@@ -1,5 +1,217 @@
-﻿<h3>DialogDrugAllergyTesting</h3>
+﻿
 
+
+@inject ISnackbar Snackbar
+@inject EnumServer EServer;
+
+<MudDialog>
+     <TitleContent>
+    </TitleContent>
+    
+    <DialogContent>
+        <DialogBingPersonalFile BingPatientInfo="@(BingPatientInfo is null ? null: BingPatientInfo)"  Tile="药敏试验检查" BingPatientInfoChanged="@OnBingPersonalFile" ></DialogBingPersonalFile>
+        <EditForm  Model="@MedicalValue" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator/>
+            <MudCard Elevation="0" >
+                <MudCardContent>
+                  <MudStack Row="false" Spacing="3" >
+                       <MudField Label=" * 是否做检查？" Variant="Variant.Outlined" InnerPadding="false">
+                        <MudRadioGroup T="string" @bind-SelectedOption="@MedicalValue.TestorisNot">
+                            <MudRadio T="string" Option="@("已检查")">已检查</MudRadio>
+                            <MudRadio T="string" Option="@("未检查")" >未检查</MudRadio>
+                        </MudRadioGroup>
+                    </MudField>
+
+                    <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.TestTime" For="@(() => MedicalValue.TestTime)" Label="检查日期" Variant="Variant.Text" />
+                    <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.ReportTime" For="@(() => MedicalValue.ReportTime)" Label="报告日期" Variant="Variant.Text" />
+       @*             <MudField Class="my-2" Label="是否检出结果？" Variant="Variant.Outlined" InnerPadding="false">
+                        <MudRadioGroup T="string" @bind-SelectedOption="@MedicalValue.TestorNot">
+                            <MudRadio T="string" Option="@("已检出")">已检出</MudRadio>
+                            <MudRadio T="string" Option="@("未检出")" >未检出</MudRadio>
+                        </MudRadioGroup>
+                    </MudField>
+               *@
+
+                    <MudStack Row="true">
+                        <MudTextField  @bind-Value="@MedicalValue.DrugsName" For="@(() => MedicalValue.DrugsName)" Label="药品名称" Variant="Variant.Text" />
+                        <MudAutocomplete  Clearable="true" T="string" Label="药敏检测方法" @bind-Value="@MedicalValue.DrugsensitivityTest" For="@(() => MedicalValue.DrugsensitivityTest)"
+                                                        SearchFunc="OnAutoSearchDrugsensitivityTest" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
+                    </MudStack>
+                    
+                    @*<MudAutocomplete  Clearable="true" T="string" Label="MIC(mg/ml)" @bind-Value="@MedicalValue.MIC" For="@(() => MedicalValue.MIC)"
+                                                SearchFunc="OnAutoSearchMIC" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
+                   *@  
+                   <MudStack Row="true">
+                        <MudTextField    @bind-Value="@MedicalValue.MIC" For="@(() => MedicalValue.MIC)" Label="MIC(mg/ml)" Variant="Variant.Text" />
+                       
+                        <MudTextField    @bind-Value="@MedicalValue.TMic" For="@(() => MedicalValue.TMic)" Label="T>MIC%" Variant="Variant.Text" />
+                        <MudTextField    @bind-Value="@MedicalValue.AUCMic" For="@(() => MedicalValue.AUCMic)" Label="AUCSS,24h/MIC" Variant="Variant.Text" />
+                    </MudStack>
+                          
+                </MudStack>
+                </MudCardContent>
+
+                 <MudCardActions  Class="my-5">
+                    <MudStack Row="true" Justify="Justify.FlexEnd"  Style="width:100%" >
+                        <MudButton OnClick="@(s=> MudDialog.Cancel())">取消</MudButton>
+                        <MudButton StartIcon="@Icons.Outlined.Save"  ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" >保存</MudButton>
+                    </MudStack>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+
+    </DialogContent>
+</MudDialog>
 @code {
 
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+
+    /// <summary>
+    /// 缓存服务
+    /// </summary>
+    [Inject]
+    protected AutocompleteService AutocompleteService { set; get; }
+
+
+    [Inject]
+    protected IDbContextFactory<MedicalDbContext> ContextFactory{ set; get; }
+
+    [Parameter]
+    public MedicalPD_DrugAllergy MedicalValue { set; get; } 
+
+    /// <summary>
+    /// 当前方案绑定的个人基本信息
+    /// 表示添加的方案属于哪个患者
+    /// </summary>
+    /// [Required(ErrorMessage = "PatientInfo必须填写")]
+    private PatientInfo? BingPatientInfo{ set; get; } 
+
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+
+    /// <summary>
+    /// 标识编辑进入  还是添加进入
+    /// </summary>
+    [Parameter]
+    public bool IsEdit{ set; get; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if(MedicalValue is  null)
+        {
+            MedicalValue = new  MedicalPD_DrugAllergy();
+        }
+        else
+        {
+            BingPatientInfo = await AutocompleteService.GetCachePatientInfokeyAsync(MedicalValue.Guid);
+        }
+
+        // base.OnParametersSet();
+    }
+
+
+
+    /// <summary>
+    /// 表单提交
+    /// </summary>
+    /// <param name="editcontext"></param>
+    private void OnValidSubmit(EditContext editcontext)
+    {
+        if (BingPatientInfo is null) return;
+        if (IsEdit)
+        {
+            Edit(editcontext);
+        }
+        else
+        {
+            Create(editcontext);
+        }
+
+        Snackbar.Add("数据添加成功",Severity.Success);
+        StateHasChanged();
+        MudDialog.Close(DialogResult.Ok(editcontext.Model));
+    }
+
+    private  Task Edit(EditContext editcontext)
+    {
+        var editModel = (MedicalPD_DrugAllergy)editcontext.Model;
+
+        editModel.Guid = BingPatientInfo.Guid;
+        editModel.Createtime = DateTime.Now;
+        editModel.Username = BingPatientInfo.Username;
+
+
+        using var context = ContextFactory.CreateDbContext();
+        context.MPD_Drugs.Update(editModel);
+        context.SaveChanges();
+
+        return Task.CompletedTask;
+    }
+
+    private  Task Create(EditContext editcontext)
+    {
+        var username = authenticationStateTask.Result.User.Identity.Name;
+        var  createModel = (MedicalPD_DrugAllergy)editcontext.Model;
+        createModel.Adminname = username;
+        createModel.Createtime = DateTime.Now;
+        createModel.Guid = BingPatientInfo.Guid;
+        createModel.Username = BingPatientInfo.Username;
+        createModel.Medicalrecordnumber = BingPatientInfo.Medicalrecordnumber;
+
+        using var context = ContextFactory.CreateDbContext();
+        context.MPD_Drugs.Add(createModel);
+        context.SaveChanges();
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// 药敏检测方法
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<string>> OnAutoSearchDrugsensitivityTest(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return EnumItems.DrugsensitivityEnum;
+        return EnumItems.DrugsensitivityEnum.Where(x => x.Contains(value));
+    }
+
+    /// <summary>
+    /// 敏感性
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<string>> OnAutoSearchSusceptibility(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return EnumItems.SusceptibilityEnum;
+        return EnumItems.SusceptibilityEnum.Where(x => x.Contains(value));
+    }
+
+    /// <summary>
+    /// MIC
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<string>> OnAutoSearchMIC(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return EnumItems.MICEnum;
+        return EnumItems.MICEnum.Where(x => x.Contains(value));
+    }
+    
+
+
+    private  Task OnBingPersonalFile(PatientInfo patient)
+    {
+        BingPatientInfo = patient;
+        
+        return Task.CompletedTask;
+    }
+
+    
+    
 }

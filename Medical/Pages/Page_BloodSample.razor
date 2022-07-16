@@ -68,7 +68,7 @@ else{
                           
             <MudTd >
                 <MudTooltip Text="编辑档案">
-                    <MudIconButton  OnClick="@(s=>OnEditPatientInfo(context))"  Color="Color.Info" Size="Size.Medium" Icon="@Icons.Outlined.ModeEdit" Variant="Variant.Text" >  </MudIconButton>
+                    <MudIconButton  OnClick="@(s=>OnEdit(context))"  Color="Color.Info" Size="Size.Medium" Icon="@Icons.Outlined.ModeEdit" Variant="Variant.Text" >  </MudIconButton>
                 </MudTooltip>
                 <MudTooltip Text="删除数据">
                         <MudIconButton Class="mx-3" Color="Color.Error"  Size="Size.Medium" Icon="@Icons.Outlined.DeleteSweep" Variant="Variant.Text" >   </MudIconButton>
@@ -102,7 +102,7 @@ else{
 
     List<MedicalPKSampling>   MedicalPKSamplings{ set; get; }
 
-        /// <summary>
+    /// <summary>
     /// 默认查询的时间范围(1个月时间)
     ///  DateTime dateTime = DateRangeValue.End.AddDays(1).AddMilliseconds(-1);
     ///  ListCertificates = _DbContext.TableCertificates.Where(w => w.CreateTime >= DateRangeValue.Start && w.CreateTime <= dateTime).ToList();
@@ -117,16 +117,19 @@ else{
             //Loading = true;
             using var context = DbContextFactory.CreateDbContext();
 
-            MedicalPKSamplings = await  context.MPK_Samplings.AsNoTracking().Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1)).ToListAsync();
-
-           // Loading = false;
+            MedicalPKSamplings = await  context.MPK_Samplings
+                                            .AsNoTracking()
+                                            //.Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1))
+                                            .Include(i=>i.medicalPKSamplings)
+                                            .OrderByDescending(o=>o.Createtime)
+                                            .ToListAsync();
             StateHasChanged();
         }
         //  return base.OnAfterRenderAsync(firstRender);
     }
 
-        /// <summary>
-    /// 选择时间对话框确认选择
+    /// <summary>
+    /// 选择时间范围对话框确认选择
     /// </summary>
     /// <returns></returns>
     private async Task  PickerOK(){
@@ -151,14 +154,9 @@ else{
 
     private async Task OnOpenDialog()
     {
-        DialogOptions dialogOptions = new DialogOptions();
-        dialogOptions.CloseButton = true;
-        dialogOptions.MaxWidth = MaxWidth.Medium; 
-        dialogOptions.FullWidth = true;
-        dialogOptions.DisableBackdropClick = true;
         //var parameters = new DialogParameters();
         //parameters.Add("TemplateData",SelectTemplate);
-        var dialog = DialogService.Show<DialogBloodSample>("99",dialogOptions);
+        var dialog = DialogService.Show<DialogBloodSample>("99");
         var result = await dialog.Result;
 
         if (!result.Cancelled)
@@ -169,7 +167,13 @@ else{
         }
     }
 
-    private async Task OnEditPatientInfo(MedicalPKSampling  MedicalPKSampling)
+
+    /// <summary>
+    /// 编辑修改采样信息
+    /// </summary>
+    /// <param name="MedicalPKSampling"></param>
+    /// <returns></returns>
+    private async Task OnEdit(MedicalPKSampling  MedicalPKSampling)
     {
         DialogOptions dialogOptions = new DialogOptions();
         dialogOptions.CloseButton = true;

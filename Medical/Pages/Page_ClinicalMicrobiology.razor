@@ -125,7 +125,11 @@ else{
             //Loading = true;
             using var context = DbContextFactory.CreateDbContext();
 
-            MedicalPD_Microbiologicals = await  context.MPD_Microbiologicals.AsNoTracking().Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1)).ToListAsync();
+            MedicalPD_Microbiologicals = await  context.MPD_Microbiologicals
+                                                .AsNoTracking()
+                                                .Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1))
+                                                .OrderByDescending(o => o.Createtime)
+                                                .ToListAsync();
 
            // Loading = false;
             StateHasChanged();
@@ -161,19 +165,18 @@ else{
     {
         DialogOptions dialogOptions = new DialogOptions();
         dialogOptions.CloseButton = true;
-        dialogOptions.MaxWidth = MaxWidth.Medium; 
+        dialogOptions.MaxWidth = MaxWidth.Small; 
         dialogOptions.FullWidth = true;
         dialogOptions.DisableBackdropClick = true;
         //var parameters = new DialogParameters();
         //parameters.Add("TemplateData",SelectTemplate);
-        var dialog = DialogService.Show<DialogPrescription>("99",dialogOptions);
+        var dialog = DialogService.Show<DialogClinicalMicrobiology>("99",dialogOptions);
         var result = await dialog.Result;
 
         if (!result.Cancelled)
         {
-            //In a real world scenario we would reload the data from the source here since we "removed" it in the dialog already.
-            // Guid.TryParse(result.Data.ToString(), out Guid deletedServer);
-            //Servers.RemoveAll(item => item.Id == deletedServer);
+            var p = result.Data as MedicalPD_Microbiological;
+            MedicalPD_Microbiologicals.Insert(0,p);
             return ;
         }
     }
@@ -187,10 +190,10 @@ else{
         dialogOptions.DisableBackdropClick = true;
 
         var parameters = new DialogParameters();
-        parameters.Add("MedicalPD_Microbiological",MedicalPD_Microbiological);
-        parameters.Add("IsEditMedicalPK",true);
+        parameters.Add("MedicalValue",MedicalPD_Microbiological);
+        parameters.Add("IsEdit",true);
 
-        var dialog = DialogService.Show<DialogPrescription>("99",parameters,dialogOptions);
+        var dialog = DialogService.Show<DialogClinicalMicrobiology>("99",parameters,dialogOptions);
         var result = await dialog.Result;
         if (!result.Cancelled)
         {

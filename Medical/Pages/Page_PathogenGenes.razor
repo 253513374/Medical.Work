@@ -116,7 +116,11 @@ else{
             //Loading = true;
             using var context = DbContextFactory.CreateDbContext();
 
-            MedicalPG_PathogenGenes = await  context.MPG_PathogenGenes.AsNoTracking().Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1)).ToListAsync();
+            MedicalPG_PathogenGenes = await  context.MPG_PathogenGenes
+                                                .AsNoTracking()
+                                                .Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1))
+                                                .OrderByDescending(o => o.Createtime)
+                                                .ToListAsync();
 
            // Loading = false;
             StateHasChanged();
@@ -131,7 +135,7 @@ else{
     private async Task  PickerOK(){
 
         rangePicker.Close();
-
+        
         if (MedicalPG_PathogenGenes is not null) MedicalPG_PathogenGenes.Clear();
         //if (Certificates is not null) Certificates.Clear();
 
@@ -151,20 +155,16 @@ else{
     private async Task OnOpenDialog()
     {
         DialogOptions dialogOptions = new DialogOptions();
-        dialogOptions.CloseButton = true;
-        dialogOptions.MaxWidth = MaxWidth.Medium; 
-        dialogOptions.FullWidth = true;
-        dialogOptions.DisableBackdropClick = true;
+        dialogOptions.MaxWidth = MaxWidth.Small; 
         //var parameters = new DialogParameters();
         //parameters.Add("TemplateData",SelectTemplate);
-        var dialog = DialogService.Show<DialogPrescription>("99",dialogOptions);
+        var dialog = DialogService.Show<DialogPathogenGenes>("99",dialogOptions);
         var result = await dialog.Result;
 
         if (!result.Cancelled)
         {
-            //In a real world scenario we would reload the data from the source here since we "removed" it in the dialog already.
-            // Guid.TryParse(result.Data.ToString(), out Guid deletedServer);
-            //Servers.RemoveAll(item => item.Id == deletedServer);
+             var p = result.Data as MedicalPG_PathogenGene;
+            MedicalPG_PathogenGenes.Insert(0,p);
             return ;
         }
     }
@@ -172,16 +172,13 @@ else{
     private async Task OnEditPatientInfo(MedicalPG_PathogenGene  MedicalPG_PathogenGenes)
     {
         DialogOptions dialogOptions = new DialogOptions();
-        dialogOptions.CloseButton = true;
-        dialogOptions.MaxWidth = MaxWidth.Medium; 
-        dialogOptions.FullWidth = true;
-        dialogOptions.DisableBackdropClick = true;
+        dialogOptions.MaxWidth = MaxWidth.Small; 
 
         var parameters = new DialogParameters();
-        parameters.Add("MedicalPG_PathogenGenes",MedicalPG_PathogenGenes);
-        parameters.Add("IsEditMedicalPK",true);
+        parameters.Add("MedicalValue",MedicalPG_PathogenGenes);
+        parameters.Add("IsEdit",true);
 
-        var dialog = DialogService.Show<DialogPrescription>("99",parameters,dialogOptions);
+        var dialog = DialogService.Show<DialogPathogenGenes>("99",parameters,dialogOptions);
         var result = await dialog.Result;
         if (!result.Cancelled)
         {

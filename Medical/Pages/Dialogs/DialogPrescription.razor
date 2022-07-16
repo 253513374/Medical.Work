@@ -9,7 +9,7 @@
     </TitleContent>
     
     <DialogContent>
-        <DialogBingPersonalFile  Tile="给药方案" BingPatientInfoChanged="@OnBingPersonalFile" ></DialogBingPersonalFile>
+        <DialogBingPersonalFile BingPatientInfo="@(BingPatientInfo is null ? null: BingPatientInfo)"  Tile="给药方案" BingPatientInfoChanged="@OnBingPersonalFile" ></DialogBingPersonalFile>
         <EditForm Model="@medicalPK" OnValidSubmit="OnValidSubmit">
             <DataAnnotationsValidator/>
             <MudCard Elevation="0" >
@@ -88,13 +88,18 @@
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
 
-    [Parameter]
-    public MedicalPK medicalPK { set; get; } 
+    /// <summary>
+    /// 缓存服务
+    /// </summary>
+    [Inject]
+    protected AutocompleteService AutocompleteService { set; get; }
+
 
     [Inject]
     protected IDbContextFactory<MedicalDbContext> ContextFactory{ set; get; }
 
-
+    [Parameter]
+    public MedicalPK medicalPK { set; get; } 
 
     /// <summary>
     /// 当前方案绑定的个人基本信息
@@ -118,14 +123,18 @@
     [Parameter]
     public bool IsEdit{ set; get; }
 
-    protected override void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
         if(medicalPK is  null)
         {
             medicalPK = new  MedicalPK();
         }
+        else
+        {
+            BingPatientInfo = await AutocompleteService.GetCachePatientInfokeyAsync(medicalPK.Guid);
+        }
 
-        base.OnParametersSet();
+        // base.OnParametersSet();
     }
 
 
@@ -156,6 +165,12 @@
     private  Task Edit(EditContext editcontext)
     {
         var editModel = (MedicalPK)editcontext.Model;
+
+        editModel.Guid = BingPatientInfo.Guid;
+        editModel.Createtime = DateTime.Now;
+        editModel.Username = BingPatientInfo.Username;
+
+
         using var context = ContextFactory.CreateDbContext();
         context.MPKs.Update(editModel);
         context.SaveChanges();

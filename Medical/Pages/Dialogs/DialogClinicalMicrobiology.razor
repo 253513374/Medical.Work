@@ -1,5 +1,230 @@
-﻿<h3>w微生物检测</h3>
+﻿
 
+
+@inject ISnackbar Snackbar
+@inject EnumServer EServer;
+
+<MudDialog>
+     <TitleContent>
+    </TitleContent>
+    
+    <DialogContent>
+        <DialogBingPersonalFile BingPatientInfo="@(BingPatientInfo is null ? null: BingPatientInfo)"  Tile="临床微生物检查" BingPatientInfoChanged="@OnBingPersonalFile" ></DialogBingPersonalFile>
+        <EditForm  Model="@MedicalValue" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator/>
+            <MudCard Elevation="0" >
+                <MudCardContent>
+                  <MudStack Row="false" Spacing="3" >
+                       <MudField Label=" * 是否做检查？" Variant="Variant.Outlined" InnerPadding="false">
+                        <MudRadioGroup T="string" @bind-SelectedOption="@MedicalValue.TestorisNot">
+                            <MudRadio T="string" Option="@("已检查")">已检查</MudRadio>
+                            <MudRadio T="string" Option="@("未检查")" >未检查</MudRadio>
+                        </MudRadioGroup>
+                    </MudField>
+
+                    <MudField Class="my-2" Label="是否检出结果？" Variant="Variant.Outlined" InnerPadding="false">
+                        <MudRadioGroup T="string" @bind-SelectedOption="@MedicalValue.TestorNot">
+                            <MudRadio T="string" Option="@("已检出")">已检出</MudRadio>
+                            <MudRadio T="string" Option="@("未检出")" >未检出</MudRadio>
+                        </MudRadioGroup>
+                    </MudField>
+               
+                    <MudAutocomplete  Clearable="true" T="string" Label="标本类型" @bind-Value="@MedicalValue.SpecimenType" For="@(() => MedicalValue.SpecimenType)"
+                                                SearchFunc="OnAutoSearchSpecimenType" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
+                    <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.TestTime" For="@(() => MedicalValue.TestTime)" Label="检查日期" Variant="Variant.Text" />
+                    <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.ReportTime" For="@(() => MedicalValue.ReportTime)" Label="报告日期" Variant="Variant.Text" />
+                    <MudTextField  Lines="2"  @bind-Value="@MedicalValue.Bacterial" For="@(() => MedicalValue.Bacterial)" Label="检查结果（检出细菌）" Variant="Variant.Text" />
+                           
+                  </MudStack>
+                </MudCardContent>
+
+                 <MudCardActions  Class="my-5">
+                    <MudStack Row="true" Justify="Justify.FlexEnd"  Style="width:100%" >
+                        <MudButton OnClick="@(s=> MudDialog.Cancel())">取消</MudButton>
+                        <MudButton StartIcon="@Icons.Outlined.Save"  ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" >保存</MudButton>
+                    </MudStack>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+
+    </DialogContent>
+</MudDialog>
 @code {
 
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+
+    /// <summary>
+    /// 缓存服务
+    /// </summary>
+    [Inject]
+    protected AutocompleteService AutocompleteService { set; get; }
+
+
+    [Inject]
+    protected IDbContextFactory<MedicalDbContext> ContextFactory{ set; get; }
+
+    [Parameter]
+    public MedicalPD_Microbiological MedicalValue { set; get; } 
+
+    /// <summary>
+    /// 当前方案绑定的个人基本信息
+    /// 表示添加的方案属于哪个患者
+    /// </summary>
+    /// [Required(ErrorMessage = "PatientInfo必须填写")]
+    private PatientInfo? BingPatientInfo{ set; get; } 
+
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+
+    /// <summary>
+    /// 标识编辑进入  还是添加进入
+    /// </summary>
+    [Parameter]
+    public bool IsEdit{ set; get; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if(MedicalValue is  null)
+        {
+            MedicalValue = new  MedicalPD_Microbiological();
+        }
+        else
+        {
+            BingPatientInfo = await AutocompleteService.GetCachePatientInfokeyAsync(MedicalValue.Guid);
+        }
+
+        // base.OnParametersSet();
+    }
+
+
+
+    /// <summary>
+    /// 表单提交
+    /// </summary>
+    /// <param name="editcontext"></param>
+    private void OnValidSubmit(EditContext editcontext)
+    {
+
+        if (BingPatientInfo is null) return;
+        if (IsEdit)
+        {
+            Edit(editcontext);
+        }
+        else
+        {
+            Create(editcontext);
+
+        }
+
+        Snackbar.Add("数据添加成功",Severity.Success);
+        StateHasChanged();
+        MudDialog.Close(DialogResult.Ok(editcontext.Model));
+    }
+
+    private  Task Edit(EditContext editcontext)
+    {
+        var editModel = (MedicalPD_Microbiological)editcontext.Model;
+
+        editModel.Guid = BingPatientInfo.Guid;
+        editModel.Createtime = DateTime.Now;
+        editModel.Username = BingPatientInfo.Username;
+
+
+        using var context = ContextFactory.CreateDbContext();
+        context.MPD_Microbiologicals.Update(editModel);
+        context.SaveChanges();
+
+        return Task.CompletedTask;
+    }
+
+    private  Task Create(EditContext editcontext)
+    {
+        var username = authenticationStateTask.Result.User.Identity.Name;
+        var  createModel = (MedicalPD_Microbiological)editcontext.Model;
+        createModel.Adminname = username;
+        createModel.Createtime = DateTime.Now;
+        createModel.Guid = BingPatientInfo.Guid;
+        createModel.Username = BingPatientInfo.Username;
+        createModel.Medicalrecordnumber = BingPatientInfo.Medicalrecordnumber;
+
+        using var context = ContextFactory.CreateDbContext();
+        context.MPD_Microbiologicals.Add(createModel);
+        context.SaveChanges();
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// 标本类型自动完成
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<string>> OnAutoSearchSpecimenType(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return EnumItems.SpecimenTypeEnum;
+        return EnumItems.SpecimenTypeEnum.Where(x => x.Contains(value));
+    }
+
+
+    /// <summary>
+    /// 给药频率
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<string>> OnAutoSearchDrugNCount(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return EnumItems.DrugNCountEnum;
+        return EnumItems.DrugNCountEnum.Where(x => x.Contains(value));
+    }
+
+
+    /// <summary>
+    /// 给药持续时间
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<string>> OnAutoSearchDrugNCountDuration(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return EnumItems.DrugNCountDurationEnum;
+        return EnumItems.DrugNCountDurationEnum.Where(x => x.Contains(value));
+    }
+
+    /// <summary>
+    /// 给药途径
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<string>> OnAutoSearchDrugdosageRoute(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return EnumItems.DrugdosageRouteEnum;
+        return EnumItems.DrugdosageRouteEnum.Where(x => x.Contains(value));
+    }
+
+    /// <summary>
+    /// 给药计量单位
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<string>> OnAutoSearchDrugdosageUnit(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return EnumItems.DrugdosageUnit;
+        return EnumItems.DrugdosageUnit.Where(x => x.Contains(value));
+    }
+
+    private  Task OnBingPersonalFile(PatientInfo patient)
+    {
+        BingPatientInfo = patient;
+        
+        return Task.CompletedTask;
+    }
+
+    
+    
 }

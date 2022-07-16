@@ -12,7 +12,7 @@
     </TitleContent>
     
     <DialogContent>
-        <DialogBingPersonalFile  Tile="采样信息" BingPatientInfoChanged="@OnBingPersonalFile" ></DialogBingPersonalFile>
+        <DialogBingPersonalFile BingPatientInfo="@(BingPatientInfo is null?null:BingPatientInfo)"  Tile="采样信息" BingPatientInfoChanged="@OnBingPersonalFile" ></DialogBingPersonalFile>
         <EditForm Model="@MedicalValue" OnValidSubmit="OnValidSubmit">
             <DataAnnotationsValidator/>
             <MudCard Elevation="0" >
@@ -36,7 +36,7 @@
                             <MudFab OnClick="OpenCollectingvesselDialog" Color="Color.Tertiary" StartIcon="@Icons.Material.Filled.Add" Label="添加血样试管" />
                           
                         
-                            <MudTable T="MedicalPKSamplingsample" Items="@Samplingsamples" Hover="true" Breakpoint="Breakpoint.Sm"  Style="height:300px"  >
+                            <MudTable T="MedicalPKSamplingsample" Items="@MedicalValue.medicalPKSamplings" Hover="true" Breakpoint="Breakpoint.Sm"  Style="height:300px"  >
                                 <HeaderContent>
                                 
                                        <MudTh><b>采样点</b></MudTh>
@@ -56,30 +56,6 @@
                               
                                 </RowTemplate>
                             </MudTable>
-@*                            <MudSimpleTable Hover="true" Dense="true" FixedHeader="true"  Style="height:300px">
-                                <thead>
-                                    <tr>
-                                        @foreach (var h in headings)
-                                        {
-                                            <th>@h</th>
-                                        }
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                      <tr>
-                                        @foreach (var row in Samplingsamples)
-                                        {
-                                            <td>@row.SamplingNumber</td>
-                                            <td>@row.Collectingvessel</td>
-                                            <td>@row.C1bloodcollectiontime</td>
-                                            <td><MudButton  OnClick="@(s=>OnOpenDialogInfo(row))" Size="Size.Small" >11</MudButton></td>
-
-                                            <MudIconButton OnClick="@(s=>OnOpenDialogInfo(row))" Size="Size.Small" Icon="@Icons.Filled.InfoOutlined" ></MudIconButton>
-                                
-                                        }
-                                    </tr>
-                                </tbody>
-                            </MudSimpleTable>*@
                         </MudItem>
                     </MudGrid>
                 </MudCardContent>
@@ -102,25 +78,24 @@
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
-    //   [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
 
-
-    [Parameter]
-    public MedicalPKSampling MedicalValue { set; get; } 
+    [Inject]
+    protected AutocompleteService AutocompleteService { set; get; }
 
     [Inject]
     protected IDbContextFactory<MedicalDbContext> ContextFactory{ set; get; }
-    /// <summary>
+    //   [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Inject] 
+    protected IDialogService DialogService  { get; set; }
+
+     /// <summary>
     /// 当前方案绑定的个人基本信息
     /// 表示添加的方案属于哪个患者
     /// </summary>
     /// [Required(ErrorMessage = "PatientInfo必须填写")]
     private PatientInfo? BingPatientInfo{ set; get; } 
-
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationStateTask { get; set; }
-
-
 
     /// <summary>
     /// 标识编辑进入  还是添加进入
@@ -128,28 +103,48 @@
     [Parameter]
     public bool IsEdit{ set; get; }
 
+
+    [Parameter]
+    public MedicalPKSampling MedicalValue { set; get; } 
+
     /// <summary>
     /// 打开采血管对话框
     /// </summary>
     public bool CollectingvesselVisible{ set; get; }
 
-    //private void OpenDialogCollectingvessel() => CollectingvesselVisible = true;
-    //private    void Submit() => CollectingvesselVisible = false;
-    [Inject] 
-    protected IDialogService DialogService  { get; set; }
+    //protected List<MedicalPKSamplingsample> Samplingsamples { set; get; } = new List<MedicalPKSamplingsample>();
 
 
-    protected List<MedicalPKSamplingsample> Samplingsamples { set; get; } = new List<MedicalPKSamplingsample>();
+    protected override async Task OnParametersSetAsync()
+    {
 
+        if(MedicalValue is null)
+        {
+            MedicalValue = new MedicalPKSampling();
+            MedicalValue.medicalPKSamplings = new List<MedicalPKSamplingsample>();
+        }
+        else
+        {
+            BingPatientInfo = await AutocompleteService.GetCachePatientInfokeyAsync(MedicalValue.Guid);
+        }
+       // return base.OnParametersSetAsync();
+    }
+
+
+    /// <summary>
+    /// 打开新建采集信息对话框
+    /// </summary>
+    /// <returns></returns>
     private async Task OpenCollectingvesselDialog()
     {
         DialogOptions dialogOptions = new() { 
-             FullWidth = true,
+              FullWidth = true,
               MaxWidth=MaxWidth.ExtraSmall
          };
 
         var parameters = new DialogParameters();
         parameters.Add("IsEdit",false);
+        // parameters.Add("MedicalValue",Samplingsamples)
 
         var dialog =DialogService.Show<DialogBloodSample2>("1",parameters,dialogOptions);
         var result = await dialog.Result;
@@ -158,7 +153,7 @@
         {
             var p = result.Data as MedicalPKSamplingsample;
 
-            Samplingsamples.Add(p);
+            MedicalValue.medicalPKSamplings.Add(p);
 
             return ;
         }
@@ -168,7 +163,7 @@
 
 
     /// <summary>
-    /// 删除数据采血样试管
+    /// 打开数据采血样试管对话框
     /// </summary>
     /// <returns></returns>
     private async Task OnOpenDialogInfo(MedicalPKSamplingsample samplingsample)
@@ -190,30 +185,50 @@
 
         if (!result.Cancelled)
         {
-            var isdelete = (bool)result.Data;
-
-            if(isdelete)
+            //如果返回的bool 类型 ，表示需要删除数据
+            if(result.Data is bool)
             {
-                Samplingsamples.Remove(samplingsample);
+                var isdelete = (bool)result.Data;
+
+                if(isdelete)
+                {
+                    MedicalValue.medicalPKSamplings.Remove(samplingsample);
+                    Snackbar.Add("数据删除成功",Severity.Success);
+                }
+
+
             }
+
+            ///如果返回的是数据对象，说明数据需要修改
+            if(result.Data is MedicalPKSamplingsample)
+            {
+                var sampling = (MedicalPKSamplingsample)result.Data;
+
+                var pKSamplingsample = MedicalValue.medicalPKSamplings.Where(x => x.SamplingGuid == sampling.SamplingGuid).FirstOrDefault();
+                pKSamplingsample.Collectingvessel = sampling.Collectingvessel;
+                pKSamplingsample.Samplingname = sampling.Samplingname;
+                pKSamplingsample.Number = sampling.Number;
+                pKSamplingsample.SamplingNumber = sampling.SamplingNumber;
+                pKSamplingsample.C1bloodcollectiontime = sampling.C1bloodcollectiontime;
+                pKSamplingsample.C1Concentration = sampling.C1Concentration;
+                pKSamplingsample.C1ConcentrationUnit = sampling.C1ConcentrationUnit;
+                pKSamplingsample.C1ConcentrationStandard = sampling.C1ConcentrationStandard;
+                pKSamplingsample.C1ConcentrationStandardUnit = sampling.C1ConcentrationStandardUnit;
+                pKSamplingsample.C1ConcentrationMethod = sampling.C1ConcentrationMethod;
+                pKSamplingsample.C1Remarks = sampling.C1Remarks;
+                
+                Snackbar.Add("数据修改成功",Severity.Success);
+                
+            }
+
+
             return ;
         }
         StateHasChanged();
 
     }
 
-    protected override void OnParametersSet()
-    {
-        if(MedicalValue is  null)
-        {
-            MedicalValue = new  MedicalPKSampling();
-        }
-
-        base.OnParametersSet();
-    }
-
-
-
+    
     /// <summary>
     /// 表单提交
     /// </summary>
@@ -240,6 +255,7 @@
     private  Task Edit(EditContext editcontext)
     {
         var editModel = (MedicalPKSampling)editcontext.Model;
+
         using var context = ContextFactory.CreateDbContext();
         context.MPK_Samplings.Update(editModel);
         context.SaveChanges();
@@ -257,8 +273,8 @@
         createModel.Username = BingPatientInfo.Username;
         createModel.Medicalrecordnumber = BingPatientInfo.Medicalrecordnumber;
 
-        createModel.medicalPKSamplings = new List<MedicalPKSamplingsample>();
-        createModel.medicalPKSamplings.AddRange(Samplingsamples);
+        //createModel.medicalPKSamplings = new List<MedicalPKSamplingsample>();
+        //createModel.medicalPKSamplings.AddRange(Samplingsamples);
 
         using var context = ContextFactory.CreateDbContext();
         context.MPK_Samplings.Add(createModel);

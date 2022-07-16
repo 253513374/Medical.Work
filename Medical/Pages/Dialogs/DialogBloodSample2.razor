@@ -51,7 +51,7 @@
                        
                         @if (IsDelete)
                         {
-                             <MudButton Color="Color.Error" Variant="Variant.Text" OnClick="@(s=>Delete())" Class="px-10">删除</MudButton>
+                             <MudButton Color="Color.Error" Variant="Variant.Outlined" OnClick="@(s=>Delete())" Class="px-10">删除</MudButton>
                         }
                         <MudButton Variant="Variant.Text" OnClick="@(s=>MudDialog.Cancel())" Class="px-10">取消</MudButton>
                         <MudButton StartIcon="@Icons.Outlined.Save"  ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" >确定</MudButton>
@@ -86,7 +86,7 @@
 
     // private void Submit() => MudDialog.Close();
     /// <summary>
-    /// 标识编辑进入  还是添加进入
+    /// 是否删除数据
     /// </summary>
     [Parameter]
     public bool IsDelete { set; get; } = false;
@@ -114,12 +114,12 @@
         if (IsEdit)
         {
             Edit(editcontext);
-             Snackbar.Add("数据编辑修改成功",Severity.Success);
+            // Snackbar.Add("数据编辑修改成功",Severity.Success);
         }
         else
         {
             Create(editcontext);
-             Snackbar.Add("数据添加成功",Severity.Success);
+            // Snackbar.Add("数据添加成功",Severity.Success);
 
         }
         MudDialog.Close(DialogResult.Ok(editcontext.Model));
@@ -142,7 +142,6 @@
     /// <returns></returns>
     private  Task Delete()
     {
-
         MudDialog.Close(DialogResult.Ok(true));
         return Task.CompletedTask;
     }

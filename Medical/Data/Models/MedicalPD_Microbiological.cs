@@ -1,6 +1,7 @@
 ﻿using Medical.Data.Enum;
 using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Medical.Data.Models
 {
@@ -40,13 +41,14 @@ namespace Medical.Data.Models
         /// 是否做检查 TestorIsNotEnum
         /// </summary>
         [DisplayName("是否做检查")]
+        [Required(ErrorMessage = "必须填写")]
         public string? TestorisNot { set; get; }
 
         /// <summary>
         /// 测试日期
         /// </summary>
         [DisplayName("检测日期")]
-        public DateTime TestTime { set; get; }
+        public DateTime? TestTime { set; get; }
 
         /// <summary>
         /// 标本类型（血液，痰，肺泡灌洗液，尿液，导管血，脑脊液……）SpecimenTypeEnum
@@ -64,18 +66,18 @@ namespace Medical.Data.Models
         /// 报告时间
         /// </summary>
         [DisplayName("报告时间")]
-        public DateTime ReportTime { set; get; }
+        public DateTime? ReportTime { set; get; }
 
         /// <summary>
         ///  报告日期
         /// </summary>
         [DisplayName("报告日期")]
-        public DateTime Inspectiontime { set; get; }
+        public DateTime? Inspectiontime { set; get; }
 
         /// <summary>
         /// 检出细菌
         /// </summary>
         [DisplayName("检出细菌")]
-        public string Bacterial { set; get; }
+        public string? Bacterial { set; get; }
     }
 }

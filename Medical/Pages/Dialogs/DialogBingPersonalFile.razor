@@ -6,13 +6,13 @@
 *@
 
 @inject ISnackbar Snackbar
-    <MudStack Row="false">
+    <MudStack Row="false" Class="mt-5" >
 
         <MudStack Row="true" AlignItems="AlignItems.End" Justify="Justify.FlexStart">
                 <MudText Align="Align.Left"  Typo="Typo.h4">@Tile</MudText>
                 <MudSpacer></MudSpacer>
                                     
-            <MudAutocomplete T="PatientInfo" Label="绑定个人信息" Dense="true" Variant="Variant.Filled"
+            <MudAutocomplete T="PatientInfo" Label="*绑定个人信息" Dense="true" Variant="Variant.Filled"
                             SearchFunc="@OnSearchPatientInfo"  SelectOnClick="true"  ToStringFunc="@(e=> e==null?null : $"{e.Username}")" 
                             Adornment="Adornment.Start" AdornmentIcon="@Icons.Filled.PersonSearch" AdornmentColor="Color.Primary"
                             ResetValueOnEmptyText="true"   ValueChanged = "@OnSearchValueChanged" 
