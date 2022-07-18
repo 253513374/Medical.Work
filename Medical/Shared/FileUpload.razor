@@ -1,0 +1,168 @@
+﻿@inject ISnackbar Snackbar
+
+<MudPaper @ondragenter="@SetDragClass" @ondragleave="@ClearDragClass" @ondragend="@ClearDragClass" Height="300px" Outlined="true" Class="@DragClass">
+    @if (!Clearing)
+    {
+        <InputFile OnChange="OnInputFileChanged" multiple  class="absolute mud-width-full mud-height-full overflow-hidden z-2" style="opacity:0;" />
+    }
+    <MudText Typo="Typo.h6">将文件拖放到此处或单击</MudText>
+    @foreach (var file in fileNames)
+    {
+        <MudStack Row=true Justify="Justify.SpaceAround" AlignItems="AlignItems.Center">
+            <MudText Color="Color.Dark" Style="width:300px;" >@file.Name</MudText>
+            
+            <MudIconButton OnClick="@(s=>OnClickDeleteFile(file.Name))" Icon="@Icons.Material.Filled.Delete" aria-label="delete"></MudIconButton>
+       </MudStack>
+    }
+    @if(isUploadFile)
+    {
+        <MudStack Row="true">
+        <MudText Color="Color.Dark" >@uploadFileName</MudText>
+        <MudProgressLinear Color="Color.Info" Size="Size.Large" Value="25" Class="my-7">
+                    <MudText Typo="Typo.subtitle1" Color="Color.Dark"><b>25%</b></MudText>
+        </MudProgressLinear>
+    </MudStack>
+    }
+    
+</MudPaper>
+<MudStack Row="true" Justify="Justify.FlexStart">
+    <MudToolBar DisableGutters="true" Class="gap-4">
+        <MudButton OnClick="Upload" Disabled="@(!fileNames.Any())" Color="Color.Primary" Variant="Variant.Filled">Upload</MudButton>
+        <MudButton OnClick="Clear" Disabled="@(!fileNames.Any())" Color="Color.Error" Variant="Variant.Filled">Clear</MudButton>
+    </MudToolBar>
+</MudStack>
+
+@code {
+
+     /*
+     * 文件加载与文件上传分开，只有点击【上传】按钮，文件才会上传到服务器，
+     * 为安全考虑，上传的文件保存到服务器上，会重新生成新的文件名称
+    * 
+    */
+    private bool Clearing = false;
+    private static string DefaultDragClass = "relative rounded-lg border-2 border-dashed pa-4 mt-4 mud-width-full mud-height-full";
+    private string DragClass = DefaultDragClass;
+    //  private List<string> fileNames = new List<string>();
+    IList<IBrowserFile> fileNames = new List<IBrowserFile>();
+
+
+
+
+
+    [Inject]
+    protected ILogger<FileUpload> Logger{ set; get; }
+
+
+    [Inject]
+    private IWebHostEnvironment Environment { get; set; }
+
+
+    [Parameter]
+    public List<string> FilePath { set; get; } = new List<string>();
+
+    [Parameter]
+    public EventCallback<List<string>> OnFilePathChanged { get; set; }
+
+    //[Inject]
+    //protected Environment Environment{ set; get; }
+    private long maxFileSize { set; get; } = 1024 * 1024 * 2;//最大文件大小2MB
+
+    //正在上传中的信息显示
+    private decimal  uploadProcessed{ set; get; }//上传进度
+    private string uploadFileName{ set; get; }//上传中的文件名
+    private string uploadFileSize { set; get; }//上传中的文件大小
+    private string uploadFileType { set; get; }//上传中的文件类型
+    private bool isUploadFile  { set; get; }//是否在上传中
+
+    private void OnInputFileChanged(InputFileChangeEventArgs e)
+    {
+        ClearDragClass();
+        fileNames = e.GetMultipleFiles().ToList();
+        //foreach(var file in files)
+        //{
+        //    fileNames.Add(file.Name);
+        //}
+    }
+
+    /// <summary>
+    /// 清空所有文件列表
+    /// </summary>
+    /// <returns></returns>
+    private async Task Clear()
+    {
+        Clearing = true;
+        fileNames.Clear();
+        ClearDragClass();
+        await Task.Delay(100);
+        Clearing = false;
+    }
+
+    /// <summary>
+    /// 文件开始上传
+    /// </summary>
+    private async Task Upload()
+    {
+        isUploadFile = true;
+
+
+        foreach (var file in fileNames)
+        {
+            try
+            {
+                var trustedFileName = Path.GetRandomFileName();
+                var path = Path.Combine(Environment.WebRootPath, "uploads", trustedFileName);
+
+                await using FileStream writeStream = new(path, FileMode.Create);
+                using var readStream = file.OpenReadStream(maxFileSize);
+                var bytesRead = 0;
+                var totalRead = 0;
+                var buffer = new byte[1024 * 10];//每次写入10kb数据,建议不大于30kb
+
+                uploadFileName = file.Name;
+                while ((bytesRead = await readStream.ReadAsync(buffer)) != 0)
+                {
+                    totalRead += bytesRead;
+
+                    await writeStream.WriteAsync(buffer, 0, bytesRead);//写入文件
+
+                    uploadProcessed = Decimal.Divide(totalRead, file.Size);//计算写入进度
+
+                    StateHasChanged();
+                }
+                FilePath.Add(Path.Combine("uploads", trustedFileName));//返回存到服务器上的文件路径，（为安全考虑，上传的文件已经重命名，）
+                // loadedFiles.Add(file);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("File: {Filename} Error: {Error}", 
+                    file.Name, ex.Message);
+            }
+        }
+
+        
+        //Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
+        //Snackbar.Add("TODO: Upload your files!", Severity.Normal);
+    }
+
+    private void SetDragClass()
+    {
+        DragClass = $"{DefaultDragClass} mud-border-primary";
+    }
+
+    private void ClearDragClass()
+    {
+        DragClass = DefaultDragClass;
+    }
+
+
+    /// <summary>
+    /// 删除加载文件
+    /// </summary>
+    /// <param name="filename"></param>
+    private void OnClickDeleteFile( string filename )
+    {
+        fileNames.Remove(fileNames.First(f => f.Name == filename));
+
+        StateHasChanged();
+    }
+}

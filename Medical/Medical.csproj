@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Data\Models\Validations\" />
+    <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 
   <ItemGroup>

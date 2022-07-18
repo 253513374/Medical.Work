@@ -230,6 +230,9 @@
             //黄色血清管
         };
 
+        /// <summary>
+        /// 血清肌酐实验方法
+        /// </summary>
         public static IEnumerable<string> ScrEnum { set; get; } = new[] {
             //  酶法, 干化学法, 其他
             //  "","请选择..." 
@@ -342,5 +345,20 @@
         {
            "伏立康唑","氟康唑","卡泊芬净","两性霉素B","美罗培南","亚胺培南","头孢他啶","复方磺胺甲噁唑","头孢哌酮舒巴坦钠","头孢哌酮他唑巴坦","哌拉西林他唑巴坦","替加环素","达托霉素"
         };
+
+
+        /// <summary>
+        /// Child_pugh 评分
+        /// </summary>
+        public static IEnumerable<string> ChildpughEnum { set; get; } = new[]
+        {
+
+            "A",
+            "B",
+            "C"
+            
+
+        };
+
     }
 }

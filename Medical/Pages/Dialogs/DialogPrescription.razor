@@ -150,14 +150,15 @@
         if (IsEdit)
         {
             Edit(editcontext);
+              Snackbar.Add("给药方案修改成功",Severity.Success);
         }
         else
         {
             Create(editcontext);
-
+              Snackbar.Add("给药方案添加成功",Severity.Success);
         }
 
-        Snackbar.Add("给药方案添加成功",Severity.Success);
+      
         StateHasChanged();
         MudDialog.Close(DialogResult.Ok(editcontext.Model));
     }

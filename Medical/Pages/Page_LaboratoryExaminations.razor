@@ -6,7 +6,7 @@
 <BannerTitle Title="实验室检查"></BannerTitle>
 
 <MudPaper Elevation="0" Class="my-5">
-   <MudFab  Label="新建单据" Size="Size.Medium" Color="Color.Primary" DisableElevation="true"   OnClick="@OnOpenDialog" Class="mx-3" StartIcon="@Icons.Material.Outlined.AddCard" > </MudFab>
+   <MudFab  Label="新建实验室检查单" Size="Size.Medium" Color="Color.Primary" DisableElevation="true"   OnClick="@OnOpenDialog" Class="mx-3" StartIcon="@Icons.Material.Outlined.AddCard" > </MudFab>
 
 </MudPaper>
 
@@ -115,7 +115,11 @@ else{
             //Loading = true;
             using var context = DbContextFactory.CreateDbContext();
 
-            LaboratoryExaminations = await  context.laboratoryExaminations.AsNoTracking().Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1)).ToListAsync();
+            LaboratoryExaminations = await  context.laboratoryExaminations
+            .AsNoTracking()
+            .Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1))
+            .OrderByDescending(o=>o.Createtime)
+            .ToListAsync();
 
            // Loading = false;
             StateHasChanged();
@@ -150,17 +154,17 @@ else{
     private async Task OnOpenDialog()
     {
         DialogOptions dialogOptions = new DialogOptions();
-        dialogOptions.CloseButton = true;
         dialogOptions.MaxWidth = MaxWidth.Medium; 
-        dialogOptions.FullWidth = true;
-        dialogOptions.DisableBackdropClick = true;
         //var parameters = new DialogParameters();
         //parameters.Add("TemplateData",SelectTemplate);
-        var dialog = DialogService.Show<DialogPrescription>("99",dialogOptions);
+        var dialog = DialogService.Show<DialogLaboratoryExaminations>("99",dialogOptions);
         var result = await dialog.Result;
 
         if (!result.Cancelled)
         {
+
+            var p = result.Data as LaboratoryExamination;
+            LaboratoryExaminations.Insert(0, p);
             //In a real world scenario we would reload the data from the source here since we "removed" it in the dialog already.
             // Guid.TryParse(result.Data.ToString(), out Guid deletedServer);
             //Servers.RemoveAll(item => item.Id == deletedServer);
@@ -171,16 +175,13 @@ else{
     private async Task OnEditPatientInfo(LaboratoryExamination  LaboratoryExaminations)
     {
         DialogOptions dialogOptions = new DialogOptions();
-        dialogOptions.CloseButton = true;
         dialogOptions.MaxWidth = MaxWidth.Medium; 
-        dialogOptions.FullWidth = true;
-        dialogOptions.DisableBackdropClick = true;
 
         var parameters = new DialogParameters();
-        parameters.Add("LaboratoryExaminations",LaboratoryExaminations);
-        parameters.Add("IsEditMedicalPK",true);
+        parameters.Add("MedicalValue",LaboratoryExaminations);
+        parameters.Add("IsEdit",true);
 
-        var dialog = DialogService.Show<DialogPrescription>("99",parameters,dialogOptions);
+        var dialog = DialogService.Show<DialogLaboratoryExaminations>("99",parameters,dialogOptions);
         var result = await dialog.Result;
         if (!result.Cancelled)
         {

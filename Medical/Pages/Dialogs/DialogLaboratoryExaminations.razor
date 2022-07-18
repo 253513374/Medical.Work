@@ -1,7 +1,282 @@
 ﻿
 
-<h3>DialogLaboratoryExaminations</h3>
 
+
+@inject ISnackbar Snackbar
+@inject EnumServer EServer;
+
+
+<MudDialog>
+    <TitleContent>
+    </TitleContent>
+    
+    <DialogContent>
+        <DialogBingPersonalFile BingPatientInfo="@(BingPatientInfo is null ? null: BingPatientInfo)"  Tile="实验室检查" BingPatientInfoChanged="@OnBingPersonalFile" ></DialogBingPersonalFile>
+        <EditForm  Model="@MedicalValue" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator/>
+            <MudCard Elevation="0" >
+                <MudCardContent  Style="max-height: 400px; overflow-y: scroll">
+                    <MudStack Row="false" Spacing="2" >
+
+                        <MudStack Row="true" Spacing="5" Justify="Justify.FlexStart" AlignItems="AlignItems.End"  >
+
+                             <MudAutocomplete  Clearable="true" T="string" Label="实验状态" @bind-Value="@MedicalValue.Assaysituation" For="@(() => MedicalValue.Assaysituation)"
+                                                    SearchFunc="OnAutoSearchAssaysituation" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
+                            <MudTextField @bind-Value="@MedicalValue.BodyTemperature" For="@(() => MedicalValue.BodyTemperature)" Label="体温°C" Variant="Variant.Text" />    
+                            <MudTextField T="DateTime?" Format="s" InputType="InputType.DateTimeLocal"  @bind-Value="@MedicalValue.Assaytime" For="@(() => MedicalValue.Assaytime)" Label="检测时间" Variant="Variant.Text" />
+                            
+                        
+                        </MudStack>
+
+                        <MudStack Row="true" Spacing="5" AlignItems="AlignItems.End">
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.Scr"         For="@(() => MedicalValue.Scr)"          Label="血清肌酐值(Scr)μmol/L " Variant="Variant.Text" />
+                            <MudAutocomplete  Clearable="true" T="string" Label="血清肌酐实验方法" @bind-Value="@MedicalValue.Screnum" For="@(() => MedicalValue.Screnum)"
+                                                    SearchFunc="OnAutoSearchScrenum" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
+                           
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.CLcr"        For="@(() => MedicalValue.CLcr)"         Label="GFR肌酐清楚率mL/min" Variant="Variant.Text" />
+                   
+                        </MudStack>
+                               
+                        <MudStack Row="true" Spacing="5">
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.BUN"         For="@(() => MedicalValue.BUN)"          Label="血尿素氮(BUN)" Variant="Variant.Text" />
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.eGFR"        For="@(() => MedicalValue.eGFR)"         Label="小球滤过率 mL/(min*1.73m2)" Variant="Variant.Text" />
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.INR"         For="@(() => MedicalValue.INR)"          Label="INR (S)" Variant="Variant.Text" />
+                        
+                        </MudStack>
+                        <MudStack Row="true" Spacing="5">
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.ALT"         For="@(() => MedicalValue.ALT)"          Label="丙氨酸氨基转氨酶（ALT）U/L" Variant="Variant.Text" />
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.AST"         For="@(() => MedicalValue.AST)"          Label="门冬氨酸氨基转移酶（AST）U/L " Variant="Variant.Text" />
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.ALP"         For="@(() => MedicalValue.ALP)"          Label="碱性磷酸酶（ALP）U/L" Variant="Variant.Text" />
+                        
+                        </MudStack>
+                        <MudStack Row="true" Spacing="5">
+                           
+                        </MudStack>
+                        <MudStack Row="true" Spacing="5">
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.TBLL"        For="@(() => MedicalValue.TBLL)"         Label="总胆红素（TBLL，）μmol/L  " Variant="Variant.Text" />
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.TBLL_Z"      For="@(() => MedicalValue.TBLL_Z)"       Label="直接胆红素（TBLL，）μmol/L " Variant="Variant.Text" />
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.TBLL_J"      For="@(() => MedicalValue.TBLL_J)"       Label="间接胆红素（TBLL）μmol/L " Variant="Variant.Text" />
+                        
+                        </MudStack>
+                        <MudStack Row="true" Spacing="5">
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.ALB"         For="@(() => MedicalValue.ALB)"          Label="血清白蛋白（ALB）g/L" Variant="Variant.Text" />
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.PLT"         For="@(() => MedicalValue.PLT)"          Label="血小板计数（PLT） *109/L " Variant="Variant.Text" />
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.WBC"         For="@(() => MedicalValue.WBC)"          Label="白细胞计数(WBC*10⁹/L)" Variant="Variant.Text" />
+                        
+                        </MudStack>
+                        <MudStack Row="true" Spacing="5">
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.NE"          For="@(() => MedicalValue.NE)"           Label="中性粒细胞百分率 NE%" Variant="Variant.Text" />
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.GGT"         For="@(() => MedicalValue.GGT)"          Label="谷氨酰转肽酶u/L" Variant="Variant.Text" />
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.PLT"         For="@(() => MedicalValue.PLT)"          Label="血小板计数（PLT） *109/L " Variant="Variant.Text" />
+                        </MudStack>
+                        <MudStack Row="true" Spacing="5">
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.Hemoglobin"  For="@(() => MedicalValue.Hemoglobin)"   Label="血红蛋白g/L" Variant="Variant.Text" />
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.CRP"         For="@(() => MedicalValue.CRP)"          Label="C-反应蛋白（CRP）mg/L" Variant="Variant.Text" />
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.IL6"         For="@(() => MedicalValue.IL6)"          Label="白介素6（IL6）pg/ml" Variant="Variant.Text" />
+                       
+                        </MudStack>
+                        
+                        <MudStack Row="true" Spacing="5">
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.ESR"         For="@(() => MedicalValue.ESR)"          Label="红细胞沉降（ESR）mm/h" Variant="Variant.Text" />
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.PCT"         For="@(() => MedicalValue.PCT)"          Label="降钙素原（PCT）ng/ml" Variant="Variant.Text" />
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.Nitrite"     For="@(() => MedicalValue.Nitrite)"      Label="亚硝酸盐" Variant="Variant.Text" />
+                        
+                        </MudStack>
+                          
+                        
+                        <MudStack Row="true" Spacing="5">
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.Yeast"       For="@(() => MedicalValue.Yeast)"        Label="酵母菌（个/UL）" Variant="Variant.Text" />
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.Uricine"     For="@(() => MedicalValue.Uricine)"      Label="尿白细胞计数 个/UL" Variant="Variant.Text" />
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.CSF"         For="@(() => MedicalValue.CSF)"          Label="脑脊液白细胞计数(个/UL)" Variant="Variant.Text" />
+                        </MudStack>
+
+                        <MudStack Row="true" Spacing="5">
+                            <MudTextField Margin="Margin.Dense"  @bind-Value="@MedicalValue.bacterial"   For="@(() => MedicalValue.bacterial)"    Label="细菌(个/UL)" Variant="Variant.Text" />
+                            <MudSelect Margin="Margin.Dense"  @bind-Value="@MedicalValue.Child_pugh"  For="@(() => MedicalValue.Child_pugh)"   Label="Child-pugh评分  " Variant="Variant.Text" >
+
+                                @foreach (var item in EnumItems.ChildpughEnum)
+                                {
+                                    <MudSelectItem  Value="@item" >@item</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudStack>
+                        
+                        
+                        <MudTextField Lines="2" Margin="Margin.Dense"  @bind-Value="@MedicalValue.Remark"      For="@(() => MedicalValue.Remark)"       Label="备注" Variant="Variant.Text" />
+
+                        
+                    </MudStack>
+                   
+                </MudCardContent>
+
+                 <MudCardActions  Class="my-5">
+                    <MudStack Row="true" Spacing="5" Justify="Justify.FlexEnd"  Style="width:100%" >
+                        <MudButton OnClick="@(s=> MudDialog.Cancel())">取消</MudButton>
+                        <MudButton StartIcon="@Icons.Outlined.Save"  ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" >保存</MudButton>
+                    </MudStack>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+
+    </DialogContent>
+</MudDialog>
 @code {
 
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+
+    /// <summary>
+    /// 缓存服务
+    /// </summary>
+    [Inject]
+    protected AutocompleteService AutocompleteService { set; get; }
+
+
+    [Inject]
+    protected IDbContextFactory<MedicalDbContext> ContextFactory{ set; get; }
+
+    [Parameter]
+    public LaboratoryExamination MedicalValue { set; get; } 
+
+    /// <summary>
+    /// 当前方案绑定的个人基本信息
+    /// 表示添加的方案属于哪个患者
+    /// </summary>
+    /// [Required(ErrorMessage = "PatientInfo必须填写")]
+    private PatientInfo? BingPatientInfo{ set; get; } 
+
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+
+    /// <summary>
+    /// 标识编辑进入  还是添加进入
+    /// </summary>
+    [Parameter]
+    public bool IsEdit{ set; get; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if(MedicalValue is  null)
+        {
+            MedicalValue = new  LaboratoryExamination();
+        }
+        else
+        {
+            BingPatientInfo = await AutocompleteService.GetCachePatientInfokeyAsync(MedicalValue.Guid);
+        }
+
+        // base.OnParametersSet();
+    }
+
+
+
+    /// <summary>
+    /// 表单提交
+    /// </summary>
+    /// <param name="editcontext"></param>
+    private void OnValidSubmit(EditContext editcontext)
+    {
+        if (BingPatientInfo is null) return;
+        if (IsEdit)
+        {
+            Edit(editcontext);
+            Snackbar.Add("数据修改成功",Severity.Success);
+        }
+        else
+        {
+            Create(editcontext);
+            Snackbar.Add("数据添加成功",Severity.Success);
+        }
+
+      
+        StateHasChanged();
+        MudDialog.Close(DialogResult.Ok(editcontext.Model));
+    }
+
+    private  Task Edit(EditContext editcontext)
+    {
+        var editModel = (LaboratoryExamination)editcontext.Model;
+
+        editModel.Guid = BingPatientInfo.Guid;
+        editModel.Createtime = DateTime.Now;
+        editModel.Username = BingPatientInfo.Username;
+
+
+        using var context = ContextFactory.CreateDbContext();
+        context.laboratoryExaminations.Update(editModel);
+        context.SaveChanges();
+
+        return Task.CompletedTask;
+    }
+
+    private  Task Create(EditContext editcontext)
+    {
+        var username = authenticationStateTask.Result.User.Identity.Name;
+        var  createModel = (LaboratoryExamination)editcontext.Model;
+        createModel.Adminname = username;
+        createModel.Createtime = DateTime.Now;
+        createModel.Guid = BingPatientInfo.Guid;
+        createModel.Username = BingPatientInfo.Username;
+        createModel.Medicalrecordnumber = BingPatientInfo.Medicalrecordnumber;
+
+        using var context = ContextFactory.CreateDbContext();
+        context.laboratoryExaminations.Add(createModel);
+        context.SaveChanges();
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// 试验状态
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<string>> OnAutoSearchAssaysituation(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return EnumItems.AssaysituationEnum;
+        return EnumItems.AssaysituationEnum.Where(x => x.Contains(value));
+    }
+
+
+
+
+
+    /// <summary>
+    /// 血清肌酐实验方法
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<string>> OnAutoSearchScrenum(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return EnumItems.ScrEnum;
+        return EnumItems.ScrEnum.Where(x => x.Contains(value));
+    }
+
+    ///// <summary>
+    ///// MIC
+    ///// </summary>
+    ///// <param name="value"></param>
+    ///// <returns></returns>
+    //private async Task<IEnumerable<string>> OnAutoSearchMIC(string value)
+    //{
+    //    if (string.IsNullOrEmpty(value))
+    //        return EnumItems.MICEnum;
+    //    return EnumItems.MICEnum.Where(x => x.Contains(value));
+    //}
+    
+
+
+    private  Task OnBingPersonalFile(PatientInfo patient)
+    {
+        BingPatientInfo = patient;
+        
+        return Task.CompletedTask;
+    }
+
+    
+    
 }
+
