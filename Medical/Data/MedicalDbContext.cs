@@ -55,11 +55,35 @@ namespace Medical.Data
         public DbSet<Summaryreport> Summaryreports { set; get; }
 
         public DbSet<SummaryOfCases> SummaryOfCases { set; get; }
+
+        /// <summary>
+        /// 纤维支气管镜检查
+        /// </summary>
         public DbSet<X_raybronchoscopy> X_raybronchoscopys { set; get; }
+
+        /// <summary>
+        /// 影像学
+        /// </summary>
         public DbSet<X_rayImaging> X_rayImagings { set; get; }
+
+        /// <summary>
+        /// 病理检查
+        /// </summary>
         public DbSet<X_raypathological> X_raypathologicals { set; get; }
+
+        /// <summary>
+        /// 影像学图像文件
+        /// </summary>
         public DbSet<X_rayImagePaths> x_RayImagePaths { set; get; }
+
+        /// <summary>
+        /// 纤维支气管镜检查图像文件
+        /// </summary>
         public DbSet<X_raybronchoscopyPaths> x_RaybronchoscopyPaths { set; get; }
+
+        /// <summary>
+        /// 病理检查图像文件
+        /// </summary>
         public DbSet<X_raypathologicalPaths> x_RaypathologicalPaths { set; get; }
 
 

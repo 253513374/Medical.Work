@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Medical.Data.Models
 {
@@ -36,31 +37,35 @@ namespace Medical.Data.Models
         ///
         /// </summary>
         [DisplayName("检查日期")]
-        public DateTime Photodate { set; get; }
+        [Required(ErrorMessage = "必须填写")]
+        public DateTime? Photodate { set; get; }
 
         /// <summary>
         /// 报告日期
         /// </summary>
         [DisplayName("报告日期")]
-        public DateTime Reportdate { set; get; }
+        [Required(ErrorMessage = "必须填写")]
+        public DateTime? Reportdate { set; get; }
 
         /// <summary>
         /// 部位
         /// </summary>
         [DisplayName("部位")]
-        public string Xraylocation { set; get; }
+        [Required(ErrorMessage = "必须填写")]
+        public string? Xraylocation { set; get; }
 
         /// <summary>
         /// 放射诊断方式
         /// </summary>
         [DisplayName("检查结果")]
-        public string Xrayinspection { set; get; }
+        [Required(ErrorMessage = "必须填写")]
+        public string? Xrayinspection { set; get; }
 
         /// <summary>
         /// 摄影图像
         /// </summary>
        // [AutoGenerateColumn(Ignore = true)]
         [DisplayName("摄影图像")]
-        public List<X_raypathologicalPaths> ImgUrl { set; get; }
+        public List<X_raypathologicalPaths>? ImgUrl { set; get; }
     }
 }

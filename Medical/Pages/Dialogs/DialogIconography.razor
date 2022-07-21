@@ -1,8 +1,236 @@
 ﻿
 
 
-<h3>DialogIconography</h3>
+@*<h3>DialogIconography</h3>*@
 
+
+
+
+@inject ISnackbar Snackbar
+@inject EnumServer EServer;
+
+<MudDialog>
+     <TitleContent>
+    </TitleContent>
+    
+    <DialogContent>
+        <DialogBingPersonalFile BingPatientInfo="@(BingPatientInfo is null ? null: BingPatientInfo)"  Tile="影像学" BingPatientInfoChanged="@OnBingPersonalFile" ></DialogBingPersonalFile>
+        <EditForm  Model="@MedicalValue" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator/>
+            <MudCard Elevation="0" >
+                <MudCardContent>
+                    <MudGrid Spacing="5" >
+                        <MudItem  lg="6" md="6" xl="6" sm="12"  >
+                            <MudStack Row="false" Spacing="3" >
+                                <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.Photodate" For="@(() => MedicalValue.Photodate)" Label="检查日期" Variant="Variant.Text" />
+                                <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.Reportdate" For="@(() => MedicalValue.Reportdate)" Label="报告日期" Variant="Variant.Text" />
+                                <MudStack Row="true">
+                                    <MudAutocomplete  Clearable="true" T="string" Label="放射诊断方式" @bind-Value="@MedicalValue.Xrayimagingenum" For="@(() => MedicalValue.Xrayimagingenum)"
+                                                                        SearchFunc="OnAutoSearchXrayimagingenum" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
+                                    <MudAutocomplete  Clearable="true" T="string" Label="放射诊断部位" @bind-Value="@MedicalValue.XrayImaginglocationenum" For="@(() => MedicalValue.XrayImaginglocationenum)"
+                                                                SearchFunc="OnAutoSearchXrayImaginglocationenum" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
+                                </MudStack>
+                                <MudTextField  Lines="3"  @bind-Value="@MedicalValue.Describe" For="@(() => MedicalValue.Describe)" Label="详细描述" Variant="Variant.Text" />
+                            </MudStack>
+                        </MudItem>
+                        <MudItem   lg="6" md="6" xl="6" sm="12"  >
+                            <FileUpload @ref="@Upload"  @bind-FilePath="@FilePath" Height="300px"></FileUpload>
+                        </MudItem>
+                    </MudGrid>
+                </MudCardContent>
+                 <MudCardActions  Class="my-5">
+                    <MudStack  Row="true" Justify="Justify.FlexEnd"  Style="width:100%" >
+                        <MudButton OnClick="@(s=> MudDialog.Cancel())">取消</MudButton>
+                        <MudButton StartIcon="@Icons.Outlined.Save"  ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" >保存</MudButton>
+                    </MudStack>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+    </DialogContent>
+</MudDialog>
 @code {
 
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+
+    /// <summary>
+    /// 缓存服务
+    /// </summary>
+    [Inject]
+    protected AutocompleteService AutocompleteService { set; get; }
+
+
+    [Inject]
+    protected IDbContextFactory<MedicalDbContext> ContextFactory{ set; get; }
+
+    [Parameter]
+    public X_rayImaging MedicalValue { set; get; } 
+
+    private FileUpload Upload { set; get; }
+    private List<string> FilePath { set; get; } = new List<string>();
+
+    /// <summary>
+    /// 当前方案绑定的个人基本信息
+    /// 表示添加的方案属于哪个患者
+    /// </summary>
+    /// [Required(ErrorMessage = "PatientInfo必须填写")]
+    private PatientInfo? BingPatientInfo{ set; get; } 
+
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+
+    /// <summary>
+    /// 标识编辑进入  还是添加进入
+    /// </summary>
+    [Parameter]
+    public bool IsEdit{ set; get; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if(MedicalValue is  null)
+        {
+            MedicalValue = new  X_rayImaging();
+        }
+        else
+        {
+            BingPatientInfo = await AutocompleteService.GetCachePatientInfokeyAsync(MedicalValue.Guid);
+            
+            //FilePath = MedicalValue.ImgUrl.Where(x =>x.).ToList();
+        }
+
+        // base.OnParametersSet();
+    }
+
+
+
+    /// <summary>
+    /// 表单提交
+    /// </summary>
+    /// <param name="editcontext"></param>
+    private async void OnValidSubmit(EditContext editcontext)
+    {
+
+        if (BingPatientInfo is null) return;
+        var result=  await Upload.UploadFiles();
+        if(!result)
+        {
+            Snackbar.Add("图片上传失败，请检查网络",Severity.Error);
+            return;
+        }
+        if (IsEdit)
+        {
+            Edit(editcontext); 
+            Snackbar.Add("数据修改成功",Severity.Success);
+        }
+        else
+        {
+            Create(editcontext);
+            Snackbar.Add("数据添加成功",Severity.Success);
+        }
+
+
+        StateHasChanged();
+        MudDialog.Close(DialogResult.Ok(editcontext.Model));
+    }
+
+    private  Task Edit(EditContext editcontext)
+    {
+        var editModel = (X_rayImaging)editcontext.Model;
+
+        editModel.Guid = BingPatientInfo.Guid;
+        editModel.Createtime = DateTime.Now;
+        editModel.Username = BingPatientInfo.Username;
+
+
+        using var context = ContextFactory.CreateDbContext();
+        context.X_rayImagings.Update(editModel);
+        context.SaveChanges();
+
+        return Task.CompletedTask;
+    }
+
+    private  Task Create(EditContext editcontext)
+    {
+        var username = authenticationStateTask.Result.User.Identity.Name;
+        var  createModel = (X_rayImaging)editcontext.Model;
+        createModel.Adminname = username;
+        createModel.Createtime = DateTime.Now;
+        createModel.Guid = BingPatientInfo.Guid;
+        createModel.Username = BingPatientInfo.Username;
+        createModel.Medicalrecordnumber = BingPatientInfo.Medicalrecordnumber;
+
+        createModel.ImgUrl = GetImgUrl();
+
+        using var context = ContextFactory.CreateDbContext();
+        context.X_rayImagings.Add(createModel);
+        context.SaveChanges();
+        return Task.CompletedTask;
+    }
+
+    private List<X_rayImagePaths> GetImgUrl()
+    {
+        var list = new List<X_rayImagePaths>();
+        foreach (var item in FilePath)
+        {
+            var username = authenticationStateTask.Result.User.Identity.Name;
+            list.Add(new X_rayImagePaths()
+                {
+                    Adminuser =username,
+                    ImgUrl = item,
+                    Createtime = DateTime.Now
+                });
+        }
+        return list;
+    }
+
+    
+    /// <summary>
+    /// 放射诊断方式
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<string>> OnAutoSearchXrayimagingenum(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return EnumItems.X_rayImagingEnum;
+        return EnumItems.X_rayImagingEnum.Where(x => x.Contains(value));
+    }
+
+    /// <summary>
+    /// 放射诊断部位
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<string>> OnAutoSearchXrayImaginglocationenum(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return EnumItems.X_rayImaginglocationEnum;
+        return EnumItems.X_rayImaginglocationEnum.Where(x => x.Contains(value));
+    }
+
+    /// <summary>
+    /// MIC
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<string>> OnAutoSearchMIC(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return EnumItems.MICEnum;
+        return EnumItems.MICEnum.Where(x => x.Contains(value));
+    }
+    
+
+
+    private  Task OnBingPersonalFile(PatientInfo patient)
+    {
+        BingPatientInfo = patient;
+        
+        return Task.CompletedTask;
+    }
+
+    
+    
 }
