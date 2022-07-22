@@ -1,5 +1,4 @@
-﻿<h3>DialogBronchofiberscope</h3>
-
+﻿
 @*<h3>DialogPathology</h3>
 
 
@@ -52,11 +51,14 @@
                                         <MudMenu PositionAtCursor="true">
                                             <ActivatorContent>
                                                 <MudCard>
+                                                    @*<div  class=" d-flex justify-center align-content-center" style="height:115px;width:110px;" >
+                                                        <Viewerjs  Src="@econtext.ImgUrl" toolbarlite="true" />
+                                                    </div>*@
                                                     <MudImage Src="@econtext.ImgUrl" Height="115" />
                                                 </MudCard>
                                             </ActivatorContent>
                                             <ChildContent>
-                                                <MudMenuItem>复制</MudMenuItem>
+                                                <MudMenuItem OnClick="@(s=>OnClickScaling(@econtext.ImgUrl))" >放大</MudMenuItem>
                                                 <MudMenuItem  OnClick="@(s=>OnClickHistoricalFilesDelete(@econtext.X_raybronchoscopyPathsID))" >删除</MudMenuItem>
                                             </ChildContent>
                                         </MudMenu>
@@ -78,10 +80,16 @@
         </EditForm>
     </DialogContent>
 </MudDialog>
+
+    <MudOverlay Visible="isVisible" DarkBackground="true" AutoClose="true" >
+       <MudImage @onwheel="@MouseWheelEventHandler" Src="@SrcImg" Height="@SrcImgHeight" />
+    </MudOverlay>
 @code {
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
+    [Inject] 
+    protected IDialogService DialogService  { get; set; }
 
     /// <summary>
     /// 缓存服务
@@ -99,6 +107,46 @@
     private FileUpload Upload { set; get; }
     public List<string> FilePath { set; get; } = new List<string>();
 
+
+    private bool isVisible{ set; get; } 
+    private string SrcImg{ set; get; }
+    private int SrcImgHeight { set; get; } //图像默认大小
+    //public void ToggleOverlay(bool value)
+    //{
+    //    isVisible = value;
+    //}
+
+    /// <summary>
+    /// 鼠标中间滚轮事件
+    /// </summary>
+    /// <param name="wheelEventArgs"></param>
+    /// <returns></returns>
+    private Task MouseWheelEventHandler(WheelEventArgs wheelEventArgs)
+    {
+        if (wheelEventArgs.DeltaY > 0)
+        {
+            SrcImgHeight += 10;
+        }
+        else
+        {
+            SrcImgHeight -= 10;
+        }
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// 在图像列表中，单击图像出现菜单，
+    /// 点击【放大】菜单按钮，查看方大图像
+    /// </summary>
+    /// <param name="imgurl"></param>
+    /// <returns></returns>
+    private Task OnClickScaling(string imgurl)
+    {
+        SrcImg = imgurl;
+        SrcImgHeight = 500;
+        isVisible = true;
+        return Task.CompletedTask;
+    }
 
     /// <summary>
     /// 当前方案绑定的个人基本信息
@@ -135,7 +183,7 @@
 
 
     /// <summary>
-    /// 表单提交
+    /// 表单验证通过并提交
     /// </summary>
     /// <param name="editcontext"></param>
     private async void OnValidSubmit(EditContext editcontext)
@@ -166,6 +214,11 @@
         MudDialog.Close(DialogResult.Ok(editcontext.Model));
     }
 
+    /// <summary>
+    /// 提交编辑历史数据，使用编辑的数据覆盖现有的数据
+    /// </summary>
+    /// <param name="editcontext"></param>
+    /// <returns></returns>
     private  Task Edit(EditContext editcontext)
     {
         var editModel = (X_raybronchoscopy)editcontext.Model;
@@ -177,7 +230,6 @@
         {
             editModel.ImgUrl.AddRange(GetImgUrl());
         }
-
         using var context = ContextFactory.CreateDbContext();
         context.X_raybronchoscopys.Update(editModel);
         context.SaveChanges();
@@ -185,6 +237,12 @@
         return Task.CompletedTask;
     }
 
+
+    /// <summary>
+    /// 提交创建表单数据，新建表单数据到数据库
+    /// </summary>
+    /// <param name="editcontext"></param>
+    /// <returns></returns>
     private  Task Create(EditContext editcontext)
     {
         var username = authenticationStateTask.Result.User.Identity.Name;
@@ -203,12 +261,30 @@
         return Task.CompletedTask;
     }
 
+
+    /// <summary>
+    /// 删除历史图像数据
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     private Task OnClickHistoricalFilesDelete(int id)
     {
+        var sss= MedicalValue.ImgUrl.Where(r => r.X_raybronchoscopyPathsID == id).FirstOrDefault();
+        using var context = ContextFactory.CreateDbContext();
+        context.Entry(sss).State = EntityState.Deleted;
+
+        context.SaveChanges();
+
         MedicalValue.ImgUrl.RemoveAll(r => r.X_raybronchoscopyPathsID == id);
+
         StateHasChanged();
         return Task.CompletedTask;
     }
+
+    /// <summary>
+    /// 返回图像列表，用于持久化到数据库
+    /// </summary>
+    /// <returns></returns>
     private List<X_raybronchoscopyPaths> GetImgUrl()
     {
         var list = new List<X_raybronchoscopyPaths>();
@@ -225,35 +301,13 @@
         return list;
     }
 
-    
-
-    ///// <summary>
-    ///// 放射诊断方式
-    ///// </summary>
-    ///// <param name="value"></param>
-    ///// <returns></returns>
-    //private async Task<IEnumerable<string>> OnAutoSearchXrayimagingenum(string value)
-    //{
-    //    if (string.IsNullOrEmpty(value))
-    //        return EnumItems.X_rayImagingEnum;
-    //    return EnumItems.X_rayImagingEnum.Where(x => x.Contains(value));
-    //}
-
-    ///// <summary>
-    ///// 放射诊断部位
-    ///// </summary>
-    ///// <param name="value"></param>
-    ///// <returns></returns>
-    //private async Task<IEnumerable<string>> OnAutoSearchXrayImaginglocationenum(string value)
-    //{
-    //    if (string.IsNullOrEmpty(value))
-    //        return EnumItems.X_rayImaginglocationEnum;
-    //    return EnumItems.X_rayImaginglocationEnum.Where(x => x.Contains(value));
-    //}
 
 
-
-
+    /// <summary>
+    /// 绑定个人信息
+    /// </summary>
+    /// <param name="patient"></param>
+    /// <returns></returns>
     private  Task OnBingPersonalFile(PatientInfo patient)
     {
         BingPatientInfo = patient;

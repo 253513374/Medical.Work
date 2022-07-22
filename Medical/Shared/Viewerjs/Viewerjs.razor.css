@@ -1,0 +1,33 @@
+﻿.docs-galley {
+    padding: 10px;
+/*    width: 100%;*/
+    /*width: 400px;*/
+}
+
+.docs-pictures {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+    .docs-pictures > li {
+        border: 1px solid transparent;
+        float: left;
+ /*       height: calc(100% / 3);
+        width: calc(100% / 3);*/
+        height:100%;
+        width:100%;
+        margin: 0 -1px -1px 0;
+        overflow: hidden;
+    }
+
+    .docs-pictures > li > img {
+        cursor: -webkit-zoom-in;
+        cursor: zoom-in;
+        width: 100%;
+    }
+
+img {
+    vertical-align: middle;
+    border-style: none;
+}

@@ -118,7 +118,7 @@ else{
             //Loading = true;
             using var context = DbContextFactory.CreateDbContext();
 
-            X_Raybronchoscopies = await  context.X_raybronchoscopys.AsNoTracking()
+            X_Raybronchoscopies = await  context.X_raybronchoscopys
                                             //.Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1))
                                             .Include(i=>i.ImgUrl)
                                             .OrderByDescending(o => o.Createtime)

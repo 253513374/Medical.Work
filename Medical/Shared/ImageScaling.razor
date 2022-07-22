@@ -1,0 +1,22 @@
+﻿<MudDialog>
+    <DialogContent>
+        
+        <MudStack  Justify="Justify.Center" AlignItems="AlignItems.Center" >
+            <MudText> Dialog Content</MudText>
+        </MudStack>
+       
+    </DialogContent>
+    <DialogActions>
+        <MudToolBar>
+            <MudButton OnClick="Cancel">Cancel</MudButton>
+            <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+        </MudToolBar>
+      
+    </DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+}

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Medical.Data.Models
 {
     public class X_rayImagePaths
     {
+        [Key]
         public int X_rayImagePathsID { set; get; }
 
         public string Adminuser { set; get; }

@@ -41,6 +41,34 @@
                             <FileUpload @ref="@Upload" @bind-FilePath="@FilePath"  Height="300px"></FileUpload>
 
                         </MudItem>
+
+                          <MudItem   lg="12" md="12" xl="12" sm="12">
+                            @if(MedicalValue is not null && MedicalValue.ImgUrl is not null)
+                            {
+                                <MudText Align="Align.Start" Typo="Typo.caption"> 现有图像文件：@MedicalValue.ImgUrl.Count </MudText>
+                                <MudStack  Row="true" Style="height:120px;overflow: auto;">
+                                    @foreach (var econtext in MedicalValue.ImgUrl)
+                                    {
+                                        <MudMenu PositionAtCursor="true">
+                                            <ActivatorContent>
+                                                <MudCard>
+                                                    @*<div  class=" d-flex justify-center align-content-center" style="height:115px;width:110px;" >
+                                                        <Viewerjs  Src="@econtext.ImgUrl" toolbarlite="true" />
+                                                    </div>*@
+                                                    <MudImage Src="@econtext.ImgUrl" Height="115" />
+                                                </MudCard>
+                                            </ActivatorContent>
+                                            <ChildContent>
+                                                <MudMenuItem OnClick="@(s=>OnClickScaling(@econtext.ImgUrl))" >放大</MudMenuItem>
+                                                <MudMenuItem  OnClick="@(s=>OnClickHistoricalFilesDelete(@econtext.X_raypathologicalPathsID))" >删除</MudMenuItem>
+                                            </ChildContent>
+                                        </MudMenu>
+                                    }
+                                </MudStack>
+                            }
+                               
+                           
+                        </MudItem>
                     </MudGrid>
                 </MudCardContent>
                  <MudCardActions  Class="my-5">
@@ -53,6 +81,9 @@
         </EditForm>
     </DialogContent>
 </MudDialog>
+    <MudOverlay Visible="isVisible" DarkBackground="true" AutoClose="true" >
+       <MudImage @onwheel="@MouseWheelEventHandler" Src="@SrcImg" Height="@SrcImgHeight" />
+    </MudOverlay>
 @code {
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
@@ -91,6 +122,46 @@
     /// </summary>
     [Parameter]
     public bool IsEdit{ set; get; }
+
+        private bool isVisible{ set; get; } 
+    private string SrcImg{ set; get; }
+    private int SrcImgHeight { set; get; } //图像默认大小
+    //public void ToggleOverlay(bool value)
+    //{
+    //    isVisible = value;
+    //}
+
+    /// <summary>
+    /// 鼠标中间滚轮事件
+    /// </summary>
+    /// <param name="wheelEventArgs"></param>
+    /// <returns></returns>
+    private Task MouseWheelEventHandler(WheelEventArgs wheelEventArgs)
+    {
+        if (wheelEventArgs.DeltaY > 0)
+        {
+            SrcImgHeight += 10;
+        }
+        else
+        {
+            SrcImgHeight -= 10;
+        }
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// 在图像列表中，单击图像出现菜单，
+    /// 点击【放大】菜单按钮，查看方大图像
+    /// </summary>
+    /// <param name="imgurl"></param>
+    /// <returns></returns>
+    private Task OnClickScaling(string imgurl)
+    {
+        SrcImg = imgurl;
+        SrcImgHeight = 500;
+        isVisible = true;
+        return Task.CompletedTask;
+    }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -146,6 +217,10 @@
         editModel.Createtime = DateTime.Now;
         editModel.Username = BingPatientInfo.Username;
 
+        if( FilePath.Count>0)
+        {
+            editModel.ImgUrl.AddRange(GetImgUrl());
+        }
 
         using var context = ContextFactory.CreateDbContext();
         context.X_raypathologicals.Update(editModel);
@@ -188,7 +263,25 @@
         }
         return list;
     }
+    
+    /// <summary>
+    /// 删除历史图像数据
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    private Task OnClickHistoricalFilesDelete(int id)
+    {
+        var sss= MedicalValue.ImgUrl.Where(r => r.X_raypathologicalPathsID == id).FirstOrDefault();
+        using var context = ContextFactory.CreateDbContext();
+        context.Entry(sss).State = EntityState.Deleted;
 
+        context.SaveChanges();
+
+        MedicalValue.ImgUrl.RemoveAll(r => r.X_raypathologicalPathsID == id);
+
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
 
 
     private  Task OnBingPersonalFile(PatientInfo patient)
