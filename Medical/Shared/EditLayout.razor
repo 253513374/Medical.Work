@@ -1,0 +1,68 @@
+﻿
+@inherits LayoutComponentBase
+
+
+@*<h3>EditLayout</h3>*@
+
+ <style type="text/css">
+
+            body {
+
+                background: url('img/bg4.jpg') no-repeat;
+
+                /*  background-image: url(bg.jpg);*/
+                background-size:cover;
+
+                background-repeat:no-repeat;
+
+            }
+
+    </style>
+
+<MudThemeProvider />
+<MudDialogProvider
+    FullWidth="true"
+    MaxWidth="MaxWidth.Medium"
+    CloseButton="true"
+    DisableBackdropClick="true"
+   
+    Position="DialogPosition.Center"
+    CloseOnEscapeKey="true"
+
+/>
+<MudSnackbarProvider />
+<MudLayout>
+
+    <MudMainContent>
+       <MudContainer>
+           
+            @Body
+      
+       </MudContainer>
+    </MudMainContent>
+@*    <MudMainContent Class="my-n16" Style="margin-left:200px;margin-right:200px;">
+        
+            @Body
+        
+    </MudMainContent>*@
+</MudLayout>
+
+@*<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <div class="main">
+        <div class="top-row px-4">
+            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+        </div>
+
+        <div class="content px-4">
+            @Body
+        </div>
+    </div>
+</div>
+*@
+@code {
+
+}

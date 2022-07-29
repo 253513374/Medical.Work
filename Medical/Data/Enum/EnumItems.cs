@@ -360,5 +360,53 @@
 
         };
 
+
+
+        public static IEnumerable<string> DrugClassEnum { set; get; } = new[]
+        {
+            "西药",
+            "中药",
+            "化学药",
+            "生物药",
+            "其他药"
+        };
+
+        public static IEnumerable<string> DrugTypeEnum { set; get; } = new[]
+        {
+            "非处方药",
+            "处方药"
+        };
+
+        public static IEnumerable<string> DrugFormEnum { set; get; } = new[]
+        {
+            "颗粒剂",
+            "胶囊剂",
+            "粉剂",
+            "滴剂",
+            "注射剂",
+            "溶媒剂",
+            "糖浆剂",
+            "液体剂",
+            "活性剂",
+            "其他剂"
+        };
+
+        public static IEnumerable<string> DrugUsageEnum { set; get; } = new[]
+        {
+            "口服",
+            "外用",
+            "皮下注射",
+            "肌肉注射",
+            "静脉注射",
+            "其他"
+        };
+
+        public static IEnumerable<string> PostTypeEnum { set; get; } = new[]
+        {
+            "案例总结",
+            "监护日志",
+        };
+
+
     }
 }

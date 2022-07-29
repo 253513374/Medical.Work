@@ -6,11 +6,11 @@
 
 @inject ISnackbar Snackbar
 @inject EnumServer EServer
+@using Breakpoint= MudBlazor.Breakpoint 
 
 <MudDialog>
      <TitleContent>
     </TitleContent>
-    
     <DialogContent>
         <DialogBingPersonalFile BingPatientInfo="@(BingPatientInfo is null?null:BingPatientInfo)"  Tile="采样信息" BingPatientInfoChanged="@OnBingPersonalFile" ></DialogBingPersonalFile>
         <EditForm Model="@MedicalValue" OnValidSubmit="OnValidSubmit">

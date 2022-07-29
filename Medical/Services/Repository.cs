@@ -1,6 +1,7 @@
 ﻿using Medical.Data;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.JSInterop;
 
 namespace Medical.Services
 {
@@ -27,7 +28,12 @@ namespace Medical.Services
         {
             await dbContext.Set<TEntity>().AddAsync(entity);
         }
+
+
+
+
     }
 
 
+ 
 }

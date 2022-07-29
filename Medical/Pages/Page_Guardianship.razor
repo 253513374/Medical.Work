@@ -1,7 +1,131 @@
 ﻿@page "/guardianship"
 
-<h3>Page_Guardianship</h3>
+
+
+ @inject NavigationManager Navigation
+
+ 
+<PageTitle>日常工作台</PageTitle>
+
+<BannerTitle  Title="日常工作台" TitleCaption="给予患者希望与力量，把简单与平凡演绎成无数个精彩。"></BannerTitle>
+
+<MudStack Row="true" Class="my-3">
+        <MudFab  Label="写工作日志" Size="Size.Medium" Color="Color.Primary" DisableElevation="true"   OnClick="@OnEditArticle" Class="mx-3" StartIcon="@Icons.Material.Outlined.FileOpen" > </MudFab>
+        <MudSpacer />
+      </MudStack>
+@if(Summaryreports is null){
+    <MudCard>
+    <MudCardHeader>
+        <CardHeaderAvatar>
+            <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="40px" Width="40px"/>
+        </CardHeaderAvatar>
+        <CardHeaderContent>
+            <MudSkeleton Animation="Animation.Wave" Width="40%" />
+            <MudSkeleton Animation="Animation.Wave" Width="60%" />
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Height="250px" />
+    <MudCardContent>
+        <MudSkeleton Animation="Animation.Wave" />
+    </MudCardContent>
+    <MudCardActions>
+    
+        <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="30px" Width="30px" Class="ml-2 mb-2" />
+        <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="30px" Width="30px" Class="ml-3 mb-2" />
+    </MudCardActions>
+    </MudCard>
+}
+else
+{
+    
+
+@*<MudTable Items="@Summaryreports" MultiSelection="true" @bind-SelectedItems="selectedItems" Hover="@hover">*@
+     <MudTable T="Summaryreport"  Items="@Summaryreports"  FixedFooter="true"
+         FixedHeader = "true" Height="600px" Elevation="0" Hover="true" ReadOnly="true"
+         MultiSelection="true" @bind-SelectedItems="selectedItems" 
+              Filter="new Func<Summaryreport,bool>(FilterFuncTable)"  Dense="false" >
+    
+    <ToolBarContent>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchstring" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>标题</MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd >@context.Title</MudTd>
+        <MudTd >
+              <MudToggleIconButton @bind-Toggled="@context.Ispublic"
+                     Icon="@Icons.Material.Filled.AlarmOff" Color="@Color.Error" Title="Off"
+                     ToggledIcon="@Icons.Material.Filled.AlarmOn" ToggledColor="@Color.Success" ToggledTitle="On"/> 
+                       <MudToggleIconButton @bind-Toggled="@context.Ispublic"
+                     Icon="@Icons.Material.Filled.AlarmOff" Color="@Color.Error" Title="Off"
+                     ToggledIcon="@Icons.Material.Filled.AlarmOn" ToggledColor="@Color.Success" ToggledTitle="On"/> 
+                       <MudToggleIconButton @bind-Toggled="@context.Ispublic"
+                     Icon="@Icons.Material.Filled.AlarmOff" Color="@Color.Error" Title="Off"
+                     ToggledIcon="@Icons.Material.Filled.AlarmOn" ToggledColor="@Color.Success" ToggledTitle="On"/> 
+                       <MudToggleIconButton @bind-Toggled="@context.Ispublic"
+                     Icon="@Icons.Material.Filled.AlarmOff" Color="@Color.Error" Title="Off"
+                     ToggledIcon="@Icons.Material.Filled.AlarmOn" ToggledColor="@Color.Success" ToggledTitle="On"/> 
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[]{50, 100}" />
+    </PagerContent>
+@*    <FooterContent>
+        <MudTd colspan="5" >选择所有</MudTd>
+    </FooterContent>*@
+</MudTable>
+}
 
 @code {
+    private string searchstring="";
 
+    private List<Summaryreport> Summaryreports{ set; get; }
+
+    private HashSet<Summaryreport> selectedItems = new HashSet<Summaryreport>();
+
+    [Inject]
+    protected ILogger<Page_Guardianship> Logger{ set; get; }
+
+    [Inject]
+    protected IDbContextFactory<MedicalDbContext> DbContextFactory{ set; get; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            using var context = DbContextFactory.CreateDbContext();
+
+            Summaryreports = await context.Summaryreports.AsNoTracking().ToListAsync();
+            StateHasChanged();
+        }
+       // return Task.FromResult()
+    }
+
+
+    private void OnEditArticle()
+    {
+        Logger.LogInformation("OnEditArticle");
+
+        Navigation.NavigateTo("/edit");
+    }
+
+        /// <summary>
+    /// 表格数据帅选过滤
+    /// </summary>
+    /// <param name="element"></param>
+    /// <returns></returns>
+    private bool FilterFuncTable(Summaryreport element) => FilterFunc(element, searchstring);
+
+    private bool FilterFunc(Summaryreport element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+            if($"{element.Title} {element.Description} {element.PostType} {element.keywordTag}".Contains(searchString)){
+             return true;
+        }
+        return false;
+    }
 }

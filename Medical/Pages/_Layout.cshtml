@@ -11,7 +11,23 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
     <link href="viewerjs/viewer.min.css" rel="stylesheet" />
-    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+    <link href="css/blogifier.css"  rel="stylesheet" ></link>
+    <!-- masa blazor css style -->
+<link href="_content/Masa.Blazor/css/masa-blazor.min.css" rel="stylesheet" />
+
+<!--icon file,import need to use-->
+<link href="https://cdn.masastack.com/npm/@("@mdi")/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+<link href="https://cdn.masastack.com/npm/materialicons/materialicons.css" rel="stylesheet">
+<link href="https://cdn.masastack.com/npm/fontawesome/v5.0.13/css/all.css" rel="stylesheet">
+
+<link href="https://cdn.masastack.com/npm/quill/1.3.6/quill.snow.css" rel="stylesheet">
+<link href="https://cdn.masastack.com/npm/quill/1.3.6/quill.bubble.css" rel="stylesheet">
+<link href="https://cdn.masastack.com/npm/quill/1.3.6/quill-emoji.css" rel="stylesheet">
+<link href="https://cdn.masastack.com/npm/quill/1.3.6/quilljs-markdown-common-style.css" rel="stylesheet">
+
+
+
+<component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
 </head>
 <body>
     @RenderBody()
@@ -26,7 +42,44 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
-    <script src="_framework/blazor.server.js"></script>
+
+    <form class="d-none" method="post" name="frmUpload" id="frmUpload" action="upload" enctype="multipart/form-data">
+        <input type="file" name="file" id="frmUploadFile" onchange="fileManager.uploadSubmit(); return false;" />
+        <input type="submit" value="Upload" />
+    </form>
+@*    <InputFile type="file" name="file" id="frmUploadFile" hidden multiple accept=".jpg, .jpeg, .png" />
+
+<MudButton HtmlTag="label"   OnChange="UploadFiles" 
+           Variant="Variant.Filled"
+           Color="Color.Primary"
+           StartIcon="@Icons.Filled.CloudUpload"
+           for="fileInput112">
+    Upload your images
+</MudButton>*@
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+   
+    <!--js(should lay the end of file)-->
+    <script src="_content/BlazorComponent/js/blazor-component.js"></script>
+
+    <!--masa blazor quilljs script-->
+    <script src="https://cdn.masastack.com/npm/quill/1.3.6/quill.js"></script>
+    <script src="https://cdn.masastack.com/npm/quill/1.3.6/quilljs-markdown.js"></script>
+    <script src="https://cdn.masastack.com/npm/quill/1.3.6/quill-emoji.js"></script>
+    
+
+
+
+    <script src="editjs/frameworks/bootstrap.bundle.min.js"></script>
+    <script src="editjs/frameworks/easymde.min.js"></script>
+    <script src="editjs/frameworks/highlight.js"></script>
+    <script src="editjs/frameworks/autosize.min.js"></script>
+    <script src="editjs/frameworks/Chart.min.js"></script>
+
+    <script src="editjs/components.js"></script>
+    <script src="editjs/editor.js"></script>
+    <script src="editjs/dataService.js"></script>
+    <script src="editjs/fileManager.js"></script>
+    <script src="editjs/Myjs.js"></script>
+    <script src="_framework/blazor.server.js"></script>
 </body>
 </html>

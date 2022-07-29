@@ -14,14 +14,14 @@
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar   Elevation="0" Color="Color.Transparent">
+    <MudAppBar  Style="z-index: auto;" Elevation="0" Color="Color.Transparent">
 
        
         @*<MudText Class="mx-5">Menu</MudText>*@
         <MudSpacer />
        <LoginDisplay />
     </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" Elevation="0" ClipMode ="DrawerClipMode.Always" Variant="@DrawerVariant.Mini">
+    <MudDrawer   Style="z-index: auto;"  @bind-Open="_drawerOpen" Elevation="0" ClipMode ="DrawerClipMode.Always" Variant="@DrawerVariant.Mini">
         <MudStack Class="mx-2" Row="true" Justify="@(_drawerOpen?Justify.FlexEnd : Justify.Center)" AlignItems="AlignItems.Center" >
             <MudTooltip Text="展开菜单导航"  Arrow="true" Placement="Placement.Right">
                  <MudIconButton  Size="Size.Small" Variant="Variant.Outlined"  Icon="@Icons.Material.Filled.Menu"  Edge="Edge.End" OnClick="@((e) => DrawerToggle())" />

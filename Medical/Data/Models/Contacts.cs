@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Medical.Data.Models
 {
@@ -8,17 +9,20 @@ namespace Medical.Data.Models
         /// 联系电话
         /// </summary>
         [DisplayName("联系电话")]
+        [Required(ErrorMessage = "必须填写")]
         public string Contactnumber { set; get; }
 
         /// <summary>
-        /// 患者邮件
+        /// 患者邮件 mail
         /// </summary>
         [DisplayName("患者邮件")]
-        public string Emai { set; get; }
+        
+        public string Email { set; get; }
 
         /// <summary>
         /// 单位及地址
         /// </summary>
+        [Required(ErrorMessage = "必须填写")]
         [DisplayName("单位及地址")]
         public string Address { set; get; }
 

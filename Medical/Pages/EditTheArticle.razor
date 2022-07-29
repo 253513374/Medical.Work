@@ -1,0 +1,156 @@
+﻿
+@page "/edit"
+
+@layout EditLayout
+@inject IJSRuntime JS
+@inject ISnackbar Snackbar
+@inject NavigationManager Navigation
+
+
+<PageTitle>写作</PageTitle>
+
+    <EditForm  Model="@summaryReport" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator/>
+        <MudStack Row="true">
+
+              <MudButton StartIcon="@Icons.Outlined.Save"  ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" >保存</MudButton>
+          @*  <MudButton Size="Size.Large" Color="Color.Primary" Variant="Variant.Filled"   OnClick="OnSave">保存</MudButton>*@
+           @* <MudButton Size="Size.Large" Color="Color.Primary" Variant="Variant.Outlined" OnClick="OnSavePublished" >发布</MudButton>*@
+            <MudSpacer></MudSpacer>
+             <MudSpacer></MudSpacer>
+             <MudSelect Variant="Variant.Filled"   Style="color:white;background-color:rgba(255,255,255,0.7)" T="string" ValueChanged="OnSelectedValuesChanged" Label="个性化背景"  >
+                        @for( int k=0;k<BackgroundEnum.Length;k++ )
+                        {
+                            var item = BackgroundEnum[k];
+                            var sss = k;
+                            <MudSelectItem Value="@item">@($"第{sss+1}张图") </MudSelectItem>
+                        }
+                    </MudSelect>
+        </MudStack>
+        <div style="background-color:rgb(255,255,255,0.2);backdrop-filter:blur(20px);border-radius:5px;padding:40px;">
+            
+            <BannerTitle Title="工作记录" TitleCaption="给予患者希望与力量，把简单与平凡演绎成无数个精彩。"></BannerTitle>
+
+            <MudStack Row="false" Justify="Justify.Center" AlignItems="AlignItems.Stretch"  >
+                <MudTextField T="string" Variant="Variant.Outlined" @bind-Value="@summaryReport.Title"For="@(() => summaryReport.Title)"  Label="标题" ></MudTextField>
+                <MudTextField T="string" Variant="Variant.Outlined" @bind-Value="@summaryReport.Description" For="@(() => summaryReport.Description)"  Lines="3" Label="摘要" MaxLength="150" ></MudTextField>
+
+
+                <MudStack Row="true">
+                     <MudSelect   @bind-Value="@summaryReport.PostType" For="@(() => summaryReport.PostType)" Label="写作类型" Variant="Variant.Text" >
+                        @foreach (var item in EnumItems.PostTypeEnum)
+                        {
+                            <MudSelectItem Value="@item"></MudSelectItem>
+                        }
+                    </MudSelect>
+                    <MudTextField T="string" Variant="Variant.Outlined" @bind-Value="summaryReport.keywordTag" For="@(() => summaryReport.keywordTag)"  Label="关键词" ></MudTextField>
+                </MudStack>
+   
+            </MudStack>
+    
+         </div>
+          <EditorComponent Content="@summaryReport.BodyContent" Toolbar="fullToolbar"></EditorComponent>
+    </EditForm>
+
+@code {
+
+    private Summaryreport  summaryReport{ set; get; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    [Inject]
+    protected ILogger<EditTheArticle> Logger{ set; get; }
+
+    [Inject]
+    protected IDbContextFactory<MedicalDbContext> DbContextFactory{ set; get; }
+
+    [JSInvokable]
+    public static Task<string> Upload(object file)
+    {
+
+        Console.WriteLine("Upload调用成功");
+        return Task.FromResult("DONET调用js成功");
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        summaryReport = NewSummaryreport();
+        return base.OnInitializedAsync();
+    }
+
+    protected Summaryreport NewSummaryreport()
+    {
+
+        var username = authenticationStateTask.Result.User.Identity.Name;
+        return new Summaryreport()
+            {
+                Title = "",
+                Description = "",
+                PostType = "",
+                keywordTag = "",
+                BodyContent = "",
+                Createtime = DateTime.Now,
+                Adminname = username,
+                IsFeatured = false,
+                Ispublic = false,
+                PublishedDate = DateTime.MinValue
+
+            };
+    }
+
+    public string[] BackgroundEnum { set; get; } = new[]
+        {
+            "img/bg1.jpg",
+            "img/bg2.jpg",
+            "img/bg3.jpg",
+            "img/bg4.jpg",
+            "img/bg5.jpg"
+    };
+
+    protected Task OnSelectedValuesChanged(string img)
+    {
+        JS.InvokeVoidAsync("JSMethods.setbackground",img);
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// 保存并发布
+    /// </summary>
+    /// <returns></returns>
+    //private async Task OnSavePublished(EditContext editcontext )
+    //{
+
+    //    var  body  = (Summaryreport)editcontext.Model;
+    //    body.Ispublic = true;
+    //    await Save(body);
+    //    Snackbar.Add("文章保存成功",Severity.Success);
+
+
+    //}
+
+    /// <summary>
+    /// 表单提交 ,保存文稿
+    /// </summary>
+    /// <param name="editcontext"></param>
+     private async void OnValidSubmit(EditContext editcontext)
+    {
+
+         var  body  = (Summaryreport)editcontext.Model;
+        await Save(body);
+        Snackbar.Add("文章保存成功",Severity.Success);
+        //return Task.CompletedTask;
+    }
+
+
+    private async Task  Save( Summaryreport summaryreport)
+    {
+        using var summaryReport = DbContextFactory.CreateDbContext();
+        summaryReport.Summaryreports.Add(summaryreport);
+        await summaryReport.SaveChangesAsync();
+
+        Navigation.NavigateTo("/guardianship");
+
+    }
+}

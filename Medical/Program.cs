@@ -70,7 +70,8 @@ try
 
     builder.Services.AddScoped<EnumServer>();//同一个请求 都是一个实列对象
 
-
+    builder.Services.AddMasaBlazor();
+    
     builder.Services.AddMudServices(config =>
     {
         config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopCenter;
@@ -102,8 +103,16 @@ try
 
     app.UseAuthentication();
     app.UseAuthorization();
-    app.MapBlazorHub();
-    app.MapFallbackToPage("/_Host");
+    //app.MapBlazorHub();
+    //app.MapControllers();
+    app.UseEndpoints(endpoints => {
+        endpoints.MapControllers();
+        endpoints.MapBlazorHub();
+        endpoints.MapFallbackToPage("/_Host");
+    });
+
+
+ //   app.MapFallbackToPage("/_Host");
 
 
 
