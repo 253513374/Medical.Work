@@ -398,7 +398,6 @@
             "皮下注射",
             "肌肉注射",
             "静脉注射",
-            "其他"
         };
 
         public static IEnumerable<string> PostTypeEnum { set; get; } = new[]

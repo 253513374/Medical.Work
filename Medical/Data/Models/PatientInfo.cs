@@ -177,6 +177,18 @@ namespace Medical.Data.Models
         public string CollationAttribute { set; get; } = "";
 
 
-     
+        /// <summary>
+        /// 入院诊断
+        /// </summary>
+        public string? INDiagnosis { set; get; }
+
+       
+        /// <summary>
+        /// 出院诊断
+        /// </summary>
+        public string? OUTDiagnosis { set; get; }
+
+
+
     }
 }

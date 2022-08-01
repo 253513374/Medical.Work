@@ -40,10 +40,10 @@ else
     
 
 @*<MudTable Items="@Summaryreports" MultiSelection="true" @bind-SelectedItems="selectedItems" Hover="@hover">*@
-     <MudTable T="Summaryreport"  Items="@Summaryreports"  FixedFooter="true"
+     <MudTable T="SummaryOfCases"  Items="@Summaryreports"  FixedFooter="true"
          FixedHeader = "true" Height="600px" Elevation="0" Hover="true" ReadOnly="true"
          MultiSelection="true" @bind-SelectedItems="selectedItems" 
-              Filter="new Func<Summaryreport,bool>(FilterFuncTable)"  Dense="false" >
+              Filter="new Func<SummaryOfCases,bool>(FilterFuncTable)"  Dense="false" >
     
     <ToolBarContent>
         <MudSpacer />
@@ -82,9 +82,9 @@ else
 @code {
     private string searchstring="";
 
-    private List<Summaryreport> Summaryreports{ set; get; }
+    private List<SummaryOfCases> Summaryreports{ set; get; }
 
-    private HashSet<Summaryreport> selectedItems = new HashSet<Summaryreport>();
+    private HashSet<SummaryOfCases> selectedItems = new HashSet<SummaryOfCases>();
 
     [Inject]
     protected ILogger<Page_Guardianship> Logger{ set; get; }
@@ -98,7 +98,7 @@ else
         {
             using var context = DbContextFactory.CreateDbContext();
 
-            Summaryreports = await context.Summaryreports.AsNoTracking().ToListAsync();
+            Summaryreports = await context.SummaryOfCases.AsNoTracking().ToListAsync();
             StateHasChanged();
         }
        // return Task.FromResult()
@@ -117,13 +117,13 @@ else
     /// </summary>
     /// <param name="element"></param>
     /// <returns></returns>
-    private bool FilterFuncTable(Summaryreport element) => FilterFunc(element, searchstring);
+    private bool FilterFuncTable(SummaryOfCases element) => FilterFunc(element, searchstring);
 
-    private bool FilterFunc(Summaryreport element, string searchString)
+    private bool FilterFunc(SummaryOfCases element, string searchString)
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
-            if($"{element.Title} {element.Description} {element.PostType} {element.keywordTag}".Contains(searchString)){
+            if($"{element.Title} {element.Description} {element.keywordTag}".Contains(searchString)){
              return true;
         }
         return false;

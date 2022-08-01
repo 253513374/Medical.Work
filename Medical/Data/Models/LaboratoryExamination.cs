@@ -64,7 +64,7 @@ namespace Medical.Data.Models
         public string? CLcr { set; get; }
 
         /// <summary>
-        /// 小球滤过率 mL/(min*1.73m2)
+        /// 肾小球滤过率 mL/(min*1.73m2)
         /// </summary>
         [DisplayName("肾小球滤过率 mL/(min*1.73m2)")]
      //   [AutoGenerateColumn(Ignore = true)]

@@ -7,18 +7,22 @@
 <MudDialog>
     <TitleContent></TitleContent>
     <DialogContent>
+
+        <MudStack Justify="Justify.Center">
+            <MudText Align="Align.Center" >
+                <MudAvatar  Image="img/logo.png"  Style="height:80px; width:80px; font-size:2rem;"></MudAvatar>
+            </MudText>
+            <MudText Align="Align.Center"  Typo="Typo.h6">基础档案信息</MudText>
+        </MudStack>
        <EditForm Model="@patientInfo" OnValidSubmit="OnValidSubmit">
             <DataAnnotationsValidator/>
             <MudCard Elevation="0" >
                 <MudCardContent>
-                    <MudGrid Spacing="5" >
+                    <MudGrid Spacing="3" Style="align-items:end" >
                         <MudItem  lg="6" md="6" xl="6" sm="12"  >
-                            <MudStack   Row="false"  Justify="Justify.Center" Spacing="3" >
+                            <MudStack   Row="false"  Spacing="1" >
                    
-                                <MudText Align="Align.Center" >
-                                     <MudAvatar  Image="img/logo.png"  Style="height:100px; width:100px; font-size:2rem;"></MudAvatar>
-                                </MudText>
-                                <MudText Align="Align.Center"  Typo="Typo.h6">个人档案信息</MudText>
+                                
 
                                   <MudTextField  @bind-Value="@patientInfo.CollationAttribute" For="@(() => patientInfo.CollationAttribute)" Label="病历属性" HelperText="用来归类分析当前档案是属于那个类型的疾病" Variant="Variant.Text" />
                                 <MudStack Row="true">
@@ -58,11 +62,15 @@
                                     <MudTextField  @bind-Value="@patientInfo.BMI" For="@(() => patientInfo.BMI)" OnBlur="@OnBlur" Label="BIM" Variant="Variant.Text" />
                                     <MudTextField  @bind-Value="@patientInfo.BSA" For="@(() => patientInfo.BSA)" Label="体表面积" Variant="Variant.Text" />
                                 </MudStack>
+                                <MudStack Row="true">
+                                    <MudTextField  @bind-Value="@patientInfo.INDiagnosis" For="@(() => patientInfo.INDiagnosis)" Label="入院诊断" Variant="Variant.Text" />
+                                    <MudTextField  @bind-Value="@patientInfo.OUTDiagnosis" For="@(() => patientInfo.OUTDiagnosis)" Label="出院诊断" Variant="Variant.Text" />
+                                </MudStack>
                             </MudStack>
                         </MudItem>
-                        <MudItem lg="6" md="6" xl="6" sm="12" >
-                            <MudStack Row="false" Spacing="5" >
-                                <MudTextField  @bind-Value="@patientInfo.Department"   For="@(() => patientInfo.Department)" Label="科室" Variant="Variant.Text" />
+                        <MudItem lg="6" md="6" xl="6" sm="12"   >
+                            <MudStack Row="false" Spacing="1" >
+                                <MudTextField  @bind-Value="@patientInfo.Department"   For="@(() => patientInfo.Department)" Label="科室" HelperText="." Variant="Variant.Text" />
                                 <MudStack Row="true">
                                     <MudDatePicker   @bind-Value="@patientInfo.Admissiontime" For="@(() => patientInfo.Admissiontime)" Label="入院时间" Variant="Variant.Text" />
                                     <MudDatePicker   @bind-Value="@patientInfo.Dischargetime" For="@(() => patientInfo.Dischargetime)"  Label="出院时间" Variant="Variant.Text" />
@@ -85,7 +93,7 @@
                     </MudGrid>
              
                 </MudCardContent>
-                <MudCardActions  Class="my-5">
+                <MudCardActions  Class="my-2">
                     <MudStack Row="true" Justify="Justify.FlexEnd"  Style="width:100%" >
                         <MudButton OnClick="@(s=>MudDialog.Cancel())">取消</MudButton>
                         <MudButton StartIcon="@Icons.Outlined.Save"  ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" >保存</MudButton>

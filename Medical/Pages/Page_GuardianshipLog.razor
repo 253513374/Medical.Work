@@ -1,0 +1,184 @@
+﻿@page "/guardianshiplog"
+
+
+
+
+<PageTitle>监护日志</PageTitle>
+
+<BannerTitle  Title="监护日志" TitleCaption="给予患者希望与力量，把简单与平凡演绎成无数个精彩。"></BannerTitle>
+
+
+
+ <MudGrid>
+     <MudItem xl="6" lg="6" md="6">
+        <EditForm Model="@MedicalValue" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator/>
+            <MudStack Row="false" Justify="Justify.FlexStart" >
+               
+               <MudStack Row="true">
+                    <MudTextField  Label="监护流程名称" @bind-Value="MedicalValue.Summaryreportclass" For="@(() => MedicalValue.Summaryreportclass)"></MudTextField>
+                    <MudTextField Label="药学记录日期" @bind-Value="MedicalValue.Notesdate" For="@(() => MedicalValue.Notesdate)" T="DateTime?" Format="s" InputType="InputType.DateTimeLocal"></MudTextField>
+             
+               </MudStack>
+                <MudTextField  Label="临床症状" @bind-Value="MedicalValue.Clinicalsymptoms"  For="@(() => MedicalValue.Clinicalsymptoms)" Lines="6"></MudTextField>
+                <MudTextField  Label="治疗方案" @bind-Value="MedicalValue.Treatmentplan" For="@(() => MedicalValue.Treatmentplan)" Lines="6"></MudTextField>
+           
+             <MudFab  Label="保存"  ButtonType="ButtonType.Submit" Size="Size.Medium" Color="Color.Primary" DisableElevation="true"  
+                         StartIcon="@Icons.Outlined.Save" > </MudFab>
+                
+            </MudStack>
+        </EditForm>
+     </MudItem>
+     <MudItem xl="6" lg="6" md="6" >
+        <MudTimeline  TimelineAlign="TimelineAlign.Start" TimelineOrientation="TimelineOrientation.Vertical" TimelinePosition="TimelinePosition.Left">
+            @if(Summaryreports is not null)
+            {
+                foreach (var item in Summaryreports)
+                {
+                    <MudTimelineItem Color="Color.Primary" Elevation="25">
+                        @*<ItemOpposite>
+                            <MudStack Row="false" Justify="Justify.FlexStart">
+                                 <MudText Color="Color.Primary" Typo="Typo.h6">@item.Notesdate.Value.ToString("yyyy:MM:dd")</MudText>
+                                 <MudText Color="Color.Primary" Typo="Typo.h6">@item.Notesdate.Value.ToString("HH:mm:ss")</MudText>
+                            </MudStack>
+                        </ItemOpposite>*@
+                        <ItemContent>
+                            <MudPaper Elevation="0" Class="mt-n1">
+                                <MudStack Row="true" Justify="Justify.SpaceBetween">
+                                      <MudText Color="Color.Primary" Typo="Typo.h6" GutterBottom="true">@item.Summaryreportclass</MudText>
+                                      <MudStack Row="true" Class="mx-1" Spacing="0">
+                                          <MudIconButton Color="Color.Info" Size="Size.Small" Icon="@Icons.Material.Filled.Edit" OnClick="@(s=>OnClickEdit(item))" ></MudIconButton>
+                                          <MudIconButton Color="Color.Dark" Size="Size.Small" Icon="@Icons.Material.Outlined.Delete" OnClick="@(s=>OnClickDelete(item))" ></MudIconButton>
+                                      </MudStack>
+                                </MudStack>
+                              
+                                <MudText Typo="Typo.body2"><b style="font-weight:700;">临床症状：</b>@item.Clinicalsymptoms</MudText>
+                                <MudText Class="my-1" Typo="Typo.body2"><b style="font-weight:700;">治疗方案:</b>@item.Treatmentplan</MudText>
+                                <MudStack Row="true" Justify="Justify.SpaceBetween"> 
+                                    <MudText Typo="Typo.body2"><b style="font-weight:700;">监护时间：</b> @item.Notesdate</MudText>
+                                    <MudText Typo="Typo.caption">@item.Createtime</MudText>
+                                </MudStack>
+                            </MudPaper>
+                            
+                        </ItemContent>
+                    </MudTimelineItem>
+                }
+            }
+         </MudTimeline>
+     </MudItem>
+ </MudGrid>
+
+@* 自定义弹出提示框
+    <MudMessageBox @ref="mbox" Title="Warning" CancelText="Cancel">
+    <MessageContent>
+        Deleting can <b><i>not</i></b> be undone!
+    </MessageContent>
+    <YesButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.DeleteForever">Delete!</MudButton>
+    </YesButton>
+</MudMessageBox>*@
+@code {
+
+    private Summaryreport MedicalValue{ set; get; }
+
+    private List<Summaryreport>  Summaryreports{ set; get; }
+
+    [Inject] private IDialogService DialogService { get; set; }
+    [Inject]
+    protected ILogger<Page_GuardianshipLog> Logger{ set; get; }
+
+    [Inject]
+    protected IDbContextFactory<MedicalDbContext> DbContextFactory{ set; get; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    protected override Task OnParametersSetAsync()
+    {
+        if (MedicalValue is null)
+        {
+            MedicalValue =  NewSummaryreport();
+        }
+        return base.OnParametersSetAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            using var coentxt = DbContextFactory.CreateDbContext();
+            Summaryreports = await coentxt.Summaryreports.AsNoTracking().OrderByDescending(o => o.Createtime).Take(10).ToListAsync();
+            StateHasChanged();
+        }
+        //return base.OnAfterRenderAsync(firstRender);
+    }
+
+    private Summaryreport NewSummaryreport()
+    {
+        var name = authenticationStateTask.Result.User.Identity.Name;
+        return new Summaryreport()
+            {
+                Adminname = name,
+                Createtime = DateTime.Now,
+        };
+
+    }
+
+    private Task OnEditArticle()
+    {
+        return Task.CompletedTask;
+    }
+
+    private void OnValidSubmit(EditContext  context)
+    {
+
+        var sum = context.Model as Summaryreport;
+
+        if (sum is null) return;
+
+        using var coentxt = DbContextFactory.CreateDbContext();
+        coentxt.Summaryreports.Add(sum);
+        coentxt.SaveChanges();
+        Logger.LogInformation($"新增监护日志：{sum.Summaryreportclass}");
+
+
+        Summaryreports.Insert(0,sum);
+
+        MedicalValue = NewSummaryreport();
+        StateHasChanged();
+    }
+
+    private Task OnClickEdit(Summaryreport summaryreport)
+    {
+
+        MedicalValue = summaryreport;
+        StateHasChanged();
+        Logger.LogInformation($"编辑监护日志：{summaryreport.Summaryreportclass}");
+
+        return Task.CompletedTask;
+    }
+
+    private async Task OnClickDelete(Summaryreport summaryreport)
+    {
+        DialogOptions options = new DialogOptions();
+        options.MaxWidth = MaxWidth.Small;
+        bool? result = await DialogService.ShowMessageBox(
+           "删除警告！", 
+           $"是否删除{summaryreport.Summaryreportclass}", 
+           yesText:"删除", cancelText:"取消",options:options);
+        if (result is null ||!result.Value) return ;
+
+        // state= result==null ? "Cancelled" : "Deleted!";
+
+        using var coentxt = DbContextFactory.CreateDbContext();
+        coentxt.Summaryreports.Remove(summaryreport);
+        coentxt.SaveChanges();
+
+        Logger.LogInformation($"删除监护日志：{summaryreport.Summaryreportclass}");
+
+        Summaryreports.Remove(summaryreport);
+
+        StateHasChanged();
+
+        return; //Task.CompletedTask;
+    }
+}
