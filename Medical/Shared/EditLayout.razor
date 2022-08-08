@@ -1,7 +1,7 @@
 ﻿
 @inherits LayoutComponentBase
 
-
+@inject IJSRuntime JS
 @*<h3>EditLayout</h3>*@
 
  <style type="text/css">
@@ -32,7 +32,24 @@
 />
 <MudSnackbarProvider />
 <MudLayout>
+    <MudAppBar Dense="false"  Style="@($"color:{Colors.Grey.Darken3};z-index: auto; background:{Colors.Shades.White};")" Elevation="1" >
 
+       
+        <MudText Class="mx-5">Menu</MudText>
+        <MudSpacer />
+        <MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.FlexEnd" Spacing="5">
+            <MudSelect Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense"  
+                       Style="color:white;background-color:rgba(255,255,255,0.7)" T="string" ValueChanged="OnSelectedValuesChanged" Label="个性化背景"  >
+                @for( int k=0;k<BackgroundEnum.Length;k++ )
+                {
+                    var item = BackgroundEnum[k];
+                    var sss = k;
+                    <MudSelectItem Value="@item">@($"第{sss+1}张图") </MudSelectItem>
+                }
+            </MudSelect>
+            <LoginDisplay />
+        </MudStack>
+    </MudAppBar>
     <MudMainContent>
        <MudContainer>
            
@@ -47,22 +64,27 @@
     </MudMainContent>*@
 </MudLayout>
 
-@*<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <div class="main">
-        <div class="top-row px-4">
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-        </div>
-
-        <div class="content px-4">
-            @Body
-        </div>
-    </div>
-</div>
-*@
 @code {
+
+
+    public string[] BackgroundEnum { set; get; } = new[]
+    {
+        "img/bg1.jpg",
+        "img/bg2.jpg",
+        "img/bg3.jpg",
+        "img/bg4.jpg",
+        "img/bg5.jpg"
+    };
+    
+    protected override Task OnInitializedAsync()
+    {
+        JS.InvokeVoidAsync("JSMethods.setbackground","img/bg4.jpg");
+        return base.OnInitializedAsync();
+    }
+    protected Task OnSelectedValuesChanged(string img)
+    {
+        JS.InvokeVoidAsync("JSMethods.setbackground",img);
+        return Task.CompletedTask;
+    }
 
 }

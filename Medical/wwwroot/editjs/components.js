@@ -82,12 +82,12 @@ window.commonJsFunctions = {
     editorToolbarTooltip();
   },
   setEditorValue: function (txt) {
-    easymde.value(txt
-      .replace(/&#xA;/g, '\r\n')
-      .replace(/&#xD;/g, '')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&quot;/g, '"'));
+    //easymde.value(txt
+    //  .replace(/&#xA;/g, '\r\n')
+    //  .replace(/&#xD;/g, '')
+    //  .replace(/&lt;/g, '<')
+    //  .replace(/&gt;/g, '>')
+    //  .replace(/&quot;/g, '"'));
   },
   getEditorValue: function () {
     return easymde.value();

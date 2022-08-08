@@ -1,0 +1,63 @@
+﻿
+@page "/bolg/{Id:string}"
+@inject NavigationManager NavigationManager
+
+
+<MudContainer  MaxWidth="MaxWidth.Medium" Style="justify-content:center">
+    <MudPaper Elevation="0" Class="pa-5 rounded-lg">
+        @if(blogBody is  not null)
+        {
+            <MudText Class="my-12" Align="Align.Start" Typo="Typo.h3">@blogBody.Title</MudText>
+            @((MarkupString)badyContent)
+        }
+    </MudPaper>
+
+
+    <MudPaper Elevation="0" Class="my-16">
+         <MudText Class="pb-16" Typo="Typo.h6">推荐文章列表</MudText>
+    </MudPaper>
+   
+    
+</MudContainer>
+
+
+
+
+@code {
+    
+    [Parameter]
+    public string Id{ set; get; }
+
+    private SummaryOfCases blogBody { set; get; }
+
+    private string badyContent{ set; get; }
+
+    [Inject]
+    protected ILogger<BlogBody> Logger{ set; get; }
+
+    [Inject]
+    protected IDbContextFactory<MedicalDbContext> DbContextFactory{ set; get; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            blogBody = await GetBlogBody(Id);
+            if (blogBody.BodyContent is not null)
+            {
+                 badyContent = Markdown.ToHtml(blogBody.BodyContent);
+            }
+           
+            StateHasChanged();
+            //await JSRuntime.InvokeAsync<string>("commonJsFunctions.loadEditor", Toolbar);
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    protected async Task<SummaryOfCases> GetBlogBody(string guid)
+    {
+        var blogBody = await DbContextFactory.CreateDbContext().SummaryOfCases.FirstOrDefaultAsync(x => x.SummaryOfCasesGuid == guid);
+        return blogBody;
+    }
+}
+

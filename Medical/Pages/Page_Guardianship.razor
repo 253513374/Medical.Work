@@ -1,6 +1,7 @@
-﻿@page "/guardianship"
+﻿@*@page "/guardianship"
 
 
+@attribute [Authorize]
 
  @inject NavigationManager Navigation
 
@@ -37,9 +38,6 @@
 }
 else
 {
-    
-
-@*<MudTable Items="@Summaryreports" MultiSelection="true" @bind-SelectedItems="selectedItems" Hover="@hover">*@
      <MudTable T="SummaryOfCases"  Items="@Summaryreports"  FixedFooter="true"
          FixedHeader = "true" Height="600px" Elevation="0" Hover="true" ReadOnly="true"
          MultiSelection="true" @bind-SelectedItems="selectedItems" 
@@ -56,26 +54,24 @@ else
     <RowTemplate>
         <MudTd >@context.Title</MudTd>
         <MudTd >
-              <MudToggleIconButton @bind-Toggled="@context.Ispublic"
-                     Icon="@Icons.Material.Filled.AlarmOff" Color="@Color.Error" Title="Off"
-                     ToggledIcon="@Icons.Material.Filled.AlarmOn" ToggledColor="@Color.Success" ToggledTitle="On"/> 
-                       <MudToggleIconButton @bind-Toggled="@context.Ispublic"
-                     Icon="@Icons.Material.Filled.AlarmOff" Color="@Color.Error" Title="Off"
-                     ToggledIcon="@Icons.Material.Filled.AlarmOn" ToggledColor="@Color.Success" ToggledTitle="On"/> 
-                       <MudToggleIconButton @bind-Toggled="@context.Ispublic"
-                     Icon="@Icons.Material.Filled.AlarmOff" Color="@Color.Error" Title="Off"
-                     ToggledIcon="@Icons.Material.Filled.AlarmOn" ToggledColor="@Color.Success" ToggledTitle="On"/> 
-                       <MudToggleIconButton @bind-Toggled="@context.Ispublic"
-                     Icon="@Icons.Material.Filled.AlarmOff" Color="@Color.Error" Title="Off"
-                     ToggledIcon="@Icons.Material.Filled.AlarmOn" ToggledColor="@Color.Success" ToggledTitle="On"/> 
+           
+            <MudToggleIconButton @bind-Toggled="@context.Ispublic"
+                     Icon="@Icons.Outlined.PublicOff" Color="@Color.Dark" Title="Off"
+                     ToggledIcon="@Icons.Outlined.Publish" ToggledColor="@Color.Success" ToggledTitle="On"/> 
+
+            <MudToggleIconButton @bind-Toggled="@context.Ispublic"
+                     Icon="@Icons.Filled.StarRate" Color="@Color.Dark" Title="Off"
+                     ToggledIcon="@Icons.Filled.StarOutline" ToggledColor="@Color.Success" ToggledTitle="On"/> 
+
+  
+                     
+                <MudIconButton OnClick="@(s=>OnClickLinkBlogBody(context.SummaryOfCasesGuid))"
+                            Icon="@Icons.Outlined.Link" Color="@Color.Dark" Title="Link" ></MudIconButton>
         </MudTd>
     </RowTemplate>
     <PagerContent>
         <MudTablePager PageSizeOptions="new int[]{50, 100}" />
     </PagerContent>
-@*    <FooterContent>
-        <MudTd colspan="5" >选择所有</MudTd>
-    </FooterContent>*@
 </MudTable>
 }
 
@@ -92,6 +88,9 @@ else
     [Inject]
     protected IDbContextFactory<MedicalDbContext> DbContextFactory{ set; get; }
 
+    
+
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -101,7 +100,7 @@ else
             Summaryreports = await context.SummaryOfCases.AsNoTracking().ToListAsync();
             StateHasChanged();
         }
-       // return Task.FromResult()
+        // return Task.FromResult()
     }
 
 
@@ -109,10 +108,10 @@ else
     {
         Logger.LogInformation("OnEditArticle");
 
-        Navigation.NavigateTo("/edit");
+        Navigation.NavigateTo($"/edit/{SummaryOfCasesOptions.New}");
     }
 
-        /// <summary>
+    /// <summary>
     /// 表格数据帅选过滤
     /// </summary>
     /// <param name="element"></param>
@@ -123,9 +122,64 @@ else
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
-            if($"{element.Title} {element.Description} {element.keywordTag}".Contains(searchString)){
-             return true;
+        if($"{element.Title} {element.Description} {element.keywordTag}".Contains(searchString)){
+            return true;
         }
         return false;
     }
+
+    private Task OnClickLinkBlogBody(string? id)
+    {
+
+        //Navigation.BaseUri;
+        if (id is null)
+        {
+            return Task.CompletedTask;
+        }
+        var uri = $"/bolg/{id}";
+
+
+       Navigation.NavigateTo(uri);
+
+        return Task.CompletedTask;
+    }
+
+
+    /// <summary>
+    /// 删除数据
+    /// </summary>
+    /// <param name="guid"></param>
+    /// <returns></returns>
+    private Task  OnClickDelete(string guid)
+    {
+        Logger.LogInformation("OnClickDelete");
+
+        using var context = DbContextFactory.CreateDbContext();
+        var item = context.SummaryOfCases.FirstOrDefault(x => x.SummaryOfCasesGuid == guid);
+        
+        if (item != null)
+        {
+            context.SummaryOfCases.Remove(item);
+            context.SaveChanges();
+        }
+        
+        return Task.CompletedTask;
+    }
+
+    
+    /// <summary>
+    /// 删除数据
+    /// </summary>
+    /// <param name="guid"></param>
+    /// <returns></returns>
+    private Task  OnClickEdie(string guid)
+    {
+        Logger.LogInformation("OnClickEdie");
+
+         var uri = $"/edit/{SummaryOfCasesOptions.Edit}/{guid}";
+        Navigation.NavigateTo(uri);
+
+        return Task.CompletedTask;
+    }
 }
+*@

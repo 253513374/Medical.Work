@@ -15,7 +15,7 @@ namespace Medical.Data.Models
         /// 病史概要
         /// </summary>
         [DisplayName("病史概要")]
-        public string Medicalhistorysummary { set; get; }
+        public string? Medicalhistorysummary { set; get; }
 
         /// <summary>
         /// 用药目的 MedicationEnum
@@ -38,13 +38,16 @@ namespace Medical.Data.Models
         /// <summary>
         /// 文本路径
         /// </summary>
-        public string TextUrl { set; get; }
+        public string? TextUrl { set; get; }
 
         /// <summary>
         /// 感染
         /// </summary>
         [DisplayName("感染")]
         public List<PatientInfoExDiagnosisTable> PatientInfoExDiagnosisTable { set; get; }
+
+
+       public string? SummaryOfCasesGuid { set; get; }
 
 
 
@@ -57,7 +60,7 @@ namespace Medical.Data.Models
         /// <summary>
         /// 文章发布时间
         /// </summary>
-        public DateTime PublishedDate { get; set; }
+        public DateTime? PublishedDate { get; set; }
 
 
         /// <summary>
@@ -65,12 +68,12 @@ namespace Medical.Data.Models
         /// </summary>
         [Required(ErrorMessage = "必须填写")]
         [StringLength(160)]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         /// <summary>
         /// 报告内容
         /// </summary>
-        public string BodyContent { set; get; }
+        public string? BodyContent { set; get; }
 
 
         /// <summary>
@@ -78,7 +81,7 @@ namespace Medical.Data.Models
         /// </summary>
         [Required(ErrorMessage = "必须填写")]
         [StringLength(450)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
 
         /// <summary>
@@ -102,6 +105,6 @@ namespace Medical.Data.Models
         /// 文章关键词
         /// </summary>
         [Required(ErrorMessage = "必须填写")]
-        public string keywordTag { set; get; }
+        public string? keywordTag { set; get; }
     }
 }

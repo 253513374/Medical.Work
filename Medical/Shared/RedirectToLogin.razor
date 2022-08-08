@@ -1,0 +1,23 @@
+﻿
+@inject NavigationManager NavManager
+
+@code{
+
+    [Parameter]
+    public string? ReturnUrl { get; set; }
+
+    protected override void OnInitialized()
+    {
+        try
+        {
+            NavManager.NavigateTo($"Identity/Account/Login?returnUrl=/{ReturnUrl}", true);
+           // NavigationManager.NavigateTo($"Identity/Account/Login");
+        }
+        catch (Exception ex)
+        {
+            // throw;
+        }
+    }
+}
+
+

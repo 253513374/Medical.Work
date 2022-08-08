@@ -1,7 +1,7 @@
 ﻿@page "/guardianshiplog"
 
 
-
+@attribute [Authorize]
 
 <PageTitle>监护日志</PageTitle>
 
@@ -92,6 +92,8 @@
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
+    private bool IsEdit { set; get; } = false;
+
     protected override Task OnParametersSetAsync()
     {
         if (MedicalValue is null)
@@ -132,17 +134,26 @@
     {
 
         var sum = context.Model as Summaryreport;
-
         if (sum is null) return;
 
         using var coentxt = DbContextFactory.CreateDbContext();
-        coentxt.Summaryreports.Add(sum);
+
+
+        if (IsEdit)
+        {
+
+            coentxt.Summaryreports.Update(sum);
+            Logger.LogInformation($"编辑更新监护日志：{sum.Summaryreportclass}");
+        }
+        else
+        {
+            coentxt.Summaryreports.Add(sum);
+            Summaryreports.Insert(0,sum);
+            Logger.LogInformation($"新增监护日志：{sum.Summaryreportclass}");
+        }
         coentxt.SaveChanges();
-        Logger.LogInformation($"新增监护日志：{sum.Summaryreportclass}");
 
-
-        Summaryreports.Insert(0,sum);
-
+        IsEdit = false;
         MedicalValue = NewSummaryreport();
         StateHasChanged();
     }
@@ -150,6 +161,7 @@
     private Task OnClickEdit(Summaryreport summaryreport)
     {
 
+        IsEdit = true;
         MedicalValue = summaryreport;
         StateHasChanged();
         Logger.LogInformation($"编辑监护日志：{summaryreport.Summaryreportclass}");

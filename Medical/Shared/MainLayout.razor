@@ -1,6 +1,16 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider />
+
+
+@inject IJSRuntime JS
+@inject ISnackbar Snackbar
+
+
+@attribute [Authorize]
+
+
+
+        <MudThemeProvider />
 <MudDialogProvider
     FullWidth="true"
     MaxWidth="MaxWidth.Medium"
@@ -47,6 +57,9 @@
     </MudMainContent>
 </MudLayout>
 
+
+
+
 @code {
     bool _drawerOpen = true;
 
@@ -60,7 +73,12 @@
         }
         else
         {
-             navVariant = DrawerVariant.Mini;
+            navVariant = DrawerVariant.Mini;
         }
+    }
+    protected override Task OnInitializedAsync()
+    {
+        JS.InvokeVoidAsync("JSMethods.setbackground","");
+        return base.OnInitializedAsync();
     }
 }

@@ -100,7 +100,6 @@ try
     app.UseStaticFiles();
 
     app.UseRouting();
-
     app.UseAuthentication();
     app.UseAuthorization();
     //app.MapBlazorHub();
@@ -110,13 +109,6 @@ try
         endpoints.MapBlazorHub();
         endpoints.MapFallbackToPage("/_Host");
     });
-
-
- //   app.MapFallbackToPage("/_Host");
-
-
-
-
     app.Run();
 }
 catch (Exception ex)
