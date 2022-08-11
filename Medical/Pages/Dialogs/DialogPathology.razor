@@ -28,13 +28,6 @@
                                 <MudTextField    @bind-Value="@MedicalValue.Xraylocation" For="@(() => MedicalValue.Xraylocation)" Label="检查部位" Variant="Variant.Text" />
                                 <MudTextField  Lines="3"  @bind-Value="@MedicalValue.Xrayinspection" For="@(() => MedicalValue.Xrayinspection)" Label="检查结果" Variant="Variant.Text" />
                                  
-                                    @* <MudStack Row="true">
-                                       <MudAutocomplete  Clearable="true" T="string" Label="放射诊断方式" @bind-Value="@MedicalValue.Xrayimagingenum" For="@(() => MedicalValue.Xrayimagingenum)"
-                                                                        SearchFunc="OnAutoSearchXrayimagingenum" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                                    <MudAutocomplete  Clearable="true" T="string" Label="放射诊断部位" @bind-Value="@MedicalValue.XrayImaginglocationenum" For="@(() => MedicalValue.XrayImaginglocationenum)"
-                                                                SearchFunc="OnAutoSearchXrayImaginglocationenum" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                                </MudStack>*@
-                                
                             </MudStack>
                         </MudItem>
                         <MudItem   lg="6" md="6" xl="6" sm="12"  >
@@ -214,7 +207,7 @@
         var editModel = (X_raypathological)editcontext.Model;
 
         editModel.Guid = BingPatientInfo.Guid;
-        editModel.Createtime = DateTime.Now;
+        editModel.CreateTime = DateTime.Now;
         editModel.Username = BingPatientInfo.Username;
 
         if( FilePath.Count>0)
@@ -234,7 +227,7 @@
         var username = authenticationStateTask.Result.User.Identity.Name;
         var  createModel = (X_raypathological)editcontext.Model;
         createModel.Adminname = username;
-        createModel.Createtime = DateTime.Now;
+        createModel.CreateTime = DateTime.Now;
         createModel.Guid = BingPatientInfo.Guid;
         createModel.Username = BingPatientInfo.Username;
         createModel.Medicalrecordnumber = BingPatientInfo.Medicalrecordnumber;
@@ -258,7 +251,7 @@
                 {
                     Adminuser =username,
                     ImgUrl = item,
-                    Createtime = DateTime.Now
+                    CreateTime = DateTime.Now
                 });
         }
         return list;

@@ -1,5 +1,9 @@
 ﻿
-@page "/bolg/{Id:string}"
+@page "/bolg/{Id}"
+
+
+@layout EditLayout
+
 @inject NavigationManager NavigationManager
 
 
@@ -7,7 +11,9 @@
     <MudPaper Elevation="0" Class="pa-5 rounded-lg">
         @if(blogBody is  not null)
         {
-            <MudText Class="my-12" Align="Align.Start" Typo="Typo.h3">@blogBody.Title</MudText>
+            <MudText Class="my-12" Align="Align.Start" Typo="Typo.h4"><b>@blogBody.Title</b></MudText>
+
+            <BlogMeta BlogGuid="@blogBody.SummaryOfCasesGuid" Author="@blogBody.Adminname" Categories="@blogBody.keywordTag" PublicTime="@blogBody.PublishedDate"></BlogMeta>
             @((MarkupString)badyContent)
         }
     </MudPaper>
@@ -24,7 +30,7 @@
 
 
 @code {
-    
+
     [Parameter]
     public string Id{ set; get; }
 
@@ -36,7 +42,7 @@
     protected ILogger<BlogBody> Logger{ set; get; }
 
     [Inject]
-    protected IDbContextFactory<MedicalDbContext> DbContextFactory{ set; get; }
+    private DbServerProvider DbServerProvider { set; get; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -45,9 +51,9 @@
             blogBody = await GetBlogBody(Id);
             if (blogBody.BodyContent is not null)
             {
-                 badyContent = Markdown.ToHtml(blogBody.BodyContent);
+                badyContent = Markdown.ToHtml(blogBody.BodyContent);
             }
-           
+
             StateHasChanged();
             //await JSRuntime.InvokeAsync<string>("commonJsFunctions.loadEditor", Toolbar);
         }
@@ -56,7 +62,9 @@
 
     protected async Task<SummaryOfCases> GetBlogBody(string guid)
     {
-        var blogBody = await DbContextFactory.CreateDbContext().SummaryOfCases.FirstOrDefaultAsync(x => x.SummaryOfCasesGuid == guid);
+        var blogBody = await DbServerProvider.FindSingleAsync<SummaryOfCases>(x => x.SummaryOfCasesGuid == guid);
+
+        //await DbContextFactory.CreateDbContext().SummaryOfCases.FirstOrDefaultAsync(x => x.SummaryOfCasesGuid == guid);
         return blogBody;
     }
 }

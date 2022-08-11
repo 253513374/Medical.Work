@@ -78,12 +78,7 @@
 
                                 <MudAutocomplete T="string" Label="移植类型" @bind-Value="@patientInfo.Transplantationtype" For="@(() => patientInfo.Transplantationtype)"
                                 SearchFunc="@OnAutoSearch" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                              @*  <MudSelect  @bind-Value="@patientInfo.Transplantationtype" Label="移植类型" Variant="Variant.Text" >
-                                    @foreach (var item in EnumItems.TransplantationEnum)
-                                    {
-                                        <MudSelectItem Value="@item"></MudSelectItem>
-                                    }
-                                </MudSelect>*@
+                             
                                 <MudDatePicker @bind-Value="@patientInfo.Transplantationtime" For="@(() => patientInfo.Transplantationtime)" Label="移植时间" Variant="Variant.Text" />
                                 <MudTextField  @bind-Value="@patientInfo.GCS"   For="@(() => patientInfo.GCS)" Label="格拉斯哥评分（GCS）" Variant="Variant.Text" />
                                 <MudTextField  @bind-Value="@patientInfo.SOFA" For="@(() => patientInfo.SOFA)" Label=" SOFA评分" Variant="Variant.Text" />
@@ -141,10 +136,6 @@
 
     private async Task<IEnumerable<string>> OnAutoSearch(string value)
     {
-        // In real life use an asynchronous function for fetching data from an api.
-        // await Task.Delay(5);
-
-        // if text is null or empty, don't return values (drop-down will not open)
         if (string.IsNullOrEmpty(value))
             return EnumItems.TransplantationEnum;
         return EnumItems.TransplantationEnum.Where(x => x.Contains(value));
@@ -174,7 +165,7 @@
 
         var patient = (PatientInfo)editcontext.Model;
         patient.Adminname = username;
-        patient.Createtime = DateTime.Now;
+        patient.CreateTime = DateTime.Now;
         patient.Guid = Guid.NewGuid().ToString();
 
 

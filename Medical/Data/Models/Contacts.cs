@@ -36,6 +36,6 @@ namespace Medical.Data.Models
         ///// 记录时间
         ///// </summary>
         //[DisplayName("记录时间")]
-        //public DateTime? Createtime { set; get; }
+        //public DateTime? CreateTime { set; get; }
     }
 }

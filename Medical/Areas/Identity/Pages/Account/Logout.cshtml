@@ -13,8 +13,9 @@
         if (SignInManager.IsSignedIn(User))
         {
             await SignInManager.SignOutAsync();
+            Console.WriteLine("--------------------------------------------------------------");
         }
-
-        return Redirect("~/");
+          return Redirect("~/");
+      
     }
 }

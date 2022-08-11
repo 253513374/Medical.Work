@@ -21,7 +21,7 @@ namespace Medical.Data.Models
         ///// 创建时间
         ///// </summary>
         //[DisplayName("创建时间")]
-        //public DateTime Createtime { set; get; }
+        //public DateTime CreateTime { set; get; }
 
         ///// <summary>
         ///// 病历号

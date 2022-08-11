@@ -6,7 +6,7 @@
 
 <BannerTitle Title="采样信息"></BannerTitle>
 
-<MudPaper Elevation="0" Class="my-5">
+<MudPaper Elevation="0" Class="mt-5 mb-1">
    <MudFab  Label="新建样本信息" Size="Size.Medium" Color="Color.Primary" DisableElevation="true"   OnClick="@OnOpenDialog" Class="mx-3" StartIcon="@Icons.Material.Outlined.AddCard" > </MudFab>
 
 </MudPaper>
@@ -36,7 +36,7 @@
 else{
 
     <MudTable T="MedicalPKSampling" FixedFooter="true" FixedHeader = "true" Height="600px" Elevation="0" Items="@MedicalPKSamplings"  Hover="true" ReadOnly="true"
-              Filter="new Func<MedicalPKSampling,bool>(FilterFuncTable)"  Dense="false" >
+              Filter="new Func<MedicalPKSampling,bool>(FilterFuncTable)"  Dense="true" >
         <ToolBarContent>
            
                <MudDateRangePicker   @ref="@rangePicker" @bind-DateRange="@daterange" Label="时间范围"  >
@@ -68,10 +68,10 @@ else{
                           
             <MudTd >
                 <MudTooltip Text="编辑档案">
-                    <MudIconButton  OnClick="@(s=>OnEdit(context))"  Color="Color.Info" Size="Size.Medium" Icon="@Icons.Outlined.ModeEdit" Variant="Variant.Text" >  </MudIconButton>
+                    <MudIconButton  OnClick="@(s=>OnEdit(context))"  Color="Color.Info" Size="Size.Small" Icon="@Icons.Outlined.ModeEdit" Variant="Variant.Text" >  </MudIconButton>
                 </MudTooltip>
                 <MudTooltip Text="删除数据">
-                        <MudIconButton Class="mx-3" Color="Color.Error"  Size="Size.Medium" Icon="@Icons.Outlined.DeleteSweep" Variant="Variant.Text" >   </MudIconButton>
+                        <MudIconButton Class="mx-3" Color="Color.Error"  Size="Size.Small" Icon="@Icons.Outlined.DeleteSweep" Variant="Variant.Text" >   </MudIconButton>
                 </MudTooltip>
             </MudTd>
         </RowTemplate>
@@ -90,7 +90,7 @@ else{
     protected ILogger<Index> Logger{ set; get; }
 
     [Inject]
-    protected IDbContextFactory<MedicalDbContext> DbContextFactory{ set; get; }
+     private DbServerProvider DbServerProvider { set; get; }
     [Inject] 
     protected IDialogService DialogService  { get; set; }
 
@@ -115,14 +115,15 @@ else{
         if (firstRender)
         {
             //Loading = true;
-            using var context = DbContextFactory.CreateDbContext();
-
-            MedicalPKSamplings = await  context.MPK_Samplings
-                                            .AsNoTracking()
-                                            //.Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1))
-                                            .Include(i=>i.medicalPKSamplings)
-                                            .OrderByDescending(o=>o.Createtime)
-                                            .ToListAsync();
+            
+            MedicalPKSamplings = await DbServerProvider.GetListAsync<MedicalPKSampling>();
+            //MedicalPKSamplings = await  context.MPK_Samplings
+            //                                .AsNoTracking()
+            //                                //.Where(w=>w.CreateTime>=daterange.Start.Value.Date&&w.CreateTime<=daterange.End.Value.Date.AddDays(1))
+            //                                .Include(i=>i.medicalPKSamplings)
+            //                                .OrderByDescending(o=>o.CreateTime)
+            //                                .Take(100)
+            //                                .ToListAsync();
             StateHasChanged();
         }
         //  return base.OnAfterRenderAsync(firstRender);
@@ -138,8 +139,8 @@ else{
 
         if (MedicalPKSamplings is not null) MedicalPKSamplings.Clear();
         //if (Certificates is not null) Certificates.Clear();
-
-        await OnAfterRenderAsync(true);
+        MedicalPKSamplings = await DbServerProvider.GetListAsync<MedicalPKSampling>(daterange);
+       // await OnAfterRenderAsync(true);
         StateHasChanged();
 
         return;
@@ -200,10 +201,17 @@ else{
     /// <returns></returns>
     private async Task Refresh()
     {
-        await OnInitializedAsync();
+        MedicalPKSamplings =await DbServerProvider.GetListAsync<MedicalPKSampling>();
+        
+        //MedicalPKSamplings = await  context.MPK_Samplings
+        //                                    .AsNoTracking()
+        //                                    .Where(w=>w.CreateTime>=daterange.Start.Value.Date&&w.CreateTime<=daterange.End.Value.Date.AddDays(1))
+        //                                    .Include(i=>i.medicalPKSamplings)
+        //                                    .OrderByDescending(o=>o.CreateTime)
+        //                                    .ToListAsync();
         StateHasChanged();
 
-        Logger.LogInformation("刷新数据成功");
+        Logger.LogInformation("按时间刷新数据成功");
         return;
     }
 

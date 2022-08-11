@@ -10,60 +10,81 @@
 
 
 
-        <MudThemeProvider />
-<MudDialogProvider
+    <MudThemeProvider />
+    <MudDialogProvider
     FullWidth="true"
     MaxWidth="MaxWidth.Medium"
     CloseButton="true"
     DisableBackdropClick="true"
-   
     Position="DialogPosition.Center"
-    CloseOnEscapeKey="true"
+    CloseOnEscapeKey="true"/>
+    <MudSnackbarProvider />
 
-/>
-<MudSnackbarProvider />
-
-<MudLayout>
-    <MudAppBar  Style="z-index: auto;" Elevation="0" Color="Color.Transparent">
-
-       
-        @*<MudText Class="mx-5">Menu</MudText>*@
-        <MudSpacer />
-       <LoginDisplay />
-    </MudAppBar>
-    <MudDrawer   Style="z-index: auto;"  @bind-Open="_drawerOpen" Elevation="0" ClipMode ="DrawerClipMode.Always" Variant="@DrawerVariant.Mini">
-        <MudStack Class="mx-2" Row="true" Justify="@(_drawerOpen?Justify.FlexEnd : Justify.Center)" AlignItems="AlignItems.Center" >
-            <MudTooltip Text="展开菜单导航"  Arrow="true" Placement="Placement.Right">
-                 <MudIconButton  Size="Size.Small" Variant="Variant.Outlined"  Icon="@Icons.Material.Filled.Menu"  Edge="Edge.End" OnClick="@((e) => DrawerToggle())" />
-            </MudTooltip>
-        </MudStack>
-        
-        
-            @*//@if(_drawerOpen)*@
-            
+ <AuthorizeView>
+     <Authorized>
+         <MudLayout>
+            <MudAppBar  Style="z-index: auto;" Elevation="0" Color="Color.Transparent">
+               <MudSpacer />
+               <LoginDisplay />
+            </MudAppBar>
+            <MudDrawer   Style="z-index: auto;"  @bind-Open="_drawerOpen" Elevation="0" ClipMode ="DrawerClipMode.Always" Variant="@DrawerVariant.Mini">
+                <MudStack Class="mx-2" Row="true" Justify="@(_drawerOpen?Justify.FlexEnd : Justify.Center)" AlignItems="AlignItems.Center" >
+                    <MudTooltip Text="展开菜单导航"  Arrow="true" Placement="Placement.Right">
+                         <MudIconButton  Size="Size.Small" Variant="Variant.Outlined"  Icon="@Icons.Material.Filled.Menu"  Edge="Edge.End" OnClick="@((e) => DrawerToggle())" />
+                    </MudTooltip>
+                </MudStack>
                 <MudDrawerHeader>
-                  <MudImage Fluid="true"  Src="img/logo.png" ObjectFit="ObjectFit.ScaleDown" ObjectPosition="ObjectPosition.Center" ></MudImage>
+                    <MudImage Fluid="true"  Src="img/logo.png" ObjectFit="ObjectFit.ScaleDown" ObjectPosition="ObjectPosition.Center" ></MudImage>
                 </MudDrawerHeader>
-            
-          
-       
+                <NavMenu NavVariant="@navVariant" />
+            </MudDrawer>
+            <MudMainContent>
+                <MudContainer MaxWidth="MaxWidth.Large" >
+                    @Body
+                    @{
+                        OnInitialized();
+                    }
+                </MudContainer>
+            </MudMainContent>
+        </MudLayout>
+     </Authorized>
+     <NotAuthorized>
+         <MudLayout>
+            <MudAppBar  Style="z-index: auto;" Elevation="0" Color="Color.Transparent">
+               <MudSpacer />
+               <LoginDisplay />
+            </MudAppBar>
+            <MudMainContent>
+                <MudContainer MaxWidth="MaxWidth.Large" >
+                    @Body
+                </MudContainer>
+            </MudMainContent>
+        </MudLayout>
+     </NotAuthorized>
+ </AuthorizeView>   
 
-        <NavMenu NavVariant="@navVariant" />
-    </MudDrawer>
-    <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.Large" Class="my-5">
-            @Body
-        </MudContainer>
-    </MudMainContent>
-</MudLayout>
 
 
 
 
 @code {
-    bool _drawerOpen = true;
+    bool _drawerOpen = false;
 
     private DrawerVariant navVariant{set;get;}
+
+
+
+    [Inject]
+    protected ILogger<MainLayout> Logger{ set; get; }
+
+    [Inject]
+     private DbServerProvider DbServerProvider { set; get; }
+    [Inject] 
+    protected IDialogService DialogService  { get; set; }
+
+    [Inject]
+    protected AutocompleteService CacheService { set; get; }
+
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
@@ -76,9 +97,24 @@
             navVariant = DrawerVariant.Mini;
         }
     }
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         JS.InvokeVoidAsync("JSMethods.setbackground","");
-        return base.OnInitializedAsync();
+
+        //
+        //var    Patients = await context.patientInfos.AsNoTracking().IgnoreQueryFilters().ToListAsync();
+        //await CacheService.SetCachePatientInfokeyAsync(Patients);
+        await base.OnInitializedAsync();
+    }
+
+    /// <summary>
+    /// 初始化数据缓存
+    /// </summary>
+     private async void OnInitialized()
+    {
+        
+        var    Patients = await DbServerProvider.GetListAsync<PatientInfo>();
+        await CacheService.SetCachePatientInfokeyAsync(Patients);
+       // return Task.CompletedTask;
     }
 }

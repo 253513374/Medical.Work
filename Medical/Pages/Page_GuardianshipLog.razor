@@ -36,12 +36,6 @@
                 foreach (var item in Summaryreports)
                 {
                     <MudTimelineItem Color="Color.Primary" Elevation="25">
-                        @*<ItemOpposite>
-                            <MudStack Row="false" Justify="Justify.FlexStart">
-                                 <MudText Color="Color.Primary" Typo="Typo.h6">@item.Notesdate.Value.ToString("yyyy:MM:dd")</MudText>
-                                 <MudText Color="Color.Primary" Typo="Typo.h6">@item.Notesdate.Value.ToString("HH:mm:ss")</MudText>
-                            </MudStack>
-                        </ItemOpposite>*@
                         <ItemContent>
                             <MudPaper Elevation="0" Class="mt-n1">
                                 <MudStack Row="true" Justify="Justify.SpaceBetween">
@@ -56,7 +50,7 @@
                                 <MudText Class="my-1" Typo="Typo.body2"><b style="font-weight:700;">治疗方案:</b>@item.Treatmentplan</MudText>
                                 <MudStack Row="true" Justify="Justify.SpaceBetween"> 
                                     <MudText Typo="Typo.body2"><b style="font-weight:700;">监护时间：</b> @item.Notesdate</MudText>
-                                    <MudText Typo="Typo.caption">@item.Createtime</MudText>
+                                    <MudText Typo="Typo.caption">@item.CreateTime</MudText>
                                 </MudStack>
                             </MudPaper>
                             
@@ -67,16 +61,6 @@
          </MudTimeline>
      </MudItem>
  </MudGrid>
-
-@* 自定义弹出提示框
-    <MudMessageBox @ref="mbox" Title="Warning" CancelText="Cancel">
-    <MessageContent>
-        Deleting can <b><i>not</i></b> be undone!
-    </MessageContent>
-    <YesButton>
-        <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.DeleteForever">Delete!</MudButton>
-    </YesButton>
-</MudMessageBox>*@
 @code {
 
     private Summaryreport MedicalValue{ set; get; }
@@ -84,11 +68,12 @@
     private List<Summaryreport>  Summaryreports{ set; get; }
 
     [Inject] private IDialogService DialogService { get; set; }
+
     [Inject]
     protected ILogger<Page_GuardianshipLog> Logger{ set; get; }
 
     [Inject]
-    protected IDbContextFactory<MedicalDbContext> DbContextFactory{ set; get; }
+    private DbServerProvider DbServerProvider { set; get; }
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
@@ -107,11 +92,14 @@
     {
         if (firstRender)
         {
-            using var coentxt = DbContextFactory.CreateDbContext();
-            Summaryreports = await coentxt.Summaryreports.AsNoTracking().OrderByDescending(o => o.Createtime).Take(10).ToListAsync();
+            //using var coentxt = DbContextFactory.CreateDbContext();
+            //Summaryreports = await coentxt.Summaryreports.AsNoTracking()
+            //                                            .OrderByDescending(o => o.CreateTime)
+            //                                            .Take(10)
+            //                                            .ToListAsync();
+            Summaryreports = await DbServerProvider.GetListAsync<Summaryreport>();
             StateHasChanged();
         }
-        //return base.OnAfterRenderAsync(firstRender);
     }
 
     private Summaryreport NewSummaryreport()
@@ -120,7 +108,7 @@
         return new Summaryreport()
             {
                 Adminname = name,
-                Createtime = DateTime.Now,
+                CreateTime = DateTime.Now,
         };
 
     }
@@ -130,28 +118,29 @@
         return Task.CompletedTask;
     }
 
-    private void OnValidSubmit(EditContext  context)
+    private async void OnValidSubmit(EditContext  context)
     {
 
         var sum = context.Model as Summaryreport;
         if (sum is null) return;
 
-        using var coentxt = DbContextFactory.CreateDbContext();
+        // using var coentxt = DbContextFactory.CreateDbContext();
 
 
         if (IsEdit)
         {
-
-            coentxt.Summaryreports.Update(sum);
+            var result = await DbServerProvider.UpdateAsync<Summaryreport>(sum);
+            //coentxt.Summaryreports.Update(sum);
             Logger.LogInformation($"编辑更新监护日志：{sum.Summaryreportclass}");
         }
         else
         {
-            coentxt.Summaryreports.Add(sum);
+            var result = await DbServerProvider.AddAsync<Summaryreport>(sum);
+           // coentxt.Summaryreports.Add(sum);
             Summaryreports.Insert(0,sum);
             Logger.LogInformation($"新增监护日志：{sum.Summaryreportclass}");
         }
-        coentxt.SaveChanges();
+       // coentxt.SaveChanges();
 
         IsEdit = false;
         MedicalValue = NewSummaryreport();
@@ -181,9 +170,11 @@
 
         // state= result==null ? "Cancelled" : "Deleted!";
 
-        using var coentxt = DbContextFactory.CreateDbContext();
-        coentxt.Summaryreports.Remove(summaryreport);
-        coentxt.SaveChanges();
+        //using var coentxt = DbContextFactory.CreateDbContext();
+        //coentxt.Summaryreports.Remove(summaryreport);
+        //coentxt.SaveChanges();
+
+        var delteresult = await DbServerProvider.DeleteAsync<Summaryreport>(summaryreport);
 
         Logger.LogInformation($"删除监护日志：{summaryreport.Summaryreportclass}");
 

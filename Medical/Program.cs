@@ -8,6 +8,8 @@ using Medical.Areas.Identity.Data;
 using Serilog;
 using Medical;
 using MudBlazor;
+using Medical.Data.Models.Common;
+using Medical.Data.Models;
 
 const string OUTPUT_TEMPLATE = "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} <{ThreadId}> [{Level:u3}] {Message:lj}{NewLine}{Exception}";
 //Log.Logger = new LoggerConfiguration()
@@ -35,11 +37,18 @@ try
     var aconnectionString = builder.Configuration.GetConnectionString("AccountContextConnection") ?? throw new InvalidOperationException("Connection string 'AccountContextConnection' not found.");
     var mconnectionString = builder.Configuration.GetConnectionString("MedicalContextConnection") ?? throw new InvalidOperationException("Connection string 'AccountContextConnection' not found.");
 
+    //在调试模式下显示敏感数据
+#if DEBUG
+    builder.Services.AddDbContextFactory<MedicalDbContext>(options =>
+        options.UseSqlServer(mconnectionString).EnableSensitiveDataLogging(), ServiceLifetime.Scoped);
+#else
+    builder.Services.AddDbContextFactory<MedicalDbContext>(options =>
+        options.UseSqlServer(mconnectionString), ServiceLifetime.Scoped);
+#endif
     builder.Services.AddDbContextFactory<AccountContext>(options =>
         options.UseSqlServer(aconnectionString));
 
-    builder.Services.AddDbContextFactory<MedicalDbContext>(options =>
-       options.UseSqlServer(mconnectionString));
+
 
     builder.Services.AddDefaultIdentity<AccountUser>(options => {
         ///配置密码规则
@@ -64,13 +73,15 @@ try
     // Add services to the container.
     builder.Services.AddRazorPages();
     builder.Services.AddServerSideBlazor();
-    builder.Services.AddSingleton<WeatherForecastService>();
+   // builder.Services.AddSingleton<WeatherForecastService>();
     builder.Services.AddSingleton<EmailSender>();
     builder.Services.AddSingleton<AutocompleteService>();//全局单列，所有访问用户都使用同一个对象
 
     builder.Services.AddScoped<EnumServer>();//同一个请求 都是一个实列对象
+    builder.Services.AddTransient<ITenantService>();//每一次调用对象 都是一个新实列对象
+    builder.Services.AddTransient<DbServerProvider>();//每一次调用对象 都是一个新实列对象
 
-    builder.Services.AddMasaBlazor();
+   // builder.Services.AddMasaBlazor();
     
     builder.Services.AddMudServices(config =>
     {

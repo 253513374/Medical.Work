@@ -127,7 +127,7 @@
         {
             BingPatientInfo = await AutocompleteService.GetCachePatientInfokeyAsync(MedicalValue.Guid);
         }
-       // return base.OnParametersSetAsync();
+
     }
 
 
@@ -268,7 +268,7 @@
         var username = authenticationStateTask.Result.User.Identity.Name;
         var  createModel = (MedicalPKSampling)editcontext.Model;
         createModel.Adminname = username;
-        createModel.Createtime = DateTime.Now;
+        createModel.CreateTime = DateTime.Now;
         createModel.Guid = BingPatientInfo.Guid;
         createModel.Username = BingPatientInfo.Username;
         createModel.Medicalrecordnumber = BingPatientInfo.Medicalrecordnumber;

@@ -1,0 +1,78 @@
+﻿
+
+
+<AuthorizeView>
+    <Authorized>
+        <MudPaper Elevation="0" Class="my-5" >
+            <MudStack Row="true" Spacing="16">
+                <MudStack Row="true" Spacing="4" Justify="Justify.Center" AlignItems="AlignItems.Center">
+                    <MudAvatar Size="Size.Medium" Color="Color.Primary">A</MudAvatar>
+                    <MudStack Row="false" Spacing="0">
+                          <MudText Style="@($"color:{Colors.Grey.Default}")" Typo="Typo.caption">作者</MudText>
+                          <MudText Style="font-weight:300" Typo="Typo.subtitle1"  >@Author</MudText>
+                    </MudStack>
+                </MudStack>
+       
+                <MudStack Row="false"  Spacing="0">
+                     <MudText Style="@($"color:{Colors.Grey.Default}")" Typo="Typo.caption" >发布时间</MudText>
+                     <MudText Style="font-weight:300" Typo="Typo.subtitle1" >@PublicTime.Value.ToString("yyyy.MM.dd")</MudText>
+                </MudStack>
+                <MudSpacer></MudSpacer>
+                <MudStack Row="true" Justify="Justify.FlexEnd" Spacing="0">
+                    <MudIconButton Icon="@Icons.Outlined.Share" ></MudIconButton>
+                    <MudIconButton Icon="@Icons.Outlined.Edit" Href="@($"/edit/{SummaryOfCasesOptions.Edit}/{BlogGuid}")"></MudIconButton>
+                </MudStack>
+            </MudStack>
+        </MudPaper>
+    </Authorized>
+    <NotAuthorized>
+         <MudPaper Elevation="0" Class="my-5" >
+            <MudStack Row="true" Spacing="16">
+                <MudStack Row="true" Spacing="4" Justify="Justify.Center" AlignItems="AlignItems.Center">
+                    <MudAvatar Size="Size.Medium" Color="Color.Primary">A</MudAvatar>
+                    <MudStack Row="false" Spacing="0">
+                          <MudText Style="@($"color:{Colors.Grey.Default}")" Typo="Typo.caption">作者</MudText>
+                          <MudText Style="font-weight:300" Typo="Typo.subtitle1"  >@Author</MudText>
+                    </MudStack>
+                </MudStack>
+       
+                <MudStack Row="false"  Spacing="0">
+                     <MudText Style="@($"color:{Colors.Grey.Default}")" Typo="Typo.caption" >发布时间</MudText>
+                     <MudText Style="font-weight:300" Typo="Typo.subtitle1" >@PublicTime.Value.ToString("yyyy.MM.dd")</MudText>
+                </MudStack>
+                <MudSpacer></MudSpacer>
+                <MudStack Row="true">
+                    <MudIconButton Icon="@Icons.Outlined.Share"  ></MudIconButton>
+                </MudStack>
+            </MudStack>
+        </MudPaper>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    
+    [Parameter]
+    public string? Author{ set; get; }
+    
+    [Parameter]
+    public DateTime? PublicTime{ set; get; }
+
+    [Parameter]
+    public string? Categories{ set; get; }
+
+    [Parameter]
+    public string? BlogGuid { set; get; }
+
+    [Inject]
+    protected ILogger<BlogBody> Logger{ set; get; }
+
+    [Inject]
+     private DbServerProvider DbServerProvider { set; get; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+
+    
+
+}

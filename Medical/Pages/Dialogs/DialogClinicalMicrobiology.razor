@@ -79,6 +79,12 @@
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
 
+    private string cachekey { get
+        {
+           return authenticationStateTask.Result.User.Identity.Name;
+        }} 
+
+
     /// <summary>
     /// 标识编辑进入  还是添加进入
     /// </summary>
@@ -129,7 +135,7 @@
         var editModel = (MedicalPD_Microbiological)editcontext.Model;
 
         editModel.Guid = BingPatientInfo.Guid;
-        editModel.Createtime = DateTime.Now;
+        editModel.CreateTime = DateTime.Now;
         editModel.Username = BingPatientInfo.Username;
 
 
@@ -145,7 +151,7 @@
         var username = authenticationStateTask.Result.User.Identity.Name;
         var  createModel = (MedicalPD_Microbiological)editcontext.Model;
         createModel.Adminname = username;
-        createModel.Createtime = DateTime.Now;
+        createModel.CreateTime = DateTime.Now;
         createModel.Guid = BingPatientInfo.Guid;
         createModel.Username = BingPatientInfo.Username;
         createModel.Medicalrecordnumber = BingPatientInfo.Medicalrecordnumber;

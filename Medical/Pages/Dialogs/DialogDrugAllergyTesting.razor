@@ -24,23 +24,14 @@
 
                     <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.TestTime" For="@(() => MedicalValue.TestTime)" Label="检查日期" Variant="Variant.Text" />
                     <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.ReportTime" For="@(() => MedicalValue.ReportTime)" Label="报告日期" Variant="Variant.Text" />
-       @*             <MudField Class="my-2" Label="是否检出结果？" Variant="Variant.Outlined" InnerPadding="false">
-                        <MudRadioGroup T="string" @bind-SelectedOption="@MedicalValue.TestorNot">
-                            <MudRadio T="string" Option="@("已检出")">已检出</MudRadio>
-                            <MudRadio T="string" Option="@("未检出")" >未检出</MudRadio>
-                        </MudRadioGroup>
-                    </MudField>
-               *@
+ 
 
                     <MudStack Row="true">
                         <MudTextField  @bind-Value="@MedicalValue.DrugsName" For="@(() => MedicalValue.DrugsName)" Label="药品名称" Variant="Variant.Text" />
                         <MudAutocomplete  Clearable="true" T="string" Label="药敏检测方法" @bind-Value="@MedicalValue.DrugsensitivityTest" For="@(() => MedicalValue.DrugsensitivityTest)"
                                                         SearchFunc="OnAutoSearchDrugsensitivityTest" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
                     </MudStack>
-                    
-                    @*<MudAutocomplete  Clearable="true" T="string" Label="MIC(mg/ml)" @bind-Value="@MedicalValue.MIC" For="@(() => MedicalValue.MIC)"
-                                                SearchFunc="OnAutoSearchMIC" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                   *@  
+        
                    <MudStack Row="true">
                         <MudTextField    @bind-Value="@MedicalValue.MIC" For="@(() => MedicalValue.MIC)" Label="MIC(mg/ml)" Variant="Variant.Text" />
                        
@@ -140,7 +131,7 @@
         var editModel = (MedicalPD_DrugAllergy)editcontext.Model;
 
         editModel.Guid = BingPatientInfo.Guid;
-        editModel.Createtime = DateTime.Now;
+        editModel.CreateTime = DateTime.Now;
         editModel.Username = BingPatientInfo.Username;
 
 
@@ -156,7 +147,7 @@
         var username = authenticationStateTask.Result.User.Identity.Name;
         var  createModel = (MedicalPD_DrugAllergy)editcontext.Model;
         createModel.Adminname = username;
-        createModel.Createtime = DateTime.Now;
+        createModel.CreateTime = DateTime.Now;
         createModel.Guid = BingPatientInfo.Guid;
         createModel.Username = BingPatientInfo.Username;
         createModel.Medicalrecordnumber = BingPatientInfo.Medicalrecordnumber;

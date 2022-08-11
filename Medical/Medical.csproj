@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ExpressionTreeToString" Version="3.4.71" />
     <PackageReference Include="MailKit" Version="3.3.0" />
     <PackageReference Include="Markdig" Version="0.30.2" />
-    <PackageReference Include="Masa.Blazor" Version="0.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.6" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.7" />
@@ -47,5 +47,7 @@
     <None Include="Areas\Identity\Pages\Account\_StatusMessage.cshtml" />
     <None Include="Areas\Identity\Pages\Account\_ViewImports.cshtml" />
   </ItemGroup>
+
+ 
 
 </Project>

@@ -12,7 +12,7 @@ namespace Medical.Data.Models
         //public int X_raybronchoscopyID { set; get; }
 
         //[AutoGenerateColumn(Ignore = true, DefaultSort=true)]
-        //public DateTime Createtime { set; get; }
+        //public DateTime CreateTime { set; get; }
 
         /// <summary>
         /// 检查日期

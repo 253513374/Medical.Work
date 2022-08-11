@@ -1,5 +1,15 @@
 ﻿using Medical.Data.Models;
+using Medical.Data.Models.Common;
+//using Microsoft.EntityFrameworkCore;
+//using Microsoft.EntityFrameworkCore.Metadata;
+using System.Linq.Expressions;
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+//using ExpressionTreeToString;
+//using static System.Linq.Expressions.Expression;
+//using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 
 namespace Medical.Data
 {
@@ -7,6 +17,8 @@ namespace Medical.Data
     {
         // public DbSet<MedicalDGK> medicalDGKs { set; get; }
 
+        #region
+       
         /// <summary>
         /// 药敏试验
         /// </summary>
@@ -92,50 +104,84 @@ namespace Medical.Data
         /// </summary>
         public DbSet<LaboratoryExamination> laboratoryExaminations { set; get; }
 
-        public MedicalDbContext(DbContextOptions<MedicalDbContext> options)
+        //   private readonly ITenantService tenantService;
+        #endregion
+
+        private  string tenant { set; get; }
+
+        public MedicalDbContext(DbContextOptions<MedicalDbContext> options , ITenantService service)
            : base(options)
         {
+            tenant = service.GetTenantName();
+           
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //IEnumerable<IMutableEntityType> entityTypes = modelBuilder.Model.GetEntityTypes();
+            //foreach (IMutableEntityType entityType in entityTypes)
+            //{
+            //    IEnumerable<IMutableProperty> props = entityType.GetProperties();
+            //    if (props.Any(x => x.Name == "Adminname"))
+            //    {
+            //        InitGobalFilter(modelBuilder, entityType, tenant);
+            //    }
+            //}
             modelBuilder.Entity<MedicalPD_DrugAllergy>().ToTable("PD_DrugAllergy");
             modelBuilder.Entity<MedicalPD_Microbiological>().ToTable("PD_Microbiological");
-
             modelBuilder.Entity<MedicalPG_Pharmacogenomics>().ToTable("PG_Pharmacogenomics");
             modelBuilder.Entity<MedicalPG_PathogenGene>().ToTable("PG_PathogenGene");
-
             modelBuilder.Entity<MedicalPK>().ToTable("PKs");
             modelBuilder.Entity<MedicalPKSampling>().ToTable("PK_Samplings");
             modelBuilder.Entity<MedicalPKSamplingsample>().ToTable("PK_Sampling_Samples");
-            /*
-
-                 public DbSet<MedicalPK> MPKs { set; get; }
-        public DbSet<MedicalPKSampling> MPK_Samplings { set; get; }
-        public DbSet<MedicalPKSampling_sample> MPK_Sampling_Samples { set; get; }
-             */
-
             modelBuilder.Entity<PatientInfo>().ToTable("PatientInfo");//.IsMemoryOptimized();
-            //modelBuilder.Entity<MedicalDGK>().ToTable("MedicalDGK");
             modelBuilder.Entity<Contacts>().ToTable("Contacts");
-
-            // modelBuilder.Entity<City>().HasOne(city => city.Province).WithMany(x => x.Cities).HasForeignKey(city => .ProviceId);
             modelBuilder.Entity<MedicalPKSamplingsample>().HasOne(s => s.medicalPKSampling).WithMany(w => w.medicalPKSamplings).HasForeignKey(h => h.sampleForeignKey);
-
-
-
-          //  modelBuilder.Entity<MedicalPKSampling>().HasOne(s => s.)
-
-
             modelBuilder.Entity<PatientInfoExDiagnosisTable>().HasOne(s => s.Summaryofcases).WithMany(w => w.PatientInfoExDiagnosisTable).HasForeignKey(h => h.ID);
-
             modelBuilder.Entity<X_rayImagePaths>().HasOne(s => s.x_RayImaging).WithMany(w => w.ImgUrl).HasForeignKey(h => h.ID).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<X_raybronchoscopyPaths>().HasOne(s => s.x_Raybronchoscopy).WithMany(w => w.ImgUrl).HasForeignKey(h => h.ID).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<X_raypathologicalPaths>().HasOne(s => s.x_Raypathological).WithMany(w => w.ImgUrl).HasForeignKey(h => h.ID).OnDelete(DeleteBehavior.Cascade);
-
             modelBuilder.Entity<LaboratoryExamination>().ToTable("LaboratoryExamination");
-
             base.OnModelCreating(modelBuilder);
         }
+
+        //public Guid GetTenantId(string host)
+        //{
+        //    var tenant = Tenants.FirstOrDefault(t => t.Host == host);
+        //    return tenant == null ? Guid.Empty : tenant.Id;
+        //}
+
+        /// <summary>
+        /// 初始化全局的过滤,微软自带的
+        /// </summary>
+        /// <param name = "entityType" > 过滤 </ param >
+        /// < param name="modelBuilder">builder</param>
+        public static void InitGobalFilter( ModelBuilder modelBuilder, IMutableEntityType entityType, string tenant)
+        {
+            if (modelBuilder == null)
+            {
+                return;
+            }
+            IEnumerable<IMutableProperty> props = entityType.GetProperties();
+            if (props.Any(x => x.Name == "Adminname"))
+            {
+                //两个值相等（查询条件）表达式树
+                ParameterExpression parameter = Expression.Parameter(entityType.ClrType, "e");
+                BinaryExpression body = Expression.Equal(
+                    Expression.Call(typeof(EF), nameof(EF.Property), new[] { typeof(string) }, parameter, Expression.Constant("Adminname")),
+                    Expression.Constant(tenant));
+
+                modelBuilder.Entity(entityType.ClrType).HasQueryFilter(Expression.Lambda(body, parameter));
+                Console.WriteLine(Expression.Lambda(body, parameter));
+
+            }
+        }
+
+
+        //private static MethodInfo ConfigureGlobalFiltersMethodInfo = typeof(MedicalDbContext).GetMethod(nameof(ConfigureGlobalFilters), BindingFlags.Instance | BindingFlags.NonPublic);
+        //protected void ConfigureGlobalFilters<T>(ModelBuilder builder) where T : BaseDataInterface
+        //{
+        //    builder.Entity<T>().HasQueryFilter(e => e.Adminname == tenant);
+        //}
     }
 }

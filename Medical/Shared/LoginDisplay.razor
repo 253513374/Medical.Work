@@ -1,6 +1,7 @@
 ﻿
 
 
+@inject NavigationManager Navigation
 
 <AuthorizeView>
     <Authorized>
@@ -11,7 +12,7 @@
     </Authorized>
     <NotAuthorized>
         <a href="Identity/Account/Register">注册</a>
-        <a class="mx-5" href="Identity/Account/Login">登录</a>
+        <a class="mx-5" href="@($"Identity/Account/Login?returnUrl=/{Navigation.ToBaseRelativePath(Navigation.Uri)}")">登录</a>
     </NotAuthorized>
 </AuthorizeView>
 

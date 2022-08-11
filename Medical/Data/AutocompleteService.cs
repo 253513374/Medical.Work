@@ -1,5 +1,7 @@
 ﻿using Medical.Data.Models;
+using Medical.Data.Models.Common;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -10,17 +12,20 @@ namespace Medical.Data
     public class AutocompleteService
     {
 
-        private const string PatientInfoCacheKey = "PatientInfosKey";
+        private const string CacheKey = "PatientInfosKey";
+       // private IDbContextFactory<MedicalDbContext> ContextFactory { set; get; }
+        private  IMemoryCache MemoryCache { set; get; }
+
+       // private readonly string CacheKey;
+
+      //  private readonly Db
 
 
-
-        private IDbContextFactory<MedicalDbContext> ContextFactory { set; get; }
-        public IMemoryCache MemoryCache { set; get; }
-
-        public AutocompleteService(IDbContextFactory<MedicalDbContext>  factory)
+     
+        public AutocompleteService()
         {
             MemoryCache = new MemoryCache(new MemoryCacheOptions());
-            ContextFactory = factory;
+           // CacheKey = service.GetTenantName();
         }
 
 
@@ -30,36 +35,34 @@ namespace Medical.Data
         /// <returns></returns>
         public async Task<List<PatientInfo>> GetCachePatientInfoToListAsync()
         {
-            if (!MemoryCache.TryGetValue(PatientInfoCacheKey, out List<PatientInfo> PatientInfos))
+            if (!MemoryCache.TryGetValue(CacheKey, out List<PatientInfo> PatientInfos))
             {
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
                     .SetPriority(priority: CacheItemPriority.NeverRemove);
-
-                using var context = ContextFactory.CreateDbContext();
-                PatientInfos = await context.patientInfos.AsNoTracking().OrderByDescending(o=>o.Createtime).ToListAsync();
-                MemoryCache.Set(PatientInfoCacheKey, PatientInfos, cacheEntryOptions);
             }
-            return PatientInfos.OrderByDescending(o=>o.Createtime).ToList();
+            if (PatientInfos is null || PatientInfos.Count == 0) return null;
+            return PatientInfos.OrderByDescending(o=>o.CreateTime).ToList();
         }
 
 
         /// <summary>
-        /// 获取PatientInfo 列表
+        /// 获取PatientInfo 
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public async Task<PatientInfo> GetCachePatientInfokeyAsync(string key)
+        public async Task<PatientInfo> GetCachePatientInfokeyAsync(string objectguidkey)
         {
-            if (!MemoryCache.TryGetValue(PatientInfoCacheKey, out List<PatientInfo> PatientInfos))
+            if (!MemoryCache.TryGetValue(CacheKey, out List<PatientInfo> PatientInfos))
             {
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
                     .SetPriority(priority: CacheItemPriority.NeverRemove);
-                using var context = ContextFactory.CreateDbContext();
-
-                PatientInfos = await context.patientInfos.AsNoTracking().Where(w=>w.Guid.Contains(key)).ToListAsync();
-                MemoryCache.Set(PatientInfoCacheKey, PatientInfos, cacheEntryOptions);
+                //using var context = ContextFactory.CreateDbContext();
+                //PatientInfos = await context.patientInfos.AsNoTracking().Where(w=>w.Guid.Contains(key)).ToListAsync();
+                MemoryCache.Set(CacheKey, PatientInfos, cacheEntryOptions);
             }
-           return PatientInfos.FirstOrDefault(w => w.Guid.Contains(key));
+            if (PatientInfos is null || PatientInfos.Count == 0) return null;
+            return PatientInfos.FirstOrDefault(w => w.Guid.Contains(objectguidkey));
+            //return null;
         }
 
 
@@ -75,7 +78,7 @@ namespace Medical.Data
             {
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
                    .SetPriority(priority: CacheItemPriority.NeverRemove);
-                MemoryCache.Set(PatientInfoCacheKey, PatientInfos, cacheEntryOptions);
+                MemoryCache.Set(CacheKey, PatientInfos, cacheEntryOptions);
 
                 return true;
             }

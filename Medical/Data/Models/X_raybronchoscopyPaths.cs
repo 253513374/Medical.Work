@@ -21,7 +21,7 @@ namespace Medical.Data.Models
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime Createtime { set; get; }
+        public DateTime CreateTime { set; get; }
 
 
         /// <summary>

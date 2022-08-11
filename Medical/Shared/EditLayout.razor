@@ -2,6 +2,7 @@
 @inherits LayoutComponentBase
 
 @inject IJSRuntime JS
+ @inject NavigationManager Navigation
 @*<h3>EditLayout</h3>*@
 
  <style type="text/css">
@@ -32,14 +33,14 @@
 />
 <MudSnackbarProvider />
 <MudLayout>
-    <MudAppBar Dense="false"  Style="@($"color:{Colors.Grey.Darken3};z-index: auto; background:{Colors.Shades.White};")" Elevation="1" >
-
-       
-        <MudText Class="mx-5">Menu</MudText>
+    <MudAppBar Dense="true"  Style="@($"color:{Colors.Grey.Darken3};z-index: auto; background:{Colors.Shades.White};")" Elevation="1" >
+    <MudStack Justify="Justify.Center">
+        <MudIconButton Icon="@Icons.Outlined.Home" Href="/"></MudIconButton>
+    </MudStack>
         <MudSpacer />
         <MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.FlexEnd" Spacing="5">
             <MudSelect Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense"  
-                       Style="color:white;background-color:rgba(255,255,255,0.7)" T="string" ValueChanged="OnSelectedValuesChanged" Label="个性化背景"  >
+                       Style="width:280px;color:white;background-color:rgba(255,255,255,0.7)" T="string" ValueChanged="OnSelectedValuesChanged" Label="个性化背景"  >
                 @for( int k=0;k<BackgroundEnum.Length;k++ )
                 {
                     var item = BackgroundEnum[k];
@@ -57,11 +58,6 @@
       
        </MudContainer>
     </MudMainContent>
-@*    <MudMainContent Class="my-n16" Style="margin-left:200px;margin-right:200px;">
-        
-            @Body
-        
-    </MudMainContent>*@
 </MudLayout>
 
 @code {
@@ -75,7 +71,7 @@
         "img/bg4.jpg",
         "img/bg5.jpg"
     };
-    
+
     protected override Task OnInitializedAsync()
     {
         JS.InvokeVoidAsync("JSMethods.setbackground","img/bg4.jpg");
@@ -86,5 +82,7 @@
         JS.InvokeVoidAsync("JSMethods.setbackground",img);
         return Task.CompletedTask;
     }
+
+
 
 }

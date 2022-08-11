@@ -2,11 +2,12 @@
 @page "/pathology"
 
 @attribute [Authorize]
+
 <PageTitle>病理检查</PageTitle>
 
 <BannerTitle Title="病理检查"></BannerTitle>
 
-<MudPaper Elevation="0" Class="my-5">
+<MudPaper Elevation="0" Class="mt-5 mb-1">
    <MudFab  Label="病理检查" Size="Size.Medium" Color="Color.Primary" DisableElevation="true"   OnClick="@OnOpenDialog" Class="mx-3" StartIcon="@Icons.Material.Outlined.AddCard" > </MudFab>
 
 </MudPaper>
@@ -36,7 +37,7 @@
 else{
 
     <MudTable T="X_raypathological" FixedFooter="true" FixedHeader = "true" Height="600px" Elevation="0" Items="@X_Raypathologicals"  Hover="true" ReadOnly="true"
-              Filter="new Func<X_raypathological,bool>(FilterFuncTable)"  Dense="false" >
+              Filter="new Func<X_raypathological,bool>(FilterFuncTable)"  Dense="true" >
         <ToolBarContent>
            
                <MudDateRangePicker   @ref="@rangePicker" @bind-DateRange="@daterange" Label="时间范围"  >
@@ -70,10 +71,10 @@ else{
                           
             <MudTd >
                 <MudTooltip Text="编辑档案">
-                    <MudIconButton  OnClick="@(s=>OnEditPatientInfo(context))"  Color="Color.Info" Size="Size.Medium" Icon="@Icons.Outlined.ModeEdit" Variant="Variant.Text" >  </MudIconButton>
+                    <MudIconButton  OnClick="@(s=>OnEditPatientInfo(context))"  Color="Color.Info" Size="Size.Small" Icon="@Icons.Outlined.ModeEdit" Variant="Variant.Text" >  </MudIconButton>
                 </MudTooltip>
                 <MudTooltip Text="删除数据">
-                        <MudIconButton Class="mx-3" Color="Color.Error"  Size="Size.Medium" Icon="@Icons.Outlined.DeleteSweep" Variant="Variant.Text" >   </MudIconButton>
+                        <MudIconButton Class="mx-3" Color="Color.Error"  Size="Size.Small" Icon="@Icons.Outlined.DeleteSweep" Variant="Variant.Text" >   </MudIconButton>
                 </MudTooltip>
             </MudTd>
         </RowTemplate>
@@ -92,7 +93,7 @@ else{
     protected ILogger<Index> Logger{ set; get; }
 
     [Inject]
-    protected IDbContextFactory<MedicalDbContext> DbContextFactory{ set; get; }
+    private DbServerProvider DbServerProvider { set; get; }
     [Inject] 
     protected IDialogService DialogService  { get; set; }
 
@@ -100,11 +101,11 @@ else{
     private bool resetValueOnEmptyText;
     private bool Loading { set; get; } = true;
     private bool coerceValue;
-   // private X_raypathological value1, value2;
+    // private X_raypathological value1, value2;
 
     List<X_raypathological>   X_Raypathologicals{ set; get; }
 
-        /// <summary>
+    /// <summary>
     /// 默认查询的时间范围(1个月时间)
     ///  DateTime dateTime = DateRangeValue.End.AddDays(1).AddMilliseconds(-1);
     ///  ListCertificates = _DbContext.TableCertificates.Where(w => w.CreateTime >= DateRangeValue.Start && w.CreateTime <= dateTime).ToList();
@@ -117,13 +118,14 @@ else{
         if (firstRender)
         {
             //Loading = true;
-            using var context = DbContextFactory.CreateDbContext();
 
-            X_Raypathologicals = await  context.X_raypathologicals
-                                            //.Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1))
-                                             .Include(i=>i.ImgUrl)
-                                             .OrderByDescending(o => o.Createtime)
-                                             .ToListAsync();
+            X_Raypathologicals = await DbServerProvider.GetListAsync<X_raypathological>();
+            //X_Raypathologicals = await  context.X_raypathologicals.AsNoTracking()
+            //                                //.Where(w=>w.CreateTime>=daterange.Start.Value.Date&&w.CreateTime<=daterange.End.Value.Date.AddDays(1))
+            //                                 .Include(i=>i.ImgUrl)
+            //                                 .OrderByDescending(o => o.CreateTime)
+            //                                 .Take(100)
+            //                                 .ToListAsync();
 
            // Loading = false;
             StateHasChanged();
@@ -142,7 +144,13 @@ else{
         if (X_Raypathologicals is not null) X_Raypathologicals.Clear();
         //if (Certificates is not null) Certificates.Clear();
 
-        await OnAfterRenderAsync(true);
+          X_Raypathologicals = await DbServerProvider.GetListAsync<X_raypathological>(daterange);  
+
+            //X_Raypathologicals = await  context.X_raypathologicals.AsNoTracking()
+            //                                 .Where(w=>w.CreateTime>=daterange.Start.Value.Date&&w.CreateTime<=daterange.End.Value.Date.AddDays(1))
+            //                                 .Include(i=>i.ImgUrl)
+            //                                 .OrderByDescending(o => o.CreateTime)
+            //                                 .ToListAsync();
         StateHasChanged();
 
         return;

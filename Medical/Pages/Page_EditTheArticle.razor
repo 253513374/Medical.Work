@@ -1,5 +1,5 @@
-﻿@*
-@page "/edit/{Options:int}/{guid:string?}"
+﻿
+@page "/edit/{Options:int}/{guid?}"
 
 
 @layout EditLayout
@@ -43,7 +43,7 @@
     protected ILogger<Page_EditTheArticle> Logger{ set; get; }
 
     [Inject]
-    protected IDbContextFactory<MedicalDbContext> DbContextFactory{ set; get; }
+    private DbServerProvider DbServerProvider { set; get; }
 
 
     [Parameter]
@@ -59,19 +59,19 @@
         Console.WriteLine("Upload调用成功");
         return Task.FromResult("DONET调用js成功");
     }
-    
+
     protected override async Task OnInitializedAsync()
     {
         if (Options == SummaryOfCasesOptions.Edit)
         {
-            using var cntext = DbContextFactory.CreateDbContext();
-            summaryReport = await cntext.SummaryOfCases.SingleAsync(s => s.SummaryOfCasesGuid == guid);
+            // using var cntext = DbContextFactory.CreateDbContext();
+            summaryReport = await DbServerProvider.FindSingleAsync<SummaryOfCases>(s => s.SummaryOfCasesGuid == guid);
         }
         else
         {
             summaryReport = NewSummaryreport();
         }
-   
+
         await base.OnInitializedAsync();
     }
 
@@ -83,10 +83,9 @@
             {
                 Title = "",
                 Description = "",
-            
                 keywordTag = "",
                 BodyContent = "",
-                Createtime = DateTime.Now,
+                CreateTime = DateTime.Now,
                 Adminname = username,
                 IsFeatured = false,
                 Ispublic = false,
@@ -101,7 +100,7 @@
     /// 表单提交 ,保存文稿
     /// </summary>
     /// <param name="editcontext"></param>
-     private async void OnValidSubmit(EditContext editcontext)
+    private async void OnValidSubmit(EditContext editcontext)
     {
 
         var  body  = (SummaryOfCases)editcontext.Model;
@@ -110,15 +109,15 @@
         Snackbar.Add("文章保存成功",Severity.Success);
         //return Task.CompletedTask;
     }
-    
+
 
     private async Task  Save( SummaryOfCases summaryreport)
     {
-        using var context = DbContextFactory.CreateDbContext();
-        context.SummaryOfCases.Add(summaryreport);
-        await context.SaveChangesAsync();
+
+        var result = await DbServerProvider.AddAsync<SummaryOfCases>(summaryreport);
+        //context.SummaryOfCases.Add(summaryreport);
+        //await context.SaveChangesAsync();
         Navigation.NavigateTo("/guardianship");
 
     }
 }
-*@

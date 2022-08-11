@@ -24,61 +24,6 @@
                        <MudTextField  Lines="3"  @bind-Value="@MedicalValue.Address" For="@(() => MedicalValue.Address)" Label="联系地址" Variant="Variant.Text" />
                           
                    </MudStack>
-@*                    <MudGrid Spacing="5" >
-                        <MudItem  lg="6" md="6" xl="6" sm="12"  >
-                            <MudStack Row="false">
-                                <MudTextField    @bind-Value="@MedicalValue.MedicalPKName" For="@(() => MedicalValue.MedicalPKName)" Label=" 方案名称(可选)" Variant="Variant.Text" />
-                                <MudTextField    @bind-Value="@MedicalValue.DrugsNmae" For="@(() => MedicalValue.DrugsNmae)" Label="药品通用名" Variant="Variant.Text" />
-                                <MudTextField    @bind-Value="@MedicalValue.DrugsNmae2" For="@(() => MedicalValue.DrugsNmae2)" Label="药品商品名" Variant="Variant.Text" />
-                                <MudTextField    @bind-Value="@MedicalValue.DrugSpecifications" For="@(() => MedicalValue.DrugSpecifications)" Label="药品规格" Variant="Variant.Text" />
-                                <MudSelect   @bind-Value="@MedicalValue.Manufacturertype" For="@(() => MedicalValue.Manufacturertype)" Label="厂家类型" Variant="Variant.Text" >
-                                @foreach (var item in EnumItems.Manufacturertype)
-                                {
-                                    <MudSelectItem Value="@item"></MudSelectItem>
-                                }
-                                </MudSelect>
-                                   
-
-                            </MudStack>
-
-                        </MudItem>
-                        <MudItem  lg="6" md="6" xl="6" sm="12"  >
-                            <MudStack Row="false">
-
-                                <MudAutocomplete  Clearable="true" T="string" Label="给药途径" @bind-Value="@MedicalValue.DrugdosageRoute" For="@(() => MedicalValue.DrugdosageRoute)"
-                                                SearchFunc="OnAutoSearchDrugdosageRoute" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-
-                                <MudStack Row="true">
-                                    <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.FirstTime" For="@(() => MedicalValue.FirstTime)" Label=" 药方开始时间" Variant="Variant.Text" />
-                                    <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.LasttTime" For="@(() => MedicalValue.LasttTime)" Label="药方结束时间" Variant="Variant.Text" />
-                                </MudStack>
-                                   
-                              
-                                <MudStack Row="true">
-
-                                    <MudAutocomplete  Clearable="true" T="string" Label="给药频率"  @bind-Value="@MedicalValue.DrugNCount" For="@(() => MedicalValue.DrugNCount)"
-                                                SearchFunc="@OnAutoSearchDrugNCount" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                                    <MudAutocomplete  Clearable="true" T="string" Label="给药持续时间"  @bind-Value="@MedicalValue.DrugNCountDuration" For="@(() => MedicalValue.DrugNCountDuration)"
-                                                SearchFunc="@OnAutoSearchDrugNCountDuration" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                                   
-                                </MudStack>
-
-                                <MudStack Row="true">
-                                    <MudTextField    @bind-Value="@MedicalValue.Drugdosage" For="@(() => MedicalValue.Drugdosage)" Label="单次给药剂量" Variant="Variant.Text" />
-                              
-                                     <MudAutocomplete  Clearable="true" T="string" Label="剂量单位"  @bind-Value="@MedicalValue.DrugdosageUnit" For="@(() => MedicalValue.DrugdosageUnit)"
-                                                SearchFunc="@OnAutoSearchDrugdosageUnit" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                                </MudStack>
-                                <MudStack Row="true">
-                                  
-                                    <MudAutocomplete  Clearable="true" T="string" Label="溶媒"  @bind-Value="@MedicalValue.DrugSpecifications" For="@(() => MedicalValue.DrugSpecifications)"
-                                                    SearchFunc="@OnAutoSearchDrugSpecifications" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                                    <MudTextField    @bind-Value="@MedicalValue.SolventToDosage" For="@(() => MedicalValue.SolventToDosage)" AdornmentText="ml" Label="溶媒计量" Variant="Variant.Text" />
-                                </MudStack>
-                                <MudTextField    @bind-Value="@MedicalValue.AMTsingledose" For="@(() => MedicalValue.AMTsingledose)" Label="公斤体质量日剂量(mg·kg⁻¹·d⁻¹)" Variant="Variant.Text" />
-                            </MudStack>
-                        </MudItem>
-                    </MudGrid>*@
                 </MudCardContent>
 
                  <MudCardActions  Class="my-5">
@@ -177,7 +122,7 @@
         var editModel = (Contacts)editcontext.Model;
 
         editModel.Guid = BingPatientInfo.Guid;
-        editModel.Createtime = DateTime.Now;
+        editModel.CreateTime = DateTime.Now;
         editModel.Username = BingPatientInfo.Username;
 
 
@@ -193,7 +138,7 @@
         var username = authenticationStateTask.Result.User.Identity.Name;
         var  createModel = (Contacts)editcontext.Model;
         createModel.Adminname = username;
-        createModel.Createtime = DateTime.Now;
+        createModel.CreateTime = DateTime.Now;
         createModel.Guid = BingPatientInfo.Guid;
         createModel.Username = BingPatientInfo.Username;
         createModel.Medicalrecordnumber = BingPatientInfo.Medicalrecordnumber;

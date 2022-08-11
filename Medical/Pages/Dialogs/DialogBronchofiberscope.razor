@@ -224,7 +224,7 @@
         var editModel = (X_raybronchoscopy)editcontext.Model;
 
         editModel.Guid = BingPatientInfo.Guid;
-        editModel.Createtime = DateTime.Now;
+        editModel.CreateTime = DateTime.Now;
         editModel.Username = BingPatientInfo.Username;
         if( FilePath.Count>0)
         {
@@ -248,7 +248,7 @@
         var username = authenticationStateTask.Result.User.Identity.Name;
         var  createModel = (X_raybronchoscopy)editcontext.Model;
         createModel.Adminname = username;
-        createModel.Createtime = DateTime.Now;
+        createModel.CreateTime = DateTime.Now;
         createModel.Guid = BingPatientInfo.Guid;
         createModel.Username = BingPatientInfo.Username;
         createModel.Medicalrecordnumber = BingPatientInfo.Medicalrecordnumber;
@@ -295,7 +295,7 @@
                 {
                     Adminuser =username,
                     ImgUrl = item,
-                    Createtime = DateTime.Now
+                    CreateTime = DateTime.Now
                 });
         }
         return list;

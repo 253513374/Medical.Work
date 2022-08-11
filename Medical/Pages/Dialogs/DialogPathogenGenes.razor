@@ -17,27 +17,12 @@
                 <MudCardContent>
                     <MudStack Row="false" Spacing="3" >
 
-                            <MudTextField @bind-Value="@MedicalValue.PathogenName" For="@(() => MedicalValue.PathogenName)" Label="致病菌名称" Variant="Variant.Text" />
-                            <MudTextField @bind-Value="@MedicalValue.PathogenicGeneName" For="@(() => MedicalValue.PathogenicGeneName)" Label="致病菌菌体基因名称" Variant="Variant.Text" />
+                        <MudTextField @bind-Value="@MedicalValue.PathogenName" For="@(() => MedicalValue.PathogenName)" Label="致病菌名称" Variant="Variant.Text" />
+                        <MudTextField @bind-Value="@MedicalValue.PathogenicGeneName" For="@(() => MedicalValue.PathogenicGeneName)" Label="致病菌菌体基因名称" Variant="Variant.Text" />
                         
                         <MudTextField @bind-Value="@MedicalValue.PathogenicGeneDetectionResults" For="@(() => MedicalValue.PathogenicGeneDetectionResults)" Label="致病菌菌体基因检测结果" Variant="Variant.Text" />
                         <MudTextField  @bind-Value="@MedicalValue.Exegesis" For="@(() => MedicalValue.Exegesis)" Lines="3" Label="意义" Variant="Variant.Text" />
          
-                       @* <MudStack Row="true">
-                            <MudTextField  @bind-Value="@MedicalValue.DrugsName" For="@(() => MedicalValue.DrugsName)" Label="药品名称" Variant="Variant.Text" />
-                            <MudAutocomplete  Clearable="true" T="string" Label="药敏检测方法" @bind-Value="@MedicalValue.DrugsensitivityTest" For="@(() => MedicalValue.DrugsensitivityTest)"
-                                                            SearchFunc="OnAutoSearchDrugsensitivityTest" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                        </MudStack>
-                    
-                        <MudAutocomplete  Clearable="true" T="string" Label="MIC(mg/ml)" @bind-Value="@MedicalValue.MIC" For="@(() => MedicalValue.MIC)"
-                                                    SearchFunc="OnAutoSearchMIC" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                         
-                       <MudStack Row="true">
-                            <MudTextField    @bind-Value="@MedicalValue.MIC" For="@(() => MedicalValue.MIC)" Label="MIC(mg/ml)" Variant="Variant.Text" />
-                       
-                            <MudTextField    @bind-Value="@MedicalValue.TMic" For="@(() => MedicalValue.TMic)" Label="T>MIC%" Variant="Variant.Text" />
-                            <MudTextField    @bind-Value="@MedicalValue.AUCMic" For="@(() => MedicalValue.AUCMic)" Label="AUCSS,24h/MIC" Variant="Variant.Text" />
-                        </MudStack>*@
                           
                     </MudStack>
                 </MudCardContent>
@@ -131,7 +116,7 @@
         var editModel = (MedicalPG_PathogenGene)editcontext.Model;
 
         editModel.Guid = BingPatientInfo.Guid;
-        editModel.Createtime = DateTime.Now;
+        editModel.CreateTime = DateTime.Now;
         editModel.Username = BingPatientInfo.Username;
 
 
@@ -147,7 +132,7 @@
         var username = authenticationStateTask.Result.User.Identity.Name;
         var  createModel = (MedicalPG_PathogenGene)editcontext.Model;
         createModel.Adminname = username;
-        createModel.Createtime = DateTime.Now;
+        createModel.CreateTime = DateTime.Now;
         createModel.Guid = BingPatientInfo.Guid;
         createModel.Username = BingPatientInfo.Username;
         createModel.Medicalrecordnumber = BingPatientInfo.Medicalrecordnumber;

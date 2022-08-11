@@ -10,7 +10,7 @@ namespace Medical.Data.Models
 
         public string Adminuser { set; get; }
 
-        public DateTime Createtime { set; get; }
+        public DateTime CreateTime { set; get; }
 
         public string ImgUrl { set; get; }
 

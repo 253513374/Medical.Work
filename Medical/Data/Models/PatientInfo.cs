@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Medical.Data.Models
 {
-    public class PatientInfo 
+    public class PatientInfo : BaseDataInterface
     {
 
 
@@ -46,7 +46,7 @@ namespace Medical.Data.Models
         public string? Guid { set; get; }
 
         [DisplayName("记录时间")]
-        public DateTime? Createtime { set; get; }
+        public DateTime? CreateTime { set; get; }
         /// <summary>
         /// 科室
         /// </summary>

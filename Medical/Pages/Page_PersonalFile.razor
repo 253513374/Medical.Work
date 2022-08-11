@@ -1,11 +1,14 @@
 ﻿@page "/PersonalFile"
+@using System.Linq.Expressions
+@using ExpressionTreeToString
+
 
 @attribute [Authorize]
 <PageTitle>首页</PageTitle>
 
 <BannerTitle Title="基础档案管理"></BannerTitle>
 
-<MudPaper Elevation="0" Class="my-5">
+<MudPaper Elevation="0" Class="mt-5 mb-1">
     <MudFab    Size="Size.Medium" Color="Color.Primary" DisableElevation="true"   OnClick="@OnOpenDialog" Class="mx-3" StartIcon="@Icons.Material.Outlined.AddCard" Label="新建档案"> </MudFab>
   
 </MudPaper>
@@ -13,30 +16,30 @@
 
 @if(Patients is null){
     <MudCard>
-    <MudCardHeader>
-        <CardHeaderAvatar>
-            <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="40px" Width="40px"/>
-        </CardHeaderAvatar>
-        <CardHeaderContent>
-            <MudSkeleton Animation="Animation.Wave" Width="40%" />
-            <MudSkeleton Animation="Animation.Wave" Width="60%" />
-        </CardHeaderContent>
-    </MudCardHeader>
-    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Height="250px" />
-    <MudCardContent>
-        <MudSkeleton Animation="Animation.Wave" />
-    </MudCardContent>
-    <MudCardActions>
+        <MudCardHeader>
+            <CardHeaderAvatar>
+                <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="40px" Width="40px"/>
+            </CardHeaderAvatar>
+            <CardHeaderContent>
+                <MudSkeleton Animation="Animation.Wave" Width="40%" />
+                <MudSkeleton Animation="Animation.Wave" Width="60%" />
+            </CardHeaderContent>
+        </MudCardHeader>
+        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Height="250px" />
+        <MudCardContent>
+            <MudSkeleton Animation="Animation.Wave" />
+        </MudCardContent>
+        <MudCardActions>
     
-        <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="30px" Width="30px" Class="ml-2 mb-2" />
-        <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="30px" Width="30px" Class="ml-3 mb-2" />
-    </MudCardActions>
-</MudCard>
+            <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="30px" Width="30px" Class="ml-2 mb-2" />
+            <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="30px" Width="30px" Class="ml-3 mb-2" />
+        </MudCardActions>
+    </MudCard>
 }
 else{
 
     <MudTable  T="PatientInfo" FixedFooter="true" FixedHeader = "true" Height="600px" Elevation="0" Items="@Patients"  Hover="true" ReadOnly="true"
-              Filter="new Func<PatientInfo,bool>(FilterFuncTable)"  Dense="false" >
+              Filter="new Func<PatientInfo,bool>(FilterFuncTable)"  Dense="true" >
         <ToolBarContent >
             <MudDateRangePicker   @ref="@rangePicker" @bind-DateRange="@daterange" Label="时间范围"  >
                 <PickerActions>
@@ -70,10 +73,10 @@ else{
                           
             <MudTd >
                 <MudTooltip Text="编辑档案">
-                    <MudIconButton  OnClick="@(s=>OnEditPatientInfo(context))"  Color="Color.Info" Size="Size.Medium" Icon="@Icons.Outlined.ModeEdit" Variant="Variant.Text" >  </MudIconButton>
+                    <MudIconButton  OnClick="@(s=>OnEditPatientInfo(context))"  Color="Color.Info" Size="Size.Small" Icon="@Icons.Outlined.ModeEdit" Variant="Variant.Text" >  </MudIconButton>
                 </MudTooltip>
                 <MudTooltip Text="删除数据">
-                        <MudIconButton Class="mx-3" Color="Color.Error"  Size="Size.Medium" Icon="@Icons.Outlined.DeleteSweep" Variant="Variant.Text" >   </MudIconButton>
+                        <MudIconButton Class="mx-3" Color="Color.Error"  Size="Size.Small" Icon="@Icons.Outlined.DeleteSweep" Variant="Variant.Text" >   </MudIconButton>
                 </MudTooltip>
             </MudTd>
         </RowTemplate>
@@ -88,16 +91,16 @@ else{
 
 @code{
 
-    [Inject]
-    protected ILogger<Index> Logger{ set; get; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     [Inject]
-    protected IDbContextFactory<MedicalDbContext> DbContextFactory{ set; get; }
+    protected ILogger<Page_PersonalFile> Logger{ set; get; }
+
+    [Inject]
+     private DbServerProvider DbServerProvider { set; get; }
     [Inject] 
     protected IDialogService DialogService  { get; set; }
-
-    [Inject]
-    protected AutocompleteService AutocompleteService { set; get; }
 
     /// <summary>
     /// 默认查询的时间范围(1个月时间)
@@ -114,7 +117,7 @@ else{
 
     private List<PatientInfo> Patients{ set; get; }
 
-    
+
     [Inject] 
     protected AutocompleteService CacheService { set; get; }
 
@@ -123,10 +126,13 @@ else{
     {
         if (firstRender)
         {
-            using var context = DbContextFactory.CreateDbContext();
-
-            Patients  = await CacheService.GetCachePatientInfoToListAsync();
-            Patients =  Patients.Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1)).OrderByDescending(o=>o.Createtime).ToList();
+            var name = authenticationStateTask.Result.User.Identity.Name;
+            Patients  = (await CacheService.GetCachePatientInfoToListAsync()).Where(w=>w.Adminname==name).ToList();
+            if(Patients is null ||  Patients.Count==0)
+            {
+               Patients =await DbServerProvider.GetListAsync<PatientInfo>();
+            
+            }
             StateHasChanged();
         }
         //  return base.OnAfterRenderAsync(firstRender);
@@ -141,9 +147,13 @@ else{
         rangePicker.Close();
 
         if (Patients is not null) Patients.Clear();
-        //if (Certificates is not null) Certificates.Clear();
-
-        await OnAfterRenderAsync(true);
+        Patients = await DbServerProvider.GetListAsync<PatientInfo>(daterange);
+            
+        
+       // Patients = await context.patientInfos.AsNoTracking()
+       //                                     .Where(w=>w.CreateTime>=daterange.Start.Value.Date&&w.CreateTime<=daterange.End.Value.Date.AddDays(1))
+       //                                     .OrderByDescending(o=>o.CreateTime).ToListAsync();    
+       // await OnAfterRenderAsync(true);
         StateHasChanged();
 
         return;

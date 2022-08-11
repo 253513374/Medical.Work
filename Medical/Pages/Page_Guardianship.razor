@@ -1,4 +1,5 @@
-﻿@*@page "/guardianship"
+﻿@page "/guardianship"
+@using Medical.Data.Models.Common
 
 
 @attribute [Authorize]
@@ -16,24 +17,24 @@
       </MudStack>
 @if(Summaryreports is null){
     <MudCard>
-    <MudCardHeader>
-        <CardHeaderAvatar>
-            <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="40px" Width="40px"/>
-        </CardHeaderAvatar>
-        <CardHeaderContent>
-            <MudSkeleton Animation="Animation.Wave" Width="40%" />
-            <MudSkeleton Animation="Animation.Wave" Width="60%" />
-        </CardHeaderContent>
-    </MudCardHeader>
-    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Height="250px" />
-    <MudCardContent>
-        <MudSkeleton Animation="Animation.Wave" />
-    </MudCardContent>
-    <MudCardActions>
+        <MudCardHeader>
+            <CardHeaderAvatar>
+                <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="40px" Width="40px"/>
+            </CardHeaderAvatar>
+            <CardHeaderContent>
+                <MudSkeleton Animation="Animation.Wave" Width="40%" />
+                <MudSkeleton Animation="Animation.Wave" Width="60%" />
+            </CardHeaderContent>
+        </MudCardHeader>
+        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Height="250px" />
+        <MudCardContent>
+            <MudSkeleton Animation="Animation.Wave" />
+        </MudCardContent>
+        <MudCardActions>
     
-        <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="30px" Width="30px" Class="ml-2 mb-2" />
-        <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="30px" Width="30px" Class="ml-3 mb-2" />
-    </MudCardActions>
+            <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="30px" Width="30px" Class="ml-2 mb-2" />
+            <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="30px" Width="30px" Class="ml-3 mb-2" />
+        </MudCardActions>
     </MudCard>
 }
 else
@@ -41,7 +42,7 @@ else
      <MudTable T="SummaryOfCases"  Items="@Summaryreports"  FixedFooter="true"
          FixedHeader = "true" Height="600px" Elevation="0" Hover="true" ReadOnly="true"
          MultiSelection="true" @bind-SelectedItems="selectedItems" 
-              Filter="new Func<SummaryOfCases,bool>(FilterFuncTable)"  Dense="false" >
+              Filter="new Func<SummaryOfCases,bool>(FilterFuncTable)"  Dense="true" >
     
     <ToolBarContent>
         <MudSpacer />
@@ -56,12 +57,12 @@ else
         <MudTd >
            
             <MudToggleIconButton @bind-Toggled="@context.Ispublic"
-                     Icon="@Icons.Outlined.PublicOff" Color="@Color.Dark" Title="Off"
-                     ToggledIcon="@Icons.Outlined.Publish" ToggledColor="@Color.Success" ToggledTitle="On"/> 
+                     Icon="@Icons.Outlined.PublicOff" Color="@Color.Dark" Title="未公开"
+                     ToggledIcon="@Icons.Outlined.Public" ToggledColor="@Color.Success" ToggledTitle="已公开"/> 
 
-            <MudToggleIconButton @bind-Toggled="@context.Ispublic"
-                     Icon="@Icons.Filled.StarRate" Color="@Color.Dark" Title="Off"
-                     ToggledIcon="@Icons.Filled.StarOutline" ToggledColor="@Color.Success" ToggledTitle="On"/> 
+            <MudToggleIconButton @bind-Toggled="@context.IsFeatured"
+                     Icon="@Icons.Outlined.StarOutline" Color="@Color.Dark" Title="未精选"
+                     ToggledIcon="@Icons.Filled.StarRate" ToggledColor="@Color.Success" ToggledTitle="已精选"/> 
 
   
                      
@@ -86,18 +87,29 @@ else
     protected ILogger<Page_Guardianship> Logger{ set; get; }
 
     [Inject]
-    protected IDbContextFactory<MedicalDbContext> DbContextFactory{ set; get; }
+    private DbServerProvider DbServerProvider { set; get; }
 
-    
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
 
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            using var context = DbContextFactory.CreateDbContext();
+            //var username = authenticationStateTask.Result.User.Identity.Name;
+            //
+            //QueryFilterManager.Filter<BaseDataInterface>(q => q.Where(x =>x.Adminname==username));
+            ////context.Filter<BaseDataInterface>(q => q.Where(x => x.Adminname==username));
+            //Summaryreports = await context.SummaryOfCases.AsNoTracking()
+            //                                            .OrderByDescending(o => o.CreateTime)
+            //                                            .Take(100)
+            //                                            .ToListAsync();
 
-            Summaryreports = await context.SummaryOfCases.AsNoTracking().ToListAsync();
+            Summaryreports = await DbServerProvider.GetListAsync<SummaryOfCases>();
+            // Summaryreports = ssss.ToList();
+
             StateHasChanged();
         }
         // return Task.FromResult()
@@ -139,30 +151,8 @@ else
         var uri = $"/bolg/{id}";
 
 
-       Navigation.NavigateTo(uri);
+        Navigation.NavigateTo(uri);
 
-        return Task.CompletedTask;
-    }
-
-
-    /// <summary>
-    /// 删除数据
-    /// </summary>
-    /// <param name="guid"></param>
-    /// <returns></returns>
-    private Task  OnClickDelete(string guid)
-    {
-        Logger.LogInformation("OnClickDelete");
-
-        using var context = DbContextFactory.CreateDbContext();
-        var item = context.SummaryOfCases.FirstOrDefault(x => x.SummaryOfCasesGuid == guid);
-        
-        if (item != null)
-        {
-            context.SummaryOfCases.Remove(item);
-            context.SaveChanges();
-        }
-        
         return Task.CompletedTask;
     }
 
@@ -182,4 +172,3 @@ else
         return Task.CompletedTask;
     }
 }
-*@

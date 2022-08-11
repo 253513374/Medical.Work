@@ -7,7 +7,7 @@
 
 <BannerTitle Title="纤维支气管镜检查"></BannerTitle>
 
-<MudPaper Elevation="0" Class="my-5">
+<MudPaper Elevation="0" Class="mt-5 mb-1">
    <MudFab  Label="纤维支气管镜检查" Size="Size.Medium" Color="Color.Primary" DisableElevation="true"   OnClick="@OnOpenDialog" Class="mx-3" StartIcon="@Icons.Material.Outlined.AddCard" > </MudFab>
 
 </MudPaper>
@@ -37,7 +37,7 @@
 else{
 
     <MudTable T="X_raybronchoscopy" FixedFooter="true" FixedHeader = "true" Height="600px" Elevation="0" Items="@X_Raybronchoscopies"  Hover="true" ReadOnly="true"
-              Filter="new Func<X_raybronchoscopy,bool>(FilterFuncTable)"  Dense="false" >
+              Filter="new Func<X_raybronchoscopy,bool>(FilterFuncTable)"  Dense="true" >
         <ToolBarContent>
            
                <MudDateRangePicker   @ref="@rangePicker" @bind-DateRange="@daterange" Label="时间范围"  >
@@ -71,10 +71,10 @@ else{
                           
             <MudTd >
                 <MudTooltip Text="编辑档案">
-                    <MudIconButton  OnClick="@(s=>OnEditPatientInfo(context))"  Color="Color.Info" Size="Size.Medium" Icon="@Icons.Outlined.ModeEdit" Variant="Variant.Text" >  </MudIconButton>
+                    <MudIconButton  OnClick="@(s=>OnEditPatientInfo(context))"  Color="Color.Info" Size="Size.Small" Icon="@Icons.Outlined.ModeEdit" Variant="Variant.Text" >  </MudIconButton>
                 </MudTooltip>
                 <MudTooltip Text="删除数据">
-                        <MudIconButton Class="mx-3" Color="Color.Error"  Size="Size.Medium" Icon="@Icons.Outlined.DeleteSweep" Variant="Variant.Text" >   </MudIconButton>
+                        <MudIconButton Class="mx-3" Color="Color.Error"  Size="Size.Small" Icon="@Icons.Outlined.DeleteSweep" Variant="Variant.Text" >   </MudIconButton>
                 </MudTooltip>
             </MudTd>
         </RowTemplate>
@@ -93,7 +93,7 @@ else{
     protected ILogger<Index> Logger{ set; get; }
 
     [Inject]
-    protected IDbContextFactory<MedicalDbContext> DbContextFactory{ set; get; }
+     private DbServerProvider DbServerProvider { set; get; }
     [Inject] 
     protected IDialogService DialogService  { get; set; }
 
@@ -118,13 +118,14 @@ else{
         if (firstRender)
         {
             //Loading = true;
-            using var context = DbContextFactory.CreateDbContext();
-
-            X_Raybronchoscopies = await  context.X_raybronchoscopys
-                                            //.Where(w=>w.Createtime>=daterange.Start.Value.Date&&w.Createtime<=daterange.End.Value.Date.AddDays(1))
-                                            .Include(i=>i.ImgUrl)
-                                            .OrderByDescending(o => o.Createtime)
-                                            .ToListAsync();
+            
+               X_Raybronchoscopies = await DbServerProvider.GetListAsync<X_raybronchoscopy>();
+            //X_Raybronchoscopies = await  context.X_raybronchoscopys
+            //                                //.Where(w=>w.CreateTime>=daterange.Start.Value.Date&&w.CreateTime<=daterange.End.Value.Date.AddDays(1))
+            //                                .Include(i=>i.ImgUrl)
+            //                                .OrderByDescending(o => o.CreateTime)
+            //                                .Take(100)
+            //                                .ToListAsync();
 
            // Loading = false;
             StateHasChanged();
@@ -143,7 +144,13 @@ else{
         if (X_Raybronchoscopies is not null) X_Raybronchoscopies.Clear();
         //if (Certificates is not null) Certificates.Clear();
 
-        await OnAfterRenderAsync(true);
+        
+        X_Raybronchoscopies = await DbServerProvider.GetListAsync<X_raybronchoscopy>(daterange);
+        //X_Raybronchoscopies = await  context.X_raybronchoscopys.AsNoTracking()
+        //                                    .Where(w=>w.CreateTime>=daterange.Start.Value.Date&&w.CreateTime<=daterange.End.Value.Date.AddDays(1))
+        //                                    .Include(i=>i.ImgUrl)
+        //                                    .OrderByDescending(o => o.CreateTime)
+        //                                    .ToListAsync();
         StateHasChanged();
 
         return;

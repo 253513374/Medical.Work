@@ -1,4 +1,5 @@
 ﻿
+
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +8,10 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Medical.Data.Models
 {
-    public class BaseDataInterface
+
+    public interface ITenantInterface { }
+
+    public abstract class BaseDataInterface
     {
         /// <summary>
         /// ID
@@ -48,7 +52,7 @@ namespace Medical.Data.Models
         public string? Guid { set; get; }
 
         [DisplayName("记录时间")]
-        public DateTime? Createtime { set; get; }
+        public DateTime? CreateTime { set; get; }
 
         //[NotMapped]
         //[Required(ErrorMessage = "必须填写")]
