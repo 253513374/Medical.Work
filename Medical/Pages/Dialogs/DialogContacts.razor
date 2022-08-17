@@ -4,6 +4,8 @@
 @inject ISnackbar Snackbar
 @inject EnumServer EServer;
 
+@attribute [Authorize]
+
 <MudDialog>
      <TitleContent>
     </TitleContent>
@@ -16,12 +18,12 @@
                 <MudCardContent>
 
                     <MudStack Row="true">
-                        <MudTextField    @bind-Value="@MedicalValue.Contactnumber" For="@(() => MedicalValue.Contactnumber)" Label="联系电话" Variant="Variant.Text" />
-                        <MudTextField    @bind-Value="@MedicalValue.Email" For="@(() => MedicalValue.Email)" Label="联系邮箱" Variant="Variant.Text" />
+                        <MudTextField  Margin="Margin.Dense"    @bind-Value="@MedicalValue.Contactnumber" For="@(() => MedicalValue.Contactnumber)" Label="联系电话" Variant="Variant.Text" />
+                        <MudTextField  Margin="Margin.Dense"    @bind-Value="@MedicalValue.Email" For="@(() => MedicalValue.Email)" Label="联系邮箱" Variant="Variant.Text" />
                               
                     </MudStack>
                    <MudStack Row="true">
-                       <MudTextField  Lines="3"  @bind-Value="@MedicalValue.Address" For="@(() => MedicalValue.Address)" Label="联系地址" Variant="Variant.Text" />
+                       <MudTextField  Margin="Margin.Dense"  Lines="3"  @bind-Value="@MedicalValue.Address" For="@(() => MedicalValue.Address)" Label="联系地址" Variant="Variant.Text" />
                           
                    </MudStack>
                 </MudCardContent>

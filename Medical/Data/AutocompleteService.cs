@@ -40,7 +40,7 @@ namespace Medical.Data
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
                     .SetPriority(priority: CacheItemPriority.NeverRemove);
             }
-            if (PatientInfos is null || PatientInfos.Count == 0) return null;
+            if (PatientInfos is null || PatientInfos.Count == 0) return new List<PatientInfo>();
             return PatientInfos.OrderByDescending(o=>o.CreateTime).ToList();
         }
 

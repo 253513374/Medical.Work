@@ -4,6 +4,7 @@
 @inject ISnackbar Snackbar
 @inject EnumServer EServer;
 
+@attribute [Authorize]
 
 <MudDialog>
      <TitleContent>
@@ -18,13 +19,13 @@
                     <MudStack Row="false" Spacing="3" >
 
                         <MudStack Row="true">
-                            <MudTextField @bind-Value="@MedicalValue.Rs" For="@(() => MedicalValue.Rs)" Label="Rs号" Variant="Variant.Text" />
-                            <MudTextField @bind-Value="@MedicalValue.Genes" For="@(() => MedicalValue.Genes)" Label="基因名称" Variant="Variant.Text" />
+                            <MudTextField  Margin="Margin.Dense" @bind-Value="@MedicalValue.Rs" For="@(() => MedicalValue.Rs)" Label="Rs号" Variant="Variant.Text" />
+                            <MudTextField  Margin="Margin.Dense" @bind-Value="@MedicalValue.Genes" For="@(() => MedicalValue.Genes)" Label="基因名称" Variant="Variant.Text" />
                         
                         </MudStack>
-                        <MudTextField @bind-Value="@MedicalValue.Genes" For="@(() => MedicalValue.Genes)" Label="基因结果" Variant="Variant.Text" />
-                        <MudTextField @bind-Value="@MedicalValue.Metabolictype" For="@(() => MedicalValue.Metabolictype)" Label="基因代谢型" Variant="Variant.Text" />
-                        <MudTextField  @bind-Value="@MedicalValue.Metabolictype" For="@(() => MedicalValue.Metabolictype)" Lines="3" Label="意义" Variant="Variant.Text" />
+                        <MudTextField  Margin="Margin.Dense" @bind-Value="@MedicalValue.Genes" For="@(() => MedicalValue.Genes)" Label="基因结果" Variant="Variant.Text" />
+                        <MudTextField  Margin="Margin.Dense" @bind-Value="@MedicalValue.Metabolictype" For="@(() => MedicalValue.Metabolictype)" Label="基因代谢型" Variant="Variant.Text" />
+                        <MudTextField  Margin="Margin.Dense"  @bind-Value="@MedicalValue.Metabolictype" For="@(() => MedicalValue.Metabolictype)" Lines="3" Label="意义" Variant="Variant.Text" />
          
                     
                     </MudStack>

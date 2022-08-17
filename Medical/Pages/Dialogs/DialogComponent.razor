@@ -1,6 +1,6 @@
 ﻿
 
-
+@attribute [Authorize]
 
 <MudDialog>
      <TitleContent>
@@ -10,7 +10,7 @@
     <DialogContent>
 
         <MudStack>
-          @*    <MudAutocomplete T="string" Label="US States" @bind-Value="value1" SearchFunc="@Search1"
+          @*    <MudAutocomplete Dense="true" Margin="Margin.Dense" T="string" Label="US States" @bind-Value="value1" SearchFunc="@Search1"
                          ResetValueOnEmptyText="@resetValueOnEmptyText"
                          CoerceText="@coerceText" CoerceValue="@coerceValue" />*@
         </MudStack>

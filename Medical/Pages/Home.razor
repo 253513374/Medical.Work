@@ -1,64 +1,355 @@
 ﻿
 @page "/"
 
+ @inject NavigationManager Navigation
 
-
-   <MudText Typo="Typo.h3" >工作面板</MudText>
+   <MudText Typo="Typo.h3" Class="my-3" >工作面板</MudText>
 
     <MudGrid Spacing="2" Justify="Justify.Center">
         <MudItem >
-            <MudPaper Elevation="1" Height="120px" Width="300px" ></MudPaper>
+            <MudPaper Outlined="true" Style="background-color:#f9fbff;border-color:#8dbced" Elevation="1"  Height="120px" Width="300px" Class="rounded-lg border-solid border-1 ">
+                <MudStack Row="false" AlignItems="AlignItems.Stretch" Justify="Justify.FlexStart" Spacing="0">
+                    <MudButton   Style="height:85px;font-size:18px;" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent"   
+                                OnClick="@(s=>OnOpenDialog<DialogPersonalFile>())">
+                       <MudStack Class="ml-1" Row="true" Justify="Justify.FlexStart" AlignItems="AlignItems.Center">
+                            <MudAvatar Color="Color.Primary" Variant="Variant.Outlined" >
+                                <MudIcon  Icon="@Icons.Outlined.FilePresent" Size="Size.Medium" />
+                            </MudAvatar>    
+                            <MudText Typo="Typo.h6" Style="font-weight:300">基础档案</MudText>
+                       </MudStack>
+                    </MudButton>
+                    <MudStack Row="true" Justify="Justify.FlexEnd">
+                        <MudLink  Class="pa-2 " Typo="Typo.caption"  Href="PersonalFile" >—>更多</MudLink>
+                    </MudStack>
+                </MudStack>
+            </MudPaper>
         </MudItem>
         <MudItem >
-            <MudPaper Elevation="1" Height="120px" Width="300px"></MudPaper>
+            <MudPaper Outlined="true" Style="background-color:#f9fbff;border-color:#8dbced" Elevation="1" Height="120px" Width="300px" Class="rounded-lg border-solid border-1">
+                <MudStack Row="false" AlignItems="AlignItems.Stretch" Spacing="0">
+                    <MudButton   Style="height:85px;font-size:18px;" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent"   
+                                    OnClick="@(s=>OnOpenDialog<DialogPrescription>())">
+                       <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+                            <MudAvatar Color="Color.Primary" Variant="Variant.Outlined" >
+                                <MudIcon  Icon="@Icons.Outlined.FilePresent" Size="Size.Medium" />
+                            </MudAvatar>    
+                            <MudText Typo="Typo.h6" Style="font-weight:300">给药方案</MudText>
+                       </MudStack>
+                    </MudButton>
+                    @*<MudButton  Style="height:85px" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent" 
+                                StartIcon="@Icons.Outlined.ListAlt" OnClick="@(s=>OnOpenDialog<DialogPrescription>())">
+                            给药方案
+                    </MudButton>*@
+                    <MudStack Row="true" Justify="Justify.FlexEnd">
+                        <MudLink  Class="pa-2 " Typo="Typo.caption"  Href="prescription" >—>更多</MudLink>
+                    </MudStack>
+                </MudStack>
+          
+            </MudPaper>
         </MudItem>
         <MudItem >
-            <MudPaper Elevation="1" Height="120px" Width="300px"></MudPaper>
+            <MudPaper Outlined="true" Style="background-color:#f9fbff;border-color:#8dbced" Elevation="1" Height="120px" Width="300px" Class="rounded-lg border-solid border-1">
+                 <MudStack Row="false" AlignItems="AlignItems.Stretch" Spacing="0">
+                    <MudButton   Style="height:85px;font-size:18px;" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent"   
+                                    OnClick="@(s=>OnOpenDialog<DialogBloodSample>())">
+                       <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+                            <MudAvatar Color="Color.Primary" Variant="Variant.Outlined" >
+                                <MudIcon  Icon="@Icons.Outlined.FilePresent" Size="Size.Medium" />
+                            </MudAvatar>    
+                            <MudText Typo="Typo.h6" Style="font-weight:300">采样信息</MudText>
+                       </MudStack>
+                    </MudButton>
+                  @*   <MudButton  Style="height:85px" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent" 
+                                StartIcon="@Icons.Outlined.BlurOn" OnClick="@(s=>OnOpenDialog<DialogBloodSample>())">
+                            采样信息
+                    </MudButton>*@
+                    <MudStack Row="true" Justify="Justify.FlexEnd">
+                        <MudLink  Class="pa-2 " Typo="Typo.caption"  Href="bloodsample" >—>更多</MudLink>
+                    </MudStack>
+                </MudStack>
+               
+            </MudPaper>
         </MudItem>
         <MudItem >
-            <MudPaper Elevation="1" Height="120px" Width="300px"></MudPaper>
+            <MudPaper Outlined="true" Style="background-color:#f9fbff;border-color:#8dbced" Elevation="1" Height="120px" Width="300px" Class="rounded-lg border-solid border-1">
+               <MudStack Row="false" AlignItems="AlignItems.Stretch" Spacing="0">
+                   <MudButton   Style="height:85px;font-size:18px;" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent"   
+                                    OnClick="@(s=>OnOpenDialog<DialogClinicalMicrobiology>())">
+                       <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+                            <MudAvatar Color="Color.Primary" Variant="Variant.Outlined" >
+                                <MudIcon  Icon="@Icons.Outlined.FilePresent" Size="Size.Medium" />
+                            </MudAvatar>    
+                            <MudText Typo="Typo.h6" Style="font-weight:300">临床微生物检查</MudText>
+                       </MudStack>
+                    </MudButton> 
+                   @*<MudButton  Style="height:85px" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent" 
+                                StartIcon="@Icons.Outlined.Margin" OnClick="@(s=>OnOpenDialog<DialogClinicalMicrobiology>())">
+                            临床微生物检查
+                    </MudButton>*@
+                    <MudStack Row="true" Justify="Justify.FlexEnd">
+                        <MudLink  Class="pa-2 " Typo="Typo.caption"  Href="clinicalmicrobiology" >—>更多</MudLink>
+                    </MudStack>
+                </MudStack>
+            </MudPaper>
         </MudItem>
         <MudItem >
-            <MudPaper Elevation="1" Height="120px" Width="300px"></MudPaper>
-        </MudItem>
-          <MudItem >
-            <MudPaper Elevation="1" Height="120px" Width="300px"></MudPaper>
-        </MudItem>
-        <MudItem >
-            <MudPaper Elevation="1" Height="120px" Width="300px"></MudPaper>
-        </MudItem>
-        <MudItem >
-            <MudPaper Elevation="1" Height="120px" Width="300px"></MudPaper>
-        </MudItem>
-        <MudItem >
-            <MudPaper Elevation="1" Height="120px" Width="300px"></MudPaper>
-        </MudItem>
-          <MudItem >
-            <MudPaper Elevation="1" Height="120px" Width="300px"></MudPaper>
-        </MudItem>
-        <MudItem >
-            <MudPaper Elevation="1" Height="120px" Width="300px"></MudPaper>
-        </MudItem>
-        <MudItem >
-            <MudPaper Elevation="1" Height="120px" Width="300px"></MudPaper>
-        </MudItem>
-        <MudItem >
-            <MudPaper Elevation="1" Height="120px" Width="300px"></MudPaper>
+            <MudPaper Outlined="true" Style="background-color:#f9fbff;border-color:#8dbced" Elevation="1" Height="120px" Width="300px" Class="rounded-lg border-solid border-1">
+                <MudStack Row="false" AlignItems="AlignItems.Stretch" Spacing="0">
+                    
+                    <MudButton   Style="height:85px;font-size:18px;" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent"   
+                                    OnClick="@(s=>OnOpenDialog<DialogDrugAllergyTesting>())">
+                       <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+                            <MudAvatar Color="Color.Primary" Variant="Variant.Outlined" >
+                                <MudIcon  Icon="@Icons.Outlined.FilePresent" Size="Size.Medium" />
+                            </MudAvatar>    
+                            <MudText Typo="Typo.h6" Style="font-weight:300">药敏试验</MudText>
+                       </MudStack>
+                    </MudButton>
+                   @* <MudButton  Style="height:85px" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent" 
+                        StartIcon="@Icons.Outlined.BlurCircular" OnClick="@(s=>OnOpenDialog<DialogDrugAllergyTesting>())">
+                    药敏试验
+                    </MudButton>*@
+                        <MudStack Row="true" Justify="Justify.FlexEnd">
+                        <MudLink  Class="pa-2 " Typo="Typo.caption"  Href="drugallergytesting" >—>更多</MudLink>
+                    </MudStack>
+                </MudStack>
+               
+            </MudPaper>
         </MudItem>
         <MudItem >
-            <MudPaper Elevation="1" Height="120px" Width="300px"></MudPaper>
+            <MudPaper Outlined="true" Style="background-color:#f9fbff;border-color:#8dbced" Elevation="1" Height="120px" Width="300px" Class="rounded-lg border-solid border-1">
+                 <MudStack Row="false" AlignItems="AlignItems.Stretch" Spacing="0">
+                    <MudButton   Style="height:85px;font-size:18px;" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent"   
+                                    OnClick="@(s=>OnOpenDialog<DialogPharmacogenomics>())">
+                       <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+                            <MudAvatar Color="Color.Primary" Variant="Variant.Outlined" >
+                                <MudIcon  Icon="@Icons.Outlined.FilePresent" Size="Size.Medium" />
+                            </MudAvatar>    
+                            <MudText Typo="Typo.h6" Style="font-weight:300">药物基因组学</MudText>
+                       </MudStack>
+                    </MudButton>
+                     
+                    @* <MudButton  Style="height:85px" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent" 
+                        StartIcon="@Icons.Outlined.Opacity" OnClick="@(s=>OnOpenDialog<DialogPharmacogenomics>())">
+                    药物基因组学
+                    </MudButton>*@
+                        <MudStack Row="true" Justify="Justify.FlexEnd">
+                        <MudLink  Class="pa-2 " Typo="Typo.caption"  Href="Pharmacogenomics" >—>更多</MudLink>
+                    </MudStack>
+                </MudStack>
+               
+            </MudPaper>
         </MudItem>
         <MudItem >
-            <MudPaper Elevation="1" Height="120px" Width="300px"></MudPaper>
+            <MudPaper Outlined="true" Style="background-color:#f9fbff;border-color:#8dbced" Elevation="1" Height="120px" Width="300px" Class="rounded-lg border-solid border-1">
+                <MudStack Row="false" AlignItems="AlignItems.Stretch" Spacing="0">
+                    @*<MudButton  Style="height:85px" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent" 
+                        StartIcon="@Icons.Outlined.Vaccines" OnClick="@(s=>OnOpenDialog<DialogPathogenGenes>())">
+                    病原菌基因
+                    </MudButton>*@
+                    <MudButton   Style="height:85px;font-size:18px;" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent"   
+                                    OnClick="@(s=>OnOpenDialog<DialogPathogenGenes>())">
+                       <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+                            <MudAvatar Color="Color.Primary" Variant="Variant.Outlined" >
+                                <MudIcon  Icon="@Icons.Outlined.FilePresent" Size="Size.Medium" />
+                            </MudAvatar>    
+                            <MudText Typo="Typo.h6" Style="font-weight:300">病原菌基因</MudText>
+                       </MudStack>
+                    </MudButton>
+                    <MudStack Row="true" Justify="Justify.FlexEnd">
+                    <MudLink  Class="pa-2 " Typo="Typo.caption"  Href="pathogengenes" >—>更多</MudLink>
+                    </MudStack>
+                </MudStack>
+              
+            </MudPaper>
         </MudItem>
+        <MudItem >
+            <MudPaper Outlined="true" Style="background-color:#f9fbff;border-color:#8dbced" Elevation="1" Height="120px" Width="300px" Class="rounded-lg border-solid border-1">
+                <MudStack Row="false" AlignItems="AlignItems.Stretch" Spacing="0">
+                    <MudButton   Style="height:85px;font-size:18px;" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent"   
+                                    OnClick="@(s=>OnOpenDialog<DialogBronchofiberscope>())">
+                       <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+                            <MudAvatar Color="Color.Primary" Variant="Variant.Outlined" >
+                                <MudIcon  Icon="@Icons.Outlined.FilePresent" Size="Size.Medium" />
+                            </MudAvatar>    
+                            <MudText Typo="Typo.h6" Style="font-weight:300">纤维支气管镜检查</MudText>
+                       </MudStack>
+                    </MudButton>
+                   @* <MudButton  Style="height:85px" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent" 
+                        StartIcon="@Icons.Outlined.ImageAspectRatio" OnClick="@(s=>OnOpenDialog<DialogBronchofiberscope>())">
+                    纤维支气管镜检查
+                    </MudButton>*@
+                    <MudStack Row="true" Justify="Justify.FlexEnd">
+                        <MudLink  Class="pa-2 " Typo="Typo.caption"  Href="bronchofiberscope" >—>更多</MudLink>
+                    </MudStack>
+                </MudStack>
+               @*  Href="bronchofiberscope" Icon="@Icons.Filled.ImageAspectRatio">纤维支气管镜检查</MudNavLink>*@
+            </MudPaper>
+        </MudItem>
+        <MudItem >
+            <MudPaper Outlined="true" Style="background-color:#f9fbff;border-color:#8dbced" Elevation="1" Height="120px" Width="300px" Class="rounded-lg border-solid border-1">
+                <MudStack Row="false" AlignItems="AlignItems.Stretch" Spacing="0">
+                    
+                    <MudButton   Style="height:85px;font-size:18px;" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent"   
+                                    OnClick="@(s=>OnOpenDialog<DialogPathology>())">
+                       <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+                            <MudAvatar Color="Color.Primary" Variant="Variant.Outlined" >
+                                <MudIcon  Icon="@Icons.Outlined.FilePresent" Size="Size.Medium" />
+                            </MudAvatar>    
+                            <MudText Typo="Typo.h6" Style="font-weight:300">病理检查</MudText>
+                       </MudStack>
+                    </MudButton>
+                    @*<MudButton  Style="height:85px" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent" 
+                        StartIcon="@Icons.Outlined.Hvac" OnClick="@(s=>OnOpenDialog<DialogPathology>())">
+                    病理检查
+                    </MudButton>*@
+                    <MudStack Row="true" Justify="Justify.FlexEnd">
+                        <MudLink  Class="pa-2 " Typo="Typo.caption"  Href="pathology" >—>更多</MudLink>
+                    </MudStack>
+                </MudStack>
+               
+            </MudPaper>
+        </MudItem>
+        <MudItem >
+            <MudPaper Outlined="true" Style="background-color:#f9fbff;border-color:#8dbced" Elevation="1" Height="120px" Width="300px" Class="rounded-lg border-solid border-1">
+                <MudStack Row="false" AlignItems="AlignItems.Stretch" Spacing="0">
+                    <MudButton   Style="height:85px;font-size:18px;" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent"   
+                                    OnClick="@(s=>OnOpenDialog<DialogIconography>())">
+                       <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+                            <MudAvatar Color="Color.Primary" Variant="Variant.Outlined" >
+                                <MudIcon  Icon="@Icons.Outlined.FilePresent" Size="Size.Medium" />
+                            </MudAvatar>    
+                            <MudText Typo="Typo.h6" Style="font-weight:300">影像学检查</MudText>
+                       </MudStack>
+                    </MudButton>
+                    
+                    @*<MudButton  Style="height:85px" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent" 
+                        StartIcon="@Icons.Outlined.Image" OnClick="@(s=>OnOpenDialog<DialogIconography>())">
+                    影像学检查
+                    </MudButton>*@
+                    <MudStack Row="true" Justify="Justify.FlexEnd">
+                        <MudLink   Class="pa-2 " Typo="Typo.caption"  Href="iconography" >—>更多</MudLink>
+                    </MudStack>
+                </MudStack>
+               
+            </MudPaper>
+        </MudItem>
+        <MudItem >
+            <MudPaper Outlined="true" Style="background-color:#f9fbff;border-color:#8dbced" Elevation="1" Height="120px" Width="300px" Class="rounded-lg border-solid border-1">
+                <MudStack Row="false" AlignItems="AlignItems.Stretch" Spacing="0">
+                    <MudButton   Style="height:85px;font-size:18px;" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent"   
+                                    OnClick="@(s=>OnOpenDialog<DialogLaboratoryExaminations>())">
+                       <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+                            <MudAvatar Color="Color.Primary" Variant="Variant.Outlined" >
+                                <MudIcon  Icon="@Icons.Outlined.FilePresent" Size="Size.Medium" />
+                            </MudAvatar>    
+                            <MudText Typo="Typo.h6" Style="font-weight:300">实验室检查单</MudText>
+                       </MudStack>
+                    </MudButton>
+                    
+                  @*  <MudButton  Style="height:85px" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent" 
+                        StartIcon="@Icons.Outlined.DeviceThermostat" OnClick="@(s=>OnOpenDialog<DialogLaboratoryExaminations>())">
+                    实验室检查
+                    </MudButton>*@
+                    <MudStack Row="true" Justify="Justify.FlexEnd">
+                        <MudLink  Class="pa-2 " Typo="Typo.caption"  Href="laboratoryexaminations" >—>更多</MudLink>
+                    </MudStack>
+                </MudStack>
+            
+            </MudPaper>
+        </MudItem>
+        <MudItem >
+            <MudPaper Outlined="true" Style="background-color:#f9fbff;border-color:#8dbced" Elevation="1" Height="120px" Width="300px" Class="rounded-lg border-solid border-1">
+                <MudStack Row="false" AlignItems="AlignItems.Stretch" Spacing="0">
+                    
+                    <MudButton   Style="height:85px;font-size:18px;" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent"   
+                                   Href="@($"/edit/{(int)SummaryOfCasesOptions.New}")">
+                       <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+                            <MudAvatar Color="Color.Primary" Variant="Variant.Outlined" >
+                                <MudIcon  Icon="@Icons.Outlined.FilePresent" Size="Size.Medium" />
+                            </MudAvatar>    
+                            <MudText Typo="Typo.h6" Style="font-weight:300">案列总结</MudText>
+                       </MudStack>
+                    </MudButton>
+                    
+                    @*<MudButton  Style="height:85px" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent" 
+                        StartIcon="@Icons.Outlined.Hotel" Href="@($"/edit/{(int)SummaryOfCasesOptions.New}")">
+                    案列总结
+                    </MudButton>*@
+                        <MudStack Row="true" Justify="Justify.FlexEnd">
+                        <MudLink  Class="pa-2 " Typo="Typo.caption"  Href="guardianship" >—>更多</MudLink>
+                    </MudStack>
+                </MudStack>
+               
+            </MudPaper>
+        </MudItem>
+        <MudItem >
+            <MudPaper Outlined="true" Style="background-color:#f9fbff;border-color:#8dbced" Elevation="1" Height="120px" Width="300px" Class="rounded-lg border-solid border-1">
+                <MudStack Row="false" AlignItems="AlignItems.Stretch" Spacing="0">
+                    
+                    <MudButton   Style="height:85px;font-size:18px;" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent"   
+                                   Href="guardianshiplog">
+                       <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+                            <MudAvatar Color="Color.Primary" Variant="Variant.Outlined" >
+                                <MudIcon  Icon="@Icons.Outlined.FilePresent" Size="Size.Medium" />
+                            </MudAvatar>    
+                            <MudText Typo="Typo.h6" Style="font-weight:300">监护日志</MudText>
+                       </MudStack>
+                    </MudButton>
+                    
+                  @*  <MudButton  Style="height:85px" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent" 
+                        StartIcon="@Icons.Outlined.InsertDriveFile" Href="guardianshiplog">
+                    监护日志
+                    </MudButton>*@
+                    <MudStack Row="true" Justify="Justify.FlexEnd">
+                        <MudLink  Class="pa-2 " Typo="Typo.caption"  Href="guardianshiplog" >—>更多</MudLink>
+                    </MudStack>
+                </MudStack>
+              
+            </MudPaper>
+        </MudItem>
+        <MudItem >
+            <MudPaper Outlined="true" Style="background-color:#f9fbff;border-color:#8dbced" Elevation="1" Height="120px" Width="300px" Class="rounded-lg border-solid border-1">
+                <MudStack Row="false" AlignItems="AlignItems.Stretch" Spacing="0">
+                    
+                    <MudButton   Style="height:85px;font-size:18px;" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent"   
+                                    OnClick="@(s=>OnOpenDialog<DialogContacts>())">
+                       <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+                            <MudAvatar Color="Color.Primary" Variant="Variant.Outlined" >
+                                <MudIcon  Icon="@Icons.Outlined.FilePresent" Size="Size.Medium" />
+                            </MudAvatar>    
+                            <MudText Typo="Typo.h6" Style="font-weight:300">联系人管理</MudText>
+                       </MudStack>
+                    </MudButton>
+                    
+               @*     <MudButton  Style="height:85px" Class="pl-5 justify-start align-center"   FullWidth="true" DisableElevation="true"  Color="Color.Transparent" 
+                        StartIcon="@Icons.Outlined.PersonPin" OnClick="@(s=>OnOpenDialog<DialogContacts>())">
+                    联系人管理
+                    </MudButton>*@
+                        <MudStack Row="true" Justify="Justify.FlexEnd">
+                        <MudLink  Class="pa-2 " Typo="Typo.caption"  Href="contacts" >—>更多</MudLink>
+                    </MudStack>
+                </MudStack>
+               
+            </MudPaper>
+        </MudItem>
+        @*<MudItem >
+            <MudPaper Outlined="true" Style="background-color:#f9fbff;border-color:#8dbced" Elevation="1" Height="120px" Width="300px" Class="rounded-lg border-solid border-1">
+                <MudStack Row="true">
+                    <MudAlert Icon="@Icons.Outlined.FilePresent" OnClick="@(s=>OnOpenDialog<DialogPersonalFile>())"></MudAlert>
+                </MudStack>
+            </MudPaper>
+        </MudItem>*@
     </MudGrid>
 
 @code {
 
 
-    [Inject]
-    protected ILogger<Home> Logger{ set; get; }
+    [Inject] protected ILogger<Home> Logger{ set; get; }
 
+    [Inject] protected IDialogService DialogService  { get; set; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     protected override Task OnInitializedAsync()
     {
@@ -66,4 +357,35 @@
         Logger.LogInformation("Home-OnInitializedAsync");
         return base.OnInitializedAsync();
     }
+
+
+
+    private async Task OnOpenDialog<T>(DialogOptions? options=null)  where T : ComponentBase
+    {
+        var user = (await authenticationStateTask).User;
+
+        if (!user.Identity.IsAuthenticated)
+        {
+
+             Navigation.NavigateTo($"Identity/Account/Login?returnUrl=/{Navigation.ToBaseRelativePath(Navigation.Uri)}", true);
+        }
+        if (options is null)
+        {
+            options = new DialogOptions();
+            options.MaxWidth = MaxWidth.Medium;
+        }
+        var dialog = DialogService.Show<T>("99", options);
+        var result = await dialog.Result;
+    }
+    private async Task OnClickBox()
+    {
+        bool? result = await DialogService.ShowMessageBox(
+          "Warning", 
+          "Deleting can not be undone!", 
+          yesText:"Delete!", cancelText:"Cancel");
+       // state= result==null ? "Cancelled" : "Deleted!";
+        StateHasChanged();
+      //  return Task.CompletedTask;
+    }
+
 }

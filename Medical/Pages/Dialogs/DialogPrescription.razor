@@ -4,6 +4,8 @@
 @inject ISnackbar Snackbar
 @inject EnumServer EServer;
 
+@attribute [Authorize]
+
 <MudDialog>
      <TitleContent>
     </TitleContent>
@@ -18,10 +20,10 @@
                     <MudGrid Spacing="5" >
                         <MudItem  lg="6" md="6" xl="6" sm="12"  >
                             <MudStack Row="false">
-                                <MudTextField    @bind-Value="@medicalPK.MedicalPKName" For="@(() => medicalPK.MedicalPKName)" Label=" 方案名称(可选)" Variant="Variant.Text" />
-                                <MudTextField    @bind-Value="@medicalPK.DrugsNmae" For="@(() => medicalPK.DrugsNmae)" Label="药品通用名" Variant="Variant.Text" />
-                                <MudTextField    @bind-Value="@medicalPK.DrugsNmae2" For="@(() => medicalPK.DrugsNmae2)" Label="药品商品名" Variant="Variant.Text" />
-                                <MudTextField    @bind-Value="@medicalPK.DrugSpecifications" For="@(() => medicalPK.DrugSpecifications)" Label="药品规格" Variant="Variant.Text" />
+                                <MudTextField  Margin="Margin.Dense"  @bind-Value="@medicalPK.MedicalPKName" For="@(() => medicalPK.MedicalPKName)" Label=" 方案名称(可选)" Variant="Variant.Text" />
+                                <MudTextField  Margin="Margin.Dense"  @bind-Value="@medicalPK.DrugsNmae" For="@(() => medicalPK.DrugsNmae)" Label="药品通用名" Variant="Variant.Text" />
+                                <MudTextField  Margin="Margin.Dense"  @bind-Value="@medicalPK.DrugsNmae2" For="@(() => medicalPK.DrugsNmae2)" Label="药品商品名" Variant="Variant.Text" />
+                                <MudTextField  Margin="Margin.Dense"  @bind-Value="@medicalPK.DrugSpecifications" For="@(() => medicalPK.DrugSpecifications)" Label="药品规格" Variant="Variant.Text" />
                                 <MudSelect   @bind-Value="@medicalPK.Manufacturertype" For="@(() => medicalPK.Manufacturertype)" Label="厂家类型" Variant="Variant.Text" >
                                 @foreach (var item in EnumItems.Manufacturertype)
                                 {
@@ -36,37 +38,37 @@
                         <MudItem  lg="6" md="6" xl="6" sm="12"  >
                             <MudStack Row="false">
 
-                                <MudAutocomplete  Clearable="true" T="string" Label="给药途径" @bind-Value="@medicalPK.DrugdosageRoute" For="@(() => medicalPK.DrugdosageRoute)"
+                                <MudAutocomplete  Margin="Margin.Dense" Dense="true" Clearable="true" T="string" Label="给药途径" @bind-Value="@medicalPK.DrugdosageRoute" For="@(() => medicalPK.DrugdosageRoute)"
                                                 SearchFunc="OnAutoSearchDrugdosageRoute" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
 
                                 <MudStack Row="true">
-                                    <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@medicalPK.FirstTime" For="@(() => medicalPK.FirstTime)" Label=" 药方开始时间" Variant="Variant.Text" />
-                                    <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@medicalPK.LasttTime" For="@(() => medicalPK.LasttTime)" Label="药方结束时间" Variant="Variant.Text" />
+                                    <MudTextField  Margin="Margin.Dense" T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@medicalPK.FirstTime" For="@(() => medicalPK.FirstTime)" Label=" 药方开始时间" Variant="Variant.Text" />
+                                    <MudTextField  Margin="Margin.Dense" T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@medicalPK.LasttTime" For="@(() => medicalPK.LasttTime)" Label="药方结束时间" Variant="Variant.Text" />
                                 </MudStack>
                                    
                               
                                 <MudStack Row="true">
 
-                                    <MudAutocomplete  Clearable="true" T="string" Label="给药频率"  @bind-Value="@medicalPK.DrugNCount" For="@(() => medicalPK.DrugNCount)"
+                                    <MudAutocomplete Dense="true" Margin="Margin.Dense"  Clearable="true" T="string" Label="给药频率"  @bind-Value="@medicalPK.DrugNCount" For="@(() => medicalPK.DrugNCount)"
                                                 SearchFunc="@OnAutoSearchDrugNCount" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                                    <MudAutocomplete  Clearable="true" T="string" Label="给药持续时间"  @bind-Value="@medicalPK.DrugNCountDuration" For="@(() => medicalPK.DrugNCountDuration)"
+                                    <MudAutocomplete Dense="true" Margin="Margin.Dense" Clearable="true" T="string" Label="给药持续时间"  @bind-Value="@medicalPK.DrugNCountDuration" For="@(() => medicalPK.DrugNCountDuration)"
                                                 SearchFunc="@OnAutoSearchDrugNCountDuration" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
                                    
                                 </MudStack>
 
                                 <MudStack Row="true">
-                                    <MudTextField    @bind-Value="@medicalPK.Drugdosage" For="@(() => medicalPK.Drugdosage)" Label="单次给药剂量" Variant="Variant.Text" />
+                                    <MudTextField Margin="Margin.Dense"  @bind-Value="@medicalPK.Drugdosage" For="@(() => medicalPK.Drugdosage)" Label="单次给药剂量" Variant="Variant.Text" />
                               
-                                     <MudAutocomplete  Clearable="true" T="string" Label="剂量单位"  @bind-Value="@medicalPK.DrugdosageUnit" For="@(() => medicalPK.DrugdosageUnit)"
+                                     <MudAutocomplete  Dense="true" Margin="Margin.Dense" Clearable="true" T="string" Label="剂量单位"  @bind-Value="@medicalPK.DrugdosageUnit" For="@(() => medicalPK.DrugdosageUnit)"
                                                 SearchFunc="@OnAutoSearchDrugdosageUnit" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
                                 </MudStack>
                                 <MudStack Row="true">
                                   
-                                    <MudAutocomplete  Clearable="true" T="string" Label="溶媒"  @bind-Value="@medicalPK.DrugSpecifications" For="@(() => medicalPK.DrugSpecifications)"
+                                    <MudAutocomplete  Dense="true" Margin="Margin.Dense" Clearable="true" T="string" Label="溶媒"  @bind-Value="@medicalPK.DrugSpecifications" For="@(() => medicalPK.DrugSpecifications)"
                                                     SearchFunc="@OnAutoSearchDrugSpecifications" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                                    <MudTextField    @bind-Value="@medicalPK.SolventToDosage" For="@(() => medicalPK.SolventToDosage)" AdornmentText="ml" Label="溶媒计量" Variant="Variant.Text" />
+                                    <MudTextField   Margin="Margin.Dense"   @bind-Value="@medicalPK.SolventToDosage" For="@(() => medicalPK.SolventToDosage)" AdornmentText="ml" Label="溶媒计量" Variant="Variant.Text" />
                                 </MudStack>
-                                <MudTextField    @bind-Value="@medicalPK.AMTsingledose" For="@(() => medicalPK.AMTsingledose)" Label="公斤体质量日剂量(mg·kg⁻¹·d⁻¹)" Variant="Variant.Text" />
+                                <MudTextField    Margin="Margin.Dense"  @bind-Value="@medicalPK.AMTsingledose" For="@(() => medicalPK.AMTsingledose)" Label="公斤体质量日剂量(mg·kg⁻¹·d⁻¹)" Variant="Variant.Text" />
                             </MudStack>
                         </MudItem>
                     </MudGrid>

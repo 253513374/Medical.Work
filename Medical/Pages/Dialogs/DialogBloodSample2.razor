@@ -1,5 +1,6 @@
 ﻿
 @inject ISnackbar Snackbar
+@attribute [Authorize]
 
 <MudDialog >
     <TitleContent>
@@ -12,35 +13,35 @@
             <DataAnnotationsValidator/>
             <MudCard Elevation="0" >
                 <MudCardContent >
-                        <MudAutocomplete  Clearable="true" T="string" Label="采血试管" @bind-Value="@MedicalValue.Collectingvessel" For="@(() => MedicalValue.Collectingvessel)"
+                        <MudAutocomplete Dense="true" Margin="Margin.Dense"  Clearable="true" T="string" Label="采血试管" @bind-Value="@MedicalValue.Collectingvessel" For="@(() => MedicalValue.Collectingvessel)"
                                                 SearchFunc="OnAutoSearchCollectingvessel" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
                      
-                    @*<MudTextField   Margin="Margin.Dense"   @bind-Value="@MedicalValue.Collectingvessel" For="@(() => MedicalValue.Collectingvessel)" Label="采血管" Variant="Variant.Text" />*@
-                    <MudTextField   Margin="Margin.Dense"   @bind-Value="@MedicalValue.SamplingNumber" For="@(() => MedicalValue.SamplingNumber)" Label="采样点" Variant="Variant.Text" />
-                    <MudTextField   Margin="Margin.Dense"   @bind-Value="@MedicalValue.Number" For="@(() => MedicalValue.Number)" Label="编号" Variant="Variant.Text" />
-                    <MudTextField   Margin="Margin.Dense"   @bind-Value="@MedicalValue.Samplingname" For="@(() => MedicalValue.Samplingname)" Label="抽血护士" Variant="Variant.Text" />
-                    <MudTextField   Margin="Margin.Dense"  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal"   @bind-Value="@MedicalValue.C1bloodcollectiontime" For="@(() => MedicalValue.C1bloodcollectiontime)" Label="采血时间" Variant="Variant.Text" />
+                    @*<MudTextField  Margin="Margin.Dense"   Margin="Margin.Dense"   @bind-Value="@MedicalValue.Collectingvessel" For="@(() => MedicalValue.Collectingvessel)" Label="采血管" Variant="Variant.Text" />*@
+                    <MudTextField     Margin="Margin.Dense"   @bind-Value="@MedicalValue.SamplingNumber" For="@(() => MedicalValue.SamplingNumber)" Label="采样点" Variant="Variant.Text" />
+                    <MudTextField     Margin="Margin.Dense"   @bind-Value="@MedicalValue.Number" For="@(() => MedicalValue.Number)" Label="编号" Variant="Variant.Text" />
+                    <MudTextField     Margin="Margin.Dense"   @bind-Value="@MedicalValue.Samplingname" For="@(() => MedicalValue.Samplingname)" Label="抽血护士" Variant="Variant.Text" />
+                    <MudTextField     Margin="Margin.Dense"  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal"   @bind-Value="@MedicalValue.C1bloodcollectiontime" For="@(() => MedicalValue.C1bloodcollectiontime)" Label="采血时间" Variant="Variant.Text" />
                     
                     <MudStack Row="true">
-                        <MudTextField   Margin="Margin.Dense"   @bind-Value="@MedicalValue.C1Concentration" For="@(() => MedicalValue.C1Concentration)" Label="浓度" Variant="Variant.Text" />
+                        <MudTextField    Margin="Margin.Dense"   @bind-Value="@MedicalValue.C1Concentration" For="@(() => MedicalValue.C1Concentration)" Label="浓度" Variant="Variant.Text" />
 
-                              <MudAutocomplete  Clearable="true" T="string" Label="浓度单位" @bind-Value="@MedicalValue.C1ConcentrationUnit" For="@(() => MedicalValue.C1ConcentrationUnit)"
+                              <MudAutocomplete Dense="true" Margin="Margin.Dense"  Clearable="true" T="string" Label="浓度单位" @bind-Value="@MedicalValue.C1ConcentrationUnit" For="@(() => MedicalValue.C1ConcentrationUnit)"
                                                 SearchFunc="OnAutoSearchC1ConcentrationStandardUnit" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                       @* <MudTextField   Margin="Margin.Dense"   @bind-Value="@MedicalValue.C1ConcentrationUnit" For="@(() => MedicalValue.C1ConcentrationUnit)" Label="浓度单位" Variant="Variant.Text" />*@
+                       @* <MudTextField  Margin="Margin.Dense"   Margin="Margin.Dense"   @bind-Value="@MedicalValue.C1ConcentrationUnit" For="@(() => MedicalValue.C1ConcentrationUnit)" Label="浓度单位" Variant="Variant.Text" />*@
                     </MudStack>
 
                     <MudStack Row="true">
                         <MudTextField   Margin="Margin.Dense"   @bind-Value="@MedicalValue.C1ConcentrationStandard" For="@(() => MedicalValue.C1ConcentrationStandard)" Label="标准化血药浓度" Variant="Variant.Text" />
 
-                              <MudAutocomplete  Clearable="true" T="string" Label="标准化血药浓度单位" @bind-Value="@MedicalValue.C1ConcentrationStandardUnit" For="@(() => MedicalValue.C1ConcentrationStandardUnit)"
+                              <MudAutocomplete Dense="true" Margin="Margin.Dense"  Clearable="true" T="string" Label="标准化血药浓度单位" @bind-Value="@MedicalValue.C1ConcentrationStandardUnit" For="@(() => MedicalValue.C1ConcentrationStandardUnit)"
                                                 SearchFunc="OnAutoSearchC1ConcentrationStandardUnit" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                        @*<MudTextField   Margin="Margin.Dense"   @bind-Value="@MedicalValue.C1ConcentrationStandardUnit" For="@(() => MedicalValue.C1ConcentrationStandardUnit)" Label="标准化血药浓度单位" Variant="Variant.Text" />*@
+                        @*<MudTextField  Margin="Margin.Dense"   Margin="Margin.Dense"   @bind-Value="@MedicalValue.C1ConcentrationStandardUnit" For="@(() => MedicalValue.C1ConcentrationStandardUnit)" Label="标准化血药浓度单位" Variant="Variant.Text" />*@
                     
                     </MudStack>
 
-                     <MudAutocomplete  Clearable="true" T="string" Label="血浓度测试方法" @bind-Value="@MedicalValue.C1ConcentrationMethod" For="@(() => MedicalValue.C1ConcentrationMethod)"
+                     <MudAutocomplete Dense="true" Margin="Margin.Dense"  Clearable="true" T="string" Label="血浓度测试方法" @bind-Value="@MedicalValue.C1ConcentrationMethod" For="@(() => MedicalValue.C1ConcentrationMethod)"
                                                 SearchFunc="OnAutoSearchC1ConcentrationMethod" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                     @*  <MudTextField   Margin="Margin.Dense"   @bind-Value="@MedicalValue.C1ConcentrationMethod" For="@(() => MedicalValue.C1ConcentrationMethod)" Label="浓度方法" Variant="Variant.Text" />*@
+                     @*  <MudTextField  Margin="Margin.Dense"   Margin="Margin.Dense"   @bind-Value="@MedicalValue.C1ConcentrationMethod" For="@(() => MedicalValue.C1ConcentrationMethod)" Label="浓度方法" Variant="Variant.Text" />*@
                  
                     <MudTextField   Margin="Margin.Dense"    @bind-Value="@MedicalValue.C1Remarks" For="@(() => MedicalValue.C1Remarks)" Label="备注" Variant="Variant.Text" />
                                          

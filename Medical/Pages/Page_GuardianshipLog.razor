@@ -16,12 +16,12 @@
             <MudStack Row="false" Justify="Justify.FlexStart" >
                
                <MudStack Row="true">
-                    <MudTextField  Label="监护流程名称" @bind-Value="MedicalValue.Summaryreportclass" For="@(() => MedicalValue.Summaryreportclass)"></MudTextField>
-                    <MudTextField Label="药学记录日期" @bind-Value="MedicalValue.Notesdate" For="@(() => MedicalValue.Notesdate)" T="DateTime?" Format="s" InputType="InputType.DateTimeLocal"></MudTextField>
+                    <MudTextField  Margin="Margin.Dense"  Label="监护流程名称" @bind-Value="MedicalValue.Summaryreportclass" For="@(() => MedicalValue.Summaryreportclass)"></MudTextField>
+                    <MudTextField  Margin="Margin.Dense" Label="药学记录日期" @bind-Value="MedicalValue.Notesdate" For="@(() => MedicalValue.Notesdate)" T="DateTime?" Format="s" InputType="InputType.DateTimeLocal"></MudTextField>
              
                </MudStack>
-                <MudTextField  Label="临床症状" @bind-Value="MedicalValue.Clinicalsymptoms"  For="@(() => MedicalValue.Clinicalsymptoms)" Lines="6"></MudTextField>
-                <MudTextField  Label="治疗方案" @bind-Value="MedicalValue.Treatmentplan" For="@(() => MedicalValue.Treatmentplan)" Lines="6"></MudTextField>
+                <MudTextField  Margin="Margin.Dense"  Label="临床症状" @bind-Value="MedicalValue.Clinicalsymptoms"  For="@(() => MedicalValue.Clinicalsymptoms)" Lines="6"></MudTextField>
+                <MudTextField  Margin="Margin.Dense"  Label="治疗方案" @bind-Value="MedicalValue.Treatmentplan" For="@(() => MedicalValue.Treatmentplan)" Lines="6"></MudTextField>
            
              <MudFab  Label="保存"  ButtonType="ButtonType.Submit" Size="Size.Medium" Color="Color.Primary" DisableElevation="true"  
                          StartIcon="@Icons.Outlined.Save" > </MudFab>

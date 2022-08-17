@@ -46,7 +46,7 @@ else
     
     <ToolBarContent>
         <MudSpacer />
-        <MudTextField @bind-Value="searchstring" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        <MudTextField  Margin="Margin.Dense" @bind-Value="searchstring" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
     <HeaderContent>
         <MudTh>标题</MudTh>
@@ -55,16 +55,29 @@ else
     <RowTemplate>
         <MudTd >@context.Title</MudTd>
         <MudTd >
-           
-            <MudToggleIconButton @bind-Toggled="@context.Ispublic"
+       
+            <MudMenu Variant="Variant.Text"  
+                        StartIcon="@(context.Ispublic?Icons.Outlined.Public:@Icons.Outlined.PublicOff)" 
+                        Color="@(context.Ispublic?Color.Success:Color.Dark)"
+                        Label="@(context.Ispublic?"公开":"私有")">
+                        <MudMenuItem OnClick="@(s=>OnToggledChangedIspublic(context,false))" >私有</MudMenuItem>
+                        <MudMenuItem OnClick="@(s=>OnToggledChangedIspublic(context,true))" >公开</MudMenuItem>
+            </MudMenu>
+
+             <MudMenu Variant="Variant.Text"  
+                        StartIcon="@(context.IsFeatured?Icons.Outlined.StarRate:@Icons.Outlined.StarOutline)" 
+                        Color="@(context.IsFeatured?Color.Success:Color.Dark)"
+                        Label="@(context.IsFeatured?"精选":"普通")">
+                        <MudMenuItem OnClick="@(s=>OnToggledChangedIsFeatured(context,false))" >普通</MudMenuItem>
+                        <MudMenuItem OnClick="@(s=>OnToggledChangedIsFeatured(context,true))" >精选</MudMenuItem>
+            </MudMenu>
+             @*   <MudToggleIconButton  ToggledChanged="@(s=>OnToggledChangedIspublic())"
                      Icon="@Icons.Outlined.PublicOff" Color="@Color.Dark" Title="未公开"
                      ToggledIcon="@Icons.Outlined.Public" ToggledColor="@Color.Success" ToggledTitle="已公开"/> 
 
-            <MudToggleIconButton @bind-Toggled="@context.IsFeatured"
+            <MudToggleIconButton  ToggledChanged="@(s=>OnToggledChangedIsFeatured())"
                      Icon="@Icons.Outlined.StarOutline" Color="@Color.Dark" Title="未精选"
-                     ToggledIcon="@Icons.Filled.StarRate" ToggledColor="@Color.Success" ToggledTitle="已精选"/> 
-
-  
+                     ToggledIcon="@Icons.Filled.StarRate" ToggledColor="@Color.Success" ToggledTitle="已精选" /> *@
                      
                 <MudIconButton OnClick="@(s=>OnClickLinkBlogBody(context.SummaryOfCasesGuid))"
                             Icon="@Icons.Outlined.Link" Color="@Color.Dark" Title="Link" ></MudIconButton>
@@ -92,24 +105,15 @@ else
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
+    private string isPublicStatus{ get; set; }
+
 
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            //var username = authenticationStateTask.Result.User.Identity.Name;
-            //
-            //QueryFilterManager.Filter<BaseDataInterface>(q => q.Where(x =>x.Adminname==username));
-            ////context.Filter<BaseDataInterface>(q => q.Where(x => x.Adminname==username));
-            //Summaryreports = await context.SummaryOfCases.AsNoTracking()
-            //                                            .OrderByDescending(o => o.CreateTime)
-            //                                            .Take(100)
-            //                                            .ToListAsync();
-
             Summaryreports = await DbServerProvider.GetListAsync<SummaryOfCases>();
-            // Summaryreports = ssss.ToList();
-
             StateHasChanged();
         }
         // return Task.FromResult()
@@ -120,7 +124,7 @@ else
     {
         Logger.LogInformation("OnEditArticle");
 
-        Navigation.NavigateTo($"/edit/{SummaryOfCasesOptions.New}");
+        Navigation.NavigateTo($"/edit/{(int)SummaryOfCasesOptions.New}");
     }
 
     /// <summary>
@@ -156,7 +160,7 @@ else
         return Task.CompletedTask;
     }
 
-    
+
     /// <summary>
     /// 删除数据
     /// </summary>
@@ -166,9 +170,70 @@ else
     {
         Logger.LogInformation("OnClickEdie");
 
-         var uri = $"/edit/{SummaryOfCasesOptions.Edit}/{guid}";
+        var uri = $"/edit/{SummaryOfCasesOptions.Edit}/{guid}";
         Navigation.NavigateTo(uri);
 
         return Task.CompletedTask;
     }
+
+
+    /// <summary>
+    /// 精选开关
+    /// </summary>
+    /// <returns></returns>
+    private async Task OnToggledChangedIsFeatured(SummaryOfCases summary,bool isToggled)
+    {
+        Logger.LogInformation("OnToggledChangedIsFeatured");
+        if(isToggled)
+        {
+            summary.IsFeatured = true;
+        }
+        else
+        {
+            summary.IsFeatured = false;
+        }
+        await DbServerProvider.UpdateAsync(summary);
+          Logger.LogInformation("{Title}:{IsFeatured}",summary.Title,summary.IsFeatured);
+        StateHasChanged();
+
+    }
+
+    /// <summary>
+    /// 是否公开文章
+    /// </summary>
+     private async Task OnToggledChangedIspublic(SummaryOfCases summary,bool ispublic)
+    {
+       
+         if(ispublic)
+        {
+            summary.Ispublic = true;
+        }
+        else
+        {
+            summary.Ispublic = false;
+        }
+        await DbServerProvider.UpdateAsync(summary);
+        Logger.LogInformation("{Title}:{Ispublic}",summary.Title,summary.Ispublic);
+        
+        StateHasChanged();
+      
+    }
+
+    //private  async Task OnChangedSelected()
+    //{
+    //    Logger.LogInformation("OnChangedSelected");
+    //    if (selectedItems.Count == 0)
+    //    {
+    //        return;
+    //    }
+    //    foreach (var item in selectedItems)
+    //    {
+    //        item.IsPublic = true;
+    //    }
+    //    await DbServerProvider.UpdateAsync(selectedItems);
+    //    selectedItems.Clear();
+    //    StateHasChanged();
+    //}
+
+
 }

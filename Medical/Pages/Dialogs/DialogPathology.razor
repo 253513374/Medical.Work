@@ -4,7 +4,7 @@
 *@
 
 
-
+@attribute [Authorize]
 
 
 @inject ISnackbar Snackbar
@@ -23,10 +23,10 @@
                     <MudGrid Spacing="5" >
                         <MudItem  lg="6" md="6" xl="6" sm="12"  >
                             <MudStack Row="false" Spacing="3" >
-                                <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.Photodate" For="@(() => MedicalValue.Photodate)" Label="检查日期" Variant="Variant.Text" />
-                                <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.Reportdate" For="@(() => MedicalValue.Reportdate)" Label="报告日期" Variant="Variant.Text" />
-                                <MudTextField    @bind-Value="@MedicalValue.Xraylocation" For="@(() => MedicalValue.Xraylocation)" Label="检查部位" Variant="Variant.Text" />
-                                <MudTextField  Lines="3"  @bind-Value="@MedicalValue.Xrayinspection" For="@(() => MedicalValue.Xrayinspection)" Label="检查结果" Variant="Variant.Text" />
+                                <MudTextField  Margin="Margin.Dense"  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.Photodate" For="@(() => MedicalValue.Photodate)" Label="检查日期" Variant="Variant.Text" />
+                                <MudTextField  Margin="Margin.Dense"  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.Reportdate" For="@(() => MedicalValue.Reportdate)" Label="报告日期" Variant="Variant.Text" />
+                                <MudTextField  Margin="Margin.Dense"    @bind-Value="@MedicalValue.Xraylocation" For="@(() => MedicalValue.Xraylocation)" Label="检查部位" Variant="Variant.Text" />
+                                <MudTextField  Margin="Margin.Dense"  Lines="3"  @bind-Value="@MedicalValue.Xrayinspection" For="@(() => MedicalValue.Xrayinspection)" Label="检查结果" Variant="Variant.Text" />
                                  
                             </MudStack>
                         </MudItem>

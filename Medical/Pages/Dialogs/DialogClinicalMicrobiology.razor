@@ -4,6 +4,7 @@
 @inject ISnackbar Snackbar
 @inject EnumServer EServer;
 
+@attribute [Authorize]
 <MudDialog>
      <TitleContent>
     </TitleContent>
@@ -29,11 +30,11 @@
                         </MudRadioGroup>
                     </MudField>
                
-                    <MudAutocomplete  Clearable="true" T="string" Label="标本类型" @bind-Value="@MedicalValue.SpecimenType" For="@(() => MedicalValue.SpecimenType)"
+                    <MudAutocomplete Dense="true" Margin="Margin.Dense"  Clearable="true" T="string" Label="标本类型" @bind-Value="@MedicalValue.SpecimenType" For="@(() => MedicalValue.SpecimenType)"
                                                 SearchFunc="OnAutoSearchSpecimenType" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                    <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.TestTime" For="@(() => MedicalValue.TestTime)" Label="检查日期" Variant="Variant.Text" />
-                    <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.ReportTime" For="@(() => MedicalValue.ReportTime)" Label="报告日期" Variant="Variant.Text" />
-                    <MudTextField  Lines="2"  @bind-Value="@MedicalValue.Bacterial" For="@(() => MedicalValue.Bacterial)" Label="检查结果（检出细菌）" Variant="Variant.Text" />
+                    <MudTextField  Margin="Margin.Dense"  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.TestTime" For="@(() => MedicalValue.TestTime)" Label="检查日期" Variant="Variant.Text" />
+                    <MudTextField  Margin="Margin.Dense"  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.ReportTime" For="@(() => MedicalValue.ReportTime)" Label="报告日期" Variant="Variant.Text" />
+                    <MudTextField  Margin="Margin.Dense"  Lines="2"  @bind-Value="@MedicalValue.Bacterial" For="@(() => MedicalValue.Bacterial)" Label="检查结果（检出细菌）" Variant="Variant.Text" />
                            
                   </MudStack>
                 </MudCardContent>

@@ -3,7 +3,7 @@
 @*DialogPersonalFile*@
 
 @inject ISnackbar Snackbar
-
+@attribute [Authorize]
 <MudDialog>
     <TitleContent></TitleContent>
     <DialogContent>
@@ -24,9 +24,9 @@
                    
                                 
 
-                                  <MudTextField  @bind-Value="@patientInfo.CollationAttribute" For="@(() => patientInfo.CollationAttribute)" Label="病历属性" HelperText="用来归类分析当前档案是属于那个类型的疾病" Variant="Variant.Text" />
+                                  <MudTextField  Margin="Margin.Dense"  @bind-Value="@patientInfo.CollationAttribute" For="@(() => patientInfo.CollationAttribute)" Label="病历属性" HelperText="用来归类分析当前档案是属于那个类型的疾病" Variant="Variant.Text" />
                                 <MudStack Row="true">
-                                    <MudTextField  @bind-Value="@patientInfo.Username" For="@(() => patientInfo.Username)" Label="姓名" Variant="Variant.Text" />
+                                    <MudTextField  Margin="Margin.Dense"  @bind-Value="@patientInfo.Username" For="@(() => patientInfo.Username)" Label="姓名" Variant="Variant.Text" />
                                     <MudSelect  @bind-Value="@patientInfo.Gender" For="@(() => patientInfo.Gender)" Label="性别" Variant="Variant.Text" >
                                         @foreach (var item in EnumItems.SexItems)
                                         {
@@ -34,7 +34,7 @@
                                         }
                                     </MudSelect>
                                 </MudStack>
-                                  <MudTextField  @bind-Value="@patientInfo.Medicalrecordnumber" For="@(() => patientInfo.Medicalrecordnumber)" Label="编号" Variant="Variant.Text" />
+                                  <MudTextField  Margin="Margin.Dense"  @bind-Value="@patientInfo.Medicalrecordnumber" For="@(() => patientInfo.Medicalrecordnumber)" Label="编号" Variant="Variant.Text" />
                                  <MudStack Row="true" AlignItems="AlignItems.End" >
                                     <MudText Align="Align.Left" Style="min-width:100px" >年龄（岁）:</MudText>
                                     <MudNumericField  HideSpinButtons="true" @bind-Value="@patientInfo.AGE" For="@(() => patientInfo.AGE)" Label="年" Variant="Variant.Text" Min="0" Max="200"/>
@@ -43,7 +43,7 @@
                                 </MudStack>
                                  <MudStack Row="true" AlignItems="AlignItems.End">
                                     <MudText Align="Align.Left" Style="min-width:100px">体重:</MudText>
-                                    <MudTextField  @bind-Value="@patientInfo.BW"  For="@(() => patientInfo.BW)" Label="重量" Variant="Variant.Text" />
+                                    <MudTextField  Margin="Margin.Dense"  @bind-Value="@patientInfo.BW"  For="@(() => patientInfo.BW)" Label="重量" Variant="Variant.Text" />
                                     <MudSelect  @bind-Value="@patientInfo.BWWeight" For="@(() => patientInfo.BWWeight)" Label="单位" Variant="Variant.Text" >
                                         @foreach (var item in EnumItems.WeightEnum)
                                         {
@@ -58,31 +58,31 @@
                                     </MudSelect>
                                 </MudStack>
                                  <MudStack Row="true">
-                                    <MudTextField  @bind-Value="@patientInfo.HEI" For="@(() => patientInfo.HEI)" Label="身高" Variant="Variant.Text" />
-                                    <MudTextField  @bind-Value="@patientInfo.BMI" For="@(() => patientInfo.BMI)" OnBlur="@OnBlur" Label="BIM" Variant="Variant.Text" />
-                                    <MudTextField  @bind-Value="@patientInfo.BSA" For="@(() => patientInfo.BSA)" Label="体表面积" Variant="Variant.Text" />
+                                    <MudTextField  Margin="Margin.Dense"  @bind-Value="@patientInfo.HEI" For="@(() => patientInfo.HEI)" Label="身高" Variant="Variant.Text" />
+                                    <MudTextField  Margin="Margin.Dense"  @bind-Value="@patientInfo.BMI" For="@(() => patientInfo.BMI)" OnBlur="@OnBlur" Label="BIM" Variant="Variant.Text" />
+                                    <MudTextField  Margin="Margin.Dense"  @bind-Value="@patientInfo.BSA" For="@(() => patientInfo.BSA)" Label="体表面积" Variant="Variant.Text" />
                                 </MudStack>
                                 <MudStack Row="true">
-                                    <MudTextField  @bind-Value="@patientInfo.INDiagnosis" For="@(() => patientInfo.INDiagnosis)" Label="入院诊断" Variant="Variant.Text" />
-                                    <MudTextField  @bind-Value="@patientInfo.OUTDiagnosis" For="@(() => patientInfo.OUTDiagnosis)" Label="出院诊断" Variant="Variant.Text" />
+                                    <MudTextField  Margin="Margin.Dense"  @bind-Value="@patientInfo.INDiagnosis" For="@(() => patientInfo.INDiagnosis)" Label="入院诊断" Variant="Variant.Text" />
+                                    <MudTextField  Margin="Margin.Dense"  @bind-Value="@patientInfo.OUTDiagnosis" For="@(() => patientInfo.OUTDiagnosis)" Label="出院诊断" Variant="Variant.Text" />
                                 </MudStack>
                             </MudStack>
                         </MudItem>
                         <MudItem lg="6" md="6" xl="6" sm="12"   >
                             <MudStack Row="false" Spacing="1" >
-                                <MudTextField  @bind-Value="@patientInfo.Department"   For="@(() => patientInfo.Department)" Label="科室" HelperText="." Variant="Variant.Text" />
+                                <MudTextField  Margin="Margin.Dense"  @bind-Value="@patientInfo.Department"   For="@(() => patientInfo.Department)" Label="科室" HelperText="." Variant="Variant.Text" />
                                 <MudStack Row="true">
                                     <MudDatePicker   @bind-Value="@patientInfo.Admissiontime" For="@(() => patientInfo.Admissiontime)" Label="入院时间" Variant="Variant.Text" />
                                     <MudDatePicker   @bind-Value="@patientInfo.Dischargetime" For="@(() => patientInfo.Dischargetime)"  Label="出院时间" Variant="Variant.Text" />
                                 </MudStack>
 
-                                <MudAutocomplete T="string" Label="移植类型" @bind-Value="@patientInfo.Transplantationtype" For="@(() => patientInfo.Transplantationtype)"
+                                <MudAutocomplete Dense="true" Margin="Margin.Dense" T="string" Label="移植类型" @bind-Value="@patientInfo.Transplantationtype" For="@(() => patientInfo.Transplantationtype)"
                                 SearchFunc="@OnAutoSearch" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
                              
                                 <MudDatePicker @bind-Value="@patientInfo.Transplantationtime" For="@(() => patientInfo.Transplantationtime)" Label="移植时间" Variant="Variant.Text" />
-                                <MudTextField  @bind-Value="@patientInfo.GCS"   For="@(() => patientInfo.GCS)" Label="格拉斯哥评分（GCS）" Variant="Variant.Text" />
-                                <MudTextField  @bind-Value="@patientInfo.SOFA" For="@(() => patientInfo.SOFA)" Label=" SOFA评分" Variant="Variant.Text" />
-                                <MudTextField  @bind-Value="@patientInfo.APACHEⅡ"  For="@(() => patientInfo.APACHEⅡ)" Label="入科APACHEⅡ评分" Variant="Variant.Text" />
+                                <MudTextField  Margin="Margin.Dense"  @bind-Value="@patientInfo.GCS"   For="@(() => patientInfo.GCS)" Label="格拉斯哥评分（GCS）" Variant="Variant.Text" />
+                                <MudTextField  Margin="Margin.Dense"  @bind-Value="@patientInfo.SOFA" For="@(() => patientInfo.SOFA)" Label=" SOFA评分" Variant="Variant.Text" />
+                                <MudTextField  Margin="Margin.Dense"  @bind-Value="@patientInfo.APACHEⅡ"  For="@(() => patientInfo.APACHEⅡ)" Label="入科APACHEⅡ评分" Variant="Variant.Text" />
                             </MudStack>
                         </MudItem>
                     </MudGrid>

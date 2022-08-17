@@ -4,6 +4,7 @@
 @inject ISnackbar Snackbar
 @inject EnumServer EServer;
 
+@attribute [Authorize]
 
 <MudDialog>
      <TitleContent>
@@ -17,11 +18,11 @@
                 <MudCardContent>
                     <MudStack Row="false" Spacing="3" >
 
-                        <MudTextField @bind-Value="@MedicalValue.PathogenName" For="@(() => MedicalValue.PathogenName)" Label="致病菌名称" Variant="Variant.Text" />
-                        <MudTextField @bind-Value="@MedicalValue.PathogenicGeneName" For="@(() => MedicalValue.PathogenicGeneName)" Label="致病菌菌体基因名称" Variant="Variant.Text" />
+                        <MudTextField  Margin="Margin.Dense" @bind-Value="@MedicalValue.PathogenName" For="@(() => MedicalValue.PathogenName)" Label="致病菌名称" Variant="Variant.Text" />
+                        <MudTextField  Margin="Margin.Dense" @bind-Value="@MedicalValue.PathogenicGeneName" For="@(() => MedicalValue.PathogenicGeneName)" Label="致病菌菌体基因名称" Variant="Variant.Text" />
                         
-                        <MudTextField @bind-Value="@MedicalValue.PathogenicGeneDetectionResults" For="@(() => MedicalValue.PathogenicGeneDetectionResults)" Label="致病菌菌体基因检测结果" Variant="Variant.Text" />
-                        <MudTextField  @bind-Value="@MedicalValue.Exegesis" For="@(() => MedicalValue.Exegesis)" Lines="3" Label="意义" Variant="Variant.Text" />
+                        <MudTextField  Margin="Margin.Dense" @bind-Value="@MedicalValue.PathogenicGeneDetectionResults" For="@(() => MedicalValue.PathogenicGeneDetectionResults)" Label="致病菌菌体基因检测结果" Variant="Variant.Text" />
+                        <MudTextField  Margin="Margin.Dense"  @bind-Value="@MedicalValue.Exegesis" For="@(() => MedicalValue.Exegesis)" Lines="3" Label="意义" Variant="Variant.Text" />
          
                           
                     </MudStack>

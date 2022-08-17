@@ -9,6 +9,8 @@
 @inject ISnackbar Snackbar
 @inject EnumServer EServer;
 
+@attribute [Authorize]
+
 <MudDialog>
      <TitleContent>
     </TitleContent>
@@ -22,15 +24,15 @@
                     <MudGrid Spacing="5" >
                         <MudItem  lg="6" md="6" xl="6" sm="12"  >
                             <MudStack Row="false" Spacing="3" >
-                                <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.Photodate" For="@(() => MedicalValue.Photodate)" Label="检查日期" Variant="Variant.Text" />
-                                <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.Reportdate" For="@(() => MedicalValue.Reportdate)" Label="报告日期" Variant="Variant.Text" />
+                                <MudTextField  Margin="Margin.Dense"  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.Photodate" For="@(() => MedicalValue.Photodate)" Label="检查日期" Variant="Variant.Text" />
+                                <MudTextField  Margin="Margin.Dense"  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.Reportdate" For="@(() => MedicalValue.Reportdate)" Label="报告日期" Variant="Variant.Text" />
                                 <MudStack Row="true">
-                                    <MudAutocomplete  Clearable="true" T="string" Label="放射诊断方式" @bind-Value="@MedicalValue.Xrayimagingenum" For="@(() => MedicalValue.Xrayimagingenum)"
+                                    <MudAutocomplete Dense="true" Margin="Margin.Dense"  Clearable="true" T="string" Label="放射诊断方式" @bind-Value="@MedicalValue.Xrayimagingenum" For="@(() => MedicalValue.Xrayimagingenum)"
                                                                         SearchFunc="OnAutoSearchXrayimagingenum" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
-                                    <MudAutocomplete  Clearable="true" T="string" Label="放射诊断部位" @bind-Value="@MedicalValue.XrayImaginglocationenum" For="@(() => MedicalValue.XrayImaginglocationenum)"
+                                    <MudAutocomplete Dense="true" Margin="Margin.Dense"  Clearable="true" T="string" Label="放射诊断部位" @bind-Value="@MedicalValue.XrayImaginglocationenum" For="@(() => MedicalValue.XrayImaginglocationenum)"
                                                                 SearchFunc="OnAutoSearchXrayImaginglocationenum" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
                                 </MudStack>
-                                <MudTextField  Lines="3"  @bind-Value="@MedicalValue.Describe" For="@(() => MedicalValue.Describe)" Label="详细描述" Variant="Variant.Text" />
+                                <MudTextField  Margin="Margin.Dense"  Lines="3"  @bind-Value="@MedicalValue.Describe" For="@(() => MedicalValue.Describe)" Label="详细描述" Variant="Variant.Text" />
                             </MudStack>
                         </MudItem>
                         <MudItem   lg="6" md="6" xl="6" sm="12"  >

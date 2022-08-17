@@ -4,6 +4,8 @@
 @inject ISnackbar Snackbar
 @inject EnumServer EServer;
 
+@attribute [Authorize]
+
 <MudDialog>
      <TitleContent>
     </TitleContent>
@@ -22,21 +24,21 @@
                         </MudRadioGroup>
                     </MudField>
 
-                    <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.TestTime" For="@(() => MedicalValue.TestTime)" Label="检查日期" Variant="Variant.Text" />
-                    <MudTextField  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.ReportTime" For="@(() => MedicalValue.ReportTime)" Label="报告日期" Variant="Variant.Text" />
+                    <MudTextField  Margin="Margin.Dense"  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.TestTime" For="@(() => MedicalValue.TestTime)" Label="检查日期" Variant="Variant.Text" />
+                    <MudTextField  Margin="Margin.Dense"  T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" @bind-Value="@MedicalValue.ReportTime" For="@(() => MedicalValue.ReportTime)" Label="报告日期" Variant="Variant.Text" />
  
 
                     <MudStack Row="true">
-                        <MudTextField  @bind-Value="@MedicalValue.DrugsName" For="@(() => MedicalValue.DrugsName)" Label="药品名称" Variant="Variant.Text" />
-                        <MudAutocomplete  Clearable="true" T="string" Label="药敏检测方法" @bind-Value="@MedicalValue.DrugsensitivityTest" For="@(() => MedicalValue.DrugsensitivityTest)"
+                        <MudTextField  Margin="Margin.Dense"  @bind-Value="@MedicalValue.DrugsName" For="@(() => MedicalValue.DrugsName)" Label="药品名称" Variant="Variant.Text" />
+                        <MudAutocomplete Dense="true" Margin="Margin.Dense"  Clearable="true" T="string" Label="药敏检测方法" @bind-Value="@MedicalValue.DrugsensitivityTest" For="@(() => MedicalValue.DrugsensitivityTest)"
                                                         SearchFunc="OnAutoSearchDrugsensitivityTest" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
                     </MudStack>
         
                    <MudStack Row="true">
-                        <MudTextField    @bind-Value="@MedicalValue.MIC" For="@(() => MedicalValue.MIC)" Label="MIC(mg/ml)" Variant="Variant.Text" />
+                        <MudTextField  Margin="Margin.Dense"    @bind-Value="@MedicalValue.MIC" For="@(() => MedicalValue.MIC)" Label="MIC(mg/ml)" Variant="Variant.Text" />
                        
-                        <MudTextField    @bind-Value="@MedicalValue.TMic" For="@(() => MedicalValue.TMic)" Label="T>MIC%" Variant="Variant.Text" />
-                        <MudTextField    @bind-Value="@MedicalValue.AUCMic" For="@(() => MedicalValue.AUCMic)" Label="AUCSS,24h/MIC" Variant="Variant.Text" />
+                        <MudTextField  Margin="Margin.Dense"    @bind-Value="@MedicalValue.TMic" For="@(() => MedicalValue.TMic)" Label="T>MIC%" Variant="Variant.Text" />
+                        <MudTextField  Margin="Margin.Dense"    @bind-Value="@MedicalValue.AUCMic" For="@(() => MedicalValue.AUCMic)" Label="AUCSS,24h/MIC" Variant="Variant.Text" />
                     </MudStack>
                           
                 </MudStack>
