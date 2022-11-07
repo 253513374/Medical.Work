@@ -62,17 +62,17 @@ else{
             <MudTh><b>操作</b></MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd >@context.Medicalrecordnumber</MudTd>
-            <MudTd >@context.Username</MudTd>
-            <MudTd >@context.Assaysituation</MudTd>
-            <MudTd >@context.Assaytime</MudTd>
-           
-            <MudTd >
+            <MudTd DataLabel="编号">@context.Medicalrecordnumber</MudTd>
+            <MudTd DataLabel="姓名">@context.Username</MudTd>
+            <MudTd DataLabel="试验状态">@context.Assaysituation</MudTd>
+            <MudTd DataLabel="检测时间">@context.Assaytime</MudTd>
+
+            <MudTd DataLabel="操作">
                 <MudTooltip Text="编辑档案">
                     <MudIconButton  OnClick="@(s=>OnEditPatientInfo(context))"  Color="Color.Info" Size="Size.Small" Icon="@Icons.Outlined.ModeEdit" Variant="Variant.Text" >  </MudIconButton>
                 </MudTooltip>
-                <MudTooltip Text="删除数据">
-                        <MudIconButton Class="mx-3" Color="Color.Error"  Size="Size.Small" Icon="@Icons.Outlined.DeleteSweep" Variant="Variant.Text" >   </MudIconButton>
+                <MudTooltip Text="查看数据">
+                        <MudIconButton Class="mx-3" Color="Color.Info"  Size="Size.Small" Icon="@Icons.Filled.DocumentScanner"   OnClick="@(s=>OnOpenDrawer(context))" Variant="Variant.Text" >   </MudIconButton>
                 </MudTooltip>
             </MudTd>
         </RowTemplate>
@@ -83,17 +83,47 @@ else{
 
 }
 
+<MudDrawer @bind-Open="@opendrawer" Width="600px" Anchor="Anchor.End" Elevation="1" Variant="@DrawerVariant.Temporary">
+    <MudDrawerHeader Class="mt-3">
+        <MudStack Row="true" Class="w-100 justify-content-between align-content-between align-center align-items-center">
+            <MudText Typo="Typo.h6">表单详情</MudText>
+            <MudFab Color="Color.Error" IconSize="Size.Small" OnClick="() => OnDeleteData()" StartIcon="@Icons.Material.Filled.Delete" />
 
+        </MudStack>
+    </MudDrawerHeader>
+    <MudDivider Class="my-2" DividerType="DividerType.Inset" ></MudDivider>
+    <MudDrawerContainer>
+        <MudPaper Class="mx-8" Elevation="0">
+            @if (laboratoryDictionary is not null)
+            {
+                <MudStack Spacing="2">
+                    @foreach (var o in laboratoryDictionary)
+                    {
+                        <MudStack Row="true" Class="border-b-1 mud-border-primary border-solid w-100 justify-content-between">
+                            <div style="Width:300px">
+                                <MudText Class="pointer-events-auto">@o.Key</MudText>
+                            </div>
+                            <div style="Width: 200px" class="justify-content-start">
+                                <MudText Class=" w-100 pointer-events-auto">
+                                    @(o.Value is null ? "" : o.Value.ToString())
+
+                                </MudText>
+                            </div>
+                        </MudStack>
+                    }
+                </MudStack>
+            }
+        </MudPaper>
+        <MudDivider Class="my-2" DividerType="DividerType.Inset"></MudDivider>
+    </MudDrawerContainer>
+</MudDrawer>
 
 @code{
 
-    [Inject]
-    protected ILogger<Index> Logger{ set; get; }
-
-    [Inject]
-     private DbServerProvider DbServerProvider { set; get; }
-    [Inject] 
-    protected IDialogService DialogService  { get; set; }
+    [Inject] private ILogger<Index> Logger{ set; get; }
+    [Inject] private ISnackbar Snackbar { get; set; }
+    [Inject] private DbServerProvider DbServerProvider { set; get; }
+    [Inject] private IDialogService DialogService  { get; set; }
 
     private string  searchPatientInfo{set;get;}
     private bool resetValueOnEmptyText;
@@ -109,6 +139,9 @@ else{
     ///  ListCertificates = _DbContext.TableCertificates.Where(w => w.CreateTime >= DateRangeValue.Start && w.CreateTime <= dateTime).ToList();
     /// </summary>
     DateRange daterange = new DateRange(DateTime.Now.Date.AddDays(-(DateTime.Now.Date.Day-1)), DateTime.Now.Date);
+
+    private bool opendrawer;
+    private MedicalPKSampling sampledrawer;
     private MudDateRangePicker rangePicker{ set; get; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -229,6 +262,46 @@ else{
         }
         return false;
     }
+
+    void OnOpenDrawer(LaboratoryExamination laboratory)
+    {
+        
+
+        deleteobject = laboratory;
+
+        laboratoryDictionary = DisplayAttributeExtend.GetAttributeExtends<LaboratoryExamination>(laboratory);
+        opendrawer = true;
+        StateHasChanged();
+    }
+
+    private LaboratoryExamination deleteobject;
+    private Dictionary<string, object?> laboratoryDictionary;
+
+    
+
+    async void OnDeleteData()
+    {
+
+        DialogOptions dialogOptions=  new DialogOptions() { MaxWidth = MaxWidth.Small };
+        bool? result = await DialogService.ShowMessageBox(
+            "警告", 
+            "确定是否需要删除数据，输出的数据无法再恢复", 
+            yesText: "删除!", cancelText: "取消", options: dialogOptions);
+        if (result is not null)
+        {
+            int delresult = await DbServerProvider.DeleteAsync<LaboratoryExamination>(deleteobject);
+            if (delresult>0)
+            {
+                opendrawer = false;
+                LaboratoryExaminations.Remove(deleteobject);
+                Snackbar.Add("数据删除成功", Severity.Warning);
+            }
+        }
+        StateHasChanged();
+    }
+
+
+
 }
 
 

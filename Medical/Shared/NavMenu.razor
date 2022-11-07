@@ -9,10 +9,14 @@
     @if (NavVariant ==DrawerVariant.Mini)
     {
         <MudTooltip Text="首页" Arrow="true" Placement="Placement.Right">
-               <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Outlined.Home">首页</MudNavLink>
+            <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Outlined.Home">首页</MudNavLink>
         </MudTooltip>
+        
         <MudTooltip Text="基础档案" Arrow="true" Placement="Placement.Right">
             <MudNavLink Href="PersonalFile" Icon="@Icons.Outlined.FilePresent">基础档案</MudNavLink>
+        </MudTooltip>
+        <MudTooltip Text="添加基础档案" Arrow="true" Placement="Placement.Right">
+            <MudNavLink Href="Page_PersonalFileForm" Icon="@Icons.Outlined.FilePresent">基础档案</MudNavLink>
         </MudTooltip>
         <MudNavGroup Title="类鼻疽-PK" Icon="@Icons.Outlined.BubbleChart" Expanded="false">
             <MudTooltip Text="给药方案" Arrow="true" Placement="Placement.Right">
@@ -68,7 +72,8 @@
     else
     {
         <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Outlined.Home">首页</MudNavLink>
-        <MudNavLink Href="PersonalFile" Icon="@Icons.Outlined.FilePresent">基础档案</MudNavLink>
+        <MudNavLink Href="PersonalFile" Icon="@HICons.Outlined.FamilyFolder">
+            基础档案</MudNavLink>
         <MudNavGroup Title="PK" Icon="@Icons.Outlined.BubbleChart" Expanded="false">
             <MudNavLink Href="prescription"        Icon="@Icons.Outlined.ListAlt">给药方案</MudNavLink>
             <MudNavLink Href="bloodsample"   Icon="@Icons.Outlined.BlurOn" >采样信息</MudNavLink>

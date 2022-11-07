@@ -1,7 +1,4 @@
 ﻿using Medical.Data;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.JSInterop;
 
 namespace Medical.Services
 {
@@ -11,7 +8,7 @@ namespace Medical.Services
         {
             var s = dbContext.Set<TEntity>().AsQueryable();
 
-           // var ss = s.AsNoTracking().ToList();
+            // var ss = s.AsNoTracking().ToList();
             return dbContext.Set<TEntity>().AsQueryable(); ;
         }
 
@@ -28,12 +25,5 @@ namespace Medical.Services
         {
             await dbContext.Set<TEntity>().AddAsync(entity);
         }
-
-
-
-
     }
-
-
- 
 }

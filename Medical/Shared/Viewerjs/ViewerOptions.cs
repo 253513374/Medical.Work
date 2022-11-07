@@ -1,11 +1,10 @@
-﻿// ********************************** 
-// Densen Informatica 中讯科技 
+﻿// **********************************
+// Densen Informatica 中讯科技
 // 作者：Alex Chow
-// e-mail:zhouchuanglin@gmail.com 
+// e-mail:zhouchuanglin@gmail.com
 // **********************************
 
 using System.ComponentModel;
-
 
 namespace Medical;
 
@@ -24,12 +23,14 @@ public class ViewerOptions
         this.id = id;
         this.fullscreen = fullscreen;
     }
+
     public string id { get; set; } = "images";
 
     /// <summary>
     /// 简化版工具条
     /// </summary>
     public bool toolbarlite { get; set; }
+
     public string container { get; set; } = "body";
 
     /// <summary>
@@ -59,7 +60,7 @@ public class ViewerOptions
     public bool inline { get; set; } = false;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public int interval { get; set; } = 5000;
 
@@ -70,7 +71,7 @@ public class ViewerOptions
     public bool keyboard { get; set; } = true;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public bool loading { get; set; } = true;
 
@@ -81,22 +82,22 @@ public class ViewerOptions
     public bool loop { get; set; } = true;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public int maxZoomRatio { get; set; } = 100;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public int minHeight { get; set; } = 100;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public int minWidth { get; set; } = 200;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public double minZoomRatio { get; set; } = 0.01;
 
@@ -184,5 +185,3 @@ public class ViewerOptions
     [DisplayName("可缩放")]
     public bool zoomable { get; set; } = true;
 }
-
-

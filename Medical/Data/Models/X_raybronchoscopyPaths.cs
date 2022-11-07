@@ -1,11 +1,9 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Medical.Data.Models
 {
     public class X_raybronchoscopyPaths
     {
-
         /// <summary>
         /// 唯一主键
         /// </summary>
@@ -17,18 +15,15 @@ namespace Medical.Data.Models
         /// </summary>
         public string Adminuser { set; get; }
 
-
         /// <summary>
         /// 创建时间
         /// </summary>
         public DateTime CreateTime { set; get; }
 
-
         /// <summary>
         /// 保存路径
         /// </summary>
         public string ImgUrl { set; get; }
-
 
         public int ID { set; get; }
         public X_raybronchoscopy x_Raybronchoscopy { set; get; }

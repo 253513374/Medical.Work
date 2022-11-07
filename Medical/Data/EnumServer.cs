@@ -2,9 +2,8 @@
 
 namespace Medical.Data
 {
-    public  class EnumServer
+    public class EnumServer
     {
-
         /// <summary>
         /// 溶媒
         /// </summary>
@@ -17,7 +16,6 @@ namespace Medical.Data
             return EnumItems.DrugSpecificationsEnum.Where(x => x.Contains(value));
         }
 
-
         /// <summary>
         /// 给药频率
         /// </summary>
@@ -29,7 +27,6 @@ namespace Medical.Data
                 return EnumItems.DrugNCountEnum;
             return EnumItems.DrugNCountEnum.Where(x => x.Contains(value));
         }
-
 
         /// <summary>
         /// 给药持续时间

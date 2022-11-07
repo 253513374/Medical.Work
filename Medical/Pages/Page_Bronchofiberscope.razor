@@ -62,19 +62,19 @@ else{
             <MudTh><b>操作</b></MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd >@context.Medicalrecordnumber</MudTd>
-            <MudTd >@context.Username</MudTd>
-            <MudTd >@context.Photodate</MudTd>
-            <MudTd >@context.Reportdate</MudTd>
-            <MudTd >@context.Xraylocation</MudTd>
-            <MudTd >@context.Xrayinspection</MudTd>
-                          
-            <MudTd >
+            <MudTd DataLabel="编号">@context.Medicalrecordnumber</MudTd>
+            <MudTd DataLabel="姓名">@context.Username</MudTd>
+            <MudTd DataLabel="检查日期">@context.Photodate</MudTd>
+            <MudTd DataLabel="报告日期">@context.Reportdate</MudTd>
+            <MudTd DataLabel="部位">@context.Xraylocation</MudTd>
+            <MudTd DataLabel="结果">@context.Xrayinspection</MudTd>
+
+            <MudTd DataLabel="操作">
                 <MudTooltip Text="编辑档案">
                     <MudIconButton  OnClick="@(s=>OnEditPatientInfo(context))"  Color="Color.Info" Size="Size.Small" Icon="@Icons.Outlined.ModeEdit" Variant="Variant.Text" >  </MudIconButton>
                 </MudTooltip>
-                <MudTooltip Text="删除数据">
-                        <MudIconButton Class="mx-3" Color="Color.Error"  Size="Size.Small" Icon="@Icons.Outlined.DeleteSweep" Variant="Variant.Text" >   </MudIconButton>
+                <MudTooltip Text="查看数据">
+                        <MudIconButton Class="mx-3" Color="Color.Info"  Size="Size.Small" Icon="@Icons.Filled.DocumentScanner"   OnClick="@(s=>OnOpenDrawer(context))" Variant="Variant.Text" >   </MudIconButton>
                 </MudTooltip>
             </MudTd>
         </RowTemplate>
@@ -85,17 +85,48 @@ else{
 
 }
 
+<MudDrawer @bind-Open="@opendrawer" Width="650px" Anchor="Anchor.End" Elevation="1" Variant="@DrawerVariant.Temporary">
+    <MudDrawerHeader Class="mt-3">
+        <MudStack Row="true" Class="w-100 justify-content-between align-content-between align-center align-items-center">
+            <MudText Typo="Typo.h6">表单详情</MudText>
+            <MudFab Color="Color.Error" IconSize="Size.Small" OnClick="() => OnDeleteData()" StartIcon="@Icons.Material.Filled.Delete" />
+        </MudStack>
+    </MudDrawerHeader>
+    <MudDivider Class="my-2" DividerType="DividerType.Inset"></MudDivider>
+    <MudDrawerContainer>
+        <MudPaper Class="mx-8" Elevation="0">
+            @if (bronchoscopyDictionary is not null)
+            {
+                <MudStack Spacing="2">
+                    @foreach (var o in bronchoscopyDictionary)
+                    {
+                        <MudStack Row="true" Class="border-b-1 mud-border-primary border-solid w-100 justify-content-between">
+                            <div style="Width:220px">
+                                <MudText Class="pointer-events-auto">@o.Key</MudText>
+                            </div>
+                            <div style="Width: 380px" class="justify-content-start">
+                                <MudText Class=" w-100 pointer-events-auto">
+                                    @(o.Value is null ? "" : o.Value.ToString())
+
+                                </MudText>
+                            </div>
+                        </MudStack>
+                    }
+                </MudStack>
+            }
+        </MudPaper>
+        <MudDivider Class="my-2" DividerType="DividerType.Inset"></MudDivider>
+    </MudDrawerContainer>
+</MudDrawer>
+
 
 
 @code{
 
-    [Inject]
-    protected ILogger<Index> Logger{ set; get; }
-
-    [Inject]
-     private DbServerProvider DbServerProvider { set; get; }
-    [Inject] 
-    protected IDialogService DialogService  { get; set; }
+    [Inject] private ILogger<Index> Logger { set; get; }
+    [Inject] private ISnackbar Snackbar { get; set; }
+    [Inject] private DbServerProvider DbServerProvider { set; get; }
+    [Inject] private IDialogService DialogService { get; set; }
 
     private string  searchPatientInfo{set;get;}
     private bool resetValueOnEmptyText;
@@ -234,6 +265,40 @@ else{
              return true;
         }
         return false;
+    }
+
+    void OnOpenDrawer(X_raybronchoscopy xRaybronchoscopy)
+    {
+        bronchoscopyDictionary = DisplayAttributeExtend.GetAttributeExtends<X_raybronchoscopy>(xRaybronchoscopy);
+        opendrawer = true;
+
+        deleteobject = xRaybronchoscopy;
+    //this.anchor = anchor;
+    }
+    private Dictionary<string, object?> bronchoscopyDictionary;
+
+    private bool opendrawer;
+    private X_raybronchoscopy deleteobject;
+
+    async void OnDeleteData()
+    {
+
+        DialogOptions dialogOptions=  new DialogOptions() { MaxWidth = MaxWidth.Small };
+        bool? result = await DialogService.ShowMessageBox(
+            "警告", 
+            "确定是否需要删除数据，输出的数据无法再恢复", 
+            yesText: "删除!", cancelText: "取消", options: dialogOptions);
+        if (result is not null)
+        {
+            int delresult = await DbServerProvider.DeleteAsync<X_raybronchoscopy>(deleteobject);
+            if (delresult>0)
+            {
+                opendrawer = false;
+                X_Raybronchoscopies.Remove(deleteobject);
+                Snackbar.Add("数据删除成功", Severity.Warning);
+            }
+        }
+        StateHasChanged();
     }
 }
 

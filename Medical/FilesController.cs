@@ -9,14 +9,13 @@ namespace Medical
     [ApiController]
     public class FilesController : ControllerBase
     {
-
-
         private readonly IWebHostEnvironment Environment;
 
         public FilesController(IWebHostEnvironment environment)
         {
             Environment = environment;
-        } 
+        }
+
         // GET: api/<ValuesController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -33,34 +32,27 @@ namespace Medical
 
         // POST api/<ValuesController>
         [HttpPost("upload")]
-        public async Task<ActionResult> Upload(IFormFile file )
+        public async Task<ActionResult> Upload(IFormFile file)
         {
-
             try
             {
                 var trustedFileName = $"{Path.GetRandomFileName()}{file.FileName.Substring(file.FileName.Length - 4, 4)}";
                 var path = Path.Combine(Environment.WebRootPath, "bloguploads", trustedFileName);//文件保存绝对路径
 
-
                 var fileName = $"bloguploads/{trustedFileName}";
-                
+
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
                     await file.CopyToAsync(fileStream);
-                 //   Serilog.Log.Information();
+                    //   Serilog.Log.Information();
                 }
 
                 return new JsonResult(fileName);
             }
             catch (Exception ex)
             {
-
                 return BadRequest();
             }
-
-         
-
-            
         }
 
         // PUT api/<ValuesController>/5
@@ -75,14 +67,13 @@ namespace Medical
         {
         }
 
-
-        void VerifyPath(string path)
+        private void VerifyPath(string path)
         {
             path = path.SanitizePath();
 
             if (!string.IsNullOrEmpty(path))
             {
-               // var dir = Path.Combine(_storageRoot, path);
+                // var dir = Path.Combine(_storageRoot, path);
 
                 if (!Directory.Exists(path))
                 {

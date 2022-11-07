@@ -1,27 +1,18 @@
-﻿using Medical.Pages;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
 using MudBlazor;
-using System;
-using System.Collections.ObjectModel;
 using System.Linq.Expressions;
-using System.Reflection;
+using Microsoft.AspNetCore.Components;
 
 namespace Medical.Data.Models.Common
 {
-    public class DbServerProvider 
+    //泛型类，包装数据查询
+    public class DbServerProvider
     {
+        //  private readonly AuthenticationStateProvider _authenticationStateProvider;
 
-      //  private readonly AuthenticationStateProvider _authenticationStateProvider;
-
-        private readonly IDbContextFactory<MedicalDbContext>  _Db;
+        private readonly IDbContextFactory<MedicalDbContext> _Db;
         private readonly string _adminName;
         private readonly ILogger<DbServerProvider> Logger;
-
-
 
         public DbServerProvider(ITenantService service, IDbContextFactory<MedicalDbContext> medicalDb, ILogger<DbServerProvider> logger)
         {
@@ -29,7 +20,6 @@ namespace Medical.Data.Models.Common
             _Db = medicalDb;
             Logger = logger;
         }
-
 
         /// <summary>
         /// 查询泛型，返回实体类数据列表
@@ -39,21 +29,18 @@ namespace Medical.Data.Models.Common
         public async Task<List<T>> GetListAsync<T>() where T : class
         {
             ParameterExpression parameter = Expression.Parameter(typeof(T), "e");
-         
 
             BinaryExpression body = await GetBaseExpressionAsync<T>(parameter);
             Expression<Func<T, bool>> expression = Expression.Lambda<Func<T, bool>>(body, parameter);
-
 
             Expression<Func<T, DateTime?>> orderby = await GetOrderByExpression<T>();
             Logger.LogInformation(expression.ToString());
 
             using var context = _Db.CreateDbContext();
-           // var s= await context.Set<T>().AsNoTracking().Where(expression).ToListAsync();
+            // var s= await context.Set<T>().AsNoTracking().Where(expression).ToListAsync();
 
-            return  await context.Set<T>().AsNoTracking().Where(expression).OrderByDescending(orderby).Take(100).ToListAsync();
+            return await context.Set<T>().AsNoTracking().Where(expression).OrderByDescending(orderby).Take(100).ToListAsync();
         }
-
 
         /// <summary>
         /// 查询泛型 ，按时间范围 返回实体类数据列表
@@ -65,24 +52,24 @@ namespace Medical.Data.Models.Common
         public async Task<List<T>> GetListAsync<T>(DateRange range) where T : class
         {
             ParameterExpression parameter = Expression.Parameter(typeof(T), "e");
-            
+
             BinaryExpression baseexpression = await GetBaseExpressionAsync<T>(parameter);
             BinaryExpression rangeexpression = await GetDateRangeExPression<T>(parameter, range);
 
             BinaryExpression binaryexpression = Expression.And(baseexpression, rangeexpression);
-            
+
             Expression<Func<T, bool>> expression = Expression.Lambda<Func<T, bool>>(binaryexpression, parameter);
 
-            Logger.LogInformation(expression.ToString());
+            Logger.LogInformation($"按时间范围查询数据：{expression}");
             using var context = _Db.CreateDbContext();
             return await context.Set<T>().AsNoTracking().Where(expression).ToListAsync();
         }
 
         /// <summary>
-        /// 查找单个对象
+        /// 根据主键查询数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="id"></param>
+        /// <param name="id">主键</param>
         /// <returns></returns>
         public async Task<T> FindSingleAsync<T>(string id) where T : class
         {
@@ -93,13 +80,13 @@ namespace Medical.Data.Models.Common
         public async Task<T> FindSingleAsync<T>(Expression<Func<T, bool>> expression) where T : class
         {
             using var context = _Db.CreateDbContext();
-            return await context.Set<T>().FindAsync(expression);
+            return await context.Set<T>().Where(expression).FirstOrDefaultAsync();
         }
 
         /// <summary>
         ///  查找单个对象
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">对象</typeparam>
         /// <param name="ftype"></param>
         /// <returns></returns>
         public async Task<T> FindSingleAsync<T>(T ftype) where T : class
@@ -108,6 +95,11 @@ namespace Medical.Data.Models.Common
             return await context.Set<T>().FindAsync(ftype);
         }
 
+        public DbSet<T> FindDbSet<T>() where T : class
+        {
+            using var context = _Db.CreateDbContext();
+            return context.Set<T>();
+        }
 
         /// <summary>
         /// 插入保存数据
@@ -140,16 +132,14 @@ namespace Medical.Data.Models.Common
         /// <returns></returns>
         public async Task<int> DeleteAsync<T>(T expression) where T : class
         {
-
             var item = FindSingleAsync<T>(expression);
-            if(item is not null)
+            if (item is not null)
             {
                 using var context = _Db.CreateDbContext();
                 context.Set<T>().Remove(expression);
                 return await context.SaveChangesAsync();
             }
             return 0;
-           
         }
 
         /// <summary>
@@ -159,9 +149,9 @@ namespace Medical.Data.Models.Common
         /// <param name="parameter"></param>
         /// <param name="range"></param>
         /// <returns></returns>
-        private async  Task<BinaryExpression> GetDateRangeExPression<T>(ParameterExpression parameter, DateRange range) where T : class
+        private async Task<BinaryExpression> GetDateRangeExPression<T>(ParameterExpression parameter, DateRange range) where T : class
         {
-           // ParameterExpression parameter = Expression.Parameter(typeof(T), "e");
+            // ParameterExpression parameter = Expression.Parameter(typeof(T), "e");
 
             BinaryExpression body = Expression.GreaterThanOrEqual(
                 Expression.Call(typeof(EF), nameof(EF.Property), new[] { typeof(DateTime) }, parameter, Expression.Constant("CreateTime")),
@@ -173,11 +163,8 @@ namespace Medical.Data.Models.Common
 
             BinaryExpression expression = Expression.AndAlso(body, body2);
 
-            
             return await Task.FromResult(expression);
-  
         }
-
 
         /// <summary>
         /// 基础查询条件
@@ -187,19 +174,12 @@ namespace Medical.Data.Models.Common
         /// <returns></returns>
         private async Task<BinaryExpression> GetBaseExpressionAsync<T>(ParameterExpression parameter) where T : class
         {
-           // ParameterExpression parameter = Expression.Parameter(typeof(T), "e");
             BinaryExpression body = Expression.Equal(
                   Expression.Call(typeof(EF), nameof(EF.Property), new[] { typeof(string) }, parameter, Expression.Constant("Adminname")),
                   Expression.Constant(_adminName)
                   );
-            
-          //  Expression<Func<T, bool>> expression = Expression.Lambda<Func<T, bool>>(body, parameter);
-           // Logger.LogInformation(expression.ToString());
-        
             return await Task.FromResult(body);
         }
-
-
 
         /// <summary>
         /// 排序条件
@@ -209,15 +189,12 @@ namespace Medical.Data.Models.Common
         /// <returns></returns>
         private async Task<Expression<Func<T, DateTime?>>> GetOrderByExpression<T>()
         {
-
             ParameterExpression orderbydescparameter = Expression.Parameter(typeof(T), "o");
-            MemberExpression   member = Expression.Property(orderbydescparameter, "CreateTime");
+            MemberExpression member = Expression.Property(orderbydescparameter, "CreateTime");
 
             Expression<Func<T, DateTime?>> expression = Expression.Lambda<Func<T, DateTime?>>(member, orderbydescparameter);
             Logger.LogInformation(expression.ToString());
             return expression;
         }
-
-
     }
 }

@@ -1,15 +1,15 @@
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using Medical;
+using Medical.Areas.Identity.Data;
 using Medical.Data;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using MudBlazor.Services;
+using Medical.Data.Models.Common;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Medical.Areas.Identity.Data;
-using Serilog;
-using Medical;
 using MudBlazor;
-using Medical.Data.Models.Common;
-using Medical.Data.Models;
+using MudBlazor.Services;
+using Serilog;
 
 const string OUTPUT_TEMPLATE = "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} <{ThreadId}> [{Level:u3}] {Message:lj}{NewLine}{Exception}";
 //Log.Logger = new LoggerConfiguration()
@@ -19,38 +19,39 @@ const string OUTPUT_TEMPLATE = "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} <{ThreadId}>
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateBootstrapLogger();
-   
 
 try
 {
     var builder = WebApplication.CreateBuilder(args);
 
-
     builder.Host.UseSerilog((ctx, lc) => lc
-      .WriteTo.Console(outputTemplate:OUTPUT_TEMPLATE)
-      .ReadFrom.Configuration(ctx.Configuration));
-
+        .WriteTo.Console(outputTemplate: OUTPUT_TEMPLATE)
+        .ReadFrom.Configuration(ctx.Configuration));
 
     // builder.Host.UseSerilog(Log.Logger, dispose: true);
-    Log.Information("web host 正常初始化。。。");
+    Log.Information("web host Serilog正常初始化。。。");
 
-    var aconnectionString = builder.Configuration.GetConnectionString("AccountContextConnection") ?? throw new InvalidOperationException("Connection string 'AccountContextConnection' not found.");
-    var mconnectionString = builder.Configuration.GetConnectionString("MedicalContextConnection") ?? throw new InvalidOperationException("Connection string 'AccountContextConnection' not found.");
+    var aconnectionString = builder.Configuration.GetConnectionString("AccountContextConnection") ??
+                            throw new InvalidOperationException(
+                                "Connection string 'AccountContextConnection' not found.");
+    var mconnectionString = builder.Configuration.GetConnectionString("MedicalContextConnection") ??
+                            throw new InvalidOperationException(
+                                "Connection string 'AccountContextConnection' not found.");
 
     //在调试模式下显示敏感数据
 #if DEBUG
     builder.Services.AddDbContextFactory<MedicalDbContext>(options =>
         options.UseSqlServer(mconnectionString).EnableSensitiveDataLogging(), ServiceLifetime.Scoped);
-#else
+
+#endif
     builder.Services.AddDbContextFactory<MedicalDbContext>(options =>
         options.UseSqlServer(mconnectionString), ServiceLifetime.Scoped);
-#endif
+
     builder.Services.AddDbContextFactory<AccountContext>(options =>
-        options.UseSqlServer(aconnectionString));
+        options.UseSqlServer(aconnectionString), ServiceLifetime.Scoped);
 
-
-
-    builder.Services.AddDefaultIdentity<AccountUser>(options => {
+    builder.Services.AddDefaultIdentity<AccountUser>(options =>
+    {
         ///配置密码规则
         options.Password.RequireDigit = true;
         options.Password.RequireLowercase = false;
@@ -67,22 +68,24 @@ try
         ///设置用户验证规则
         options.User.RequireUniqueEmail = true;
         options.User.AllowedUserNameCharacters = null;
-
-    }).AddEntityFrameworkStores<AccountContext>(); ;
+    }).AddEntityFrameworkStores<AccountContext>();
+    ;
 
     // Add services to the container.
     builder.Services.AddRazorPages();
     builder.Services.AddServerSideBlazor();
-   // builder.Services.AddSingleton<WeatherForecastService>();
+    // builder.Services.AddSingleton<WeatherForecastService>();
     builder.Services.AddSingleton<EmailSender>();
-    builder.Services.AddSingleton<AutocompleteService>();//全局单列，所有访问用户都使用同一个对象
+    builder.Services.AddSingleton<AutocompleteService>(); //全局单列，所有访问用户都使用同一个对象
 
-    builder.Services.AddScoped<EnumServer>();//同一个请求 都是一个实列对象
-    builder.Services.AddTransient<ITenantService>();//每一次调用对象 都是一个新实列对象
-    builder.Services.AddTransient<DbServerProvider>();//每一次调用对象 都是一个新实列对象
+    builder.Services.AddScoped<EnumServer>(); //同一个请求 都是一个实列对象
+    builder.Services.AddScoped<ITenantService>(); //每一次调用对象 都是一个新实列对象
+    builder.Services.AddScoped<DbServerProvider>(); //每一次调用对象 都是一个新实列对象
 
-   // builder.Services.AddMasaBlazor();
-    
+    builder.Services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
+    //services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
+    // builder.Services.AddMasaBlazor();
+
     builder.Services.AddMudServices(config =>
     {
         config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopCenter;
@@ -115,7 +118,8 @@ try
     app.UseAuthorization();
     //app.MapBlazorHub();
     //app.MapControllers();
-    app.UseEndpoints(endpoints => {
+    app.UseEndpoints(endpoints =>
+    {
         endpoints.MapControllers();
         endpoints.MapBlazorHub();
         endpoints.MapFallbackToPage("/_Host");
@@ -124,12 +128,18 @@ try
 }
 catch (Exception ex)
 {
-    Log.Fatal(ex, "Host主机意外终止");
-   // throw;
+    string type = ex.GetType().Name;
+    if (type.Equals("StopTheHostException", StringComparison.Ordinal))
+    {
+        throw;
+    }
+    Log.Fatal(ex, $"Host主机意外终止:{ex.Message}");
 }
 finally
 {
-    Log.Information("Serilog 关闭");
-    Log.CloseAndFlush();
-}
+    // _logger.Fatal(ex, "Unhandled exception");
+    // return 1;
 
+    Log.CloseAndFlush();
+    // throw;
+}

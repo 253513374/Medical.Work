@@ -106,15 +106,12 @@ $hljs-red: #c30;
 $hljs-green: #168174;
 $hljs-sky: #2f6f9f;
 
-
 // container
-$container-max-widths: (
-  xl: 1024px,
-);
+$container-max-widths: ( xl: 1024px, );
 
 // floating input
-$form-floating-height:            3.25rem;
-$form-floating-padding-x:         .875rem;
-$form-floating-padding-y:         .875rem;
-$form-floating-label-opacity:     .65;
-$form-floating-label-transform:   scale(.8) translateY(-.325rem) translateX(.15rem);
+$form-floating-height: 3.25rem;
+$form-floating-padding-x: .875rem;
+$form-floating-padding-y: .875rem;
+$form-floating-label-opacity: .65;
+$form-floating-label-transform: scale(.8) translateY(-.325rem) translateX(.15rem);

@@ -1,9 +1,5 @@
 ﻿using Medical.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Medical.Data
 {
@@ -16,7 +12,7 @@ namespace Medical.Data
         public PatientInfoService(IDbContextFactory<MedicalDbContext> contextFactory, ILogger<PatientInfoService> logger)
         {
             ContextFactory = contextFactory;
-            _logger = logger;   
+            _logger = logger;
         }
 
         public bool UpdatePatientInfo(PatientInfo info)
@@ -67,7 +63,6 @@ namespace Medical.Data
                 _logger.LogInformation(e.StackTrace);
                 throw;
             }
-           
 
             return true;
         }

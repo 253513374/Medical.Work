@@ -2,7 +2,7 @@
 {
     public enum SummaryOfCasesOptions
     {
-        New=0,
-        Edit=1
+        New = 0,
+        Edit = 1
     }
 }

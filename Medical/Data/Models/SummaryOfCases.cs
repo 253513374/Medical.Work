@@ -1,11 +1,8 @@
-﻿using Medical.Data.Enum;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Medical.Data.Models
 {
-
     /// <summary>
     /// 案列总结
     /// </summary>
@@ -46,22 +43,17 @@ namespace Medical.Data.Models
         [DisplayName("感染")]
         public List<PatientInfoExDiagnosisTable> PatientInfoExDiagnosisTable { set; get; }
 
-
-       public string? SummaryOfCasesGuid { set; get; }
-
-
+        public string? SummaryOfCasesGuid { set; get; }
 
         /// <summary>
         /// 更新时间
         /// </summary>
         public DateTime? UpDateTime { set; get; }
 
-
         /// <summary>
         /// 文章发布时间
         /// </summary>
         public DateTime? PublishedDate { get; set; }
-
 
         /// <summary>
         /// 报告标题
@@ -75,14 +67,12 @@ namespace Medical.Data.Models
         /// </summary>
         public string? BodyContent { set; get; }
 
-
         /// <summary>
         /// 文章摘要，方便快速阅读
         /// </summary>
         [Required(ErrorMessage = "必须填写")]
         [StringLength(450)]
         public string? Description { get; set; }
-
 
         /// <summary>
         /// 是否是精选，高质量内容
@@ -99,7 +89,6 @@ namespace Medical.Data.Models
         ///// </summary>
         //[Required(ErrorMessage = "必须填写")]
         //public string PostType { set; get; }
-
 
         /// <summary>
         /// 文章关键词

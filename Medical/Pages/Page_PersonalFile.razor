@@ -1,6 +1,6 @@
 ﻿@page "/PersonalFile"
-@using System.Linq.Expressions
-@using ExpressionTreeToString
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+
 
 
 @attribute [Authorize]
@@ -9,7 +9,7 @@
 <BannerTitle Title="基础档案管理"></BannerTitle>
 
 <MudPaper Elevation="0" Class="mt-5 mb-1">
-    <MudFab    Size="Size.Medium" Color="Color.Primary" DisableElevation="true"   OnClick="@OnOpenDialog" Class="mx-3" StartIcon="@Icons.Material.Outlined.AddCard" Label="新建档案"> </MudFab>
+    <MudFab Size="Size.Medium" Color="Color.Primary" DisableElevation="true" OnClick="@(s=>OnOpenEditForm(""))" Class="mx-3" StartIcon="@Icons.Material.Outlined.AddCard" Label="新建档案"> </MudFab>
   
 </MudPaper>
 
@@ -52,31 +52,29 @@ else{
             <MudTextField  Margin="Margin.Dense" @bind-Value="searchPatientInfo" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
         </ToolBarContent>
         <HeaderContent>
-            <MudTh><b>编号</b></MudTh>
+            <MudTh ><b>编号</b></MudTh>
             <MudTh><b>姓名</b></MudTh>
             <MudTh><b>姓别</b></MudTh>
             <MudTh><b>病历属性</b></MudTh>
             <MudTh><b>科室</b></MudTh>
             <MudTh><b>入院时间</b></MudTh>
             <MudTh><b>出院时间</b></MudTh>
-           
             <MudTh><b>操作</b></MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd >@context.Medicalrecordnumber</MudTd>
-            <MudTd >@context.Username</MudTd>
-            <MudTd >@context.Gender</MudTd>
-            <MudTd >@context.CollationAttribute</MudTd>
-            <MudTd >@context.Department</MudTd>
-            <MudTd >@context.Admissiontime</MudTd>
-            <MudTd >@context.Dischargetime</MudTd>
-                          
-            <MudTd >
+            <MudTd DataLabel="编号">@context.Medicalrecordnumber</MudTd>
+            <MudTd DataLabel="姓名">@context.Username</MudTd>
+            <MudTd DataLabel="姓别">@context.Gender</MudTd>
+            <MudTd DataLabel="病历属性">@context.CollationAttribute</MudTd>
+            <MudTd DataLabel="科室">@context.Department</MudTd>
+            <MudTd DataLabel="入院时间">@context.Admissiontime</MudTd>
+            <MudTd DataLabel="出院时间">@context.Dischargetime</MudTd>
+            <MudTd DataLabel="操作">
                 <MudTooltip Text="编辑档案">
                     <MudIconButton  OnClick="@(s=>OnEditPatientInfo(context))"  Color="Color.Info" Size="Size.Small" Icon="@Icons.Outlined.ModeEdit" Variant="Variant.Text" >  </MudIconButton>
                 </MudTooltip>
-                <MudTooltip Text="删除数据">
-                        <MudIconButton Class="mx-3" Color="Color.Error"  Size="Size.Small" Icon="@Icons.Outlined.DeleteSweep" Variant="Variant.Text" >   </MudIconButton>
+                <MudTooltip Text="查看数据">
+                        <MudIconButton Class="mx-3" Color="Color.Info"  Size="Size.Small" Icon="@Icons.Filled.DocumentScanner"   OnClick="@(s=>OnOpenDrawer(context))" Variant="Variant.Text" >   </MudIconButton>
                 </MudTooltip>
             </MudTd>
         </RowTemplate>
@@ -86,8 +84,39 @@ else{
     </MudTable>
 
 }
+<MudDrawer @bind-Open="@opendrawer" Width="650px" Anchor="Anchor.End" Elevation="1" Variant="@DrawerVariant.Temporary">
+    <MudDrawerHeader Class="mt-3">
+        <MudStack Row="true" Class="w-100 justify-content-between align-content-between align-center align-items-center">
+            <MudText Typo="Typo.h6">表单详情</MudText>
+            <MudFab Color="Color.Error" OnClick="() => OnDeleteData()" IconSize="Size.Small" StartIcon="@Icons.Material.Filled.Delete" />
+        </MudStack>
+    </MudDrawerHeader>
+    <MudDivider Class="my-2" DividerType="DividerType.Inset"></MudDivider>
+    <MudDrawerContainer>
+        <MudPaper Class="mx-8" Elevation="0">
+            @if (patientInfoDictionary is not null)
+            {
+                <MudStack Spacing="2">
+                    @foreach (var o in patientInfoDictionary)
+                    {
+                        <MudStack Row="true" Class="border-b-1 mud-border-primary border-solid w-100 justify-content-between">
+                            <div style="Width:220px">
+                                <MudText Class="pointer-events-auto">@o.Key</MudText>
+                            </div>
+                            <div style="Width: 380px" class="justify-content-start">
+                                <MudText Class=" w-100 pointer-events-auto">
+                                    @(o.Value is null ? "" : o.Value.ToString())
 
-
+                                </MudText>
+                            </div>
+                        </MudStack>
+                    }
+                </MudStack>
+            }
+        </MudPaper>
+        <MudDivider Class="my-2" DividerType="DividerType.Inset"></MudDivider>
+    </MudDrawerContainer>
+</MudDrawer>
 
 @code{
 
@@ -101,6 +130,9 @@ else{
      private DbServerProvider DbServerProvider { set; get; }
     [Inject] 
     protected IDialogService DialogService  { get; set; }
+
+    [Inject] private ISnackbar Snackbar { get; set; }
+    [Inject] private NavigationManager Navigation { set; get; }
 
     /// <summary>
     /// 默认查询的时间范围(1个月时间)
@@ -116,7 +148,7 @@ else{
     private string searchPatientInfo{ set; get; }
 
     private List<PatientInfo> Patients{ set; get; }
-
+    private bool  opendrawer;
 
     [Inject] 
     protected AutocompleteService CacheService { set; get; }
@@ -131,8 +163,10 @@ else{
             if(Patients is null ||  Patients.Count==0)
             {
                Patients =await DbServerProvider.GetListAsync<PatientInfo>();
+                await CacheService.SetCachePatientInfokeyAsync(Patients);
             
             }
+
             StateHasChanged();
         }
         //  return base.OnAfterRenderAsync(firstRender);
@@ -148,12 +182,6 @@ else{
 
         if (Patients is not null) Patients.Clear();
         Patients = await DbServerProvider.GetListAsync<PatientInfo>(daterange);
-            
-        
-       // Patients = await context.patientInfos.AsNoTracking()
-       //                                     .Where(w=>w.CreateTime>=daterange.Start.Value.Date&&w.CreateTime<=daterange.End.Value.Date.AddDays(1))
-       //                                     .OrderByDescending(o=>o.CreateTime).ToListAsync();    
-       // await OnAfterRenderAsync(true);
         StateHasChanged();
 
         return;
@@ -166,49 +194,25 @@ else{
         return Patients.Where(x => x.Username.Contains(value)|| x.Medicalrecordnumber.Contains(value));
     }
 
-    private async Task OnOpenDialog()
+    private  Task OnOpenEditForm(string guid="")
     {
-        DialogOptions dialogOptions = new DialogOptions();
-        dialogOptions.CloseButton = true;
-        dialogOptions.MaxWidth = MaxWidth.Medium; 
-        dialogOptions.FullWidth = true;
-        dialogOptions.DisableBackdropClick = true;
-        //var parameters = new DialogParameters();
-        //parameters.Add("TemplateData",SelectTemplate);
-        var dialog = DialogService.Show<DialogPersonalFile>("99",dialogOptions);
-        var result = await dialog.Result;
-
-        if (!result.Cancelled)
+        if (guid is not "")
         {
-            var p = result.Data as PatientInfo;
-            Patients.Insert(0,p);
-            await CacheService.SetCachePatientInfokeyAsync(Patients);
-            StateHasChanged();
-            //In a real world scenario we would reload the data from the source here since we "removed" it in the dialog already.
-            // Guid.TryParse(result.Data.ToString(), out Guid deletedServer);
-            //Servers.RemoveAll(item => item.Id == deletedServer);
-            return ;
+            Navigation.NavigateTo($"/Page_PersonalFileForm/{guid}");
         }
+
+        if (guid is "")
+        {
+            Navigation.NavigateTo($"/Page_PersonalFileForm");
+        }
+
+        return  Task.CompletedTask;
     }
 
     private async Task OnEditPatientInfo(PatientInfo patient)
     {
-        DialogOptions dialogOptions = new DialogOptions();
-        dialogOptions.CloseButton = true;
-        dialogOptions.MaxWidth = MaxWidth.Medium; 
-        dialogOptions.FullWidth = true;
-        dialogOptions.DisableBackdropClick = true;
 
-        var parameters = new DialogParameters();
-        parameters.Add("patientInfo",patient);
-        parameters.Add("IsEdit",true);
-
-        var dialog = DialogService.Show<DialogPersonalFile>("99",parameters,dialogOptions);
-        var result = await dialog.Result;
-        if (!result.Cancelled)
-        {
-            return ;
-        }
+        Navigation.NavigateTo($"/Page_PersonalFileForm/{patient.Guid}");
     }
 
 
@@ -241,5 +245,44 @@ else{
         }
         return false;
     }
+
+    void OnOpenDrawer(PatientInfo  patientInfo)
+    {
+
+        patientInfoDictionary = DisplayAttributeExtend.GetAttributeExtends<PatientInfo>(patientInfo);
+        opendrawer = true;
+        StateHasChanged();
+      //  opendrawer = true;
+
+        deleteobject = patientInfo;
+    //this.anchor = anchor;
+    }
+    private Dictionary<string, object?> patientInfoDictionary;
+    private PatientInfo deleteobject;
+
+    async void OnDeleteData()
+    {
+
+        DialogOptions dialogOptions=  new DialogOptions() { MaxWidth = MaxWidth.Small };
+        bool? result = await DialogService.ShowMessageBox(
+            "警告", 
+            "确定是否需要删除数据，输出的数据无法再恢复", 
+            yesText: "删除!", cancelText: "取消", options: dialogOptions);
+       // state= result==null ? "Cancelled" : "Deleted!";
+        if (result is not null)
+        {
+            int delresult = await  DbServerProvider.DeleteAsync<PatientInfo>(deleteobject);
+            if (delresult>0)
+            {
+                opendrawer = false;
+                
+                Patients.Remove(deleteobject);
+                Snackbar.Add("数据删除成功", Severity.Warning);
+                //StateHasChanged();
+            }
+        }
+        StateHasChanged();
+    }
+
 }
 

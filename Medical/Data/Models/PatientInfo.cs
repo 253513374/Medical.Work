@@ -1,22 +1,18 @@
-﻿using Medical.Data.Enum;
-using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Medical.Data.Models
 {
     public class PatientInfo : BaseDataInterface
     {
-
-
         /// <summary>
         /// ID
         /// </summary>
-        [DisplayName("自增")]
+       // public int ID { set; get; }
 
-        public int ID { set; get; }
+        //[DisplayName("唯一编码")]
+        //public string? Guid { set; get; }
 
         //[AutoGenerateColumn(Ignore = true)]
         //public int LaboratoryExaminationID { set; get; }
@@ -24,14 +20,14 @@ namespace Medical.Data.Models
         /// <summary>
         /// 登陆用户名称
         /// </summary>
-        public string? Adminname { set; get; }
+        //public string? Adminname { set; get; }
 
         /// <summary>
         /// 病历号 编号
         /// </summary>
         [NotNull]
         [Required(ErrorMessage = "编号必须填写")]
-        [DisplayName("编号")]
+        [DisplayName("病历编号")]
         public string? Medicalrecordnumber { set; get; }
 
         /// <summary>
@@ -42,15 +38,13 @@ namespace Medical.Data.Models
         [DisplayName("患者姓名")]
         public string? Username { set; get; }
 
-        [DisplayName("唯一编码")]
-        public string? Guid { set; get; }
+        //[DisplayName("记录时间")]
+        // public DateTime? CreateTime { set; get; }
 
-        [DisplayName("记录时间")]
-        public DateTime? CreateTime { set; get; }
         /// <summary>
         /// 科室
         /// </summary>
-        [Required(ErrorMessage ="科室必须填写")]
+        [Required(ErrorMessage = "科室必须填写")]
         [DisplayName("科室")]
         public string? Department { set; get; }
 
@@ -59,6 +53,9 @@ namespace Medical.Data.Models
         /// </summary>
         [DisplayName("性别")]
         public string? Gender { set; get; }
+
+        [DisplayName("出生日期")]
+        public DateTime? DateOfBirth { set; get; }
 
         /// <summary>
         /// 年龄（AGE，year）
@@ -116,6 +113,18 @@ namespace Medical.Data.Models
         public string? BSA { set; get; }
 
         /// <summary>
+        /// 入院诊断
+        /// </summary>
+        [DisplayName("入院诊断")]
+        public string? INDiagnosis { set; get; }
+
+        /// <summary>
+        /// 出院诊断
+        /// </summary>
+        [DisplayName("出院诊断")]
+        public string? OUTDiagnosis { set; get; }
+
+        /// <summary>
         /// 移植类型 TransplantationEnum
         /// </summary>
         [DisplayName("移植类型")]
@@ -169,26 +178,10 @@ namespace Medical.Data.Models
         [DisplayName("出院时间")]
         public DateTime? Dischargetime { set; get; }
 
-
         /// <summary>
         /// 病历属性，该属性用来说明当前信息的分类说明
         /// </summary>
         [Required(ErrorMessage = "病历属性必须填写")]
         public string CollationAttribute { set; get; } = "";
-
-
-        /// <summary>
-        /// 入院诊断
-        /// </summary>
-        public string? INDiagnosis { set; get; }
-
-       
-        /// <summary>
-        /// 出院诊断
-        /// </summary>
-        public string? OUTDiagnosis { set; get; }
-
-
-
     }
 }

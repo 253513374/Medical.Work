@@ -10,11 +10,10 @@
         };
 
         public static IEnumerable<string> ConcentrationWeightEnum { get; set; } = new[] {
-
             "ug/l",
             "mg/l"
              //new string("ug/l","ug/l" ,
-             //new string("mg/l","mg/l" 
+             //new string("mg/l","mg/l"
         };
 
         /// <summary>
@@ -24,10 +23,10 @@
             "ug",
             "mg",
             "g"
-            //new string("","请选择..." 
+            //new string("","请选择..."
             //new string("ug","ug" ,
             //new string("mg","mg" ,
-            //new string("g","g" 
+            //new string("g","g"
         };
 
         /// <summary>
@@ -61,9 +60,9 @@
             "纸片法",
             "梅里埃的生物药敏板",
             "ETSET法",
-            "BMD"         
+            "BMD"
 
-            //new string("","请选择..." 
+            //new string("","请选择..."
             //new string("纸片法",            "纸片法" ,
             //new string("梅里埃的生物药敏板","梅里埃的生物药敏板" ,
             //new string("ETSET法",           "ETSET法" ,
@@ -76,10 +75,9 @@
         /// 厂家类型
         /// </summary>
         public static IEnumerable<string> Manufacturertype { set; get; } = new[] {
-
             "进口",
             "国产"
-            //new string("","请选择..." 
+            //new string("","请选择..."
             //new string("进口","进口" ,
             //new string("国产","国产" ,
         };
@@ -91,9 +89,9 @@
             "男",
             "女"
 
-            //new string("请选择...","请选择..." 
+            //new string("请选择...","请选择..."
             //new string("男","男" ,
-            //new string("女","女" 
+            //new string("女","女"
         };
 
         /// <summary>
@@ -104,11 +102,11 @@
             "肝移植",
             "肺移植",
             "干细胞移植"
-            //new string("","请选择..." 
+            //new string("","请选择..."
             //new string("肾移植",    "肾移植" ,
             //new string("肝移植",    "肝移植" ,
             //new string("肺移植",    "肺移植" ,
-            //new string("干细胞移植","干细胞移植" 
+            //new string("干细胞移植","干细胞移植"
         };
 
         /// <summary>
@@ -126,13 +124,13 @@
             //new string("g",   "g" ,
             //new string("kg",   "kg" ,
             //new string("平车",   "平车" ,
-            //new string("卧床",  "卧床" 
+            //new string("卧床",  "卧床"
         };
 
         /// <summary>
         /// 称重类型
         /// </summary>
-        public static IEnumerable<string> Weighttype { get; set; } = new []
+        public static IEnumerable<string> Weighttype { get; set; } = new[]
         {
             "估算",
             "称重"
@@ -150,8 +148,7 @@
             "R"
             //new string("S", "S" ,
             //new string("I", "I" ,
-            //new string("R", "R" 
-
+            //new string("R", "R"
         };
 
         /// <summary>
@@ -167,7 +164,7 @@
             "脑脊",
             "尿液",
             "腹膜透析液",
-            //new string("","请选择..." 
+            //new string("","请选择..."
             //new string("血液",              "血液" ,
             //new string("痰",               "痰" ,
             //new string("肺泡灌洗液",           "肺泡灌洗液" ,
@@ -175,7 +172,7 @@
             //new string("血标本",                "血标本" ,
             //new string("脑脊",              "脑脊" ,
             //new string("尿液",               "尿液" ,
-            //new string("腹膜透析液",       "腹膜透析液" 
+            //new string("腹膜透析液",       "腹膜透析液"
             //血液,
             //痰,
             //肺泡灌洗液,
@@ -188,16 +185,15 @@
         };
 
         /// <summary>
-        /// 是否检查出结果{未检出} or {已经检出}  
+        /// 是否检查出结果{未检出} or {已经检出}
         /// </summary>
         public static IEnumerable<string> TestorNotEnum { set; get; } = new[]
         {
-            "未检出", 
+            "未检出",
             "已经检出"
-              //new string("","请选择..." 
+              //new string("","请选择..."
               //new string("未检出", "未检出" ,
-              //new string("已经检出", "已经检出" 
-
+              //new string("已经检出", "已经检出"
         };
 
         /// <summary>
@@ -207,10 +203,9 @@
         {
             "未做",
             "已做"
-              //new string("","请选择..." 
+              //new string("","请选择..."
               //new string("未做", "未做" ,
               //new string("已做", "已做" ,
-
         };
 
         /// <summary>
@@ -221,10 +216,10 @@
             "EDTA抗凝血",
             "肝素抗凝血",
             "黄色血清管"
-              //new string("","请选择..." 
+              //new string("","请选择..."
               //new string("EDTA抗凝血", "EDTA抗凝血" ,
               //new string("肝素抗凝血", "肝素抗凝血" ,
-              //new string("黄色血清管", "黄色血清管" 
+              //new string("黄色血清管", "黄色血清管"
             //EDTA抗凝血,
             //肝素抗凝血,
             //黄色血清管
@@ -235,10 +230,9 @@
         /// </summary>
         public static IEnumerable<string> ScrEnum { set; get; } = new[] {
             //  酶法, 干化学法, 其他
-            //  "","请选择..." 
-              "酶法", 
+            //  "","请选择..."
+              "酶法",
               "干化学法",
-              
         };
 
         /// <summary>
@@ -246,7 +240,6 @@
         /// </summary>
         public static IEnumerable<string> MedicationEnum { set; get; } = new[]
         {
-           
               "确诊真菌感染",
               "经验性怀疑真菌感染",
               "预防真菌感染"
@@ -260,10 +253,9 @@
         /// </summary>
         public static IEnumerable<string> HealingeffectEnum { set; get; } = new[]
         {
-          
             "治愈",
             "好转",
-            "无效", 
+            "无效",
             "死亡",
             //治愈,
             //好转,
@@ -276,11 +268,10 @@
         /// </summary>
         public static IEnumerable<string> PathogenicbacteriaEnum { set; get; } = new[]
         {
-          
             "曲霉菌或经验性考虑曲霉",
             "念珠菌或经验性考虑念珠菌",
             "隐球菌",
-            "类鼻疽", 
+            "类鼻疽",
             "其他真菌"
             //曲霉菌或经验性考虑曲霉,
             //念珠菌或经验性考虑念珠菌,
@@ -295,10 +286,10 @@
         public static IEnumerable<string> AssaysituationEnum { set; get; } = new[]
         {
             // 用药前, 用药中, 用药后
-          
+
             "用药前",
             "用药中",
-            "用药后", 
+            "用药后",
         };
 
         /// <summary>
@@ -306,12 +297,10 @@
         /// </summary>
         public static IEnumerable<string> X_rayImagingEnum { set; get; } = new[]
         {
-           
             "X线",
             "超声",
             "CT",
             "磁共振",
-
         };
 
         /// <summary>
@@ -319,23 +308,19 @@
         /// </summary>
         public static IEnumerable<string> X_rayImaginglocationEnum { set; get; } = new[]
         {
-         
             "肺部",
             "胸部",
-            "腹部", 
+            "腹部",
             "肝胆胰",
         };
-
 
         /// <summary>
         /// 溶媒
         /// </summary>
         public static IEnumerable<string> DrugSpecificationsEnum { set; get; } = new[]
         {
-
             "生理盐水",
             "纯净水"
-           
         };
 
         /// <summary>
@@ -346,21 +331,15 @@
            "伏立康唑","氟康唑","卡泊芬净","两性霉素B","美罗培南","亚胺培南","头孢他啶","复方磺胺甲噁唑","头孢哌酮舒巴坦钠","头孢哌酮他唑巴坦","哌拉西林他唑巴坦","替加环素","达托霉素"
         };
 
-
         /// <summary>
         /// Child_pugh 评分
         /// </summary>
         public static IEnumerable<string> ChildpughEnum { set; get; } = new[]
         {
-
             "A",
             "B",
             "C"
-            
-
         };
-
-
 
         public static IEnumerable<string> DrugClassEnum { set; get; } = new[]
         {
@@ -405,7 +384,5 @@
             "案例总结",
             "监护日志",
         };
-
-
     }
 }

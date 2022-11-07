@@ -64,7 +64,7 @@
                                 </MudStack>
                                 <MudStack Row="true">
                                   
-                                    <MudAutocomplete  Dense="true" Margin="Margin.Dense" Clearable="true" T="string" Label="溶媒"  @bind-Value="@medicalPK.DrugSpecifications" For="@(() => medicalPK.DrugSpecifications)"
+                                    <MudAutocomplete Dense="true" Margin="Margin.Dense" Clearable="true" T="string" Label="溶媒" @bind-Value="@medicalPK.DrugSolvent" For="@(() => medicalPK.DrugSolvent)"
                                                     SearchFunc="@OnAutoSearchDrugSpecifications" ResetValueOnEmptyText="true" CoerceText="true" CoerceValue="true" />
                                     <MudTextField   Margin="Margin.Dense"   @bind-Value="@medicalPK.SolventToDosage" For="@(() => medicalPK.SolventToDosage)" AdornmentText="ml" Label="溶媒计量" Variant="Variant.Text" />
                                 </MudStack>

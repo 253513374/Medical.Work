@@ -366,16 +366,16 @@
 
         if (!user.Identity.IsAuthenticated)
         {
-
              Navigation.NavigateTo($"Identity/Account/Login?returnUrl=/{Navigation.ToBaseRelativePath(Navigation.Uri)}", true);
+             
         }
         if (options is null)
         {
             options = new DialogOptions();
             options.MaxWidth = MaxWidth.Medium;
         }
-        var dialog = DialogService.Show<T>("99", options);
-        var result = await dialog.Result;
+        var resultdialog = await DialogService.Show<T>("99", options).Result;
+       // var result = await dialog.Result;
     }
     private async Task OnClickBox()
     {

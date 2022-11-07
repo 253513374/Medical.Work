@@ -2,6 +2,6 @@
 {
     public abstract class RepositoryBase
     {
-      //  private TContext context;
+        //  private TContext context;
     }
 }

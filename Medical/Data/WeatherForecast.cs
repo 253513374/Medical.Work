@@ -1,5 +1,3 @@
-using System;
-
 namespace Medical.Data
 {
     public class WeatherForecast

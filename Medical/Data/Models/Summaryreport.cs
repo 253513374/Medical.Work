@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Medical.Data.Models
@@ -34,7 +33,5 @@ namespace Medical.Data.Models
         /// </summary>
         [DisplayName("治疗方案")]
         public string? Treatmentplan { set; get; }
-
-
     }
 }

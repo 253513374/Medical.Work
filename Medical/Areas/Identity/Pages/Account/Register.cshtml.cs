@@ -62,7 +62,7 @@ namespace Medical.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            [Required( ErrorMessage ="邮箱必须填写") ]
+            [Required(ErrorMessage = "邮箱必须填写")]
             [EmailAddress]
             [Display(Name = "邮箱")]
             public string Email { get; set; }

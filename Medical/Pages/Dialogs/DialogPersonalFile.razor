@@ -72,8 +72,8 @@
                             <MudStack Row="false" Spacing="1" >
                                 <MudTextField  Margin="Margin.Dense"  @bind-Value="@patientInfo.Department"   For="@(() => patientInfo.Department)" Label="科室" HelperText="." Variant="Variant.Text" />
                                 <MudStack Row="true">
-                                    <MudDatePicker   @bind-Value="@patientInfo.Admissiontime" For="@(() => patientInfo.Admissiontime)" Label="入院时间" Variant="Variant.Text" />
-                                    <MudDatePicker   @bind-Value="@patientInfo.Dischargetime" For="@(() => patientInfo.Dischargetime)"  Label="出院时间" Variant="Variant.Text" />
+                                    <MudDatePicker   @bind-Date="@patientInfo.Admissiontime" For="@(() => patientInfo.Admissiontime)" Label="入院时间" Variant="Variant.Text" />
+                                    <MudDatePicker   @bind-Date="@patientInfo.Dischargetime" For="@(() => patientInfo.Dischargetime)"  Label="出院时间" Variant="Variant.Text" />
                                 </MudStack>
 
                                 <MudAutocomplete Dense="true" Margin="Margin.Dense" T="string" Label="移植类型" @bind-Value="@patientInfo.Transplantationtype" For="@(() => patientInfo.Transplantationtype)"

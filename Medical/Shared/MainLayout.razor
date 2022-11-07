@@ -38,14 +38,15 @@
                 </MudDrawerHeader>
                 <NavMenu NavVariant="@navVariant" />
             </MudDrawer>
-            <MudMainContent>
-                <MudContainer MaxWidth="MaxWidth.Large" >
-                    @Body
-                    @{
-                        OnInitialized();
-                    }
-                </MudContainer>
-            </MudMainContent>
+             <MudMainContent>
+                 <MudContainer MaxWidth="MaxWidth.Large" >
+                     @Body
+                     @{
+                         OnInitialized();
+                     }
+                 </MudContainer>
+             </MudMainContent>
+             
         </MudLayout>
      </Authorized>
      <NotAuthorized>

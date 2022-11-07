@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Medical.Data
+﻿namespace Medical.Data
 {
     public static class DataTips
     {

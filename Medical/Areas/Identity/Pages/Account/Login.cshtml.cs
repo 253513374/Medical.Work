@@ -20,10 +20,10 @@ namespace Medical.Areas.Identity.Pages.Account
         private readonly ILogger<LoginModel> _logger;
         private readonly IMemoryCache _memoryCache;
 
-      //  private readonly DBContextService? dBContextService;//{ set; get; }
+        //  private readonly DBContextService? dBContextService;//{ set; get; }
 
         public LoginModel(IMemoryCache cache,
-         
+
             SignInManager<AccountUser> signInManager,
             UserManager<AccountUser> userManager,
             ILogger<LoginModel> logger)
@@ -32,7 +32,7 @@ namespace Medical.Areas.Identity.Pages.Account
             _logger = logger;
             _userManager = userManager;
             _memoryCache = cache;
-         //   dBContextService = dBContext;
+            //   dBContextService = dBContext;
         }
 
         /// <summary>

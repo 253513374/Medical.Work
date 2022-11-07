@@ -6,10 +6,10 @@
 
 <BannerTitle Title="采样信息"></BannerTitle>
 
-<MudPaper Elevation="0" Class="mt-5 mb-1">
-   <MudFab  Label="新建样本信息" Size="Size.Medium" Color="Color.Primary" DisableElevation="true"   OnClick="@OnOpenDialog" Class="mx-3" StartIcon="@Icons.Material.Outlined.AddCard" > </MudFab>
+<MudPaper Elevation="0">
+    <MudFab Class="my-3 mx-3" Label="新建样本信息" Size="Size.Medium" Color="Color.Primary" DisableElevation="true" OnClick="@OnOpenDialog" StartIcon="@Icons.Material.Outlined.AddCard"> </MudFab>
 
-</MudPaper>
+
 
 @if(MedicalPKSamplings is null){
     <MudCard>
@@ -38,40 +38,41 @@ else{
     <MudTable T="MedicalPKSampling" FixedFooter="true" FixedHeader = "true" Height="600px" Elevation="0" Items="@MedicalPKSamplings"  Hover="true" ReadOnly="true"
               Filter="new Func<MedicalPKSampling,bool>(FilterFuncTable)"  Dense="true" >
         <ToolBarContent>
-           
-               <MudDateRangePicker   @ref="@rangePicker" @bind-DateRange="@daterange" Label="时间范围"  >
-                <PickerActions>
-                    <MudButton Class="mr-auto align-self-start "  OnClick="@(()=>rangePicker.Clear())" >清空选择数据</MudButton>
-                    <MudButton OnClick="@(()=>rangePicker.Close(false))"> 关闭 </MudButton>
-                    <MudButton OnClick="@(()=>PickerOK())" Color="Color.Primary"> 确定</MudButton>
-                </PickerActions>
-            </MudDateRangePicker>
-          @*  <MudFab Size="Size.Small" DisableElevation="true" OnClick="@Refresh" Color="Color.Tertiary" StartIcon="@Icons.Filled.Refresh"></MudFab>*@
-            <MudSpacer/><MudSpacer/><MudSpacer/><MudSpacer/>
-      
-            <MudTextField  Margin="Margin.Dense" @bind-Value="searchPatientInfo" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-        </ToolBarContent>
+            <MudStack Class="w-100 h-auto mt-2 mb-5"  Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.End">
+                <MudDateRangePicker @ref="@rangePicker" @bind-DateRange="@daterange" Label="时间范围">
+                    <PickerActions>
+                        <MudButton Class="mr-auto align-self-start " OnClick="@(()=>rangePicker.Clear())">清空选择数据</MudButton>
+                        <MudButton OnClick="@(()=>rangePicker.Close(false))"> 关闭 </MudButton>
+                        <MudButton OnClick="@(()=>PickerOK())" Color="Color.Primary"> 确定</MudButton>
+                    </PickerActions>
+                </MudDateRangePicker>
+
+                <MudSpacer/><MudSpacer/>
+                <MudTextField Margin="Margin.Dense" @bind-Value="searchPatientInfo" Placeholder="Search" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+
+            </MudStack>
+          </ToolBarContent>
         <HeaderContent>
-            <MudTh><b>编号</b></MudTh>
-            <MudTh><b>姓名</b></MudTh>
-            <MudTh><b>标本类型</b></MudTh>
-            <MudTh><b>采集时间</b></MudTh>
-            <MudTh><b>采血管</b></MudTh>
-            <MudTh><b>操作</b></MudTh>
+            <MudTh><b style="font-weight:800">编号</b></MudTh>
+            <MudTh><b style="font-weight:800">姓名</b></MudTh>
+            <MudTh><b style="font-weight:800">标本类型</b></MudTh>
+            <MudTh><b style="font-weight:800">采集时间</b></MudTh>
+            <MudTh><b style ="font-weight:800">采血管</b></MudTh>
+            <MudTh><b style="font-weight:800">操作</b></MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd >@context.Medicalrecordnumber</MudTd>
-            <MudTd >@context.Username</MudTd>
-            <MudTd >@context.SpecimenType</MudTd>
-            <MudTd >@context.CollectDateTime</MudTd>
-            <MudTd >@context.Collectingvessel</MudTd>
+            <MudTd DataLabel="编号">@context.Medicalrecordnumber</MudTd>
+            <MudTd DataLabel="姓名">@context.Username</MudTd>
+            <MudTd DataLabel="标本类型">@context.SpecimenType</MudTd>
+            <MudTd DataLabel="采集时间">@context.CollectDateTime</MudTd>
+            <MudTd DataLabel="采血管">@context.Collectingvessel</MudTd>
                           
-            <MudTd >
+            <MudTd DataLabel="操作" Style="Width:180px">
                 <MudTooltip Text="编辑档案">
                     <MudIconButton  OnClick="@(s=>OnEdit(context))"  Color="Color.Info" Size="Size.Small" Icon="@Icons.Outlined.ModeEdit" Variant="Variant.Text" >  </MudIconButton>
                 </MudTooltip>
-                <MudTooltip Text="删除数据">
-                        <MudIconButton Class="mx-3" Color="Color.Error"  Size="Size.Small" Icon="@Icons.Outlined.DeleteSweep" Variant="Variant.Text" >   </MudIconButton>
+                    <MudTooltip Text="查看数据">
+                        <MudIconButton Class="mx-3"  OnClick="@(s=>OnOpenDrawer(context))" Color="Color.Info"  Size="Size.Small" Icon="@Icons.Filled.DocumentScanner"  Variant="Variant.Text" >   </MudIconButton>
                 </MudTooltip>
             </MudTd>
         </RowTemplate>
@@ -81,18 +82,50 @@ else{
     </MudTable>
 
 }
+</MudPaper>
 
+<MudDrawer @bind-Open="@opendrawer" Width="650px" Anchor="Anchor.End" Elevation="1" Variant="@DrawerVariant.Temporary">
+    <MudDrawerHeader Class="mt-3">
+        <MudStack Row="true" Class="w-100 justify-content-between align-content-between align-center align-items-center">
+            <MudText Typo="Typo.h6">表单详情</MudText>
+            <MudFab Color="Color.Error" IconSize="Size.Small" OnClick="() => OnDeleteData()" StartIcon="@Icons.Material.Filled.Delete" />
+        </MudStack>
+    </MudDrawerHeader>
+    <MudDivider Class="my-2" DividerType="DividerType.Inset"></MudDivider>
+    <MudDrawerContainer>
+        <MudPaper Class="mx-8" Elevation="0">
+            @if (medicalPkDictionary is not null)
+            {
+                <MudStack Spacing="2">
+                    @foreach (var o in medicalPkDictionary)
+                    {
+                        <MudStack Row="true" Class="border-b-1 mud-border-primary border-solid w-100 justify-content-between">
+                            <div style="Width:220px">
+                                <MudText Class="pointer-events-auto">@o.Key</MudText>
+                            </div>
+                            <div style="Width: 380px" class="justify-content-start">
+                                <MudText Class=" w-100 pointer-events-auto">
+                                    @(o.Value is null ? "" : o.Value.ToString())
 
+                                </MudText>
+                            </div>
+                        </MudStack>
+                    }
+                </MudStack>
+            }
+        </MudPaper>
+        <MudDivider Class="my-2" DividerType="DividerType.Inset"></MudDivider>
+    </MudDrawerContainer>
+</MudDrawer>
 
 @code{
 
-    [Inject]
-    protected ILogger<Index> Logger{ set; get; }
+    [Inject] private ILogger<Index> Logger{ set; get; }
+    [Inject] private ISnackbar Snackbar { get; set; }
+    [Inject] private DbServerProvider DbServerProvider { set; get; }
+    [Inject] private IDialogService DialogService { get; set; }
 
-    [Inject]
-     private DbServerProvider DbServerProvider { set; get; }
-    [Inject] 
-    protected IDialogService DialogService  { get; set; }
+    private bool  opendrawer;
 
     private string  searchPatientInfo{set;get;}
     private bool resetValueOnEmptyText;
@@ -114,19 +147,9 @@ else{
     {
         if (firstRender)
         {
-            //Loading = true;
-            
             MedicalPKSamplings = await DbServerProvider.GetListAsync<MedicalPKSampling>();
-            //MedicalPKSamplings = await  context.MPK_Samplings
-            //                                .AsNoTracking()
-            //                                //.Where(w=>w.CreateTime>=daterange.Start.Value.Date&&w.CreateTime<=daterange.End.Value.Date.AddDays(1))
-            //                                .Include(i=>i.medicalPKSamplings)
-            //                                .OrderByDescending(o=>o.CreateTime)
-            //                                .Take(100)
-            //                                .ToListAsync();
             StateHasChanged();
         }
-        //  return base.OnAfterRenderAsync(firstRender);
     }
 
     /// <summary>
@@ -140,7 +163,7 @@ else{
         if (MedicalPKSamplings is not null) MedicalPKSamplings.Clear();
         //if (Certificates is not null) Certificates.Clear();
         MedicalPKSamplings = await DbServerProvider.GetListAsync<MedicalPKSampling>(daterange);
-       // await OnAfterRenderAsync(true);
+        // await OnAfterRenderAsync(true);
         StateHasChanged();
 
         return;
@@ -202,7 +225,7 @@ else{
     private async Task Refresh()
     {
         MedicalPKSamplings =await DbServerProvider.GetListAsync<MedicalPKSampling>();
-        
+
         //MedicalPKSamplings = await  context.MPK_Samplings
         //                                    .AsNoTracking()
         //                                    .Where(w=>w.CreateTime>=daterange.Start.Value.Date&&w.CreateTime<=daterange.End.Value.Date.AddDays(1))
@@ -226,10 +249,45 @@ else{
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
-            if($"{element.Medicalrecordnumber} {element.Username} {element.SpecimenType} {element.Collectingvessel}".Contains(searchString)){
-             return true;
+        if($"{element.Medicalrecordnumber} {element.Username} {element.SpecimenType} {element.Collectingvessel}".Contains(searchString)){
+            return true;
         }
         return false;
+    }
+
+
+
+    void OnOpenDrawer(MedicalPKSampling medical)
+    {
+
+        medicalPkDictionary = DisplayAttributeExtend.GetAttributeExtends<MedicalPKSampling>(medical);
+        opendrawer = true;
+
+        deleteobject = medical;
+        //this.anchor = anchor;
+    }
+    private Dictionary<string, object?> medicalPkDictionary;
+    private MedicalPKSampling deleteobject;
+
+    async void OnDeleteData()
+    {
+
+        DialogOptions dialogOptions=  new DialogOptions() { MaxWidth = MaxWidth.Small };
+        bool? result = await DialogService.ShowMessageBox(
+            "警告", 
+            "确定是否需要删除数据，输出的数据无法再恢复", 
+            yesText: "删除!", cancelText: "取消", options: dialogOptions);
+        if (result is not null)
+        {
+            int delresult = await DbServerProvider.DeleteAsync<MedicalPKSampling>(deleteobject);
+            if (delresult>0)
+            {
+                opendrawer = false;
+                MedicalPKSamplings.Remove(deleteobject);
+                Snackbar.Add("数据删除成功", Severity.Warning);
+            }
+        }
+        StateHasChanged();
     }
 }
 

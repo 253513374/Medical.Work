@@ -8,7 +8,6 @@
 
 <MudPaper Elevation="0" Class="mt-5 mb-1">
     <MudFab    Size="Size.Medium" Color="Color.Primary" DisableElevation="true"   OnClick="@OnOpenDialog" Class="mx-3" StartIcon="@Icons.Material.Outlined.AddCard" Label="新建联系人"> </MudFab>
-  
 </MudPaper>
 
 
@@ -67,8 +66,8 @@ else{
                 <MudTooltip Text="编辑档案">
                     <MudIconButton  OnClick="@(s=>OnEditPatientInfo(context))"  Color="Color.Info" Size="Size.Small" Icon="@Icons.Outlined.ModeEdit" Variant="Variant.Text" >  </MudIconButton>
                 </MudTooltip>
-                <MudTooltip Text="删除数据">
-                        <MudIconButton Class="mx-3" Color="Color.Error"  Size="Size.Small" Icon="@Icons.Outlined.DeleteSweep" Variant="Variant.Text" >   </MudIconButton>
+                <MudTooltip Text="查看数据">
+                        <MudIconButton Class="mx-3" Color="Color.Info"  Size="Size.Small" Icon="@Icons.Filled.DocumentScanner"    Variant="Variant.Text" >   </MudIconButton>
                 </MudTooltip>
             </MudTd>
         </RowTemplate>
@@ -230,6 +229,7 @@ else{
         }
         return false;
     }
+
 }
 
 

@@ -2,7 +2,6 @@
 {
     public class BackdropSvg
     {
-
         public const string Wave = "";
 
         public static string Wave2 = "";

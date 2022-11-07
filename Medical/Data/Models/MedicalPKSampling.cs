@@ -7,7 +7,6 @@ namespace Medical.Data.Models
     /// </summary>
     public class MedicalPKSampling : BaseDataInterface
     {
-
         /// <summary>
         /// 标本类型 SpecimenTypeEnum
         /// </summary>

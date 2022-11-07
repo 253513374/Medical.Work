@@ -2,7 +2,6 @@
 // file to you under the MIT license.
 #nullable disable
 
-using Medical;
 using Medical.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

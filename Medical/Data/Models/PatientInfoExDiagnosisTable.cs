@@ -8,10 +8,9 @@ namespace Medical.Data.Models
         /// id
         /// </summary>
         [DisplayName("id")]
-       // [AutoGenerateColumn(Ignore = true)]
         public int PatientInfoExDiagnosisTableID { set; get; }
 
-     //   [AutoGenerateColumn(Ignore = true)]
+        //   [AutoGenerateColumn(Ignore = true)]
         public int ID { set; get; }
 
         public SummaryOfCases Summaryofcases { set; get; }

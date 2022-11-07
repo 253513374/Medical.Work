@@ -16,7 +16,6 @@ namespace Medical.Data.Models
         /// 患者邮件 mail
         /// </summary>
         [DisplayName("患者邮件")]
-        
         public string Email { set; get; }
 
         /// <summary>

@@ -1,5 +1,4 @@
-﻿
-@page "/prescription"
+﻿@page "/prescription"
 
 
 @attribute [Authorize]
@@ -62,19 +61,19 @@ else{
             <MudTh><b>操作</b></MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd >@context.Medicalrecordnumber</MudTd>
-            <MudTd >@context.Username</MudTd>
-            <MudTd >@context.DrugsNmae</MudTd>
-            <MudTd >@context.DrugsNmae2</MudTd>
-            <MudTd >@context.FirstTime</MudTd>
-            <MudTd >@context.LasttTime</MudTd>
-                          
-            <MudTd >
+            <MudTd DataLabel="编号">@context.Medicalrecordnumber</MudTd>
+            <MudTd DataLabel="姓名">@context.Username</MudTd>
+            <MudTd DataLabel="药品通用名称">@context.DrugsNmae</MudTd>
+            <MudTd DataLabel="药品商用名称">@context.DrugsNmae2</MudTd>
+            <MudTd DataLabel="开始日期">@context.FirstTime</MudTd>
+            <MudTd DataLabel="结束日期">@context.LasttTime</MudTd>
+
+            <MudTd DataLabel="操作">
                 <MudTooltip Text="编辑档案">
                     <MudIconButton  OnClick="@(s=>OnEditPatientInfo(context))"  Color="Color.Info" Size="Size.Small" Icon="@Icons.Outlined.ModeEdit" Variant="Variant.Text" >  </MudIconButton>
                 </MudTooltip>
-                <MudTooltip Text="删除数据">
-                        <MudIconButton Class="mx-3" Color="Color.Error"  Size="Size.Small" Icon="@Icons.Outlined.DeleteSweep" Variant="Variant.Text" >   </MudIconButton>
+                <MudTooltip Text="查看数据">
+                        <MudIconButton Class="mx-3" Color="Color.Info"  Size="Size.Small" Icon="@Icons.Filled.DocumentScanner"   OnClick="@(s=>OnOpenDrawer(context))" Variant="Variant.Text" >   </MudIconButton>
                 </MudTooltip>
             </MudTd>
         </RowTemplate>
@@ -84,17 +83,46 @@ else{
     </MudTable>
 }
 
+<MudDrawer @bind-Open="@opendrawer" Width="650px" Anchor="Anchor.End" Elevation="1" Variant="@DrawerVariant.Temporary">
+    <MudDrawerHeader Class="mt-3">
+        <MudStack Row="true" Class="w-100 justify-content-between align-content-between align-center align-items-center">
+            <MudText Typo="Typo.h6">表单详情</MudText>
+            <MudFab Color="Color.Error" IconSize="Size.Small" OnClick="() => OnDeleteData()" StartIcon="@Icons.Material.Filled.Delete" />
+        </MudStack>
+    </MudDrawerHeader>
+    <MudDivider Class="my-2" DividerType="DividerType.Inset"></MudDivider>
+    <MudDrawerContainer>
+        <MudPaper Class="mx-8" Elevation="0">
+            @if (medicalPkDictionary is not null)
+            {
+                <MudStack Spacing="2">
+                    @foreach (var o in medicalPkDictionary)
+                    {
+                        <MudStack Row="true" Class="border-b-1 mud-border-primary border-solid w-100 justify-content-between">
+                            <div style="Width:220px">
+                                <MudText Class="pointer-events-auto">@o.Key</MudText>
+                            </div>
+                            <div style="Width: 380px" class="justify-content-start">
+                                <MudText Class=" w-100 pointer-events-auto">
+                                    @(o.Value is null ? "" : o.Value.ToString())
 
+                                </MudText>
+                            </div>
+                        </MudStack>
+                    }
+                </MudStack>
+            }
+        </MudPaper>
+        <MudDivider Class="my-2" DividerType="DividerType.Inset"></MudDivider>
+    </MudDrawerContainer>
+</MudDrawer>
 
 @code{
 
-    [Inject]
-    protected ILogger<Index> Logger{ set; get; }
-
-    [Inject]
-     private DbServerProvider DbServerProvider { set; get; }
-    [Inject] 
-    protected IDialogService DialogService  { get; set; }
+    [Inject] private ILogger<Index> Logger{ set; get; }
+    [Inject] private ISnackbar Snackbar { get; set; }
+    [Inject] private DbServerProvider DbServerProvider { set; get; }
+    [Inject] private IDialogService DialogService { get; set; }
 
     private string  searchPatientInfo{set;get;}
     private bool resetValueOnEmptyText;
@@ -232,6 +260,45 @@ else{
         }
         return false;
     }
+
+    void OnOpenDrawer(MedicalPK  medicalPk)
+    {
+
+        medicalPkDictionary = DisplayAttributeExtend.GetAttributeExtends<MedicalPK>(medicalPk);
+        opendrawer = true;
+        StateHasChanged();
+        deleteobject = medicalPk;
+    //this.anchor = anchor;
+    }
+
+    private bool opendrawer;
+    private Dictionary<string, object?> medicalPkDictionary;
+    private MedicalPK deleteobject;
+
+    async void OnDeleteData()
+    {
+
+        DialogOptions dialogOptions=  new DialogOptions() { MaxWidth = MaxWidth.Small };
+        bool? result = await DialogService.ShowMessageBox(
+            "警告", 
+            "确定是否需要删除数据，输出的数据无法再恢复", 
+            yesText: "删除!", cancelText: "取消", options: dialogOptions);
+    // state= result==null ? "Cancelled" : "Deleted!";
+        if (result is not null)
+        {
+            int delresult = await DbServerProvider.DeleteAsync<MedicalPK>(deleteobject);
+            if (delresult>0)
+            {
+                opendrawer = false;
+                
+                MedicalPKs.Remove(deleteobject);
+                Snackbar.Add("数据删除成功", Severity.Warning);
+    //StateHasChanged();
+            }
+        }
+        StateHasChanged();
+    }
+
 }
 
 

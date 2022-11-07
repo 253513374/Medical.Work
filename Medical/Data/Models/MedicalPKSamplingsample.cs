@@ -5,12 +5,11 @@ namespace Medical.Data.Models
 {
     public class MedicalPKSamplingsample
     {
-
-
         /// <summary>
         /// 唯一编码
         /// </summary>
         public string SamplingGuid { set; get; }
+
         /// <summary>
         /// 外键
         /// </summary>
@@ -24,7 +23,7 @@ namespace Medical.Data.Models
         [Key]
         public int sampleId { get; set; }
 
-       // [AutoGenerateColumn(Ignore = true)]
+        // [AutoGenerateColumn(Ignore = true)]
         public MedicalPKSampling medicalPKSampling { get; set; }
 
         /// <summary>
@@ -101,6 +100,5 @@ namespace Medical.Data.Models
         [DisplayName("采血管")]
         [Required(ErrorMessage = "必须填写")]
         public string? Collectingvessel { set; get; }
-
     }
 }

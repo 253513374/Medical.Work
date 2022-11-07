@@ -47,7 +47,6 @@ else{
                     <MudButton OnClick="@(()=>PickerOK())" Color="Color.Primary"> 确定</MudButton>
                 </PickerActions>
             </MudDateRangePicker>
-          @*  <MudFab Size="Size.Small" DisableElevation="true" OnClick="@Refresh" Color="Color.Tertiary" StartIcon="@Icons.Filled.Refresh"></MudFab>*@
             <MudSpacer/><MudSpacer/><MudSpacer/><MudSpacer/>
       
             <MudTextField  Margin="Margin.Dense" @bind-Value="searchPatientInfo" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
@@ -62,20 +61,21 @@ else{
             <MudTh><b>操作</b></MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd >@context.Medicalrecordnumber</MudTd>
-            <MudTd >@context.Username</MudTd>
-            <MudTd >@context.Photodate</MudTd>
-            <MudTd >@context.Reportdate</MudTd>
-            <MudTd >@context.Xraylocation</MudTd>
-            <MudTd >@context.Xrayinspection</MudTd>
-                          
-            <MudTd >
+            <MudTd DataLabel="编号">@context.Medicalrecordnumber</MudTd>
+            <MudTd DataLabel="姓名">@context.Username</MudTd>
+            <MudTd DataLabel="检查日期">@context.Photodate</MudTd>
+            <MudTd DataLabel="报告日期">@context.Reportdate</MudTd>
+            <MudTd DataLabel="部位">@context.Xraylocation</MudTd>
+            <MudTd DataLabel="结果">@context.Xrayinspection</MudTd>
+
+            <MudTd DataLabel="操作">
                 <MudTooltip Text="编辑档案">
                     <MudIconButton  OnClick="@(s=>OnEditPatientInfo(context))"  Color="Color.Info" Size="Size.Small" Icon="@Icons.Outlined.ModeEdit" Variant="Variant.Text" >  </MudIconButton>
                 </MudTooltip>
-                <MudTooltip Text="删除数据">
-                        <MudIconButton Class="mx-3" Color="Color.Error"  Size="Size.Small" Icon="@Icons.Outlined.DeleteSweep" Variant="Variant.Text" >   </MudIconButton>
+                <MudTooltip Text="查看数据">
+                    <MudIconButton Class="mx-3" Color="Color.Info"  Size="Size.Small" Icon="@Icons.Filled.DocumentScanner"   OnClick="@(s=>OnOpenDrawer(context))" Variant="Variant.Text" >   </MudIconButton>
                 </MudTooltip>
+
             </MudTd>
         </RowTemplate>
         <PagerContent>
@@ -85,17 +85,46 @@ else{
 
 }
 
+<MudDrawer @bind-Open="@opendrawer" Width="650px" Anchor="Anchor.End" Elevation="1" Variant="@DrawerVariant.Temporary">
+    <MudDrawerHeader Class="mt-3">
+        <MudStack Row="true" Class="w-100 justify-content-between align-content-between align-center align-items-center">
+            <MudText Typo="Typo.h6">表单详情</MudText>
+            <MudFab Color="Color.Error" IconSize="Size.Small" OnClick="() => OnDeleteData()" StartIcon="@Icons.Material.Filled.Delete" />
+        </MudStack>
+    </MudDrawerHeader>
+    <MudDivider Class="my-2" DividerType="DividerType.Inset"></MudDivider>
+    <MudDrawerContainer>
+        <MudPaper Class="mx-8" Elevation="0">
+            @if (xRaypathologicalDictionary is not null)
+            {
+                <MudStack Spacing="2">
+                    @foreach (var o in xRaypathologicalDictionary)
+                    {
+                        <MudStack Row="true" Class="border-b-1 mud-border-primary border-solid w-100 justify-content-between">
+                            <div style="Width:220px">
+                                <MudText Class="pointer-events-auto">@o.Key</MudText>
+                            </div>
+                            <div style="Width: 380px" class="justify-content-start">
+                                <MudText Class=" w-100 pointer-events-auto">
+                                    @(o.Value is null ? "" : o.Value.ToString())
 
+                                </MudText>
+                            </div>
+                        </MudStack>
+                    }
+                </MudStack>
+            }
+        </MudPaper>
+        <MudDivider Class="my-2" DividerType="DividerType.Inset"></MudDivider>
+    </MudDrawerContainer>
+</MudDrawer>
 
 @code{
 
-    [Inject]
-    protected ILogger<Index> Logger{ set; get; }
-
-    [Inject]
-    private DbServerProvider DbServerProvider { set; get; }
-    [Inject] 
-    protected IDialogService DialogService  { get; set; }
+    [Inject] private ILogger<Index> Logger { set; get; }
+    [Inject] private ISnackbar Snackbar { get; set; }
+    [Inject] private DbServerProvider DbServerProvider { set; get; }
+    [Inject] private IDialogService DialogService { get; set; }
 
     private string  searchPatientInfo{set;get;}
     private bool resetValueOnEmptyText;
@@ -120,14 +149,7 @@ else{
             //Loading = true;
 
             X_Raypathologicals = await DbServerProvider.GetListAsync<X_raypathological>();
-            //X_Raypathologicals = await  context.X_raypathologicals.AsNoTracking()
-            //                                //.Where(w=>w.CreateTime>=daterange.Start.Value.Date&&w.CreateTime<=daterange.End.Value.Date.AddDays(1))
-            //                                 .Include(i=>i.ImgUrl)
-            //                                 .OrderByDescending(o => o.CreateTime)
-            //                                 .Take(100)
-            //                                 .ToListAsync();
 
-           // Loading = false;
             StateHasChanged();
         }
         //  return base.OnAfterRenderAsync(firstRender);
@@ -141,16 +163,9 @@ else{
 
         rangePicker.Close();
 
-        if (X_Raypathologicals is not null) X_Raypathologicals.Clear();
-        //if (Certificates is not null) Certificates.Clear();
+        if (X_Raypathologicals is not null){ X_Raypathologicals.Clear();}
 
-          X_Raypathologicals = await DbServerProvider.GetListAsync<X_raypathological>(daterange);  
-
-            //X_Raypathologicals = await  context.X_raypathologicals.AsNoTracking()
-            //                                 .Where(w=>w.CreateTime>=daterange.Start.Value.Date&&w.CreateTime<=daterange.End.Value.Date.AddDays(1))
-            //                                 .Include(i=>i.ImgUrl)
-            //                                 .OrderByDescending(o => o.CreateTime)
-            //                                 .ToListAsync();
+        X_Raypathologicals = await DbServerProvider.GetListAsync<X_raypathological>(daterange);
         StateHasChanged();
 
         return;
@@ -229,6 +244,39 @@ else{
         }
         return false;
     }
+
+    void OnOpenDrawer(X_raypathological xRaypathological)
+    {
+        xRaypathologicalDictionary = DisplayAttributeExtend.GetAttributeExtends<X_raypathological>(xRaypathological);
+        opendrawer = true;
+
+        deleteobject = xRaypathological;
+    }
+    private Dictionary<string, object?> xRaypathologicalDictionary;
+    private bool opendrawer;
+    public X_raypathological deleteobject { get; set; }
+
+    async void OnDeleteData()
+    {
+
+        DialogOptions dialogOptions=  new DialogOptions() { MaxWidth = MaxWidth.Small };
+        bool? result = await DialogService.ShowMessageBox(
+            "警告", 
+            "确定是否需要删除数据，输出的数据无法再恢复", 
+            yesText: "删除!", cancelText: "取消", options: dialogOptions);
+        if (result is not null)
+        {
+            int delresult = await DbServerProvider.DeleteAsync<X_raypathological>(deleteobject);
+            if (delresult>0)
+            {
+                opendrawer = false;
+                X_Raypathologicals.Remove(deleteobject);
+                Snackbar.Add("数据删除成功", Severity.Warning);
+            }
+        }
+        StateHasChanged();
+    }
+
 }
 
 

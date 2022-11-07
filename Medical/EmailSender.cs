@@ -55,7 +55,6 @@ namespace Medical
             }
         }
 
-
         /// <summary>
         /// 激活注册账号
         /// </summary>

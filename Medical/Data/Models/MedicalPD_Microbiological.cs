@@ -1,6 +1,4 @@
-﻿using Medical.Data.Enum;
-using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Medical.Data.Models

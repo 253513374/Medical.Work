@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Medical.Data.Models
 {
@@ -69,14 +68,12 @@ namespace Medical.Data.Models
         /// </summary>
         [DisplayName("药品商品名")]
         [Required(ErrorMessage = "必须填写")]
-        //  [AutoGenerateColumn(Ignore = true)]
         public string? DrugsNmae2 { set; get; }
 
         /// <summary>
         /// 药品规格
         /// </summary>
         [DisplayName("药品规格")]
-       // [AutoGenerateColumn(Ignore = true)]
         public string? DrugSpecifications { set; get; }
 
         /// <summary>
@@ -96,7 +93,6 @@ namespace Medical.Data.Models
         /// 药品剂量单位 WeightEnum
         /// </summary>
         [DisplayName("药品剂量单位")]
-       // [AutoGenerateColumn(Ignore = true)]
         public string? DrugdosageUnit { set; get; }
 
         /// <summary>
@@ -116,7 +112,6 @@ namespace Medical.Data.Models
         /// 给药持续时间
         /// </summary>
         [DisplayName("给药持续时间")]
-       // [AutoGenerateColumn(Ignore = true)]
         public string? DrugNCountDuration { set; get; }
 
         /// <summary>
@@ -137,9 +132,7 @@ namespace Medical.Data.Models
         [DisplayName("公斤体质量日剂量(mg·kg⁻¹·d⁻¹)")]
         public string? AMTsingledose { set; get; }
 
-       // [AutoGenerateColumn(Ignore = true)]
+        // [AutoGenerateColumn(Ignore = true)]
         public List<MedicalPKSampling>? MedicalPKSamplings { set; get; }
-
-      
     }
 }

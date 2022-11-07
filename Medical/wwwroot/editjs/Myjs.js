@@ -1,19 +1,17 @@
 ﻿window.JSMethods = {
-
     jsInvokeCAsync: function (obj) {
         //异步调用
 
-      //  DotNet.invokeMethodAsync('Medical', 'Upload', obj);
+        //  DotNet.invokeMethodAsync('Medical', 'Upload', obj);
         DotNet.invokeMethodAsync("Medical", "Upload", obj).then(data => {
-
             console.log("jsInvokeCAsync,data=", data);
         });
     },
 
     setbackground: function (path) {
-       // var curIndex = 0;
-       //时间间隔(单位毫秒)，每秒钟显示一张，数组共有3张图片放在img文件夹下
-       // var timeInterval = 1000;
+        // var curIndex = 0;
+        //时间间隔(单位毫秒)，每秒钟显示一张，数组共有3张图片放在img文件夹下
+        // var timeInterval = 1000;
         var imgpath = "img/gb2.jpg";
         //定义一个存放照片位置的数组，可以放任意个，在这里放3个
         //var arr = new Array();
@@ -28,7 +26,7 @@
         //        curIndex += 1;
         //    }
 
-            //设置body的背景图片
+        //设置body的背景图片
         document.body.style.backgroundImage = "URL(" + path + ")";  //显示对应的图片
     }
 }

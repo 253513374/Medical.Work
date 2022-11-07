@@ -1,23 +1,17 @@
-﻿
-
-using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Medical.Data.Models
 {
-
-    public interface ITenantInterface { }
+    public interface ITenantInterface
+    { }
 
     public abstract class BaseDataInterface
     {
         /// <summary>
         /// ID
         /// </summary>
-        [DisplayName("自增")]
-       
+
         public int ID { set; get; }
 
         //[AutoGenerateColumn(Ignore = true)]
@@ -32,18 +26,15 @@ namespace Medical.Data.Models
         /// 病历号 编号
         /// </summary>
         [NotNull]
-        
-        [DisplayName("编号")]
+        [DisplayName("病历编号")]
         public string? Medicalrecordnumber { set; get; }
 
         /// <summary>
         /// 患者姓名
         /// </summary>
         [NotNull]
-      
         [DisplayName("患者姓名")]
         public string? Username { set; get; }
-
 
         /// <summary>
         /// PatientInfo 的唯一编码
